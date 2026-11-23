@@ -21,8 +21,6 @@ BASE_MAPS = frozenset((12, 14, 50, 169))
 SURVIVAL_MAPS = frozenset((30, 40))
 HOLD_TASKS = frozenset(('flag_hold', 'bomb_escort', 'bomb_intercept', 'escort'))
 LOCAL_LEGACY_MAPS = frozenset((1, 4, 17, 18, 19, 20, 21, 34, 35, 36))
-import os as _os
-PK_FULL_ELITE = _os.environ.get('BB_ELITE_PK_FULL') == '1'  # experiment toggle
 
 # These slot-0 launches were checked against each native cast method.  They
 # are weapon knowledge belonging to the shooter, never an enemy sensor. Keep
@@ -852,7 +850,7 @@ def decide(arena, actor, brain, seen, now):
     pos = actor.position_at(now)
     previous_goal = brain.get('goal')
     delivered = mature_contacts(seen, now)
-    if (arena.geometry.id in LOCAL_LEGACY_MAPS and not PK_FULL_ELITE
+    if (arena.geometry.id in LOCAL_LEGACY_MAPS
             and any(not sample.get('barrier') and math.dist(pos, sample['pos']) < 960
                     for sample in delivered)):
         # Keep the proven native local fight/objective/support sequencing. The
