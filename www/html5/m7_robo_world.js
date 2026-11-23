@@ -6,6 +6,7 @@ import {vietnameseNpcName} from './m81331_locale.js';
 
 const UI = 'zh_CN/gui_summer/controls/gameplay/';
 const clamp = (number, min, max) => Math.max(min, Math.min(max, number));
+const BUBBLE_MS = 5000, BUBBLE_MAX_WIDTH = 200, BUBBLE_LIFT = 58, BUBBLE_SELF_LIFT = 82;
 
 /** Original Robo presentation drawn at its native world coordinates.
  * Health, life epochs, visibility and identities are read from native packets.
@@ -16,6 +17,7 @@ export class RoboWorld {
     this.view = view; this.catalog = null;
     this.textures = new Map(); this.selfLife = null; this.selfStartedAt = 0;
     this.floats = []; this.floatMutex = ''; this.floatMutexAt = 0; this.floatHistory = [];
+    this.speakers = [];
     this.drawn = {airMarker: false, selfMarker: false, spawnArrow: false, minimap: false};
   }
 
@@ -23,7 +25,7 @@ export class RoboWorld {
 
   clear() {
     for (const image of this.textures.values()) this.view.surface.releaseTexture(image);
-    this.textures.clear(); this.selfLife = null; this.selfStartedAt = 0;
+    this.textures.clear(); this.selfLife = null; this.selfStartedAt = 0; this.speakers = [];
     this.floats = []; this.floatMutex = ''; this.floatMutexAt = 0; this.floatHistory = [];
     this.drawn = {airMarker: false, selfMarker: false, spawnArrow: false, minimap: false};
   }
@@ -43,11 +45,59 @@ export class RoboWorld {
       offsetX: center ? -asset.width / 2 : 0, offsetY: center ? -asset.height / 2 : 0}, x, y, 0, alpha);
   }
 
-  drawCanvas(image, x, y) {
+  drawCanvas(image, x, y, alpha = 1) {
     const pos = this.view.screenPoint(x + image.width / 2, y + image.height / 2);
     const zoom = this.view.camera.zoom;
     this.view.surface.draw(image, {sw: image.width, sh: image.height,
-      x: pos.x, y: pos.y, width: image.width * zoom, height: image.height * zoom});
+      x: pos.x, y: pos.y, width: image.width * zoom, height: image.height * zoom, alpha});
+  }
+
+  /** Speech bubble texture: word-wrapped text in a rounded box with a tail, border by camp. */
+  bubbleTexture(text, border) {
+    const key = `bubble:${border}:${text}`;
+    if (this.textures.has(key)) return this.textures.get(key);
+    const font = 'bold 14px Tahoma, Arial, sans-serif', pad = 7, line = 18, tail = 8;
+    const measure = document.createElement('canvas').getContext('2d'); measure.font = font;
+    const lines = [];
+    for (const word of text.split(/\s+/).filter(Boolean)) {
+      const last = lines.length ? lines[lines.length - 1] : null;
+      if (last != null && measure.measureText(`${last} ${word}`).width <= BUBBLE_MAX_WIDTH) lines[lines.length - 1] = `${last} ${word}`;
+      else lines.push(word);
+    }
+    if (!lines.length) return null;
+    const width = Math.ceil(Math.min(BUBBLE_MAX_WIDTH, Math.max(...lines.map(row => measure.measureText(row).width))) + pad * 2);
+    const height = lines.length * line + pad * 2;
+    const image = document.createElement('canvas'), c = image.getContext('2d');
+    image.width = width + 4; image.height = height + tail + 4;
+    c.translate(2, 2);
+    c.beginPath(); c.roundRect(0, 0, width, height, 8);
+    c.moveTo(width / 2 - 7, height); c.lineTo(width / 2, height + tail); c.lineTo(width / 2 + 7, height);
+    c.fillStyle = 'rgba(255,255,255,.93)'; c.fill();
+    c.lineWidth = 2; c.strokeStyle = border; c.stroke();
+    c.fillStyle = 'rgba(255,255,255,.93)'; c.fillRect(width / 2 - 6, height - 2, 12, 3);
+    c.font = font; c.textBaseline = 'top'; c.fillStyle = '#151515';
+    lines.forEach((row, index) => c.fillText(row, pad, pad + index * line, BUBBLE_MAX_WIDTH));
+    this.textures.set(key, image);
+    return image;
+  }
+
+  /** Latest chat line of each tank drawn this frame, above its tank, on top of the actor layer. */
+  drawChatBubbles(state, now) {
+    const speakers = this.speakers; this.speakers = [];
+    const chat = state.chat || [];
+    if (!chat.length) return;
+    const ownCamp = state.actors[String(state.selfObjectId)]?.camp;
+    for (const {actor, position} of speakers) {
+      let row = null;
+      for (const item of chat) if (item.speakerId === actor.objectId && now - item.receivedAt < BUBBLE_MS) row = item;
+      if (!row) continue;
+      const self = actor.objectId === state.selfObjectId;
+      const border = self ? '#2fae25' : actor.camp === ownCamp ? '#1f8fd0' : '#d8332a';
+      const image = this.bubbleTexture(row.text, border);
+      if (!image) continue;
+      const age = now - row.receivedAt, alpha = age > BUBBLE_MS - 600 ? (BUBBLE_MS - age) / 600 : 1;
+      this.drawCanvas(image, position.x - image.width / 2, position.y - (self ? BUBBLE_SELF_LIFT : BUBBLE_LIFT) - image.height, alpha);
+    }
   }
 
   effect(name, now, start = this.view.animationStart, {loop = true} = {}) {
@@ -146,6 +196,7 @@ export class RoboWorld {
           offsetX: 0, offsetY: 0}, position.x - 20, position.y + 78);
       }
     }
+    if (!isNpc) this.speakers.push({actor, position});
     if (!ai || Number(ai.isShowName) === 1) {
       const name = this.nameTexture(actor, state, ai);
       if (name) this.drawCanvas(name, position.x + name.nativeOffsetX,

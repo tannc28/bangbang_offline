@@ -4,12 +4,10 @@ Handles all 3 roles on port 49119:
   1. AUTH socket (Version check 0x0034 + Login 0x0033 -> returns server list)
   2. GATE socket (Handshake + World Enter 0x0038 -> syncs Lobby, Tanks, Items)
   3. CHAT socket (Token bind 0x0036 -> Chat connect confirm 0x0DAC)
-  4. In-band Policy probe (<policy-file-request/> -> sends Policy XML)
 """
 from __future__ import annotations
 from pve_catalog import MAPS as PVE_MAPS
 
-import select
 import socket
 import struct
 import sys
@@ -19,7 +17,6 @@ import logging
 from pathlib import Path
 from contextlib import ExitStack
 
-from policy import POLICY
 from battle_entry import entry_packets, ensure_test_ally
 from bot_setup import room_bots, configure_room, load_setup, BOT_MAPS, MODE_MAPS
 from battle_runtime import BattleArena, SUPPORTED_TANKS
@@ -541,13 +538,6 @@ def _template_batch(frames: list[bytes], state=None) -> bytes:
 def _pop_frames(buf: bytearray) -> list[bytes]:
     out = []
     while len(buf) >= 4:
-        if buf.startswith(b"<policy-file-request"):
-            z = buf.find(b"\x00")
-            if z < 0:
-                break
-            out.append(bytes(buf[: z + 1]))
-            del buf[: z + 1]
-            continue
         length = struct.unpack_from("<H", buf, 0)[0]
         if length < 4 or length > 1_000_000:
             del buf[0]
@@ -959,28 +949,14 @@ def _client_handler(conn: socket.socket, addr) -> None:
         if request_id==304:send_start_battle()
 
     try:
-        # Step 1: Check if this is an immediate policy-file-request
-        # Non-blocking peek for 60ms to see if Flash sent <policy-file-request/>
-        r, _, _ = select.select([conn], [], [], 0.06)
-        if r:
-            chunk = conn.recv(1024)
-            if chunk:
-                buf += chunk
-                _dump(addr, "C->S", chunk, tag="PROBE")
-                if b"<policy-file-request" in chunk:
-                    conn.sendall(POLICY)
-                    _dump(addr, "S->C", POLICY, tag="POLICY")
-                    log.info(f"[sixcube] {addr} answered socket policy probe")
-                    return
-
-        # Step 2: Send Flash CNetConnection encryption handshake (00 00)
-        # This tells ActionScript 3: encryptMode=0, keyLen=0 -> state becomes NS_WORKING
+        # Step 1: Send the CNetConnection encryption handshake (00 00):
+        # encryptMode=0, keyLen=0 -> the client's connection state becomes NS_WORKING.
         conn.sendall(b"\x00\x00")
         saw_init_net = True
         _dump(addr, "S->C", b"\x00\x00", tag="HANDSHAKE")
         log.info(f"[sixcube] {addr} sent CNetConnection initNet (00 00)")
 
-        # Step 3: Handle protocol frames
+        # Step 2: Handle protocol frames
         while True:
             tick_actions()
             frames = _pop_frames(buf)
@@ -1001,11 +977,6 @@ def _client_handler(conn: socket.socket, addr) -> None:
                 frames = _pop_frames(buf)
 
             for fr in frames:
-                if fr.startswith(b"<policy-file-request"):
-                    conn.sendall(POLICY)
-                    _dump(addr, "S->C", POLICY, tag="POLICY")
-                    return
-
                 if len(fr) < 8:
                     continue
 
@@ -1745,20 +1716,16 @@ def _client_handler(conn: socket.socket, addr) -> None:
                             continue  # Already committed before the combat reply.
 
                     elif mid == 598:
-                        # Local battle chat: scene u32, channel u8 (0 all, 1 team), u16 text.
+                        # Local battle chat (solo arenas; hub rooms go through multiplayer_battle).
                         battle = session_state["battle"]
                         actions = battle.get("actions") if battle else None
-                        if not actions or not battle.get("entered") or len(payload) < 7:
-                            continue
-                        scene, channel, size = struct.unpack_from('<IBH', payload)
-                        if scene != battle["scene_id"] or len(payload) < 7 + size:
-                            continue
-                        try:
-                            text = payload[7:7 + size].decode('utf-8')
-                        except UnicodeDecodeError:
+                        if not actions or not battle.get("entered"):
                             continue
                         import bot_chat
-                        packets = bot_chat.on_human_chat(actions, actions.player, text, channel == 1, actions.clock())
+                        decoded = bot_chat.decode_battle_chat(payload, battle["scene_id"])
+                        if decoded is None:
+                            continue
+                        packets = bot_chat.on_human_chat(actions, actions.player, decoded[0], decoded[1], actions.clock())
                         checkpoint()
                         send_actions(packets)
                         continue

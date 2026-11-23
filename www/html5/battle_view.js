@@ -422,7 +422,10 @@ export class BattleView {
       drawNativeFlags(this,state,now,true);
       drawNativeTargeting(this,state,now);
       this.effects.offlinePve.draw(this,state,now);
-      if (this.roboActive) { this.roboWorld.drawFloats(now); this.roboWorld.drawSelfMarker(state, now); }
+      if (this.roboActive) {
+        this.roboWorld.drawFloats(now); this.roboWorld.drawSelfMarker(state, now);
+        this.roboWorld.drawChatBubbles(state, now);
+      }
       const liveLinkKeys = new Set(this.linkDiagnostics.map(link => link.key));
       for (const key of this.linkFrames.keys()) if (!liveLinkKeys.has(key)) this.linkFrames.delete(key);
       const liveActorIds = new Set(actors.map(actor => actor.objectId));

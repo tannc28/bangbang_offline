@@ -6,7 +6,6 @@ import os
 import json
 import logging
 import sys
-import threading
 import time
 from http.server import SimpleHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
@@ -53,10 +52,23 @@ class Handler(SimpleHTTPRequestHandler):
             self.send_header('Referrer-Policy', 'no-referrer')
             self.send_header('X-Frame-Options', 'DENY')
             self.send_header('Content-Security-Policy', "default-src 'self'; script-src 'self'; style-src 'self'; img-src 'self'; connect-src 'self'; frame-ancestors 'none'; object-src 'none'; base-uri 'none'; form-action 'self'")
+        elif path.endswith(('/', '.html', '.js', '.css', '.json')):
+            # Code and pages revalidate on every load (a 304 when unchanged), so an
+            # update shows up without a hard refresh. Images, audio and SWF stay cached.
+            self.send_header('Cache-Control', 'no-cache')
         super().end_headers()
+
+    def _to_game(self) -> None:
+        """The HTML5 client is the only game client; it has its own login."""
+        self.send_response(302)
+        self.send_header("Location", "/html5/")
+        self.send_header("Content-Length", "0")
+        self.end_headers()
 
     def do_HEAD(self) -> None:
         path = urlparse(self.path).path
+        if path in ("/", "/index.html"):
+            return self._to_game()
         import admin_buff
         if path.startswith('/api/admin/'):
             return admin_buff.handle(self)
@@ -155,8 +167,7 @@ class Handler(SimpleHTTPRequestHandler):
             self.wfile.write(body)
             return
         if path in ("/", "/index.html"):
-            self.path = "/index.html"
-            return super().do_GET()
+            return self._to_game()
 
         file_path = WWW / path.lstrip("/")
         if not file_path.exists():
@@ -241,42 +252,18 @@ class Server(ThreadingHTTPServer):
         log.exception('[http] Request failed from %s', client_address)
 
 
-def start_side_servers(html5_local=False, native_port=49119) -> None:
-    from policy import start_policy_servers
-    from sixcube_server import start_sixcube
-
-    if html5_local:
-        import sixcube_server, html5_bridge
-        sixcube_server.LISTEN_PORT = native_port
-        html5_bridge.TCP_DESTINATION = ("127.0.0.1", native_port)
-        start_sixcube(bind="127.0.0.1")
-    else:
-        start_policy_servers()
-        start_sixcube()
-
-
-def start_https(bind: str, port: int) -> None:
-    import ssl
-
-    cert = DATA / "certs" / "cert.pem"
-    key = DATA / "certs" / "key.pem"
-    if not cert.exists() or not key.exists():
-        log.warning("[https] missing certs, skip")
-        return
-    httpd = Server((bind, port), Handler)
-    ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_SERVER)
-    ctx.load_cert_chain(str(cert), str(key))
-    httpd.socket = ctx.wrap_socket(httpd.socket, server_side=True)
-    log.info(f"[https] https://{bind}:{port}/")
-    threading.Thread(target=httpd.serve_forever, daemon=True).start()
+def start_side_servers(native_port=49119) -> None:
+    """Native game roles on loopback; the HTML5 WebSocket bridge connects to them."""
+    import sixcube_server, html5_bridge
+    sixcube_server.LISTEN_PORT = native_port
+    html5_bridge.TCP_DESTINATION = ("127.0.0.1", native_port)
+    sixcube_server.start_sixcube(bind="127.0.0.1")
 
 
 def main() -> None:
     parser = argparse.ArgumentParser()
-    parser.add_argument("--html5-local", action="store_true", help="HTML5 loopback only; no Flash policy or HTTPS services")
     parser.add_argument("--native-port", type=int, default=49119)
     parser.add_argument("--port", type=int, default=18083)
-    parser.add_argument("--https-port", type=int, default=18443)
     parser.add_argument("--bind", default="0.0.0.0")
     parser.add_argument('--enable-admin-buff', action='store_true',
                         help='Explicitly enable loopback-only gift-mail admin; never grants on startup')
@@ -306,9 +293,7 @@ def main() -> None:
         key_path = admin_buff.enable(args.admin_key_file)
         print('[admin] Local gift-mail admin: http://127.0.0.1:' + str(args.port) + '/admin/buff/')
         print('[admin] Operator key file (open locally, never share): ' + str(key_path))
-    start_side_servers(args.html5_local, args.native_port)
-    if not args.html5_local:
-        start_https(args.bind, args.https_port)
+    start_side_servers(args.native_port)
 
     Server.allow_reuse_address = True
     for attempt in range(5):

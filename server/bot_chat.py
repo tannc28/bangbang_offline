@@ -368,6 +368,23 @@ def react_rival_greet(arena, bot, player, rival, now):
     _force(arena, bot, event, now + _rng.randint(1500, 7000), name=_name(player))
 
 
+CHAT_INPUT = 598
+MAX_CHAT_BYTES = 320
+
+
+def decode_battle_chat(payload, scene_id):
+    """(text, team) from a C598 body (scene u32, channel u8, u16-length UTF-8), or None."""
+    if not 7 < len(payload) <= 7 + MAX_CHAT_BYTES:
+        return None
+    scene, channel, size = struct.unpack_from('<IBH', payload)
+    if scene != scene_id or channel not in (0, 1) or len(payload) != 7 + size:
+        return None
+    try:
+        return bytes(payload[7:]).decode('utf-8'), channel == 1
+    except UnicodeDecodeError:
+        return None
+
+
 def on_human_chat(arena, speaker, text, team, now):
     """Echo a player's line to the battle and queue one or two bot replies."""
     text = ' '.join(str(text).split())[:MAX_HUMAN_TEXT]

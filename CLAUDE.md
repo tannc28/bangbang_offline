@@ -12,7 +12,7 @@ Schema and rubric: `docs/tank-guide/README.md`. Never hand-edit `www/tank-guide/
 ## Running on Linux
 `Choi_Ngay.bat` is Windows-only. Use `./play.sh` (one-click launcher: free port, waits for /health, opens the
 browser, Ctrl+C stops; `--shortcut` adds an app-menu entry). Under the hood it runs:
-`BB_DATABASE=$PWD/data/bangbang.sqlite3 BB_ACCELERATION=auto python3 -I -B -X utf8 server/app.py --bind 127.0.0.1 --port 19083 --html5-local --native-port 49119 --enable-admin-buff --admin-key-file $PWD/data/admin_buff.key`
+`BB_DATABASE=$PWD/data/bangbang.sqlite3 BB_ACCELERATION=auto python3 -I -B -X utf8 server/app.py --bind 127.0.0.1 --port 19083 --native-port 49119 --enable-admin-buff --admin-key-file $PWD/data/admin_buff.key`
 
 ## Line endings
 `.gitattributes` keeps exact bytes (`* -text`); some files are CRLF (e.g. `server/bot_setup.py`).

@@ -25,6 +25,8 @@ TICK_SECONDS = .02
 LOADING_TIMEOUT = 20.0
 DISCONNECT_GRACE = 120.0
 QUEUE_BYTES = 4 * 1024 * 1024
+# Per-tick inputs: native movement/skill commands, plus C598 local battle chat.
+INPUT_LENGTHS = {501: (9, 128), 503: (13, 128), 510: (12, 128), 514: (8, 128), 598: (8, 327)}
 DDL = ('CREATE TABLE IF NOT EXISTS multiplayer_matches ('
        'room_id INTEGER PRIMARY KEY,match_uuid TEXT UNIQUE NOT NULL,phase TEXT NOT NULL,'
        'state TEXT NOT NULL,arena TEXT,updated_ms INTEGER NOT NULL)')
@@ -97,6 +99,17 @@ def install_navigation(arena,seed):
     nav.components,nav.walk_cells,nav.neighbor_edges=(dict(part) for part in seed[:3])
     arena.navigation=nav
     arena._multiplayer_navigation_seed=seed
+
+
+def _battle_chat(match, profile, payload):
+    """Echo one player's chat line to the room and let bots answer it."""
+    import bot_chat
+    decoded = bot_chat.decode_battle_chat(payload, match.arena.scene_id)
+    actor = match.arena.actors.get(match.objects.get(profile))
+    if decoded is None or actor is None:
+        return []
+    text, team = decoded
+    return bot_chat.on_human_chat(match.arena, actor, text, team, match.arena.clock())
 
 
 @dataclass
@@ -594,7 +607,7 @@ class BattleService:
         bind, entry and settlement remain synchronous ordered barriers.
         """
         self._ensure()
-        if int(mid) not in (501,503,510,514) or not {501:9,503:13,510:12,514:8}[int(mid)]<=len(payload)<=128:return False
+        if int(mid) not in INPUT_LENGTHS or not INPUT_LENGTHS[int(mid)][0]<=len(payload)<=INPUT_LENGTHS[int(mid)][1]:return False
         try:
             self._commands.put_nowait(('handle',(int(profile),int(mid),bytes(payload)),None,None))
         except queue.Full:return False
@@ -606,8 +619,8 @@ class BattleService:
     def _handle(self,profile,mid,payload):
         match=self._match(profile)
         if (match is None or match.phase!='battle' or profile not in match.connected
-                or profile not in match.entered or mid not in (501,503,510,514)
-                or not {501:9,503:13,510:12,514:8}[mid]<=len(payload)<=128):
+                or profile not in match.entered or mid not in INPUT_LENGTHS
+                or not INPUT_LENGTHS[mid][0]<=len(payload)<=INPUT_LENGTHS[mid][1]):
             return
         if mid==503:
             scene,target,slot=struct.unpack_from('<IIB',payload)
@@ -651,6 +664,9 @@ class BattleService:
                 while match.inputs:
                     profile,mid,payload=match.inputs.popleft()
                     if profile not in match.connected or profile not in match.entered or profile in match.left:continue
+                    if mid==598:
+                        match.pending.extend(_battle_chat(match,profile,payload))
+                        continue
                     match.arena._shared_input_dispatch=True
                     match.pending.extend(match.arena.handle_for(match.objects[profile],mid,payload))
             finally:

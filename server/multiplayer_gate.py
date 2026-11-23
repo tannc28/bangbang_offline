@@ -26,7 +26,7 @@ from multiplayer_rooms import HUB, REQUEST, REPLY, RoomError, decode_request, en
 from multiplayer_battle import service
 
 log = logging.getLogger(__name__)
-INPUT_MESSAGES = frozenset((501, 503, 510, 514))
+INPUT_MESSAGES = frozenset((501, 503, 510, 514, 598))
 ROOM_MESSAGES = frozenset((200, 203, 204, 207, 210, 215, 304, 350, 509, 512, 552,
                            600, 601, 602, 603, 605, 607, 610, 611, 613, 614))
 

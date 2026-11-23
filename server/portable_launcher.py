@@ -136,7 +136,7 @@ def main():
         worker.start()
         import app
         sys.argv = [str(ROOT / 'server/app.py'), '--bind', '127.0.0.1', '--port', str(http_port),
-                    '--html5-local', '--native-port', str(native_port), '--enable-admin-buff',
+                    '--native-port', str(native_port), '--enable-admin-buff',
                     '--admin-key-file', str(args.admin_key.resolve()), '--log-level', 'WARNING']
         try:
             app.main()

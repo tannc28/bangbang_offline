@@ -22,7 +22,7 @@ git clone --depth 1 https://github.com/tannc28/bangbang_offline.git && cd bangba
 - Máy chạy **Windows 10/11 64-bit**.
 - Có trình duyệt web, chẳng hạn Microsoft Edge hoặc Google Chrome.
 - Có khoảng **5 GB trống** để chứa thư mục game và dữ liệu phát sinh; nếu giữ cả ZIP tải về thì cần thêm chỗ cho ZIP.
-- Không cần cài Python, pip, Flash Player hoặc phần mềm quản lý database.
+- Không cần cài Python, pip hoặc phần mềm quản lý database.
 
 File BAT đi kèm dùng cho Windows. Không dùng file này để khởi động trên macOS, Linux hoặc điện thoại.
 

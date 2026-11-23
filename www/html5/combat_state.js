@@ -893,7 +893,7 @@ export function applyCombatPacket(state, packet, now) {
     case 'botChat': {
       const mine = state.actors[key(state.selfObjectId)]?.camp;
       if (packet.channel === 1 && mine != null && packet.camp !== mine) break;
-      state.chat = [...(state.chat || []), {name: packet.name, text: packet.text,
+      state.chat = [...(state.chat || []), {speakerId: packet.speakerId, name: packet.name, text: packet.text,
         team: packet.channel === 1, ally: mine != null && packet.camp === mine, receivedAt: now}].slice(-8);
       break;
     }

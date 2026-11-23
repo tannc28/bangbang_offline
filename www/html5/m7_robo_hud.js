@@ -85,6 +85,14 @@ export function roboHudRows(state, catalog, hudCatalog, now) {
   });
 }
 
+/** The same chat line as the bubble over the tank, beside the speaker's roster portrait. */
+const SPEECH_MS = 5000;
+function latestSpeech(chat, now) {
+  const out = new Map();
+  for (const row of chat || []) if (row.speakerId != null && now - row.receivedAt < SPEECH_MS) out.set(row.speakerId, row);
+  return out;
+}
+
 export function nativeCooldownText(milliseconds) {
   if (!finite(milliseconds) || milliseconds <= 0) return '';
   const seconds = milliseconds / 1000;
@@ -579,7 +587,8 @@ export class RoboHud {
     const hp = this.make('div', 'm7-roster-hp', button), fill = this.image('', hp);
     const cdBg = this.image('m7-roster-cd-bg', button), cdReady = this.image('m7-roster-cd-ready', button);
     const cd = this.make('span', 'm7-roster-cd', button);
-    return {button, bg, avatar, skin, name, hp, fill, cdBg, cdReady, cd};
+    const say = this.make('span', 'm7-roster-say', button); say.hidden = true;
+    return {button, bg, avatar, skin, name, hp, fill, cdBg, cdReady, cd, say};
   }
   resize(width, height) {
     if (width > 0 && height > 0) { this.width = width; this.height = height;
@@ -636,6 +645,7 @@ export class RoboHud {
     this.soundButton.disabled = !this.onSound; this.fullscreenButton.disabled = !this.onFullscreen;
     if (typeof options.soundEnabled === 'boolean') text(this.soundButton, options.soundEnabled ? 'Tắt âm thanh' : 'Bật âm thanh');
     this.rosterRows = roboHudRows(state, catalog, hudCatalog, now);
+    const speech = latestSpeech(state.chat, now);
     const wanted = new Set(this.rosterRows.map(row => row.accountId));
     for (const [key, node] of this.rows) if (!wanted.has(key)) { this.releaseNode(node.button); this.rows.delete(key); }
     for (const row of this.rosterRows) {
@@ -661,6 +671,13 @@ export class RoboHud {
       this.bindImage(node.cdBg, 'temateCDBg'); this.bindImage(node.cdReady, 'temateCDready');
       node.cdBg.hidden = !row.ally; node.cdReady.hidden = !row.ally || !row.space?.ready;
       text(node.cd, row.ally ? nativeRosterCooldownText(row.space?.remainingMs) : '');
+      const said = speech.get(row.objectId);
+      node.say.hidden = !said;
+      if (said) {
+        text(node.say, said.text);
+        node.say.style.setProperty('--say-border', row.self ? '#2fae25' : row.ally ? '#1f8fd0' : '#d8332a');
+        node.say.style.opacity = String(Math.min(1, (SPEECH_MS - (now - said.receivedAt)) / 600));
+      }
     }
     this.updateVitals(self); this.skillRows = roboHudSkills(state, catalog, hudCatalog, now, this.castAvailability, this.last?.keyBindings);
     this.skillRows.forEach((row, index) => this.updateSkill(this.skills[index], row, connected && !self.dead && !state.result));

@@ -276,7 +276,7 @@ def page(title, body, *, desc=''):
             f'<title>{e(title)}</title><meta name="description" content="{e(desc)}">'
             f'<style>{CSS}</style></head><body>'
             f'<header class="top"><a class="brand" href="/tank-guide/">Cẩm nang tank</a>'
-            f'<a href="/">Trang chủ</a><a href="/html5/">Vào game</a>'
+            f'<a href="/html5/">Vào game</a><a href="/bots.html">Thiết lập trận bot</a>'
             f'<a href="/tank-guide/balance.html">Nhật ký cân bằng</a></header>'
             f'<main>{body}</main><script>{SORT_JS}</script></body></html>')
 

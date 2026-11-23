@@ -100,7 +100,7 @@ LOG="${BB_LOG:-$ROOT/runtime/state/server.log}"
 echo "Bang Bang offline — đang khởi động (Python: $("$PY" --version))"
 
 BB_DATABASE="$DB" BB_ACCELERATION=auto BB_LAUNCH_ID="play-$$" \
-  "$PY" -I -B -X utf8 "$ROOT/server/app.py" --bind 127.0.0.1 --port "$PORT" --html5-local \
+  "$PY" -I -B -X utf8 "$ROOT/server/app.py" --bind 127.0.0.1 --port "$PORT" \
   --native-port "$NATIVE_PORT" --enable-admin-buff --admin-key-file "$KEY" --log-level WARNING \
   >"$LOG" 2>&1 &
 SERVER=$!

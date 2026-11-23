@@ -34,6 +34,7 @@ from urllib.parse import parse_qs, urlsplit
 GUID = "258EAFA5-E914-47DA-95CA-C5AB0DC85B11"
 TCP_DESTINATION = ("127.0.0.1", 49119)
 MAX_FRAME = 1024 * 1024
+MAX_CHAT_BYTES = 320           # 80 characters of up to 4 UTF-8 bytes each
 SESSION_CHECK_INTERVAL = 5.0
 CLIENT_IDLE_TIMEOUT = 90.0
 # Only operations exposed by the current outside-match UI. No chat messages,
@@ -44,7 +45,7 @@ M8_MESSAGES = frozenset((60000, 60002, 60004, 60006, 60008, 350, 556, 557, 68, 6
 ALLOWED_MESSAGES = {
     "AUTH": frozenset((51, 52)),
     "GATE": frozenset((52, 54, 56, 61, 72, 165, 215, 501, 503, 509, 510, 512, 514, 552,
-                       600, 601, 602, 605, 607, 610, 611, 613, 614)) | M8_MESSAGES,
+                       598, 600, 601, 602, 605, 607, 610, 611, 613, 614)) | M8_MESSAGES,
     "CHAT": frozenset((54, 60)),
 }
 
@@ -296,6 +297,8 @@ class NativeGuard:
                     self._validate_m8(mid, body)
                 elif mid in (501, 503, 510, 514, 613):
                     self._validate_m4(mid, body)
+                elif mid == 598:
+                    self._validate_battle_chat(body)
                 else:
                     self._validate_m3(mid, body)
 
@@ -325,6 +328,13 @@ class NativeGuard:
             scene, = struct.unpack_from("<I", body)
         if not scene:
             raise ValueError("Scene ID required")
+
+    def _validate_battle_chat(self, body):
+        """C598 local battle chat: scene u32, channel u8 (0 all, 1 team), u16-length UTF-8 text."""
+        scene, channel, size = struct.unpack_from("<IBH", body)
+        if not scene or channel not in (0, 1) or not 0 < size <= MAX_CHAT_BYTES or len(body) != 7 + size:
+            raise ValueError("C598 shape")
+        body[7:].decode("utf-8")
 
     def _validate_m3(self, mid, body):
         """Validate wire shape/identity; the native server owns all game rules.

@@ -110,7 +110,7 @@ def page(title, body, *, header='', scripts='', desc=''):
 <header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
 <a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
 <div class="navbar-nav flex-row gap-1">
-<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/html5/">Vào game</a><a class="nav-link" href="/bots.html">Thiết lập trận bot</a>
 <a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
 <button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
 </div></div></header>

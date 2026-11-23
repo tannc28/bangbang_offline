@@ -10,7 +10,7 @@ import sys
 
 
 ROOT = Path(__file__).resolve().parents[1]
-PORTS = (843, 41843, 18083, 18443, 49119)
+PORTS = (18083, 49119)
 
 
 def check_runtime():
