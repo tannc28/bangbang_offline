@@ -136,6 +136,8 @@ def death(arena,victim,now):
         bot_mind.count_pair(arena,killer,victim)
         bot_mind.on_kill(arena,killer,victim,now)
     bot_chat.on_kill(arena,killer,victim,multi=multi,streak=streak,first=first,dead_streak=dead_streak,now=now)
+    import pace_metrics
+    pace_metrics.on_kill(arena,killer,victim)
     import match_story
     match_story.on_kill(arena,killer,victim,multi=multi,streak=streak,first=first,dead_streak=dead_streak,now=now)
     packets+=score_packets(arena)

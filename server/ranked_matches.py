@@ -427,6 +427,10 @@ def _settle(db, state, arena, now, *, player=None):
                    delta=after - before, forfeit=bool(battle.get('forfeit')),
                    roster=rows, scores={str(k): v for k, v in pk['scores'].items()},
                    rank_results=rank_result)
+    import pace_metrics
+    pacing = pace_metrics.summary(arena)
+    if pacing:
+        summary['pacing'] = pacing
     db.execute('INSERT INTO match_history VALUES(?,?,?,?,?,?)',
                (ident, battle['match_uuid'], season, int(now * 1000), ranked, _json(summary)))
     db.execute('DELETE FROM match_history WHERE profile_id=? AND match_uuid NOT IN '

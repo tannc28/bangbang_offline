@@ -841,6 +841,8 @@ def combat(arena,actor,brain,seen,nearby,allies,target,dest,retreat,blocked,reco
     # only the kit executor's goal adjustment, not the tactical goal chosen by
     # decide(), so later evasion does not overwrite a native steer/recast goal.
     # Legacy battles take the direct path with no added brain state or RNG.
+    import bot_mind
+    retreat=bot_mind.steer(arena,actor,brain,target,retreat,recovering,now)
     from bot_policy import policy_for,ELITE
     if policy_for(arena,actor)!=ELITE:
         return _native_combat(arena,actor,brain,seen,nearby,allies,target,dest,retreat,blocked,recovering,now)
@@ -850,6 +852,9 @@ def combat(arena,actor,brain,seen,nearby,allies,target,dest,retreat,blocked,reco
             arena,actor,brain,seen,nearby,allies,target,dest,retreat,blocked,recovering,now)
     import bot_engagement
     retreat=bot_engagement.prepare(arena,actor,brain,nearby,target,retreat,recovering,now)
+    # Elite contact logic re-plans the goal; apply the same visible mistake again
+    # so a bot that announced a dive or chase actually makes it on every AI tier.
+    retreat=bot_mind.steer(arena,actor,brain,target,retreat,recovering,now)
     before=tuple(brain['goal']) if brain.get('goal') is not None else None
     brain['_pro_cast_context']=dict(sample=target,cursor=tuple(dest),observed_at=now)
     try:
@@ -1085,6 +1090,8 @@ def tick(arena,now):
     bot_mind.tick(arena,now)
     import match_story
     match_story.sample_score(arena)
+    import pace_metrics
+    pace_metrics.tick(arena,now)
     packets=bot_chat.tick(arena,now)
     for actor in list(arena.actors.values()):
         if human(actor) or not actor.alive or (actor.info.get('npc_template') and not (actor.info.get('robo') or actor.info.get('base_robot') or actor.info.get('mascot') or actor.info.get('map_spider'))):continue

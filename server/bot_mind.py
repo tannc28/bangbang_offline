@@ -38,6 +38,29 @@ MOODS = {
 }
 RIVAL_PREFIX = 'rank_bot_rivalry:'
 
+# In-match pacing (casual rooms with one human only), after Valve's AI Director:
+# build up -> peak -> relax. Only the enemies of the player change behaviour,
+# and only through the same multipliers and target scores; HP, damage and
+# perception are never touched.
+RELAX_AFTER_DEATHS = 2         # player deaths in a row without a kill
+RELAX_MS = 15000               # counted from the death, so it covers the respawn walk
+PEAK_STREAK = 3                # player kills in a row without dying
+PEAK_MS = 12000
+POST_PEAK_RELAX_MS = 8000
+RELAX_BIAS = -220              # the player is a less attractive target while relaxing
+PEAK_BIAS = 80
+PACE = {
+    'relax': dict(caution=1.35, reaction=1.15, team=.8),
+    'peak':  dict(team=1.3, reaction=.95),
+}
+
+# Readable mistakes: a bot on a streak dives alone, a bot with a strong grudge
+# leaves the objective to chase. Both are announced in chat and can be punished.
+DIVE_STREAK = 3
+DIVE_MIN_HP = .3
+CHASE_GRUDGE = 2
+CHASE_MIN_HP = .2
+
 
 # ---------------------------------------------------------------- state
 
@@ -93,7 +116,99 @@ def modifier(actor, key):
     camp = str(actor.camp)
     value = PLANS.get(mind['plans'].get(camp), {}).get(key, 1.0)
     value *= MOODS.get(mind['mood'].get(camp), {}).get(key, 1.0)
+    player = _paced_player(arena)
+    if player is not None and actor.camp != player.camp:
+        value *= PACE.get(phase(arena, arena.clock()), {}).get(key, 1.0)
     return value
+
+
+# ---------------------------------------------------------------- pacing
+
+def _paced_player(arena):
+    """The single human of a casual room, or None when pacing does not apply."""
+    from battle_participants import human
+    if not active(arena) or ((getattr(arena, 'state', None) or {}).get('room') or {}).get('ranked'):
+        return None
+    humans = [a for a in arena.actors.values() if human(a)]
+    return humans[0] if len(humans) == 1 else None
+
+
+def _pace(arena):
+    return _mind(arena).setdefault('pace', dict(phase='build', until=0, deaths_row=0, kills_row=0,
+                                                 relax=0, peak=0))
+
+
+def phase(arena, now):
+    """'build', 'peak' or 'relax' for the enemies of the paced player."""
+    if _paced_player(arena) is None:
+        return 'build'
+    pace = _pace(arena)
+    if pace['until'] - now > PEAK_MS + RELAX_MS:      # clock moved back after a restore
+        pace.update(phase='build', until=0)
+    if pace['phase'] != 'build' and now >= pace['until']:
+        if pace['phase'] == 'peak':
+            pace.update(phase='relax', until=now + POST_PEAK_RELAX_MS)
+            pace['relax'] += 1
+        else:
+            pace.update(phase='build', until=0)
+    return pace['phase']
+
+
+def _pace_kill(arena, killer, victim, now):
+    from battle_participants import human
+    player = _paced_player(arena)
+    if player is None:
+        return
+    pace = _pace(arena)
+    phase(arena, now)
+    if victim is player:
+        pace['deaths_row'] += 1
+        pace['kills_row'] = 0
+        if pace['deaths_row'] >= RELAX_AFTER_DEATHS and pace['phase'] != 'relax':
+            pace.update(phase='relax', until=now + RELAX_MS)
+            pace['relax'] += 1
+    elif killer is player and human(killer):
+        pace['kills_row'] += 1
+        pace['deaths_row'] = 0
+        if pace['kills_row'] >= PEAK_STREAK and pace['phase'] == 'build':
+            pace.update(phase='peak', until=now + PEAK_MS)
+            pace['peak'] += 1
+            import bot_chat
+            bot_chat.react_peak(arena, player, now)
+
+
+# ---------------------------------------------------------------- readable mistakes
+
+def steer(arena, actor, brain, target, retreat, recovering, now):
+    """Turn a grudge or a streak into a visible, punishable mistake.
+
+    Returns the retreat flag to use. The goal is set before the kit executor
+    runs, so tank-specific steering and dodging still apply on top.
+    """
+    if (target is None or recovering or not active(arena) or not _is_bot(actor)
+            or arena.pk.get('finished') or target.get('objective', target.get('robo'))):
+        return retreat
+    mind = _mind(arena)
+    key = str(actor.id)
+    ratio = actor.hp / max(1, actor.max_hp)
+    grudge = mind['grudge'].get(key) or {}
+    reason = None
+    if grudge.get('level', 0) >= CHASE_GRUDGE and grudge.get('target') == target['id'] and ratio >= CHASE_MIN_HP:
+        reason = 'chase'
+    elif (arena.pk.get('streaks') or {}).get(actor.id, 0) >= DIVE_STREAK and ratio >= DIVE_MIN_HP:
+        reason = 'dive'
+    if reason is None:
+        return retreat
+    player = _paced_player(arena)
+    if player is not None and target['id'] == player.id and phase(arena, now) == 'relax':
+        return retreat
+    brain['goal'] = tuple(target['pos'])
+    told = mind.setdefault('told', {})
+    if told.get(key) != reason:
+        told[key] = reason
+        import bot_chat
+        bot_chat.react_mistake(arena, actor, arena.actors.get(target['id']), reason, now)
+    return False
 
 
 def _refresh_mood(arena, now):
@@ -126,6 +241,9 @@ def target_bias(arena, actor, target_id, now):
     ready = mind['cd'].get(str(actor.camp), {}).get(str(target_id))
     if ready and ready > now:
         bias += PUNISH_BIAS
+    player = _paced_player(arena)
+    if player is not None and target_id == player.id and actor.camp != player.camp:
+        bias += {'relax': RELAX_BIAS, 'peak': PEAK_BIAS}.get(phase(arena, now), 0)
     return bias
 
 
@@ -167,6 +285,8 @@ def on_kill(arena, killer, victim, now):
     if not active(arena) or killer is None or victim is None:
         return
     mind = _mind(arena)
+    _pace_kill(arena, killer, victim, now)
+    mind.get('told', {}).pop(str(victim.id), None)
     import bot_chat
     if _is_bot(victim) and human(killer):
         key = f'{victim.id}:{killer.id}'

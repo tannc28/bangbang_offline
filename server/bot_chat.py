@@ -279,7 +279,13 @@ EXTRA = {
               'calm': ['đang dẫn, đừng chủ quan'], 'team': ['đang dẫn, giữ nhịp nhé']},
     'rival_win': {'*': ['lại gặp {name} à, hôm trước thắng rồi đấy', '{name}, lần trước mày thua tao rồi'],
                   'calm': ['chào {name}, lại gặp nhau'], 'rookie': ['{name} lại đến kìa']},
-    'rival_lose': {'*': ['{name}, lần này không thua nữa đâu', 'phục thù {name} hôm nay'],
+    'dive': {'*': ['không ai cản nổi tao, lên đây!', 'đang nóng tay, xông vào luôn', 'một mình tao cũng đủ'],
+             'calm': ['đang thuận tay, đẩy lên'], 'rookie': ['ơ em đang ăn chuỗi, lao lên nhé'],
+             'team': ['tôi mở đường, theo sau nhé']},
+    'chase': {'*': ['{name} chạy đâu cho thoát', 'kệ cờ, tao phải hạ {name}', 'đứng lại {name}!'],
+              'calm': ['để tôi xử {name}'], 'rookie': ['{name} ơi đứng yên cho em bắn']},
+    'peak': {'*': ['{name} đang ăn chuỗi, dồn nó lại!', 'cả đội chặn {name} ngay', 'không để {name} ăn tiếp']},
+    'rival_lose': {'*':['{name}, lần này không thua nữa đâu', 'phục thù {name} hôm nay'],
                    'rookie': ['{name} nhẹ tay nhé, lần trước đau lắm'], 'funny': ['{name} lại đến bắt nạt à']},
 }
 
@@ -320,6 +326,20 @@ def react_punish(arena, caster, now):
     watchers = [a for a in _bots(arena) if a.camp != caster.camp and a.alive]
     if watchers:
         _say(arena, _rng.choice(watchers), 'punish', now, channel=TEAM)
+
+
+def react_mistake(arena, bot, target, reason, now):
+    """Telegraph a dive or a grudge chase so the player can see and punish it."""
+    if enabled(arena):
+        _force(arena, bot, reason, now, name=_name(target) if target is not None else '')
+
+
+def react_peak(arena, player, now):
+    if not enabled(arena):
+        return
+    hunters = [a for a in _bots(arena) if a.camp != player.camp and a.alive]
+    if hunters:
+        _force(arena, _rng.choice(hunters), 'peak', now, channel=TEAM, name=_name(player))
 
 
 def react_plan(arena, camp, plan, now):
