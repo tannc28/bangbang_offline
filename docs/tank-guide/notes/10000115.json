@@ -1,0 +1,41 @@
+{
+  "summary": "Chiến sĩ vật lý đánh gần, đổi máu lấy sức mạnh: mỗi chiêu tốn 15% máu hiện tại nhưng cho 1 giây giảm sát thương, càng thấp máu càng bắn nhanh, chạy nhanh và hút máu mạnh. Thắng bằng cách móc vào mục tiêu, dồn chiêu rồi hút máu ngược lại bằng đạn thường.",
+  "strengths": [
+    "Máu càng thấp thì tốc bắn, tốc chạy và hút máu đạn thường càng cao, tối đa thêm 100% khi gần cạn máu.",
+    "Mỗi lần dùng chiêu mở một lớp vỏ 1 giây: sát thương nhận vào giảm 25%, hồi máu nhận vào tăng 25%, tất cả được cộng trừ một lần khi vỏ kết thúc. Phát đạn thường kế tiếp gây 1,5 lần công, làm chậm 75% trong 0,5 giây và hồi 10% máu đã mất nếu trúng.",
+    "Space có 3 lượt: gây 2,06 lần công trong bán kính 192, hất tung 0,5 giây, xóa đạn bay của địch trong bán kính 240; 2 giây sau đó đạn thường tỏa 3 tia, tăng 50% tốc bắn, thêm 25% hút máu và giảm 25% thời gian bị khống chế.",
+    "R có 2 lượt: xóa đạn bay của địch trên dải 480 x 120, gây 1,87 lần công xuyên thấu và làm chậm 50% trong 2 giây; mục tiêu bị chậm nhận thêm 25% sát thương đạn thường từ Daredevil.",
+    "E có 2 lượt: móc xa 480 gây 1,58 lần công, trói chân mục tiêu 1 giây và kéo Daredevil tới sát nó. Nội tại còn có 25% né đạn bay; né được thì hồi 5% máu đã mất và giảm 5% thời gian nạp lại mọi chiêu."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và bắn chậm khi còn đầy máu (1.000 ms một phát), sát thương đạn thường khởi điểm chỉ khoảng 336 mỗi giây.",
+    "Mỗi chiêu tốn 15% máu hiện tại; dồn chiêu khi không trúng ai là tự đưa mình vào ngưỡng chết.",
+    "Máu hiệu dụng 7.160 ở mức khá nhưng không đủ để đứng lâu nếu không hút máu được.",
+    "Sức mạnh dựa vào đạn thường: bị chặn hoặc né đạn thường là mất gần hết lượng hồi."
+  ],
+  "tips": [
+    "Mở bằng E móc vào mục tiêu, bắn ngay phát đạn cường hóa để hồi 10% máu đã mất bù cho phần máu vừa tốn.",
+    "Bật Space khi đứng giữa địch: vừa hất tung vừa xóa đạn bay, rồi tận dụng 2 giây đạn tỏa 3 tia.",
+    "Dùng R để chặn loạt đạn của pháo xa trước khi áp sát, mục tiêu trúng R còn nhận thêm 25% sát thương đạn thường.",
+    "Khi máu đã thấp, đứng đánh bằng đạn thường thay vì xả chiêu: lúc đó hút máu và tốc bắn đang ở mức cao nhất."
+  ],
+  "counters": [
+    "Đẩy lùi hoặc thả diều ngoài tầm 336: mọi sát thương của Daredevil đều cần áp sát.",
+    "Dùng tank chặn được đạn bay như Captain để vô hiệu đạn thường, nguồn hồi máu chính của nó.",
+    "Dồn sát thương bộc phát lớn đúng lúc nó vừa dùng chiêu xong và máu đã tụt, trước khi kịp hút máu lại.",
+    "Tránh bị móc E: đứng sau đồng đội hoặc vật cản ở xa hơn 480."
+  ],
+  "counter_why": "R và nội tại của Captain chặn hiệu quả sát thương từ đạn bay của Daredevil.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 57/91: tầm ngắn nhất và bắn chậm, nhưng bộ chiêu cho sát thương 5 sao và hút máu tăng dần khi thấp máu. Cái giá 15% máu mỗi chiêu và việc phụ thuộc vào đạn thường giữ nó ở mức cân bằng.",
+    "suggestion": "Theo dõi Space: 3 lượt, mỗi lượt cách 5 giây, nạp lại 8 giây, mỗi lượt lại xóa đạn bay và cho 2 giây tăng tốc bắn, hút máu. Nếu Daredevil trụ quá lâu ở mức máu thấp thì giảm Space còn 2 lượt trước. Dữ liệu gốc (mẹo đối đầu, lý do khắc chế) gọi tank này là Night Wing."
+  },
+  "evidence": [
+    "server/daredevil_actions.py:_cast_cost/_settle — mỗi chiêu hp*0.85, sổ 1000 ms: sát thương *0.75, hồi máu *1.25, quyết toán khi hết",
+    "server/daredevil_actions.py:missing_bonus/attr_bonus/_speed/_hit — tốc bắn, tốc chạy và hút máu đạn thường cộng (1 - hp/max_hp)",
+    "server/daredevil_actions.py:CHARGES — E 2 lượt (8000/4000 ms), Space 3 lượt (8000/5000), R 2 lượt (6000/3000)",
+    "server/daredevil_actions.py:_event dare_space — power*2.06 bán kính 192, BuffTemplate 391302 hất tung 500 ms, xóa đạn bay 240; 391305 +50% tốc bắn, 391308 -25% khống chế, 2000 ms",
+    "facts: stat_rank 57, range 336 (pct 0.0), fire_ms 1000 (pct 0.033), ehp 7160 (pct 0.689)"
+  ]
+}

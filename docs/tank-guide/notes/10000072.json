@@ -1,0 +1,38 @@
+{
+  "summary": "Xạ thủ tầm xa bắn liên xạ: cứ 3 giây, và sau mỗi kỹ năng, phát đánh thường thành loạt 3 viên. Tụt dưới 50% máu thì tự hồi 30% máu, còn Space bắn càng xa càng đau.",
+  "strengths": [
+    "Sát thương đánh thường mỗi giây 784, thuộc nhóm cao nhất game; mỗi viên 150% công.",
+    "Liên xạ: cứ 3 giây một lần, và 2 phát đánh thường sau mỗi kỹ năng, mỗi phát bắn thêm 2 viên 150%. Sau kỹ năng còn tăng 50% tốc đánh trong 2 giây.",
+    "Nội tại: tụt dưới 50% máu thì xóa mọi hiệu ứng xấu, hồi ngay 10% máu tối đa rồi thêm 4% mỗi giây trong 5 giây, tổng cộng 30%.",
+    "Space xuyên tường tầm 840, sát thương tăng theo quãng bay từ 203% đến 518% công, nổ bán kính 120 và choáng 0,5 giây.",
+    "E gây 150% theo dải 480 và tăng 50% tốc chạy 2 giây. R đẩy lùi 240 kẻ đứng sát, bắn 5 viên mỗi viên 160% (tối đa 250% lên một mục tiêu) và làm chậm 50% trong 2 giây."
+  ],
+  "weaknesses": [
+    "Máu hiệu dụng 4.749, thuộc nhóm thấp nhất game.",
+    "Không có dịch chuyển; chỉ có 2 giây tăng tốc của E và cú đẩy ngắn của R.",
+    "Nội tại 30 giây mới dùng lại; bị dồn lần hai trong khoảng đó là hết đường.",
+    "Space chỉ choáng 0,5 giây và chỉ thật sự đau khi bắn từ xa."
+  ],
+  "tips": [
+    "Xen kỹ năng vào giữa các phát bắn để luôn có liên xạ.",
+    "Bị áp sát thì bấm R: đẩy lùi rồi bắn tiếp.",
+    "Bắn Space từ xa nhất có thể, nhắm vào mục tiêu đứng xa."
+  ],
+  "counters": [
+    "Áp sát và dồn chiêu (như Ichigo): Apocalypse mỏng và không có dịch chuyển.",
+    "Ép nội tại nổ trước, rồi quay lại trong 30 giây nó còn hồi.",
+    "Lao sát vào lúc nó bắn Space để đòn chỉ còn 203%."
+  ],
+  "counter_why": "Ichigo cơ động cao và có chuỗi chiêu, áp sát Apocalypse rất nhanh rồi dồn sát thương hạ gục.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương đánh thường thuộc nhóm cao nhất cộng nội tại hồi 30% máu là gói xạ thủ dễ chơi, nhưng thân mỏng gần chót và không có dịch chuyển. Hạng chỉ số thân 19/91 chủ yếu đến từ tốc đánh và tầm bắn.",
+    "suggestion": "Giữ nguyên. Code đặt nội tại hồi 30 giây theo mô tả nội tại, trong khi mô tả R và BuffTemplate 346101 ghi 15 giây; nếu Apocalypse yếu đi thì đây là chỗ chỉnh đầu tiên. Mẹo khắc chế gốc nói Space đau hơn khi mục tiêu thấp máu, nhưng code tính theo quãng bay."
+  },
+  "evidence": [
+    "server/apocalypse_actions.py:on_damage — ngưỡng 50% máu, passive_ready_at + 30000; BuffTemplate 346101 iCoolTime 15000",
+    "server/apocalypse_actions.py:cast slot 0 — 1.5 × công, liên xạ thêm 2 viên sau 100/200 ms (BuffTemplate 346121 mỗi 3000 ms, 346131 iUseNum 2), BuffTemplate 346132 +50% tốc đánh",
+    "server/apocalypse_actions.py:_flight 346301 — 2.03 + 3.15 × quãng bay/840, bán kính 120, BuffTemplate 346303 choáng 500 ms",
+    "server/apocalypse_actions.py:_pellet — trần 2.5 × công mỗi mục tiêu cho 5 viên R (mỗi viên 1.6)"
+  ]
+}

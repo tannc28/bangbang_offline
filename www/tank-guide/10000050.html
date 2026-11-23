@@ -1,0 +1,131 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Thợ Săn Thời Gian · Cẩm nang tank</title><meta name="description" content="Pháp sư khống chế nhóm: Space hút cả đám địch vào tâm vòng xoáy 3 giây, khóa đánh khóa chiêu và gây tối đa 1.260% công; E tua ngược thời gian để xóa sạch sát thương vừa nhận.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/18ae3542ccd5f23c1f5c1e222cff1cc9.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Ta đưa bạn đi, nào</div>
+<h2 class="page-title">Thợ Săn Thời Gian</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Khống Chế Nhóm Quấy nhiễu</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000036.html">← Ngộ Không</a>
+<a class="btn" href="10000113.html">Nữ Thần Thời Gian →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư khống chế nhóm: Space hút cả đám địch vào tâm vòng xoáy 3 giây, khóa đánh khóa chiêu và gây tối đa 1.260% công; E tua ngược thời gian để xóa sạch sát thương vừa nhận.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thuộc nhóm cuối (hạng 75/91) nhưng bộ chiêu bù lại đủ: Space là một trong những chiêu khống chế nhóm mạnh nhất, E xóa được cả một đợt sát thương. Điểm yếu bị câm lặng và choáng ngắt chiêu là cái giá hợp lý.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên số. Theo dõi E: code trả lại máu lúc bấm sau 3,5 giây, nên mỗi 8 giây Thợ Săn Thời Gian hoàn tác được mọi sát thương chưa đủ giết; nếu thấy khó hạ quá thì giới hạn lượng máu hồi lại.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3920</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">162 / 162</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">350 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">29</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1050 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#75/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">6037</span></div><div class="progress progress-sm" title="Hơn 53% số tank"><div class="progress-bar bg-yellow" style="width:53%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">333</span></div><div class="progress progress-sm" title="Hơn 21% số tank"><div class="progress-bar bg-orange" style="width:21%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/f9b55985994b08ec89872c5df66f1cef.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Đảo ngược thời gian</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Sau khi thi triển nhận Ấn Ký Không Gian trong 3.5s, tăng tốc 50% và giảm 50% ST Skill phải nhận.
+
+Thợ Săn Thời Gian có Ấn Ký Không Gian sau 2s sẽ khởi động Đảo Ngược Thời Gian (2s trước miễn dịch hiệu quả Câm Lặng), khởi động cần thời gian chuẩn bị 1.5s, sau khi khởi động xong, mục tiêu sẽ trở lại HP và vị trí của 3.5s trước.
+
+Trong thời gian chuẩn bị, khi mục tiêu nhận Câm Lặng sẽ gián đoạn khởi động của Đảo Ngược Thời Gian.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/8362044e056deef932fbdeeff6b096c0.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Hố Đen</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động: 
+Thợ Săn thời gian chịu ST Công Thường sẽ thi triển Sóng Chấn Động gây lên toàn địch trong phạm vi #EN_150%_ER# ST Năng Lượng và trong 1s giảm tốc 25%.
+Hiệu quả này cứ 0.5s chỉ được kích hoạt 1 lần.
+
+Chủ động:
+Thợ Săn Thời Gian có thể tạo 1 Hố Đen tại điểm chỉ định (Cần 0.3s), Hố Đen tồn tại 3.5s, khi biến mất sẽ gây lên địch phạm vi #EN_324%_ER# ST Năng Lượng và giảm tốc 50%, trong 1.5s.
+Thợ Săn Thời Gian có thể trong 3.5s dùng lại skill này dịch chuyển đến vị trí Hố Đen</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/18cfc763ea1833110c03c184bb7c049e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Vòng Xoáy Thời Không</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Sau khi Thợ Săn Thời Gian tụ lực ngắn hạn sẽ thi triển Vòng Xoáy Thời Không kéo tất cả mục tiêu trong phạm vi về trung tâm vòng xoáy, lúc này mục tiêu không thể tấn công và thi triển skill, gây ST Năng Lượng liên tục (Càng gần trung tâm vòng xoáy, ST càng lớn), tối đa gây #EN_1260%_ER# ST Năng Lượng, thời gian kéo lớn nhất là 3s, trong quá trình thi triển có thể bị gián đoạn.
+Thợ Săn Thời Gian ở trong Vòng Xoáy Thời Không sẽ giảm 50% ST phải nhận.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/5e36d7127c3cf13446a13a191ba13fba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Sóng Không Gian</span>
+<span class="badge bg-azure-lt">hồi 1s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Năng lượng
+Đạn bay: Không
+
+Khi Thợ Săn Thời Gian chịu sát thương đánh thường, phóng Sóng Không Gian gây #EN_150%_ER# sát thương năng lượng lên mọi địch trong phạm vi.
+Hiệu quả này chỉ kích hoạt 1 lần mỗi giây.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Space kéo mọi kẻ địch trong bán kính 264 về tâm suốt 10 nhịp (0,3 giây một nhịp), mỗi nhịp gây 126% công ở tâm, giảm dần còn 63% ở rìa; đứng giữa trọn 10 nhịp là 1.260% công. Trong lúc đó địch không thể tấn công hay dùng chiêu, còn Thợ Săn Thời Gian nhận ít hơn 50% sát thương.</li><li>E là nút hoàn tác: 3,5 giây sau khi bấm, Thợ Săn Thời Gian quay về đúng vị trí và lượng máu lúc bấm. Trong 3,5 giây đó còn được +50% tốc chạy và giảm 50% sát thương kỹ năng; 2 giây đầu không bị câm lặng.</li><li>R đặt hố đen ở xa tới 480, 3,8 giây sau nổ 324% công trong bán kính 192 và làm chậm 50% trong 1,5 giây; trước khi nổ có thể dịch chuyển tới chỗ hố đen.</li><li>Nội tại: mỗi lần bị đánh thường, phóng sóng 150% công lên mọi kẻ địch trong bán kính 192 và làm chậm 25%, tối đa một lần mỗi giây; ai áp sát đánh tay đôi đều bị phạt.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank yếu (hạng 75/91): bắn chậm nhất nhóm (1.050 ms một phát), sát thương mỗi giây 333.</li><li>Space là chiêu duy trì: bị câm lặng hoặc choáng giữa chừng là đứt ngay, mà chiêu hồi tới 30 giây.</li><li>Thợ Săn Thời Gian đứng yên khi tụ lực và duy trì Space, thành bia cho các tank có chiêu khống chế tầm xa.</li><li>Sau 2 giây đầu, E bị câm lặng là mất luôn lần tua ngược.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Dùng R dịch chuyển tới hố đen để lao thẳng vào giữa địch, rồi bật Space ngay khi chúng đứng gần tâm.</li><li>Bật E trước khi lao vào: dù nhận bao nhiêu sát thương, 3,5 giây sau vẫn quay về chỗ an toàn với lượng máu cũ.</li><li>Đợi tank có câm lặng hoặc choáng của địch dùng chiêu rồi mới bật Space, để không bị ngắt.</li><li>Phối hợp với đồng đội gây sát thương diện rộng: 3 giây địch bị hút vào một điểm là lúc tốt nhất để cả đội dồn chiêu.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Giữ sẵn một chiêu câm lặng hoặc choáng để ngắt Space ngay khi nó bắt đầu.</li><li>Thấy hố đen thì chạy xa hơn 192; thấy Space thì cố đứng ở rìa vòng 264, sát thương ở rìa chỉ bằng một nửa ở tâm.</li><li>Không đánh thường Thợ Săn Thời Gian khi đứng gần nó, mỗi phát có thể kích hoạt sóng 150% công.</li><li>Câm lặng nó sau 2 giây đầu của E để hủy lần tua ngược, rồi mới dồn sát thương.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi Thợ Săn Thời Gian thi triển [Space-Lỗ Đen Không Gian] , cách xa lỗ đen càng xa càng tốt.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000061.html">Thiên Thần</a>. Thợ Săn Thời Gian dùng Space Hố Đen Thời Không gom mục tiêu lại rồi gây sát thương diện rộng, còn Thiên Thần có Space Thánh Vực, cho cả đội miễn nhiễm sát thương, khiến toàn bộ sát thương của Thợ Săn Thời Gian bị vô hiệu.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/timehunter_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/timehunter_actions.py:_pulse — 10 nhịp 300 ms, sát thương power × (1.26 − 0.63 × khoảng cách/264), kéo trong bán kính 264</li><li>server/timehunter_actions.py:_event &#x27;time_rewind&#x27; — trả vị trí và hp lúc bấm E sau 3500 ms; reject_buff chặn câm lặng 2000 ms đầu</li><li>server/timehunter_actions.py:_event &#x27;time_worm_end&#x27; — 324% công bán kính 192 tại 3800 ms; BuffTemplate 325522 chậm 50% 1500 ms</li><li>server/timehunter_actions.py:on_basic_damage — 150% công bán kính 192, passive_ready_at + 1000 ms; BuffTemplate 325202 −50% sát thương kỹ năng, 325211 +50% tốc chạy</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [53, 21, 17, 49, 53]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Thợ Săn Thời Gian",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

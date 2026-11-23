@@ -1,0 +1,41 @@
+{
+  "summary": "Sát thủ năng lượng mỏng máu nhưng rất khó chạm tới: E cho biến mất tới 3 giây rồi hiện ra gây choáng, mỗi lần dùng chiêu lại có khiên chặn 3 đòn. Thắng bằng cách lặn vào, nổ chiêu, rồi hạ mạng để làm mới E.",
+  "strengths": [
+    "E biến mất tối đa 3 giây: không bị chọn làm mục tiêu, miễn sát thương và miễn khống chế; khi hiện ra gây 2,17 lần công năng lượng và choáng 1 giây trong bán kính 144.",
+    "Khiên nội tại chặn trọn 3 đòn bất kể đòn mạnh hay yếu; mỗi lần dùng E, R hoặc Space là khiên được đặt lại 3 lần trong 5 giây, hạ được địch cũng đặt lại.",
+    "R có 2 lượt, mỗi lượt cách nhau 3 giây: quyền xuyên tường và xuyên địch gây 2,26 lần công, làm chậm 50% trong 2 giây. Mỗi lần bấm R cũng là một lần làm mới khiên.",
+    "Space bắn 12 quyền ra mọi hướng, mỗi quyền 2,1 lần công năng lượng, xuyên tường; hạ hoặc hỗ trợ hạ mục tiêu trúng quyền trong 5 giây thì E hồi ngay lập tức.",
+    "Sát thương đạn thường khá: khoảng 409 mỗi giây, xuyên giáp 50."
+  ],
+  "weaknesses": [
+    "Thân tank rất mỏng: máu 3.220, chỉ hơn khoảng 10% số tank, máu hiệu dụng 4.664, chỉ hơn khoảng 5% số tank.",
+    "Khiên chỉ đếm số đòn, nên tank bắn nhanh hoặc chiêu nhiều nhịp phá khiên rất nhanh.",
+    "Space bắn tỏa đều 12 hướng cách nhau 30 độ, mục tiêu đứng xa chỉ dính một quyền; cùng một mục tiêu dính thêm quyền thì sát thương giảm 5% mỗi lần.",
+    "E hồi 8 giây và chỉ bắt đầu tính sau khi hiện ra; dùng E để chạy là mất luôn chiêu mở giao tranh."
+  ],
+  "tips": [
+    "Mở bằng E, đi tới giữa cụm địch rồi bấm E2 để choáng nhiều người, sau đó bồi R và đạn thường.",
+    "Bấm chiêu trước khi nhận đòn lớn: mỗi chiêu làm mới khiên 3 đòn, nên dùng R đúng lúc là chặn được chiêu mạnh của địch.",
+    "Dùng Space khi đứng sát nhiều địch, nhắm vào mục tiêu sắp chết để lấy lại E ngay.",
+    "Giữ một lượt E để thoát khi bị khống chế dồn, vì lúc biến mất Pegasus miễn mọi sát thương."
+  ],
+  "counters": [
+    "Dùng tank bắn nhanh hoặc chiêu đánh nhiều nhịp để phá 3 lớp khiên, rồi mới tung đòn mạnh.",
+    "Đứng ra xa khỏi chỗ Pegasus biến mất; cú hiện hình chỉ có bán kính 144.",
+    "Khống chế ngay khi Pegasus hiện ra, vì lúc đó E đã vào hồi chiêu 8 giây.",
+    "Dùng Dark Knight: Space của nó bỏ qua khiên nội tại."
+  ],
+  "counter_why": "Space Bão Phi Tiêu Độc của Dark Knight bỏ qua lớp khiên từ nội tại Ý Chí Nữ Thần của Pegasus và vẫn gây sát thương lên nó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Thân tank thuộc nhóm mỏng nhất (máu hiệu dụng chỉ hơn khoảng 5% số tank), nhưng 3 giây miễn sát thương và khiên chặn 3 đòn làm mới theo từng chiêu bù lại. Hai thứ cân nhau, không lệch hẳn về phía nào.",
+    "suggestion": "Theo dõi khiên: R có 2 lượt cách nhau 3 giây và mỗi lần bấm đặt lại khiên 3 đòn, nên trong giao tranh Pegasus gần như luôn có khiên. Nếu Pegasus quá khó hạ thì giới hạn việc làm mới khiên về E và Space. Ngoài ra code dùng 2,1 lần công cho mỗi quyền của Space theo mô tả, còn EffectTemplate 309301 ghi fAddVal 1.95."
+  },
+  "evidence": [
+    "server/pegasus_actions.py:cast — mọi chiêu (trừ đạn thường) gọi _ward(skill=True), ward_count = 3; R hồi chiêu 3000 ms giữa hai lần, 6000 ms nạp lại",
+    "server/pegasus_actions.py:block_hit — chặn trọn một đòn mỗi lần trừ ward_count, không xét độ lớn",
+    "server/pegasus_actions.py:_event pegasus_impact — bán kính 144, power*2.17, BuffTemplate 309222 choáng 1000 ms",
+    "server/pegasus_actions.py:_event pegasus_meteors — 12 quyền cách 30 độ, power*2.1 (EffectTemplate 309301 fAddVal 1.95), giảm 0.95^n theo số lần trúng",
+    "facts: stat_rank 69, ehp 4664 (pct 0.056), hp 3220 (pct 0.1)"
+  ]
+}

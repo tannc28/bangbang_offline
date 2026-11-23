@@ -1,0 +1,40 @@
+{
+  "summary": "Đấu sĩ cận chiến biến hình: Space cho 12 giây Super Saiyan nhân đôi đến hai lần rưỡi sát thương, kèm giảm sát thương nhận vào. Càng nhiều địch quanh mình lúc biến hình, dạng biến hình càng mạnh, nên Songoku thắng trong giao tranh đông người.",
+  "strengths": [
+    "Space biến hình 12 giây, hồi 20 giây (bật được 60% thời gian). Dạng 1 đến 4 tăng sát thương 100/110/130/150%, giảm sát thương nhận 10/20/40/60%, tăng tốc chạy 10/20/40/60%.",
+    "Dạng biến hình tính theo số tank địch trong bán kính 432 lúc bấm: 1 địch cho dạng 2, 3 địch trở lên cho dạng 4 (sát thương ×2,5, nhận sát thương giảm 60%).",
+    "E chọn một mục tiêu trong tầm 432, sau 1 giây dịch chuyển tới, gây 200% công và choáng 1 giây; đang biến hình thì cũng được nhân sát thương.",
+    "Thân trâu: máu 4.484 và máu hiệu dụng 7.384, hơn khoảng 71% số tank; chỉ số thân tank hạng 23/91.",
+    "Lúc bấm Space đẩy lùi địch trong bán kính 144 thêm 144, gây 200% công và làm chậm 30% trong 2 giây."
+  ],
+  "weaknesses": [
+    "Tầm đánh 336, ngắn nhất game, và không có R: ngoài E và Space không có chiêu nào khác.",
+    "Đang biến hình thì mất các tầng Hồn Phẫn Nộ, tức mất phần tăng tốc đánh 20–60% từ nội tại.",
+    "E có 1 giây báo trước: mục tiêu được cảnh báo và có thời gian chuẩn bị.",
+    "8 giây giữa hai lần biến hình là lúc Songoku yếu hẳn, chỉ còn chỉ số gốc."
+  ],
+  "tips": [
+    "Đứng giữa đám địch rồi mới bấm Space để lên dạng 3 hoặc 4.",
+    "Dùng E để bám mục tiêu chạy trốn hoặc nhảy vào pháo xa đứng sau.",
+    "Trước khi biến hình, đứng gần địch để có 20–60% tốc đánh từ nội tại; khi biến hình thì phần này mất.",
+    "Ngoài 12 giây biến hình, chơi an toàn và chờ Space hồi."
+  ],
+  "counters": [
+    "Tản ra, đừng để 3 người đứng cùng trong bán kính 432 quanh Songoku lúc nó sắp biến hình.",
+    "Né 12 giây biến hình bằng cách kéo giãn khoảng cách, rồi đánh lại trong 8 giây nó chờ Space.",
+    "Dùng chiêu xóa trạng thái có lợi để gỡ dạng Super Saiyan.",
+    "Khi thấy dấu cảnh báo E trên người, chuẩn bị chiêu thoát hoặc khống chế ngay điểm nó đáp."
+  ],
+  "counter_why": "[Space - Năng lượng gỗ] của Teddy Bear xóa được trạng thái biến hình của Songoku, khiến nó mất cả sát thương bộc phát lẫn đường thoát.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank đã ở top 25 (hạng 23/91), cộng thêm 12 giây trong mỗi 20 giây được tăng 100–150% sát thương và giảm tới 60% sát thương nhận vào. Ở dạng 4, máu hiệu dụng 7.384 tương đương khoảng 18.000; trong giao tranh đông người đây là lợi thế vượt trội, chưa kể E choáng 1 giây mỗi 6 giây.",
+    "suggestion": "Cân nhắc giảm dạng 4 (ví dụ giảm sát thương nhận 60% xuống 45%) hoặc rút thời gian biến hình từ 12 xuống 10 giây. Ghi chú: code bỏ phần tăng tốc đánh của nội tại trong lúc biến hình; mô tả không nói điều này."
+  },
+  "evidence": [
+    "server/songoku_actions.py:_power — sức mạnh × (1 + 1.0/1.1/1.3/1.5) theo dạng 316311–316314",
+    "server/songoku_actions.py:_count — đếm tối đa 3 tank địch (không tính NPC) trong bán kính 432; _aura trả về 0 khi đang biến hình",
+    "BuffTemplate 316321–316324 giảm sát thương nhận 0.1/0.2/0.4/0.6, 316331–316334 tốc chạy, đều 12000 ms; Space hồi 20000 ms",
+    "server/songoku_actions.py:goku_teleport — E 2 × sức mạnh, choáng 316213 1000 ms sau 1000 ms báo trước"
+  ]
+}

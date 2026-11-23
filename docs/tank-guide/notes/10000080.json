@@ -1,0 +1,40 @@
+{
+  "summary": "Tank hỗ trợ tầm xa: bẫy E vừa hồi máu, xóa hiệu ứng xấu cho đồng đội, vừa câm lặng địch; cửa R đưa đồng đội về chỗ Doraemon. Gây hại nhất khi nối bẫy E với máy lốc Space để có sát thương chuẩn và trói 2 giây.",
+  "strengths": [
+    "Bẫy E đặt xa 480, tồn tại 3 giây: địch trong bẫy bị câm lặng, chậm 30%, mất 50% công năng lượng mỗi 0,5 giây; đồng đội đi qua được hồi 209%, xóa hiệu ứng xấu và cộng 30 năng lượng.",
+    "Space ném máy lốc 480: gây 335% công năng lượng trong bán kính 168 và kéo mọi địch trong vùng vào tâm.",
+    "Trúng cả bẫy E và lốc Space trong 3 giây thì nhận thêm sát thương chuẩn bằng 10% máu tối đa và bị trói 2 giây.",
+    "Cửa R đặt xa 600, tồn tại 4 giây: đồng đội hoặc chính Doraemon bước vào thì biến mất 1 giây (không bị chọn, không nhận sát thương), rồi hiện ra cạnh Doraemon và hồi 213%.",
+    "Khi máu dưới 30% tự bật chong chóng 4 giây: không bị chọn làm mục tiêu, +50% tốc chạy (30 giây mới có lại); mỗi lần mất máu thì +25% tốc chạy 2 giây."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 81/91: máu hiệu dụng 5.087, chạy chậm 160.",
+    "Sát thương tự thân thấp; không có đồng đội để hồi thì Doraemon khó tự thắng một trận đơn.",
+    "Bẫy E chỉ rộng bán kính 84 và có 0,5 giây báo trước, địch dễ bước ra.",
+    "Chong chóng chỉ chặn chiêu và đạn nhắm vào; chiêu diện rộng vẫn trúng, và dùng chiêu là chong chóng tắt."
+  ],
+  "tips": [
+    "Combo chuẩn: đặt E lên địch, rồi Space kéo cả nhóm về tâm (nên ném lốc chồng lên bẫy) để có 10% máu tối đa sát thương chuẩn và trói 2 giây.",
+    "Đặt bẫy ngay dưới chân đồng đội đang bị khống chế: bước qua là được xóa hiệu ứng xấu và hồi máu.",
+    "Đặt cửa R gần đồng đội đang bị đuổi để kéo họ về an toàn.",
+    "Khi chong chóng bật, đừng dùng chiêu vội; chạy ra khỏi giao tranh trước."
+  ],
+  "counters": [
+    "Bước ra khỏi bẫy ngay khi thấy cảnh báo; bẫy nhỏ, chỉ bán kính 84.",
+    "Bám sát Doraemon: không có chiêu lướt, chỉ có chong chóng dưới 30% máu, mỗi 30 giây một lần.",
+    "Dùng chiêu diện rộng để kết liễu lúc nó đang bay chong chóng.",
+    "Phá cửa R bằng cách đứng chắn hoặc ép đồng đội Doraemon ra xa cửa."
+  ],
+  "counter_why": "[R - Tiến hóa Kagune] của Kaneki khiến lượng sát thương vốn yếu của Doraemon không còn đáng ngại; khả năng bám đuổi của Kaneki khiến Doraemon, vốn không có chiêu lướt, không thoát được.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm yếu (hạng 81/91) nhưng bộ chiêu bù bằng vai trò hỗ trợ: hồi máu, xóa hiệu ứng xấu, câm lặng, kéo cụm và trói 2 giây, cộng một chiêu thoát khi thấp máu. Yếu khi đánh một mình là hợp lý cho tank hỗ trợ.",
+    "suggestion": "Giữ nguyên. Code khác mô tả Nội tại: chong chóng kéo dài 4 giây (mô tả Nội tại ghi 3 giây, mô tả R ghi 4 giây). Bẫy cộng 30 năng lượng theo code và mô tả, còn BuffTemplate 354210 ghi 25."
+  },
+  "evidence": [
+    "server/doraemon_actions.py:_trap_tick — bán kính 84, 12 nhịp 250 ms; đồng đội hồi 2.09 × công năng lượng, cleanse, +30; địch 0.5 × mỗi 500 ms, câm lặng 354203, chậm 354204 30%",
+    "server/doraemon_actions.py:_mark — có cả dấu E và Space trong 3000 ms thì sát thương chuẩn max_hp × 0.1 và trói 354304 2000 ms",
+    "server/doraemon_actions.py:_flight 354301 — Space 3.35 × bán kính 168, kéo về tâm; dora_exit hồi 2.13 ×",
+    "server/doraemon_actions.py:on_damage — dưới 30% máu bật 354121–354126 (4000 ms), passive_ready_at + 30000 ms"
+  ]
+}

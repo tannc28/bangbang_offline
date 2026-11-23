@@ -1,0 +1,40 @@
+{
+  "summary": "Pháo tầm trung sống nhờ combo E + R gây choáng rồi đứng xả tia Space 4 giây. Lúc xả tia thì miễn khống chế và hút máu, nên thắng bằng cách bắt trúng địch trong vùng nổ rồi giữ tia trên người nó.",
+  "strengths": [
+    "E và R choáng lẫn nhau: R trúng mục tiêu đang đứng trong vùng E thì choáng 1 giây; mục tiêu vừa trúng R (trong 1 giây) mà dính một nhịp nổ của E cũng choáng 1 giây.",
+    "Space là nguồn sát thương lớn nhất: 20 nhịp, mỗi nhịp 125% công trong 4 giây, tổng 2.500% công, hút 25% sát thương thành máu.",
+    "Trong lúc xả tia được miễn khống chế, giảm 50% sát thương năng lượng nhận vào và được làm mới ngay khiên bị động.",
+    "Khiên bị động hấp thụ 30% máu tối đa (khoảng 976 máu ở cấp 6); khiên vỡ thì nổ 236% công lên địch trong bán kính 300, 15 giây sau có lại.",
+    "R vừa gây 267% công vừa làm chậm 75% trong 2,5 giây, đủ để dắt mục tiêu vào vùng E."
+  ],
+  "weaknesses": [
+    "Thân mỏng: máu hiệu dụng 4.882, chỉ hơn khoảng 15% số tank; chỉ số thân tank xếp hạng 73/91.",
+    "Lúc xả Space bị đứng yên, bị câm lặng và không thể tàng hình 4 giây; tia chỉ dài 600 và rộng 24 nên mục tiêu chạy ngang là thoát.",
+    "Combo phụ thuộc thứ tự: R cần mục tiêu đang ở trong vùng E, E cần mục tiêu vừa trúng R trong 1 giây. Trượt một chiêu là mất choáng.",
+    "Không có chiêu lướt hay bất tử để thoát thân khi bị lao vào."
+  ],
+  "tips": [
+    "Thả E trước lên chỗ địch đứng, rồi bắn R vào mục tiêu đang trong vùng để có choáng 1 giây chắc chắn.",
+    "Chỉ bật Space khi mục tiêu đang bị choáng hoặc chậm 75% từ R, để nó không kịp chạy khỏi tia.",
+    "Sau 1 giây xả tia có thể bấm Space lần nữa để hủy tia nếu mục tiêu đã thoát hoặc mình bị dồn.",
+    "Đứng gần đồng đội: khiên vỡ nổ 236% công trong bán kính 300, nên để địch lao vào phá khiên giữa đám đông là có lời."
+  ],
+  "counters": [
+    "Đi ngang tia Space, đừng chạy thẳng ra xa: tia chỉ rộng 24 và Iron Man không di chuyển được trong 4 giây.",
+    "Né vùng E hoặc né R: mất một trong hai chiêu là combo choáng không thành.",
+    "Lao vào ngay khi Space vừa hết: Iron Man không có chiêu thoát và thân chỉ khoảng 4.900 máu hiệu dụng.",
+    "Ưu tiên sát thương năng lượng ngoài lúc xả tia; trong lúc xả, năng lượng bị giảm 50%."
+  ],
+  "counter_why": "Spider Man có chiêu khống chế và chiêu bất tử, khiến kỹ năng của Iron Man khó phát huy tác dụng.",
+  "balance": {
+    "status": "ok",
+    "reason": "Thân tank yếu (hạng 73/91, máu hiệu dụng thấp hơn 84% số tank) nhưng bộ chiêu bù lại: Space 2.500% công kèm miễn khống chế và hút máu là đòn kết liễu mạnh, còn E + R cho choáng 1 giây. Đổi lại Iron Man phải đứng yên 4 giây, nên rủi ro và phần thưởng cân nhau.",
+    "suggestion": "Giữ nguyên. Mô tả E (tiếng Việt) ghi sát thương năng lượng, còn code và mô tả gốc tiếng Trung tính sát thương vật lý; nên sửa lại mô tả. Mô tả Nội tại ghi R gây 242% trong khi code dùng 267%."
+  },
+  "evidence": [
+    "server/ironman_actions.py:_event beam_tick — 20 nhịp cách 200 ms, mỗi nhịp 1.25 × công, lifesteal 0.25, tia dài 600 rộng 24",
+    "server/ironman_actions.py:on_shield_break — khiên 363102 = 30% máu tối đa, nổ 2.36 × công bán kính 300, có lại sau 15000 ms",
+    "server/ironman_actions.py:on_bullet_hit / area_tick — R gây choáng 363203 (1000 ms) nếu mục tiêu có 363206; E gây choáng nếu có 363402",
+    "BuffTemplate 363302 miễn khống chế 4000 ms, 363309 giảm 50% sát thương năng lượng, 363303/363304 câm lặng và định thân 4000 ms; 363403 chậm 75% 2500 ms"
+  ]
+}

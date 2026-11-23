@@ -1,0 +1,37 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Nhật ký cân bằng · Cẩm nang tank</title><meta name="description" content="">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="page-pretitle">Cẩm nang tank</div><h2 class="page-title">Nhật ký cân bằng</h2></div></div>
+<div class="page-body"><div class="container-fluid"><div class="empty"><p class="empty-title">Chưa có điều chỉnh nào</p><p class="empty-subtitle text-secondary">Mọi thay đổi chỉ số hay kỹ năng so với bản gốc sẽ hiện ở đây, mới nhất ở trên.</p></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script></body></html>

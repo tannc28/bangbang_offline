@@ -1,0 +1,126 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Thạch Sanh · Cẩm nang tank</title><meta name="description" content="Xạ thủ tầm xa thuần sát thương: bắn nhanh, tầm dài, đánh thường mạnh thêm 50% và có chí mạng. Space biến mỗi phát bắn thành tên xuyên thấu trong 10 giây, hạ được mạng nào là kéo dài thêm.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/7f750325aba78479815243131e38b250.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Cung thủ xuyên thấu, truy kích và kết liễu tầm xa.</div>
+<h2 class="page-title">Thạch Sanh</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-green-lt">Xạ thủ</span></div>
+<div class="text-secondary mt-2">Xạ thủ · Xuyên thấu · Bạo kích</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000064.html">← Ichigo</a>
+<a class="btn" href="10000032.html">Teddy Bear →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Xạ thủ tầm xa thuần sát thương: bắn nhanh, tầm dài, đánh thường mạnh thêm 50% và có chí mạng. Space biến mỗi phát bắn thành tên xuyên thấu trong 10 giây, hạ được mạng nào là kéo dài thêm.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 35/91: sát thương và tầm bắn thuộc hàng đầu nhưng gần mỏng nhất bảng, đúng mẫu xạ thủ pháo đài giấy, cùng nhóm với Gundam và Legolas. Một chiêu thoát thân hồi 8 giây là đủ để bị bắt bài nếu đối thủ biết áp sát.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên số. Theo dõi Space: code hồi 25% máu tối đa khi bật, mô tả không nhắc tới; cộng với +50% sát thương đánh thường, nếu thấy Thạch Sanh khó bị hạ trong Space thì bỏ phần hồi máu này.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3270</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">114 / 135</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">398 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">45</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">500 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#35/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">4627</span></div><div class="progress progress-sm" title="Hơn 4% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">796</span></div><div class="progress progress-sm" title="Hơn 99% số tank"><div class="progress-bar bg-green" style="width:99%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">552</span></div><div class="progress progress-sm" title="Hơn 88% số tank"><div class="progress-bar bg-green" style="width:88%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/700d9fc2f15b0e0267ac3dbaf41ff12e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Ngũ Tiễn Xạ</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Bắn ra 5 mũi tên, mỗi mũi tên trúng đích tạo 150% ST Vật Lý và khiến địch trong 2s có tốc độ giảm 50%(Giảm theo thời gian). 
+
+Cùng một mục tiêu tối đa chịu 225% ST Vật Lý.
+
+Skill này không thể bạo kích.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/8524c02fe3c0134d381b5c9794206bc9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Truy Ảnh</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 264</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay:Không
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động: 
+Tốc độ đạn bay của Công thường tăng 50%, ST Công Thường gây ra tăng 50%.
+Chính xác: Công Thường có 25% đánh trúng địch gây X1.5 Bạo Kích; nếu diệt mục tiêu sẽ cộng dồn 5% tỷ lệ Bạo trong 5s, tối đa cộng dồn 5 lần.
+
+Chủ động: Lăn 1 cự ly ngắn và trong 2s tăng tốc 50%, giảm 50% ST từ skill, xóa ngay thời gian CD [E - Ngũ Tiễn Xạ].
+
+Skill này được thi triển ở trạng thái Choáng.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/94ef96aae2669cd06519c0286ab902cf.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Xuyên Tâm Tiễn</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+
+</div>
+<div class="skill-desc">Cường hóa đòn đánh thường. Nếu hạ mục tiêu trong thời gian Space, Thạch Sanh nhận thêm 25% hút máu và 25% sát thương bạo kích trong 5 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Xuyên Tâm Tiễn (Bị động)</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Vào trạng thái Xuyên Tâm Tiễn, diệt địch có thể kéo dài thời gian Xuyên Tâm Tiễn, đồng thời trong 5s nhận thêm 70 tỷ lệ bạo và xóa CD [Sẵn Sàng (Thái Dương)]</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Sát thương mỗi giây thuộc nhóm đầu: 796 (hạng nhì trong 91 tank), lại thêm nội tại +50% sát thương đánh thường và 25% cơ hội chí mạng ×1,5.</li><li>Tầm bắn 552 (dài hơn khoảng 88% số tank); đạn thường bay nhanh hơn 50%, khó né.</li><li>Space 10 giây: tên xuyên qua mọi mục tiêu trên đường, +25% công, +25% tốc chạy, giảm 25% sát thương nhận vào, khi bật còn hồi ngay 25% máu tối đa. Hạ được mạng thì Space kéo dài thêm 5 giây, R được làm mới, có thêm 25% hút máu và 25% sát thương chí mạng trong 5 giây.</li><li>R lăn 264 đơn vị, dùng được cả khi đang bị khống chế, giải choáng, trói và làm chậm, miễn mọi sát thương 0,5 giây, rồi +50% tốc chạy và giảm 50% sát thương kỹ năng trong 2 giây; R còn làm mới E ngay.</li><li>E bắn 5 mũi tên hình quạt 30 độ, mỗi mũi 150% công (tối đa 225% lên một mục tiêu) và làm chậm 50% giảm dần trong 2 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng gần nhất bảng: 3.270 máu, giáp 114/135, máu hiệu dụng 4.627 (chỉ hơn khoảng 4% số tank).</li><li>Chỉ có một chiêu thoát thân (R, hồi 8 giây); bị áp sát lúc R đang hồi là rất dễ chết.</li><li>Tên, kể cả tên Space, dừng lại khi chạm tường trong bản đồ.</li><li>Không có khống chế cứng, chỉ làm chậm bằng E; phải dựa vào đồng đội để giữ chân kẻ địch.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Đứng sau đồng đội và bắn ở rìa tầm 552; mỗi giây đứng bắn an toàn là cả nghìn sát thương.</li><li>Giữ R để thoát khi bị khống chế hoặc bị áp sát; sau R thì E đã sẵn, bắn ngay để làm chậm kẻ đuổi theo.</li><li>Bật Space khi địch đứng thành hàng hoặc đang dồn vào một chỗ, để mỗi mũi tên xuyên trúng nhiều người.</li><li>Trong Space, ưu tiên kết liễu mục tiêu thấp máu để kéo dài thời gian và lấy lại R.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Dùng Ngũ Tiễn Xạ làm chậm, sau đó bật Xuyên Tâm Tiễn để truy kích.</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Áp sát bằng chiêu dịch chuyển rồi khống chế ngay; Thạch Sanh mỏng, không chịu nổi một đợt dồn.</li><li>Ép Thạch Sanh dùng R trước, rồi mới lao vào trong 8 giây R đang hồi.</li><li>Đứng sau tường hoặc vật cản để chặn tên khi nó bật Space.</li><li>Tản ra khi Space đang bật, đừng đứng thành hàng cho tên xuyên trúng nhiều người.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi Thạch Sanh địch dùng [Space-Xuyên Tâm Tiễn], chú ý né xa.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000075.html">Lữ Bố</a>. Thạch Sanh công cao nhưng máu mỏng. Lữ Bố dịch chuyển tới sát, khống chế rồi hạ nó thật nhanh, không cho cơ hội đánh trả.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/thachsanh_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/thachsanh_actions.py:cast slot 0 — power × 1.5 × tỉ lệ chí mạng (2 + BuffTemplate 338412 −0.5 = 1.5), BuffTemplate 338411 tỉ lệ chí mạng 0.25, speed_multiplier 1.5</li><li>server/thachsanh_actions.py:cast slot 2 — restore_hp 25% max_hp, BuffTemplate 338302–338306 iPersistTime 10000 (+25% công, tốc chạy, giảm sát thương)</li><li>server/thachsanh_actions.py:_reward — Space +5000 ms, BuffTemplate 338405/338406 +25% trong 5000 ms, cooldowns[10] = 0</li><li>server/thachsanh_actions.py:cast slot 10 — lăn 264, giải khống chế, cooldowns[1] = 0; BuffTemplate 338103 miễn sát thương 500 ms, 338105 −50% sát thương kỹ năng 2000 ms</li><li>server/thachsanh_actions.py:_hit — tổng sát thương 5 mũi E lên một mục tiêu ≤ 2.25 × công</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [4, 99, 17, 88, 13]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Thạch Sanh",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

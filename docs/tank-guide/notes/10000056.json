@@ -1,0 +1,40 @@
+{
+  "summary": "Sát thủ cận chiến trâu, sống nhờ chuỗi E → R → Space: dồn một con xuống dưới 30% máu rồi kết liễu, kết liễu xong được làm mới chiêu để lao sang con kế tiếp.",
+  "strengths": [
+    "Chuỗi chiêu khép kín: E1 trói chân 1 giây, E2 hất tung 1 giây, R làm chậm 50%, nên mục tiêu gần như không thoát được.",
+    "Space kết liễu ngay mục tiêu dưới 30% máu; kết liễu thành công thì hồi 25% máu đã mất, làm mới E và R, Space chỉ còn hồi 1,5 giây.",
+    "Trâu nhất nhóm đấu sĩ về giáp: máu hiệu dụng 8.457 nhờ giáp vật lý 260 và năng lượng 230.",
+    "Sau E1 được miễn mọi khống chế 2 giây, R trúng thì giảm 50% sát thương kỹ năng nhận vào 1,5 giây, nên lao vào giữa đội địch vẫn trụ được.",
+    "Nội tại tăng 25% sát thương lên mục tiêu dưới 50% máu, giúp đẩy con mồi xuống ngưỡng kết liễu nhanh hơn."
+  ],
+  "weaknesses": [
+    "Chạy chậm (155) và bắn chậm (1.000 ms một phát, tầm 336): lúc E đang hồi 8 giây thì gần như không đuổi được ai.",
+    "Space hồi 25 giây; dùng mà không kết liễu được là mất chiêu quan trọng nhất trong một khoảng rất dài.",
+    "Không dọn nổi tank chịu đòn: một lượt chuỗi chiêu không đưa được các tank trên 7.000 máu xuống dưới 30%.",
+    "Bảy tank sống sót qua đòn kết liễu: Kirito, Kakashi, Luffy (khi nội tại sẵn sàng), Ghost Rider, Sơn Tinh (đang ẩn), Thủy Tinh, Deadpool."
+  ],
+  "tips": [
+    "Giữ đúng nhịp E1 → E2 → R → R → R → Space; chỉ bấm Space khi mục tiêu đã dưới 30% máu.",
+    "Ưu tiên nhắm pháo xa mỏng máu (Gundam, Legolas, Thạch Sanh…): đủ chuỗi chiêu là dọn được.",
+    "Bật tùy chọn gợi ý kết liễu (quanvu_execute_hint) trong thiết lập phòng để biết lúc nào Space giết được.",
+    "Đừng mở giao tranh khi E đang hồi: Quan Vũ không có E thì chỉ là một bao cát chậm chạp."
+  ],
+  "counters": [
+    "Giữ máu trên 30% khi Quan Vũ đang ở gần; dưới ngưỡng đó thì lùi ngay.",
+    "Thả diều bằng tầm xa: đứng ngoài tầm 480 của E và bắn, đợi nó dùng E hụt rồi mới phản công.",
+    "Khống chế nó ngay sau khi hết 2 giây miễn khống chế của E1, lúc đó nó đứng giữa đội mình và không còn đường lùi."
+  ],
+  "counter_why": "Kỹ năng của Triệu Vân khống chế rất mạnh, khiến Quan Vũ không ra được chuỗi chiêu và cũng không phát huy được độ cơ động.",
+  "against": "Khi máu của bạn dưới 30%, Space của Quan Vũ kết liễu ngay, nên tránh xa Quan Vũ địch.",
+  "balance": {
+    "status": "ok",
+    "reason": "Không yếu, không cần tăng sức mạnh. Chỉ số thân tank chỉ hạng 45/91 vì chạy chậm và bắn chậm, nhưng bộ chiêu bù lại đủ: chuỗi khống chế cộng kết liễu dọn được gần hết pháo xa, còn điểm yếu (bị thả diều, bất lực trước tank chịu đòn) là điểm yếu hợp lý cho một sát thủ.",
+    "suggestion": "Giữ nguyên. Chỉ theo dõi một điểm: code đặt Space còn 1,5 giây sau khi kết liễu và R chỉ giảm 1 giây hồi chiêu E mỗi lần trúng, khác mô tả gốc (2 giây và 10%). Nếu thấy Quan Vũ lăn cầu tuyết quá mạnh thì đưa Space về 2 giây như mô tả."
+  },
+  "evidence": [
+    "server/quanvu_actions.py:_space_hit — ngưỡng kết liễu 0.3 (EffectTemplate 331301), hồi 25% máu đã mất, làm mới E/R, Space = 1500 ms",
+    "server/quanvu_actions.py:cast slot 10 — R trúng thì cooldowns[1] - 1000 ms một lần",
+    "EffectTemplate 331203 fAddVal 2.0 (E1), 331302 3.6 (Space), 331221 1.5 bán kính 240 (R); BuffTemplate 331102 +25%",
+    "server/quanvu_hint.py:survives_execute — danh sách tank sống sót qua kết liễu"
+  ]
+}

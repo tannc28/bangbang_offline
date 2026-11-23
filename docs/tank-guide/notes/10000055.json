@@ -1,0 +1,41 @@
+{
+  "summary": "Sát thủ linh hoạt dùng chakra: E sao chép chiêu E của bất kỳ tank nào trong tầm 960, mỗi chiêu biến đòn thường kế tiếp thành Lôi Độn dịch chuyển, và Thế Thân cứu mạng một lần mỗi 30 giây khi trúng đòn chí tử.",
+  "strengths": [
+    "Thế Thân: khi nhận đòn chí tử, Kakashi còn 1 máu, xóa hiệu ứng xấu, tàng hình 2,5 giây (bất tử 0,5 giây đầu), tăng 50% tốc chạy và để lại khúc gỗ làm mồi; hồi lại 30 giây. Nhờ vậy nó sống sót cả đòn kết liễu.",
+    "E (10 chakra, hồi 10 giây, tầm 960) sao chép chiêu E của tank được chọn, giữ đến khi dùng; bộ chiêu thay đổi theo đội hình hai bên.",
+    "Sau mỗi chiêu, đòn thường kế tiếp thành Lôi Độn: dịch chuyển tới 300, biến mất 0,5 giây (không bị nhắm), rồi giáng sét bán kính 120 gây 100% sức công sát thương thực và tê liệt 0,25 giây.",
+    "Chiêu trúng tank địch thì hồi 10 chakra và cộng 1 tầng tăng 10% sát thương trong 5 giây, tối đa 5 tầng; xuyên giáp 49, thuộc hàng cao.",
+    "Space (75 chakra) tạo vùng bán kính 192 trong 3 giây: mọi mục tiêu trong vùng, kể cả đồng đội, không tấn công được và gần như miễn sát thương; Kakashi hồi 75% sức công mỗi giây, hết vùng thì địch nhận 339% sức công."
+  ],
+  "weaknesses": [
+    "Thân mỏng nhất nhóm: 3.115 máu (chỉ hơn 2% số tank), máu hiệu dụng 4.735; chỉ số thân tank hạng 86/91.",
+    "Bắn thường chậm (1.000 ms một phát), sát thương phụ thuộc hoàn toàn vào chiêu và chakra (tối đa 150, hồi 5 mỗi giây).",
+    "Sức mạnh của E tùy vào đội hình: không có tank nào đáng sao chép trong tầm thì E gần như vô dụng.",
+    "Space giam cả đồng đội và bị khống chế cứng (choáng, câm lặng) thì mất chiêu đang tụ; dùng sai chỗ là cứu địch."
+  ],
+  "tips": [
+    "Sao chép sớm chiêu E mạnh nhất trên sân (khống chế hoặc lướt) và giữ nó cho giao tranh.",
+    "Đan xen chiêu và đòn thường: mỗi chiêu cho một phát Lôi Độn vừa lướt vừa gây sát thương thực.",
+    "R lao 480 vừa mở giao tranh vừa giữ an toàn: trúng chiêu trong 2 giây sau khi lao sẽ tự kích Thế Thân.",
+    "Dùng Space để chia cắt giao tranh hoặc câu giờ khi thấp máu; bấm lại sau 1 giây để hủy sớm (hủy thì không gây sát thương)."
+  ],
+  "counters": [
+    "Dụ Thế Thân trước bằng một đòn vừa đủ chí tử, rồi kết liễu trong 30 giây nó còn hồi.",
+    "Chuẩn bị chiêu soi tàng hình hoặc chiêu đánh lan để bắt Kakashi trong 2,5 giây tàng hình.",
+    "Đừng phí sát thương vào vùng Space: mọi thứ bên trong gần như miễn sát thương; đợi vùng tan rồi tránh xa bán kính 192 lúc nó nổ.",
+    "Ép Kakashi cạn chakra rồi mới giao tranh; không đủ 75 chakra thì không có Space."
+  ],
+  "counter_why": "Khi Kakashi thấp máu và dùng Thế Thân để chạy, hiệu ứng của E Dị Xà Bí Thuật của Medusa sẽ nảy qua lại gây sát thương giữa Kakashi và khúc gỗ, khiến nó không thoát được.",
+  "balance": {
+    "status": "review",
+    "reason": "Chỉ số thân tank gần cuối (hạng 86/91) nhưng bộ chiêu bù mạnh bằng Thế Thân, sát thương thực và E sao chép. Sức mạnh thật phụ thuộc vào chiêu E bị sao chép nên không đánh giá được chỉ bằng code; thêm nữa, code thiếu một hiệu ứng có trong mô tả.",
+    "suggestion": "Mô tả R ghi kỹ năng trúng mục tiêu gây thêm 50% sát thương chuẩn, nhưng kakashi_actions.py không có phần này (chỉ có Lôi Độn 100% sát thương thực). Cần quyết định: thêm vào theo mô tả hay sửa mô tả. Mô tả cũng ghi mỗi tầng tăng 10% tấn công, còn code tăng 10% sát thương (damage_bonus)."
+  },
+  "evidence": [
+    "server/kakashi_actions.py:_substitute / prevent_lethal_hit — hp = 1, passive_ready_at + 30000, BuffTemplate 330131 tàng hình 2500 ms, 330132 bất tử 500 ms",
+    "server/kakashi_borrowing.py:cast_borrowed — 10 chakra, tầm 960, hồi 10000 ms, không sao chép Kakashi hay NPC",
+    "server/kakashi_actions.py:_event kakashi_thunder — bán kính 120, damage(power, school='true'), BuffTemplate 330145 tê liệt 250 ms",
+    "server/kakashi_actions.py:_end_kamui / kakashi_field — bán kính 192, 3000 ms, 3.39 × sức công, hồi 0.75/giây; 330304/330305 áp lên mọi mục tiêu không phân phe",
+    "facts: hp 3115 (pct 0.022), ehp 4735, pen 49, stat_rank 86"
+  ]
+}

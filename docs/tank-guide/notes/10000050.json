@@ -1,0 +1,39 @@
+{
+  "summary": "Pháp sư khống chế nhóm: Space hút cả đám địch vào tâm vòng xoáy 3 giây, khóa đánh khóa chiêu và gây tối đa 1.260% công; E tua ngược thời gian để xóa sạch sát thương vừa nhận.",
+  "strengths": [
+    "Space kéo mọi kẻ địch trong bán kính 264 về tâm suốt 10 nhịp (0,3 giây một nhịp), mỗi nhịp gây 126% công ở tâm, giảm dần còn 63% ở rìa; đứng giữa trọn 10 nhịp là 1.260% công. Trong lúc đó địch không thể tấn công hay dùng chiêu, còn Thợ Săn Thời Gian nhận ít hơn 50% sát thương.",
+    "E là nút hoàn tác: 3,5 giây sau khi bấm, Thợ Săn Thời Gian quay về đúng vị trí và lượng máu lúc bấm. Trong 3,5 giây đó còn được +50% tốc chạy và giảm 50% sát thương kỹ năng; 2 giây đầu không bị câm lặng.",
+    "R đặt hố đen ở xa tới 480, 3,8 giây sau nổ 324% công trong bán kính 192 và làm chậm 50% trong 1,5 giây; trước khi nổ có thể dịch chuyển tới chỗ hố đen.",
+    "Nội tại: mỗi lần bị đánh thường, phóng sóng 150% công lên mọi kẻ địch trong bán kính 192 và làm chậm 25%, tối đa một lần mỗi giây; ai áp sát đánh tay đôi đều bị phạt."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank yếu (hạng 75/91): bắn chậm nhất nhóm (1.050 ms một phát), sát thương mỗi giây 333.",
+    "Space là chiêu duy trì: bị câm lặng hoặc choáng giữa chừng là đứt ngay, mà chiêu hồi tới 30 giây.",
+    "Thợ Săn Thời Gian đứng yên khi tụ lực và duy trì Space, thành bia cho các tank có chiêu khống chế tầm xa.",
+    "Sau 2 giây đầu, E bị câm lặng là mất luôn lần tua ngược."
+  ],
+  "tips": [
+    "Dùng R dịch chuyển tới hố đen để lao thẳng vào giữa địch, rồi bật Space ngay khi chúng đứng gần tâm.",
+    "Bật E trước khi lao vào: dù nhận bao nhiêu sát thương, 3,5 giây sau vẫn quay về chỗ an toàn với lượng máu cũ.",
+    "Đợi tank có câm lặng hoặc choáng của địch dùng chiêu rồi mới bật Space, để không bị ngắt.",
+    "Phối hợp với đồng đội gây sát thương diện rộng: 3 giây địch bị hút vào một điểm là lúc tốt nhất để cả đội dồn chiêu."
+  ],
+  "counters": [
+    "Giữ sẵn một chiêu câm lặng hoặc choáng để ngắt Space ngay khi nó bắt đầu.",
+    "Thấy hố đen thì chạy xa hơn 192; thấy Space thì cố đứng ở rìa vòng 264, sát thương ở rìa chỉ bằng một nửa ở tâm.",
+    "Không đánh thường Thợ Săn Thời Gian khi đứng gần nó, mỗi phát có thể kích hoạt sóng 150% công.",
+    "Câm lặng nó sau 2 giây đầu của E để hủy lần tua ngược, rồi mới dồn sát thương."
+  ],
+  "counter_why": "Thợ Săn Thời Gian dùng Space Hố Đen Thời Không gom mục tiêu lại rồi gây sát thương diện rộng, còn Thiên Thần có Space Thánh Vực, cho cả đội miễn nhiễm sát thương, khiến toàn bộ sát thương của Thợ Săn Thời Gian bị vô hiệu.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm cuối (hạng 75/91) nhưng bộ chiêu bù lại đủ: Space là một trong những chiêu khống chế nhóm mạnh nhất, E xóa được cả một đợt sát thương. Điểm yếu bị câm lặng và choáng ngắt chiêu là cái giá hợp lý.",
+    "suggestion": "Giữ nguyên số. Theo dõi E: code trả lại máu lúc bấm sau 3,5 giây, nên mỗi 8 giây Thợ Săn Thời Gian hoàn tác được mọi sát thương chưa đủ giết; nếu thấy khó hạ quá thì giới hạn lượng máu hồi lại."
+  },
+  "evidence": [
+    "server/timehunter_actions.py:_pulse — 10 nhịp 300 ms, sát thương power × (1.26 − 0.63 × khoảng cách/264), kéo trong bán kính 264",
+    "server/timehunter_actions.py:_event 'time_rewind' — trả vị trí và hp lúc bấm E sau 3500 ms; reject_buff chặn câm lặng 2000 ms đầu",
+    "server/timehunter_actions.py:_event 'time_worm_end' — 324% công bán kính 192 tại 3800 ms; BuffTemplate 325522 chậm 50% 1500 ms",
+    "server/timehunter_actions.py:on_basic_damage — 150% công bán kính 192, passive_ready_at + 1000 ms; BuffTemplate 325202 −50% sát thương kỹ năng, 325211 +50% tốc chạy"
+  ]
+}

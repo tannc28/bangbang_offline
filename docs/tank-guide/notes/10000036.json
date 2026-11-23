@@ -1,0 +1,39 @@
+{
+  "summary": "Đấu sĩ cận chiến trâu và nhiều khống chế: mỗi lần dùng chiêu thì đòn đánh thường kế tiếp thành một nhát càn quét chí mạng có hút máu. Thắng bằng nhịp chiêu → càn quét → chiêu, xen giữa hất tung và choáng.",
+  "strengths": [
+    "Thân trâu: máu hiệu dụng 7.429, hơn khoảng 72% số tank, nhờ giáp vật lý 230 và năng lượng 197.",
+    "Sau mỗi chiêu, đòn đánh thường kế tiếp thành nhát càn quét hình quạt bán kính 192: 200% công, chí mạng, hút 25% sát thương thành máu, làm chậm 50% trong 1 giây; tốc đánh tăng 300% trong 3 giây để ra đòn ngay.",
+    "E lướt 384, tăng 50% tốc chạy và giảm 50% sát thương nhận vào trong 2 giây. Trúng sát thương kỹ năng trong 1 giây đầu thì được khiên 25% máu tối đa (khoảng 1.085 máu) và hồi chiêu E, R còn lại giảm 25%.",
+    "R gây 177% công quanh mình (bán kính 216) và hất tung 1 giây.",
+    "Space biến mất 0,7 giây (không bị chọn, không nhận sát thương, không nhận hiệu ứng từ địch), đáp xuống cách 264 gây 487% công trong bán kính 192 và choáng 0,5 giây."
+  ],
+  "weaknesses": [
+    "Chậm toàn diện: tốc chạy 155 và tốc bắn 1.050 ms đều thuộc nhóm chậm nhất game.",
+    "Tầm đánh 336, ngắn nhất game; không có chiêu thì gần như không chạm được ai.",
+    "Chỉ số thân tank hạng 74/91: ngoài máu và giáp, mọi chỉ số đều thấp.",
+    "Phản ứng của E chỉ kích hoạt khi nhận sát thương kỹ năng trong 1 giây đầu; địch đánh thường thì không được khiên."
+  ],
+  "tips": [
+    "Luôn chen một nhát càn quét giữa hai chiêu: E → càn quét → R → càn quét → Space → càn quét.",
+    "Dùng E lao vào đúng lúc địch sắp tung chiêu để ăn khiên và giảm hồi chiêu.",
+    "Space để né chiêu lớn của địch: trong 0,7 giây biến mất, Ngộ Không không nhận sát thương.",
+    "Mở bằng R để hất tung 1 giây, rồi càn quét ngay khi mục tiêu chạm đất."
+  ],
+  "counters": [
+    "Thả diều bằng tầm xa: Ngộ Không chậm và tầm ngắn, hết E là khó đuổi.",
+    "Đừng ném chiêu vào Ngộ Không trong 1 giây đầu sau khi nó lướt E; chờ hết cửa sổ rồi mới dùng.",
+    "Dùng chiêu xóa trạng thái có lợi để gỡ phần giảm 50% sát thương của E."
+  ],
+  "counter_why": "[Space - Năng lượng gỗ] của Teddy Bear xóa được hiệu ứng giảm sát thương \"mình đồng da sắt\" của Ngộ Không, khiến nó mất khả năng phòng thủ.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 74/91 vì chậm và tầm ngắn, nhưng bộ chiêu bù đủ: hất tung 1 giây, choáng 0,5 giây, khiên 25% máu, giảm 50% sát thương và hút máu ở nhát càn quét. Điểm yếu bị thả diều là hợp lý cho một đấu sĩ cận chiến.",
+    "suggestion": "Giữ nguyên. Mô tả Nội tại ghi càn quét làm chậm 40%, mô tả R và code dùng 50%. Buff 310204 trong bảng ghi giảm 50% hồi chiêu, code và mô tả tiếng Việt dùng 25%. Nên thống nhất mô tả."
+  },
+  "evidence": [
+    "server/wukong_actions.py:_event wukong_hit — càn quét 2.0 × công, nón bán kính 192 góc 180°, lifesteal 0.25; R 1.77 × công bán kính 216",
+    "server/wukong_actions.py:on_skill_damage — hồi chiêu E/R còn lại × 0.75, khiên 310223 = 25% máu tối đa",
+    "server/wukong_actions.py:wukong_land — Space 4.87 × công bán kính 192, choáng 310312 500 ms; biến mất 310302 700 ms",
+    "BuffTemplate 310112 +300% tốc đánh 3000 ms, 310122 chậm 50% 1000 ms, 310202/310203 +50% tốc chạy và giảm 50% sát thương 2000 ms, 310402 hất tung 1000 ms"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "summary": "Sát thủ năng lượng dồn sát thương và lây lan: mọi chiêu trúng đều đốt Amaterasu, lửa tự lây sang địch đứng gần; E lao xuyên đội hình và hồi máu, R phản đòn thường để tàng hình rồi dịch chuyển ra sau lưng kẻ đánh, Space mở Susanoo 8 giây và bắn Mũi Tên Indra.",
+  "strengths": [
+    "Sức công năng lượng 402 và xuyên giáp 52 thuộc hàng cao nhất; chỉ số thân tank hạng 21/91.",
+    "Amaterasu: chiêu trúng là đốt 75% sức công mỗi nhịp, 4 nhịp trong 4 giây; lửa lây sang địch trong bán kính 144 và một chuỗi lây kéo dài tối đa 12 giây. Thiêu đốt còn giảm 30% hồi máu của mục tiêu.",
+    "E lao 432 sau 0,1 giây tụ lực: mỗi địch va phải nhận 206%, Sasuke hồi 100% sức công máu và 20 chakra cho mỗi địch; mục tiêu đang mang dấu Susanoo bị định thân 1 giây.",
+    "R miễn một đòn thường trong 4 giây; bị đánh thường thì để lại phân thân, tàng hình 3 giây, rút 75% thời gian hồi E và đánh dấu kẻ đánh. Bấm lại trong 3 giây để dịch chuyển ra sau lưng nó, gây 200%, choáng 1 giây, rồi nhận lá chắn đỡ 3 đòn và tăng 50% tốc chạy.",
+    "Space (100 chakra) bật Susanoo 8 giây: giảm 25% sát thương nhận vào, đòn thường cũng đốt Amaterasu; lúc mở gây 246% trong bán kính 192 và làm chậm 50%; bấm lại để bắn Mũi Tên Indra tầm 600, nổ bán kính 192 gây 387%."
+  ],
+  "weaknesses": [
+    "Thân mỏng: máu hiệu dụng 5.506, không có miễn khống chế trong lúc lao; bị choáng hay câm lặng khi đang tụ hoặc đang lao là mất chiêu.",
+    "Chakra tối đa 100 và chỉ hồi 2 mỗi giây; Space tiêu đúng 100, nên phải dùng E và R trúng mới nạp lại kịp.",
+    "R chỉ phản đòn thường: đối thủ chỉ đánh bằng chiêu thì không kích được tàng hình và dịch chuyển.",
+    "Lửa Amaterasu chỉ lây khi các địch đứng gần nhau trong bán kính 144; đội địch dàn trải thì giảm nhiều sát thương."
+  ],
+  "tips": [
+    "Mở bằng Space giữa đội địch để đánh dấu và làm chậm, rồi E xuyên qua để định thân những kẻ có dấu.",
+    "Bấm R trước khi lao vào đám pháo xa đánh thường: phát đầu tiên trúng sẽ cho tàng hình, rồi bấm lại để dịch chuyển ra sau lưng chúng.",
+    "Lao E xuyên qua càng nhiều địch càng tốt: mỗi địch cho thêm máu và 20 chakra.",
+    "Để dành Mũi Tên Indra cho cụm địch đang bị Amaterasu thiêu, nổ 387% lên mọi kẻ trong bán kính 192."
+  ],
+  "counters": [
+    "Khi Sasuke vừa bấm R, đừng đánh thường vào nó; đánh bằng chiêu hoặc chờ 4 giây hiệu lực hết.",
+    "Đứng tách nhau để Amaterasu không lây từ người này sang người khác.",
+    "Khống chế Sasuke trong 0,1 giây tụ lực của E hoặc trong lúc lao để cắt chiêu.",
+    "Giữ chiêu soi tàng hình hoặc chiêu đánh lan cho 3 giây tàng hình sau khi R kích hoạt."
+  ],
+  "counter_why": "Khi đã trúng Space của Joker, Sasuke phải hết sức cẩn thận khi dùng R và E.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số tốt (hạng 21/91) và bộ chiêu dồn sát thương lớn, nhưng đổi lại thân mỏng, Space phụ thuộc chakra nạp chậm, còn R chỉ có tác dụng khi bị đánh thường. Khống chế cứng chỉ có 1 giây định thân và 1 giây choáng, nên chưa đến mức vượt khung.",
+    "suggestion": "Theo dõi sát thương lây của Amaterasu trong giao tranh tổng: một chuỗi lây kéo dài tới 12 giây và lửa từ Susanoo lây cả sang NPC. Nếu đội đứng gần bị đốt quá nặng thì giảm hệ số 0,75 hoặc rút ngắn chuỗi lây."
+  },
+  "evidence": [
+    "server/sasuke_actions.py:_ignite / _dot_hit — 0.75 × sức công mỗi nhịp, 4 nhịp; sasuke_spread bán kính 144 mỗi 900 ms, chuỗi end = now+12000",
+    "server/sasuke_actions.py:_event sasuke_dash — 2.06 mỗi địch, restore_hp(power), +20 chakra; định thân BuffTemplate 368204 1000 ms nếu có dấu 368305",
+    "server/sasuke_actions.py:block_hit — phản đòn thường khi có BuffTemplate 368401 (4000 ms), tàng hình 368403 3000 ms, hồi E × 0.25; recast 368410 tầm 720, × 2, choáng 368412 1000 ms, +30 chakra",
+    "server/sasuke_actions.py:cast Space — đòi 100 chakra, bán kính 192 × 2.46; Indra tầm 600, sau 800 ms, × 3.87 bán kính 192; BuffTemplate 368302 −25% sát thương 8000 ms",
+    "facts: atk 402, pen 52, ehp 5506, stat_rank 21"
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "summary": "Pháp sư đổi thời tiết: R xoay vòng Cuồng Phong, Lôi Minh, Sương Mù mỗi giây, và mỗi lần đổi làm mới E lẫn Space. Giới hạn thật sự chỉ còn là thanh năng lượng 100.",
+  "strengths": [
+    "R hồi 1 giây, mỗi lần đổi thời tiết đặt lại hồi chiêu E và Space. E tốn 20, Space tốn 50 năng lượng; năng lượng hồi 5 mỗi giây, diệt hoặc trợ công hồi 30.",
+    "Lôi Minh: E gây 181% công bán kính 120, hồi 2 giây. Space hồi 4 giây, nổ 462% công sau 1,25 giây rồi thêm 2 lần 90%.",
+    "Cuồng Phong: E hất tung 1 giây, tiếp đất nhận 173% công, bị chậm 50% và nhận thêm 15% sát thương trong 2 giây. Space tạo vùng gió 3 giây bán kính 196, hết giờ hút mục tiêu về tâm.",
+    "Sương Mù: E chặn kỹ năng kế tiếp trong 2 giây, phản 117% công, câm lặng kẻ ra chiêu 1 giây, nhận khiên 30% máu tối đa và hồi 5% máu mỗi giây. Space cho đồng đội tàng hình 3 giây và tăng 50% tốc chạy."
+  ],
+  "weaknesses": [
+    "Mỏng (3.500 máu, máu hiệu dụng 5.472), bắn chậm (1.000 ms một phát), chạy chậm (160).",
+    "Thanh năng lượng 100 chỉ đủ hai lần Space liên tiếp; xả hết là phải chờ.",
+    "Sương Mù không chặn đánh thường, nên xạ thủ đánh thường như Thạch Sanh không bị phản đòn.",
+    "Space Lôi Minh nổ sau 1,25 giây trong bán kính chỉ 96, rất dễ né."
+  ],
+  "tips": [
+    "Xoay thời tiết để có đúng chiêu cần dùng: Cuồng Phong để mở giao tranh, Lôi Minh để dồn sát thương, Sương Mù để chống khống chế.",
+    "Ném E Cuồng Phong trước để mục tiêu nhận thêm 15% sát thương, rồi đổi sang Lôi Minh nối tiếp.",
+    "Bật E Sương Mù khi thấy địch sắp tung kỹ năng khống chế lên mình."
+  ],
+  "counters": [
+    "Áp sát và đánh thường: Sương Mù không chặn được đánh thường.",
+    "Ép nó xả năng lượng, rồi tấn công lúc thanh năng lượng cạn.",
+    "Thấy cảnh báo Lôi Minh thì bước ra ngay, còn 1,25 giây.",
+    "Nhử bằng một chiêu rẻ khi nó vừa bật Sương Mù."
+  ],
+  "counter_why": "Sát thương của Thạch Sanh dựa vào đánh thường, mà Ngọa Long Sách·Sương Mù của Gia Cát Lượng không phản được đánh thường. Thạch Sanh lại đứng khá xa phía sau nên Gia Cát Lượng khó áp sát.",
+  "balance": {
+    "status": "review",
+    "reason": "Space Cuồng Phong trong code gây 250% công ở mỗi lần trong 3 lần, tổng 750% nếu mục tiêu đứng hết vùng. Mô tả ghi 250% một lần, còn EffectTemplate 358605 ghi 150% mỗi lần. Chênh lệch đủ lớn để làm lệch mọi đánh giá, nên cần chốt con số trước.",
+    "suggestion": "Chọn một: 250% chia đều cho 3 lần theo mô tả, hoặc 150% mỗi lần theo bảng. Sau đó theo dõi vòng đổi thời tiết: R hồi 1 giây làm mới E và Space, nên chỉ có năng lượng giới hạn tần suất ra chiêu."
+  },
+  "evidence": [
+    "server/zhuge_actions.py:_event zhuge_wind_tick — power × 2.5 ở mỗi lần index 1–3; EffectTemplate 358605 fAddVal 1.5",
+    "server/zhuge_actions.py:cast slot 10 — cooldowns[1] = cooldowns[2] = 0 khi đổi thời tiết; SkillTemplate 358401/358101/358701 iCoolTime 1000",
+    "SkillTemplate 358301 iCoolTime 4000 iMpCost 50 (Space Lôi Minh), 358201 iCoolTime 2000 iMpCost 20 (E Lôi Minh); EffectTemplate 358302 fAddVal 4.62, 358304 fAddVal 0.9",
+    "server/zhuge_actions.py:_guard — chỉ chặn đòn không phải đánh thường; zhuge_counter 1.17 × công, khiên 0.3 × máu tối đa (BuffTemplate 358924)"
+  ]
+}

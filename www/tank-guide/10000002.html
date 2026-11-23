@@ -1,0 +1,132 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Groot · Cẩm nang tank</title><meta name="description" content="Cây đại thụ chịu đòn của đội: máu hiệu dụng thuộc hàng cao nhất game, tự hồi máu và giải khống chế bằng nội tại, đứng giữa đám đông hút máu bằng R, rồi dùng vùng Space để phạt kẻ địch nào cố chạy hoặc lướt.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/2d6922ff8ed982e8508f2e9f9376a19f.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Kiên cố và ổn định, cho ta cảm giác an toàn như cây đại thụ!!</div>
+<h2 class="page-title">Groot</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-azure-lt">Chống chịu</span></div>
+<div class="text-secondary mt-2">Chống Chịu Tịnh Hóa Giảm Ích</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000093.html">← Sasuke</a>
+<a class="btn" href="10000042.html">Songoku →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Cây đại thụ chịu đòn của đội: máu hiệu dụng thuộc hàng cao nhất game, tự hồi máu và giải khống chế bằng nội tại, đứng giữa đám đông hút máu bằng R, rồi dùng vùng Space để phạt kẻ địch nào cố chạy hoặc lướt.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 22/91 nhờ máu và giáp khổng lồ, bù cho tốc chạy và tầm bắn thấp nhất game. Hồi máu của nội tại và R đều có giới hạn rõ (10 giây một lần, R 5 giây rồi hồi 8 giây), nên đây là tank chịu đòn đúng vai, không phải bất tử.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Cần sửa một chỗ lệch mô tả: code phạt 25% máu HIỆN TẠI khi di chuyển trong vùng Space (target.hp), còn mô tả ghi 25% giới hạn máu. Mô tả R cũng ghi nội tại kích hoạt mỗi 8 giây và kéo dài 5 giây, trong khi code là 10 giây, 3 giây và chỉ khi máu dưới 80%.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">6314</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">254 / 327</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">322 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">28</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#22/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">12428</span></div><div class="progress progress-sm" title="Hơn 98% số tank"><div class="progress-bar bg-green" style="width:98%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">358</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">155</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/233c83fcaed6118b8df60f89a505b36c.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Cây Bạo Liệt</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST:Năng Lượng
+VP Bay: Có
+
+Đặt hạt giống lên địa điểm chỉ định, khi đạt hạt sẽ nổ, gây #EN_189%_ER# ST Năng Lượng, khiến địch im lặng 1s. Đồng thời giảm tốc 50% trong 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/7f3d1c7c22be9f3e2ef23632fa81efc4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Sức Mạnh Thiên Nhiên</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động: 
+Mỗi 8s sẽ tự kích hoạt hiệu quả Nhịp Đập, hồi ngay 5% HP, đồng thời xóa mọi trạng thái xấu, 5s tiếp theo tăng tốc 25%, mỗi giây hồi 2% giới hạn HP bản thân.
+Khi đầy máu sẽ không kích hoạt
+
+Chủ động:
+Sau khi thi triển sẽ tăng tốc 25% và không ngừng hút HP địch xung quanh trong 5s, mỗi 0.5s gây lên địch trong phạm vi #EN_42%_ER# ST Năng Lượng, mỗi lần gây ST sẽ hồi bản thân #EN_26%_ER# HP, giảm mục tiêu 5% Giáp Vật Lý/Khiên Năng Lượng và 5% Công trong 2s, đồng thời tăng bản thân 5% Giáp Vật Lý/Khiên Năng Lượng và 5% Công trong 2s, hiệu quả lên địch và bản thân được cộng dồn, tối đa dồn 10 lần.
+
+Sau khi thi triển xong skill mới CD</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/591a547abc94cdca7935ac53476523ba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Lĩnh Vực Thiên Nhiên</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+</div>
+<div class="skill-desc">Tính chất: Kỹ Năng Loại ST: Năng Lượng Thực
+VP bay: Không
+
+Thi triển tại điểm chỉ định, trì hoãn 1s thi triển 1 khu vực kéo dài 4s:
+
+Khi có hiệu lực, hồi cho đồng đội trong khu vực #EN_195%_ER# HP và kèm hiệu quả Thiên Nhiên Phù Hộ trong 1.5s: Hút mọi ST từ skill và chuyển thành HP.
+Khi có hiệu lực, gây cho địch trong khu vực #EN_247%_ER# ST Năng Lượng, xóa tạm thời buff Thủ và trạng thái tăng ích giảm ST.
+
+Đồng đội trong khu vực tăng 25% tốc độ tấn công và đạn bay.
+Địch trong khu vực tạm thời không thể nhận buff Thủ và trạng thái tăng ích giảm ST, đồng thời nhận hiệu quả Thiên Nhiên Trừng Trị 2s: Lúc này nếu mục tiêu di chuyển quá 360, sẽ nhận 25% giới hạn HP ST Thực, nhận hiệu quả Im Lặng, giảm tốc 100% trong 2s (Giảm theo thời gian).</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Nhịp Đập</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Cứ cách 1 thời gian, xóa hiệu quả xấu bản thân và hồi HP, 3s tiếp theo tăng tốc 25% và hồi HP liên tục, mỗi 10s kích hoạt 1 lần</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Trâu bậc nhất: 6.314 máu, giáp vật lý 254, khiên năng lượng 327, máu hiệu dụng 12.428 (trên 97% số tank).</li><li>Nội tại tự kích hoạt khi bị đánh xuống dưới 80% máu: hồi ngay 5% máu tối đa, xóa mọi trạng thái xấu, rồi hồi thêm 2% mỗi giây trong 3 giây kèm tăng tốc; hồi lại sau 10 giây.</li><li>R hút máu 5 giây: mỗi 0,5 giây gây 42% sức công năng lượng lên mọi địch trong bán kính 192 và tự hồi 26% sức công cho mỗi lần trúng; mỗi lần trúng lấy 5% giáp và công của mục tiêu sang cho mình, cộng dồn tối đa 10 lần.</li><li>E khống chế từ xa 480: hạt giống nổ bán kính 168, gây 189% sức công, câm lặng 1 giây và làm chậm 50% trong 1,5 giây, hồi chiêu chỉ 6 giây.</li><li>Space là vùng bán kính 264 trong 4 giây: hồi 195% sức công cho đồng đội, gây 247% cho địch, xóa giáp tạm thời của địch; địch trong vùng mà di chuyển đủ 360 trong 2 giây thì mất 25% máu dưới dạng sát thương thực, bị câm lặng và đứng yên 2 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chậm nhất nhóm: tốc chạy 155 và tầm bắn 336 đều thuộc hàng thấp nhất game, nên rất dễ bị thả diều.</li><li>Sát thương thường chỉ trung bình (358 mỗi giây); muốn gây sát thương thật thì phải áp sát để R có mục tiêu trong bán kính 192.</li><li>Space có độ trễ 1 giây trước khi mở vùng và hồi chiêu 30 giây; đặt hụt là đội mất chiêu hỗ trợ chính trong một khoảng dài.</li><li>Nội tại chỉ kích hoạt khi máu dưới 80% và 10 giây mới một lần, nên bị dồn sát thương lớn liên tục thì vẫn gục.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở giao tranh bằng E vào cụm địch (câm lặng 1 giây), rồi bật R và lao vào giữa để hút máu nhiều mục tiêu cùng lúc.</li><li>Đặt Space lên chỗ địch buộc phải đi qua hoặc ngay trên con đang định rút: đứng yên thì ăn đòn của đội mình, chạy thì bị phạt 25% máu và đứng hình 2 giây.</li><li>Đứng tuyến đầu che cho pháo xa: vùng Space còn tăng 25% tốc độ bắn và tốc độ đạn cho đồng đội đứng trong đó.</li><li>Đừng đuổi theo con mồi chạy nhanh; tốc chạy 155 không bắt được ai, hãy để địch phải tiến vào tầm của mình.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Thả diều từ ngoài tầm 336: Groot không có chiêu lướt nào để áp sát.</li><li>Khi đứng trong vùng Space, đừng dùng chiêu lướt hay chạy dài; đợi vùng tan (4 giây) rồi mới di chuyển.</li><li>Dùng sát thương xuyên giáp hoặc sát thương thực để vượt qua lớp giáp dày; đánh dồn một lượt để nội tại không kịp hồi.</li><li>Tránh đứng sát Groot khi R đang bật: mỗi lần trúng nó lấy đi 5% giáp và công của bạn, tối đa 10 lần.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi bị [Space-Lĩnh Vực Thiên Nhiên] của Groot ảnh hưởng, khi dùng skill di chuyển vị trí sẽ bị thiên nhiên trứng trị, hãy cẩn thận di chuyển và giải phóng skill di chuyển vị trí</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000070.html">Deadpool</a>. Chiêu E dịch chuyển truy hồn của Deadpool bỏ qua giáp vật lý của Groot để gây sát thương; Groot lại kém cơ động, nên Deadpool dễ dùng hiệu ứng đẩy lùi đưa nó vào giữa đội mình để dồn hỏa lực hạ gục.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/groot_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/groot_actions.py:on_damage — kích hoạt khi máu &lt; 80%, hồi 5% + 2%/giây × 3, hồi lại 10.000 ms</li><li>server/groot_actions.py:_event drain_tick — bán kính 192, 42% sức công, hồi 26%; _borrow 5% × tối đa 10 lần (EffectTemplate 416411 fAddVal 0.42)</li><li>server/groot_actions.py:_event movement_mark — đi ≥ 360 thì damage(target.hp*0.25, school=&#x27;true&#x27;) + BuffTemplate 416351/416352 2000 ms</li><li>EffectTemplate 416201 fAddVal 1.89 iRange1 168; BuffTemplate 416202 1000 ms câm lặng, 416203 1500 ms làm chậm</li><li>facts: ehp 12428 (pct 0.978), speed 155 (pct 0.022), range 336 (pct 0.0), stat_rank 22</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [98, 43, 2, 0, 98]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Groot",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

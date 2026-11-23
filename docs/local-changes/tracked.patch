@@ -1,0 +1,562 @@
+diff --git a/server/battle_runtime.py b/server/battle_runtime.py
+index 5e9c3144..8e39776d 100644
+--- a/server/battle_runtime.py
++++ b/server/battle_runtime.py
+@@ -1078,7 +1078,10 @@ class TankActions:
+ 
+     def skill_cooldown(self, duration, slot=None):
+         from crystal_combat import cooldown as build_cooldown
+-        return build_cooldown(self,duration,slot)
++        value = build_cooldown(self,duration,slot)
++        import bot_mind
++        bot_mind.saw_cooldown(self, value, slot)
++        return value
+ 
+     def commit_hp(self, hp, now, *, critical=False):
+         if self.arena.pk and self.arena.pk['finished']:return []
+diff --git a/server/bot_ai.py b/server/bot_ai.py
+index 18d8ea54..37ea37c2 100644
+--- a/server/bot_ai.py
++++ b/server/bot_ai.py
+@@ -1,6 +1,7 @@
+ """Shared mode strategy and tank policies driven by delayed observations."""
+ from battle_participants import human, private
+ import heapq
++import bot_personality
+ import math
+ import struct
+ from collections import Counter,deque
+@@ -300,14 +301,14 @@ def observe_bullets(arena,actor,now):
+ 
+ 
+ def evade(arena,actor,brain,now):
+-    pos=actor.position_at(now)
++    pos=actor.position_at(now);dodge=bot_personality.factor(actor,'dodge')
+     for shot in brain.get('bullets',[]):
+         vx,vy=shot['velocity'];speed2=vx*vx+vy*vy
+         if not speed2:continue
+         age=(now-shot['observed_at'])/1000
+         bx,by=shot['pos'][0]+vx*age,shot['pos'][1]+vy*age
+         arrival=((pos[0]-bx)*vx+(pos[1]-by)*vy)/speed2
+-        if not 0<arrival<.7 or math.dist(pos,(bx+vx*arrival,by+vy*arrival))>68:continue
++        if not 0<arrival<.7*dodge or math.dist(pos,(bx+vx*arrival,by+vy*arrival))>68*dodge:continue
+         # React with a coarse sidestep; no instantaneous aim or guaranteed dodge.
+         speed=math.sqrt(speed2);side=1 if actor.id%2 else -1
+         for sign in (side,-side):
+@@ -426,7 +427,7 @@ def _legacy_aim(arena,actor,observation,now):
+     travel=min(.65,distance/850)
+     velocity=observation['velocity']
+     lead=arena.rng.uniform(.5,.95)
+-    error=arena.rng.gauss(0,8+distance*.025)
++    error=arena.rng.gauss(0,8+distance*.025)*bot_personality.factor(actor,'aim')
+     angle=math.atan2(pos[1]-start[1],pos[0]-start[0])
+     return arena.geometry.clamp_tank_position((pos[0]+velocity[0]*travel*lead-math.sin(angle)*error,
+                                                pos[1]+velocity[1]*travel*lead+math.cos(angle)*error))
+@@ -763,13 +764,15 @@ def decide(arena,actor,brain,seen,now):
+             brain['target']=None
+             brain['goal']=objective[1] if objective else pos
+             return support(arena,actor,allies,seen if actor.info['tank_id']==10000112 else nearby,now,brain,recovering)
+-    target=min(candidates,key=lambda s:math.dist(pos,s['pos'])+s['hp']*180-40*focus.count(s['id'])
++    team=bot_personality.factor(actor,'team')
++    import bot_mind
++    target=min(candidates,key=lambda s:math.dist(pos,s['pos'])+s['hp']*180-40*team*focus.count(s['id'])-bot_mind.target_bias(arena,actor,s['id'],now)
+                +(math.dist(objective[1],s['pos'])*.4 if objective else 0))
+     brain['target']=target['id'];distance=math.dist(pos,target['pos']);dest=aim(arena,actor,target,now)
+     exclude=(tuple(target['turret_rect']),) if target.get('turret_rect') else ()
+     blocked=arena.geometry.wall_contact(pos,target['pos'],exclude=exclude) is not None
+     outnumbered=sum(arena.geometry.id not in (12,14,50,169) or math.dist(pos,s['pos'])<480 for s in tanks)>len(allies)+1
+-    retreat=recovering or not commit and (ratio<.28 and not bot_ai10.soul(actor) or outnumbered and ratio<.55)
++    retreat=recovering or not commit and (ratio<bot_personality.threshold(actor,.28) and not bot_ai10.soul(actor) or outnumbered and ratio<bot_personality.threshold(actor,.55))
+     tank=actor.info['tank_id'];desired=(bot_ai01.desired_range(actor) if tank in bot_ai01.TANKS
+                                       else bot_ai02.desired_range(actor) if tank in bot_ai02.TANKS
+                                       else bot_ai03.desired_range(actor) if tank in bot_ai03.TANKS
+@@ -1078,10 +1081,12 @@ def decide_robo(arena,actor,brain,seen,now):
+ 
+ def tick(arena,now):
+     from bot_policy import policy_for,ELITE
+-    packets=[]
++    import bot_chat,bot_mind
++    bot_mind.tick(arena,now)
++    packets=bot_chat.tick(arena,now)
+     for actor in list(arena.actors.values()):
+         if human(actor) or not actor.alive or (actor.info.get('npc_template') and not (actor.info.get('robo') or actor.info.get('base_robot') or actor.info.get('mascot') or actor.info.get('map_spider'))):continue
+-        brain=arena.bot_brains.setdefault(actor.id,dict(generation=actor.generation,notice_at=now+arena.rng.randint(180,350),observations=[],path=[]))
++        brain=arena.bot_brains.setdefault(actor.id,dict(generation=actor.generation,notice_at=now+bot_personality.reaction_delay(actor,arena.rng.randint(180,350)),observations=[],path=[]))
+         if brain['generation']!=actor.generation:
+             brain.clear();brain.update(generation=actor.generation,notice_at=now+250,observations=[],path=[])
+         if now>=brain['notice_at']:
+@@ -1117,7 +1122,7 @@ def tick(arena,now):
+             # still acts on an observation at least180ms old; no fresh-sensor
+             # reaction or extra combat cooldown/resource is granted. Legacy
+             # keeps exactly its original random interval and RNG draw.
+-            brain['notice_at']=now+arena.rng.randint(180,220 if elite else 350)
++            brain['notice_at']=now+bot_personality.reaction_delay(actor,arena.rng.randint(180,220 if elite else 350))
+         if arena.pk['finished']:break
+         if brain.get('pro_fire_plan'):
+             import bot_execution
+diff --git a/server/bot_elite.py b/server/bot_elite.py
+index 91f808b2..cd9309ed 100644
+--- a/server/bot_elite.py
++++ b/server/bot_elite.py
+@@ -11,6 +11,7 @@ from __future__ import annotations
+ import math
+ 
+ import bot_ai as legacy
++import bot_personality
+ from combat_geometry import point_at, rect_contact
+ 
+ 
+@@ -20,6 +21,8 @@ BASE_MAPS = frozenset((12, 14, 50, 169))
+ SURVIVAL_MAPS = frozenset((30, 40))
+ HOLD_TASKS = frozenset(('flag_hold', 'bomb_escort', 'bomb_intercept', 'escort'))
+ LOCAL_LEGACY_MAPS = frozenset((1, 4, 17, 18, 19, 20, 21, 34, 35, 36))
++import os as _os
++PK_FULL_ELITE = _os.environ.get('BB_ELITE_PK_FULL') == '1'  # experiment toggle
+ 
+ # These slot-0 launches were checked against each native cast method.  They
+ # are weapon knowledge belonging to the shooter, never an enemy sensor. Keep
+@@ -158,7 +161,7 @@ def aim(arena, actor, sample, now):
+     # a frozen point after that duration, nor query the live buff to correct it.
+     if sample.get('elite_control_ms', 0) > now - sample['observed_at'] + 120:
+         horizon *= .15
+-    error = arena.rng.gauss(0, 5 + distance * .014)
++    error = arena.rng.gauss(0, 5 + distance * .014) * bot_personality.factor(actor, 'aim')
+     angle = math.atan2(sample['pos'][1] - pos[1], sample['pos'][0] - pos[0])
+     dest = (sample['pos'][0] + vx * horizon - math.sin(angle) * error,
+             sample['pos'][1] + vy * horizon + math.cos(angle) * error)
+@@ -357,13 +360,16 @@ def _target_score(actor, brain, sample, allies, order, now, guarded=()):
+         # Less than full immunity; enough to offset focus+lock when another
+         # mature, unguarded target is already in our own native firing lane.
+         score += 360
++    team = bot_personality.factor(actor, 'team')
+     if (sample['id'] == order.get('focus')
+             and sample['generation'] == order.get('focus_generation')):
+-        score -= 240
++        score -= 240 * team
+     if (brain.get('target') == sample['id']
+             and brain.get('elite_target_generation') == sample['generation']
+             and now < brain.get('elite_target_until', 0)):
+         score -= 85
++    import bot_mind
++    score -= bot_mind.target_bias(getattr(actor, 'arena', None), actor, sample['id'], now)
+     if sample['hp'] <= .23:
+         score -= 140
+     if sample.get('elite_control_ms', 0) > now - sample['observed_at'] + 120:
+@@ -375,7 +381,7 @@ def _target_score(actor, brain, sample, allies, order, now, guarded=()):
+                       and _ratio(ally) < .55
+                       and math.dist(ally.position_at(now), sample['pos']) < 264]
+         if endangered:
+-            score -= max((1 - _ratio(ally)) * 250 for ally in endangered)
++            score -= max((1 - _ratio(ally)) * 250 for ally in endangered) * team
+         nearby_friends = sum(math.dist(ally.position_at(now), sample['pos']) <= 420
+                              for ally in allies)
+         score -= min(3, nearby_friends) * 30
+@@ -846,7 +852,7 @@ def decide(arena, actor, brain, seen, now):
+     pos = actor.position_at(now)
+     previous_goal = brain.get('goal')
+     delivered = mature_contacts(seen, now)
+-    if (arena.geometry.id in LOCAL_LEGACY_MAPS
++    if (arena.geometry.id in LOCAL_LEGACY_MAPS and not PK_FULL_ELITE
+             and any(not sample.get('barrier') and math.dist(pos, sample['pos']) < 960
+                     for sample in delivered)):
+         # Keep the proven native local fight/objective/support sequencing. The
+@@ -920,13 +926,14 @@ def decide(arena, actor, brain, seen, now):
+     commit = ratio < .4 and legacy.useful_last_stand(actor, allies, tanks, now)
+     soul = legacy.bot_ai10.soul(actor)
+     overwhelmed = hostile > max(1.1, friendly * 1.4) and len(tanks) >= 2
+-    danger = bool(tanks) and (ratio < .26 or overwhelmed and ratio < .68)
++    danger = bool(tanks) and (ratio < bot_personality.threshold(actor, .26)
++                              or overwhelmed and ratio < bot_personality.threshold(actor, .68))
+     retreat_now = not commit and not soul and danger and not final_push
+     if retreat_now:
+         brain['elite_retreat_until'] = now + 700
+     retreat = retreat_now or (not commit and not soul and not final_push and bool(tanks)
+                               and now < brain.get('elite_retreat_until', 0))
+-    recover_limit = .48 if order.get('role') in ('support', 'artillery') else .40
++    recover_limit = bot_personality.threshold(actor, .48 if order.get('role') in ('support', 'artillery') else .40)
+     recovering = (_can_recover(actor, now) and ratio < recover_limit and not commit and not final_push
+                   and legacy.seek_repair(arena, actor, brain, nearby, now))
+     if not recovering:
+@@ -1047,7 +1054,7 @@ def evade(arena, actor, brain, now):
+     if speed <= 0:
+         return
+     stay_risk = _projectile_risk(pos, pos, shots, now, speed)
+-    if stay_risk < 18:
++    if stay_risk < 18 / bot_personality.factor(actor, 'dodge'):
+         return
+     goal = brain.get('goal', pos)
+     friends = [a.position_at(now) for a in arena.actors.values()
+diff --git a/server/bot_setup.py b/server/bot_setup.py
+index c7648627..dfa407e6 100644
+--- a/server/bot_setup.py
++++ b/server/bot_setup.py
+@@ -3,6 +3,8 @@ import json
+ import random
+ import bot_cosmetics
+ import bot_loadouts
++import bot_names
++import bot_personality
+ 
+ from storage import connection, setting_key
+ 
+@@ -40,6 +42,9 @@ PK_MAPS=(1,4,17,18,19,20,21,34,35,36)
+ BOT_MAPS=(70,30,40,7,9,10,12,14,37,50,169,170,*PK_MAPS)
+ MODE_MAPS={'escort_bomb':70,'death_city':40,'death_mine':30,'base_polar':169,'base_ruins':14,'base_mineral':12,'base_town':50,'pk_mine':36,'pk_fortress':35,'pk_polar':34,'pk_lightning':21,'pk_fastfood':17,'pk_snow':4,'pk_maya':1,'occupy_quicksand':170,'occupy_military':37,'occupy_freight':10,'occupy_tomb':9,'occupy_desert':7,'pk_robo':19,'pk_cow':20,'pk_totem':18,'test':101}
+ MODE_MAPS['test_desert']=7
++# Native map id 0 = random map; configure_room rolls a real mode per room.
++MODE_MAPS['random']=0
++RANDOM_POOL=tuple(m for m,i in MODE_MAPS.items() if i in BOT_MAPS and not m.startswith('test'))
+ # Clear ground on the east side of map 7, 180px minimum spacing. These are
+ # room-specific positions; the original map spawns/terrain stay unchanged.
+ TEST_DESERT_TANKS=(10000019,10000003,10000034,10000042,10000044)
+@@ -106,13 +111,14 @@ def make_roster(setup, rng=None, player_tank=None):
+         for tank,level in zip(tanks,levels):
+             ident = len(roster)+2
+             roster.append(dict(object_id=ident,acct_id=88888886+ident,
+-                char_uuid=f'robot-pk-{ident}',name=f'{AI_TANKS[tank]} {ident-1}',
++                char_uuid=f'robot-pk-{ident}',name=bot_names.draw(rng,{b['name'] for b in roster}),
+                 tank_id=tank,tank_level=level,tank_ext=AI_EXTERNALS.get(tank,0),tank_strength=0,
+                 side=side,ready=1,in_room=True))
+             if fixed:
+                 roster[-1]['test_spawn']=TEST_DESERT_POSITIONS[ident-2]
+             else:
+                 bot_cosmetics.roll(roster[-1],rng)
++                roster[-1]['personality']=bot_personality.roll_casual(rng)
+             bot_loadouts.apply(roster[-1],setup)
+     return roster
+ 
+@@ -133,7 +139,9 @@ def unique_room_roster(state,rng=None):
+             else:used.add(bot['tank_id'])
+         pool=[t for t in AI_TANKS if t not in used]
+         for bot,tank in zip(conflicts,rng.sample(pool,len(conflicts))):
+-            bot.update(tank_id=tank,tank_ext=AI_EXTERNALS.get(tank,0),name=f'{AI_TANKS[tank]} {bot["object_id"]-1}')
++            bot.update(tank_id=tank,tank_ext=AI_EXTERNALS.get(tank,0))
++            if bot_names.is_placeholder(bot.get('name')):
++                bot['name']=bot_names.draw(rng,{b['name'] for b in state.get('bots',[])})
+             if not (state.get('room') or {}).get('tank_test'):
+                 bot_cosmetics.roll(bot,rng,skin_only=True)
+             bot_loadouts.apply(bot,state.get('room') or {})
+@@ -155,6 +163,9 @@ def room_bots(state):
+ def configure_room(state, db, *, setup=None, rng=None):
+     """Apply web choices only when creating a room, never to an active match."""
+     setup=load_setup(db) if setup is None else validate_setup(setup)
++    if setup['mode']=='random':
++        rng=rng or random.SystemRandom()
++        setup=dict(setup,mode=rng.choice(RANDOM_POOL))
+     room=state['room']
+     room['quanvu_execute_hint']=setup['quanvu_execute_hint']
+     room.update({key:setup[key] for key in ('bot_guild','bot_crystals','bot_military')})
+@@ -188,6 +199,9 @@ def configure_room(state, db, *, setup=None, rng=None):
+             duration='3 phút 30 giây' if setup['mode'] in ('pk_totem','pk_polar') else '4 phút'
+             room.update(map_id=MODE_MAPS[setup['mode']],mode=3,room_type=2,name=f'PK {title} - 25 điểm / {duration}')
+         state['bots']=make_roster(setup,rng=rng,player_tank=state['tank_id'])
++        if not room.get('ranked'):
++            import bot_mind
++            bot_mind.apply_casual_level(state['bots'],bot_mind.casual_level(db,state['char_id']))
+         state['bot_cosmetics_prepared']=True
+     else:
+         from battle_entry import ensure_test_ally
+diff --git a/server/pk_rules.py b/server/pk_rules.py
+index cca8faea..dcaf618f 100644
+--- a/server/pk_rules.py
++++ b/server/pk_rules.py
+@@ -130,6 +130,12 @@ def death(arena,victim,now):
+         packets.append((1566,struct.pack('<IIIhhBBBBH',killer.id,victim.id,skill,
+                          *victim.position_at(now),min(255,multi),min(255,streak),min(255,dead_streak),first,len(assistants))
+                          +b''.join(struct.pack('<I',i) for i in sorted(assistants))))
++    import bot_chat
++    import bot_mind
++    if killer is not None and killer.camp==camp and not killer.info.get('map_object'):
++        bot_mind.count_pair(arena,killer,victim)
++        bot_mind.on_kill(arena,killer,victim,now)
++    bot_chat.on_kill(arena,killer,victim,multi=multi,streak=streak,first=first,dead_streak=dead_streak,now=now)
+     packets+=score_packets(arena)
+     if arena.geometry.id not in (7,9,10,12,14,30,40,37,50,70,169,170) and max(pk['scores'].values())>=25:packets+=finish(arena,now)
+     return packets
+@@ -161,7 +167,8 @@ def finish(arena,now):
+         actor.position=actor.position_at(now)
+         actor.motion=None
+     arena.pending.clear()
+-    return [settlement(arena)]
++    import bot_chat
++    return bot_chat.finish_lines(arena,pk['winner'],now)+[settlement(arena)]
+ 
+ 
+ def settlement(arena):
+diff --git a/server/ranked_matches.py b/server/ranked_matches.py
+index 34846113..9c15b689 100644
+--- a/server/ranked_matches.py
++++ b/server/ranked_matches.py
+@@ -14,6 +14,8 @@ displayed medal does not select the controller.
+ """
+ import json
+ import bot_cosmetics
++import bot_mind
++import bot_personality
+ import random
+ import struct
+ import time
+@@ -189,6 +191,32 @@ def _validate_profiles(value, owner):
+     return bots
+ 
+ 
++def _nicknames(db, owner, value):
++    """Replace the old '<Tank> <n>' labels once, in profiles and rank rows.
++
++    Each ranked identity gets a stable nickname seeded by owner + identity.
++    Ratings, counters and portraits are untouched; only the display name moves.
++    """
++    import bot_names
++    taken = {b['name'] for b in value['bots'] if not bot_names.is_placeholder(b['name'])}
++    changed = False
++    for bot in value['bots']:
++        if not bot_names.is_placeholder(bot['name']):
++            continue
++        bot['name'] = bot_names.ranked(owner, bot['rank_bot_id'], taken)
++        taken.add(bot['name'])
++        changed = True
++        rows = db.execute('SELECT season_id,entry_key,data FROM rank_entries '
++                          'WHERE owner_id=? AND is_bot=1 AND object_id=?',
++                          (owner, bot['rank_bot_id'])).fetchall()
++        for season, key, data in rows:
++            entry = json.loads(data)
++            entry['char_name'] = bot['name']
++            db.execute('UPDATE rank_entries SET data=? WHERE season_id=? AND entry_key=?',
++                       (_json(entry), season, key))
++    return changed
++
++
+ def _persistent_profiles(db, state, seed_bots, rng):
+     """Lazy, transactional migration of virtual data only; never user/auth data.
+ 
+@@ -200,7 +228,11 @@ def _persistent_profiles(db, state, seed_bots, rng):
+     owner = state['char_id']
+     saved = db.execute('SELECT value FROM settings WHERE name=?', (_profile_key(owner),)).fetchone()
+     if saved:
+-        return _validate_profiles(json.loads(saved[0]), owner)
++        value = json.loads(saved[0])
++        _validate_profiles(value, owner)
++        if _nicknames(db, owner, value):
++            db.execute('UPDATE settings SET value=? WHERE name=?', (_json(value), _profile_key(owner)))
++        return value['bots']
+     legacy = {}
+     for row in db.execute('SELECT * FROM rank_entries WHERE owner_id=? AND is_bot=1 '
+                           'ORDER BY season_id DESC,object_id', (owner,)):
+@@ -233,6 +265,7 @@ def _persistent_profiles(db, state, seed_bots, rng):
+     profiles[RESERVE_ID] = _profile(reserve, RESERVE_ID, 'reserve')
+     value = dict(version=BOT_PROFILE_VERSION, owner_id=owner,
+                  bots=[profiles[ident] for ident in (*BOT_IDS, RESERVE_ID)])
++    _nicknames(db, owner, value)
+     _validate_profiles(value, owner)
+     db.execute('INSERT INTO settings(name,value) VALUES(?,?)', (_profile_key(owner), _json(value)))
+     return value['bots']
+@@ -263,7 +296,9 @@ def stable_room_roster(state):
+         side = profiles[slot]['side']
+         profile = profiles[RESERVE_ID] if (side == 'allies' and
+                                           profiles[slot]['tank_id'] == state['tank_id']) else profiles[slot]
+-        bot = dict(profile, object_id=slot, side=side, ready=1, in_room=True)
++        bot = dict(profile, object_id=slot, side=side, ready=1, in_room=True,
++                   personality=bot_personality.ranked(state['char_id'], profile['rank_bot_id']),
++                   rivalry=(state.get('rank_rivalry') or {}).get(str(profile['rank_bot_id'])))
+         bot_loadouts.apply(bot, state['room'])
+         bots.append(bot)
+         if old.get(slot) != bot:
+@@ -302,6 +337,7 @@ def prepare_room(state, db, *, now=None, rng=None):
+     rating = bot_rating(context['elo'])
+     with storage.connection(write=True) as rank_db:
+         profiles = _persistent_profiles(rank_db, state, state['bots'], rng)
++        state['rank_rivalry'] = bot_mind.load_rivalry(rank_db, state['char_id'])
+         profiles = [dict(bot, **_rank_fields(rank_db, context['season_id'], state['char_id'],
+                                            bot['rank_bot_id'], rating)) for bot in profiles]
+     state['rank_bot_roster'] = dict(version=BOT_PROFILE_VERSION, owner_id=state['char_id'], bots=profiles)
+@@ -396,6 +432,7 @@ def _settle(db, state, arena, now, *, player=None):
+     db.execute('DELETE FROM match_history WHERE profile_id=? AND match_uuid NOT IN '
+                '(SELECT match_uuid FROM match_history WHERE profile_id=? ORDER BY ended_ms DESC,match_uuid DESC LIMIT ?)',
+                (ident, ident, HISTORY_LIMIT))
++    bot_mind.record_rivalry(db, state, arena)
+     battle.update(completed_recorded=True, rank_result=rank_result, result_summary=summary)
+     context = brief(db, ident, now)
+     state.update(context)
+diff --git a/server/sixcube_server.py b/server/sixcube_server.py
+index 7ef77af9..9bf0dffc 100644
+--- a/server/sixcube_server.py
++++ b/server/sixcube_server.py
+@@ -1744,6 +1744,25 @@ def _client_handler(conn: socket.socket, addr) -> None:
+                             send_actions(packets)
+                             continue  # Already committed before the combat reply.
+ 
++                    elif mid == 598:
++                        # Local battle chat: scene u32, channel u8 (0 all, 1 team), u16 text.
++                        battle = session_state["battle"]
++                        actions = battle.get("actions") if battle else None
++                        if not actions or not battle.get("entered") or len(payload) < 7:
++                            continue
++                        scene, channel, size = struct.unpack_from('<IBH', payload)
++                        if scene != battle["scene_id"] or len(payload) < 7 + size:
++                            continue
++                        try:
++                            text = payload[7:7 + size].decode('utf-8')
++                        except UnicodeDecodeError:
++                            continue
++                        import bot_chat
++                        packets = bot_chat.on_human_chat(actions, actions.player, text, channel == 1, actions.clock())
++                        checkpoint()
++                        send_actions(packets)
++                        continue
++
+                     elif mid in (509, 512, 613):
+                         # Original RequestExitBattle / RequestSurrenderVotation.
+                         # Recorded settings button: C512, scene u32 + padding.
+diff --git a/www/html5/battle_view.js b/www/html5/battle_view.js
+index 9ca801ce..1a75775c 100644
+--- a/www/html5/battle_view.js
++++ b/www/html5/battle_view.js
+@@ -128,6 +128,7 @@ export class BattleView {
+     this.roboHud = new RoboHud({host: $('robo-hud-host'),
+       resolveFrameAsset: asset => this.store.resolveRoboFrameAsset(asset),
+       onCast: slot => this.input.castFromButton(slot),
++      onChat: ({text}) => client.sendBattleChat?.(text),
+       onSkillHover: slot => this.input.hoverSkill(slot),
+       castAvailability: (slot, now) => this.input.castAvailability(slot, now),
+       onPortraitHover: accountId => this.input.hoverPortrait(accountId),
+@@ -1152,6 +1153,8 @@ export class BattleView {
+       this.roboHud.update({state, catalog: this.prepared.catalog, hudCatalog: this.prepared.roboHudCatalog,
+         now, selectedSlot:input.selectedSlot, keyBindings:this.input.inputOptions?.mapping, connected: this.client.state.phase === 'ready', spectator: this.spectator.snapshot(),
+         killFeed: this.effects.feed, pingMs: this.client.state.latencyMs,
++        chatMessages: (state.chat || []).filter(row => now - row.receivedAt < 12000)
++          .map(row => ({name: `${row.team ? '[Đội] ' : row.ally ? '' : '[Địch] '}${row.name}`, text: row.text})),
+         practiceMode: practice, remainingSeconds: practice?null:['result','draw'].includes(state.deathRound?.phase)?0:remaining, serverTimeMs:clock, targetScore: practice?null:Number(this.prepared.map.raw.iWinParam),
+         mapTitle: pkMapName(state.mapId,room), objectiveText: pkObjectiveText(state.mapId,room),
+         message: this.messageAt != null && now - this.messageAt < 2500 ? $('battle-input-message').textContent
+diff --git a/www/html5/combat_protocol.js b/www/html5/combat_protocol.js
+index 657f5111..aeff1222 100644
+--- a/www/html5/combat_protocol.js
++++ b/www/html5/combat_protocol.js
+@@ -30,6 +30,11 @@ export function encodeCacheSkillDestPos(sceneId, destX, destY) {
+   return frame(514, new Writer().u32(sceneId).i16(destX).i16(destY));
+ }
+ 
++/** Local battle chat (C598): scene, channel 0 all / 1 team, UTF-8 text. */
++export function encodeBattleChat(sceneId, channel, text) {
++  return frame(598, new Writer().u32(sceneId).u8(channel).string(text));
++}
++
+ /** Native settlement exit; server accepts only after its match has finished. */
+ export function encodeExitBattleEnd() { return encodeFrame(613); }
+ 
+@@ -80,7 +85,7 @@ function readKillInfo(r) {
+ }
+ 
+ const HANDLED = new Set([1553, 1556, 1558, 1559, 1560, 1561, 1562, 1565, 1566,
+-  1572, 1578, 1579, 1581, 1583, 1585, 1589, 1590, 1595, 1603, 1605, 1708, 1710,1731,1732,1733,1734,1735,1736]);
++  1572, 1578, 1579, 1581, 1583, 1585, 1589, 1590, 1595, 1597, 1603, 1605, 1708, 1710,1731,1732,1733,1734,1735,1736]);
+ 
+ /** Return null for schemas owned by M2/M3 or not yet verified from source.
+  * Message order and trailing bytes are preserved for the session reducer/guard.
+@@ -118,6 +123,11 @@ export function decodeCombatPacket(msgId, payload) {
+     case 1566:
+       result = { type: 'killInfo', ...readKillInfo(r) };
+       break;
++    case 1597:
++      // Local bot chat: speaker, camp, channel (0 all, 1 team), name, text.
++      result = { type: 'botChat', speakerId: r.u32(), camp: r.u8(), channel: r.u8(),
++        name: r.string(), text: r.string() };
++      break;
+     case 1565:
+       result={type:'occupyState',flags:r.vector(20,p=>({index:p.i32(),camp:p.i32(),locked:p.i32(),progress:p.i32(),scoreTime:p.u32()}))};
+       if(result.flags.some(f=>f.index<0||![0,1,2].includes(f.camp)||![0,1].includes(f.locked)))throw new RangeError('Invalid flag state');
+diff --git a/www/html5/combat_state.js b/www/html5/combat_state.js
+index 4e0ddbd1..2718a336 100644
+--- a/www/html5/combat_state.js
++++ b/www/html5/combat_state.js
+@@ -20,7 +20,7 @@ const BODY_COMMAND_HISTORY_LIMIT = 64;
+ const BUFF_PRESENTATION_HISTORY_LIMIT = 128;
+ const PACKET_TYPES = new Set(['tick', 'sceneEntered', 'sceneSelf', 'sceneOthers', 'sceneAdd',
+   'sceneStop', 'sceneUpdate', 'tankRelive', 'sceneObjectAdd', 'buffAdd', 'buffRemove',
+-  'tankAttr', 'sceneStats', 'killInfo', 'skillCooldown', 'skillChanged', 'buffTime',
++  'tankAttr', 'sceneStats', 'killInfo', 'botChat', 'skillCooldown', 'skillChanged', 'buffTime',
+   'skillStopped', 'campScore', 'battleEnd', 'bulletOrbit', 'objectThrow', 'skillDest',
+   'battleExp', 'battleLevel', 'autoBulletRequest', 'hpChange', 'portalStates', 'systemError','occupyState','occupyAddScore',
+   'roundScore','roundStart','roundResult','roundAlive']);
+@@ -50,7 +50,7 @@ export function createCombatState(scene, accountId, now) {
+     characters: (scene.characters ?? []).map(normalizeCharacter),
+     actors: {}, objects: {}, actorOrder: [], objectOrder: [],
+     objectsReady: false, accountObjects: {}, projectiles: {}, effects: [],
+-    portals: {}, flags:{}, mapNotice: null, deathRound:null,
++    portals: {}, flags:{}, mapNotice: null, deathRound:null, chat: [],
+     effectSequence: 0, skills: {}, respawns: {}, stats: {}, scores: {camp1: null, camp2: null},
+     result: null, finishedAt: null, startedAt: scene.startedAt ?? null,
+     selfSpeed: null, selfFireRate: null, fireReadyAt: null, selfSnapshotReceived: false,
+@@ -887,6 +887,13 @@ export function applyCombatPacket(state, packet, now) {
+       // ordered marker prevents map-catalog NPCs resurrecting after reconnect.
+       state.objectsReady = true;
+       for (const actor of packet.actors) state.stats[key(actor.accountId)] = clone(actor); break;
++    case 'botChat': {
++      const mine = state.actors[key(state.selfObjectId)]?.camp;
++      if (packet.channel === 1 && mine != null && packet.camp !== mine) break;
++      state.chat = [...(state.chat || []), {name: packet.name, text: packet.text,
++        team: packet.channel === 1, ally: mine != null && packet.camp === mine, receivedAt: now}].slice(-8);
++      break;
++    }
+     case 'killInfo': pushEffect(state, 'killInfo', now, {packet: packetData(packet),
+       killerState: objectSoundState(entity(state, packet.killerId)),
+       victimState: objectSoundState(entity(state, packet.victimId)),
+diff --git a/www/html5/m4.js b/www/html5/m4.js
+index 2f585143..3af032e7 100644
+--- a/www/html5/m4.js
++++ b/www/html5/m4.js
+@@ -2,7 +2,7 @@ import {M3Connection} from './m3.js';
+ import {createCombatState, applyCombatPacket, beginPredictedStep,
+   visualPosition} from './combat_state.js';
+ import {encodeMoveForward, encodeUseSkill, encodeExitBattleEnd,
+-  encodeAutoBullet, encodeCacheSkillDestPos} from './combat_protocol.js';
++  encodeAutoBullet, encodeCacheSkillDestPos, encodeBattleChat} from './combat_protocol.js';
+ 
+ /** M4 extends the verified room lifecycle; combat state is a separate view. */
+ export class M4Connection extends M3Connection {
+@@ -130,6 +130,13 @@ export class M4Connection extends M3Connection {
+     return true;
+   }
+ 
++  sendBattleChat(text, team = false) {
++    const value = String(text ?? '').trim().slice(0, 80);
++    if (!value || !this.gate || !this.combat?.sceneId || this.combat.result) return false;
++    this.gate.send(encodeBattleChat(this.combat.sceneId, team ? 1 : 0, value));
++    return true;
++  }
++
+   cacheSkillDestination(x, y) {
+     if (!this.canControl()) return false;
+     const self = this.combat.actors[this.combat.selfObjectId];
+diff --git a/www/html5/m8_ui.js b/www/html5/m8_ui.js
+index 31955bcd..564482c9 100644
+--- a/www/html5/m8_ui.js
++++ b/www/html5/m8_ui.js
+@@ -341,7 +341,7 @@ export class M8UI {
+     place(panel.root,273,40,472,538);shade.append(panel.root);shade.setAttribute('role','dialog');shade.setAttribute('aria-modal','true');shade.setAttribute('aria-label','Tạo đội');
+     const title=this.assets.get('hall.title_createroom_t');panel.content.append(place(assetImage(title,''),(472-title.width)/2,19));
+     const setup=this.state.play.setup;
+-    this.pkMapSelect=selectInput(PK_MAPS.map(map=>({value:map.mode,label:`${map.group} · ${map.name}`})),isPKMode(setup?.mode)?setup.mode:'pk_robo');
++    this.pkMapSelect=selectInput([{value:'random',label:'Ngẫu nhiên · Bản đồ ngẫu nhiên'},...PK_MAPS.map(map=>({value:map.mode,label:`${map.group} · ${map.name}`}))],setup?.mode==='random'||isPKMode(setup?.mode)?setup.mode:'pk_robo');
+     this.pkMapSelect.dataset.testid='m89-pk-map';
+     this.allies=selectInput(Array.from({length:5},(_,i)=>({value:i,label:String(i)})),setup?.allies?.length??4);
+     this.enemies=selectInput(Array.from({length:6},(_,i)=>({value:i,label:String(i)})),setup?.enemies?.length??5);
+diff --git a/www/index.html b/www/index.html
+index 0875fe1e..22afeb75 100644
+--- a/www/index.html
++++ b/www/index.html
+@@ -59,12 +59,12 @@
+       <h1>Chào mừng BBer</h1>
+       <p id="welcomeAccount" class="hint"></p>
+       <button id="enterGameButton" class="primary" type="button">Vào game</button>
+-      <p><a class="bot-settings-link" href="/bots.html" target="_blank" rel="noopener">Thiết lập trận bot</a></p>
++      <p><a class="bot-settings-link" href="/bots.html" target="_blank" rel="noopener">Thiết lập trận bot</a> · <a class="bot-settings-link" href="/tank-guide/" target="_blank" rel="noopener">Cẩm nang tank</a></p>
+       <button id="logoutButton" class="danger" type="button">Đăng xuất</button>
+       <p id="welcomeError" class="message"></p>
+     </section>
+   </main>
+-  <section id="gameShell"><nav class="game-toolbar"><a href="/bots.html" target="_blank" rel="noopener">Thiết lập trận bot ↗</a></nav><div id="game"></div></section>
++  <section id="gameShell"><nav class="game-toolbar"><a href="/tank-guide/" target="_blank" rel="noopener">Cẩm nang tank ↗</a> · <a href="/bots.html" target="_blank" rel="noopener">Thiết lập trận bot ↗</a></nav><div id="game"></div></section>
+   <script>
+     (function () {
+       var loginForm = document.getElementById('loginForm');

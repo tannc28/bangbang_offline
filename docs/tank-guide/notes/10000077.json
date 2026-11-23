@@ -1,0 +1,41 @@
+{
+  "summary": "Chiến sĩ vật lý cận chiến, lướt vào bằng E rồi xả 3 lượt sóng kiếm Space. Thắng nhờ dấu Quỷ Trảm: đánh thường vào mục tiêu có dấu thì hồi máu và rút hồi chiêu, mục tiêu có dấu chết là E hồi ngay.",
+  "strengths": [
+    "Space có 3 lượt tích (cách nhau 1,5 giây): sóng kiếm xuyên tường, 322% công vật lý, cộng sát thương thực bằng 5% máu đã mất của mục tiêu, làm chậm 50% (giảm dần) trong 2 giây.",
+    "E lướt 456: 207% công vật lý lên mọi địch trên đường lướt (dải rộng 96), sau đó 3 phát đánh thường kế tiếp tỏa 3 tia, tốc đánh và tốc chạy +50% trong 2 giây.",
+    "Dấu Quỷ Trảm (3 giây): mục tiêu có dấu gây ít hơn 25% sát thương lên Zoro; đánh thường trúng nó thì làm mới dấu, hồi máu bằng 25% công, rút 0,5 giây hồi chiêu E, R và Space; nó chết khi còn dấu thì E hồi ngay.",
+    "R: trong 2 giây chặn mọi đạn bay, mỗi viên chặn được bắn trả một kiếm khí 150% công, xuyên tường, theo hướng chuột.",
+    "Chạy 175, nhanh hơn khoảng 88% số tank; máu 4.375."
+  ],
+  "weaknesses": [
+    "Tầm bắn 336, ngắn nhất trong 91 tank, và sát thương mỗi giây từ đòn thường chỉ hơn khoảng 27% số tank.",
+    "Chỉ số thân tank hạng 51/91: phải sống nhờ dấu Quỷ Trảm và hồi máu từ đòn thường.",
+    "R khóa luôn đòn thường và các chiêu khác trong 2 giây, và bị ngắt khi dính khống chế; R chỉ chặn đạn bay, không chặn chiêu vùng hay cận chiến.",
+    "E có 50 ms chuẩn bị và hồi 10 giây nếu không có mạng hạ gục."
+  ],
+  "tips": [
+    "Mở bằng E qua nhiều địch để gắn dấu cho cả nhóm, rồi dùng 3 phát đánh thường tỏa tia để làm mới dấu và rút hồi chiêu.",
+    "Xả Space vào mục tiêu đã thấp máu: phần 5% máu đã mất là sát thương thực.",
+    "Bật R khi đối mặt xạ thủ hoặc pháp sư bắn đạn: vừa không mất máu vừa bắn trả.",
+    "Kết liễu mục tiêu có dấu để E hồi ngay, rồi lướt sang con tiếp theo."
+  ],
+  "counters": [
+    "Dừng bắn đạn khi Zoro bật R (2 giây), hoặc dùng chiêu vùng và cận chiến không bị chặn.",
+    "Thả diều ngoài tầm 336: Zoro chỉ có E để áp sát.",
+    "Né E rồi khống chế ngay: sau E là 10 giây Zoro không có chiêu lướt.",
+    "Tránh để bị gắn dấu kéo dài: dấu khiến bạn gây ít hơn 25% sát thương lên Zoro."
+  ],
+  "counter_why": "R Cửu Thuật Kiếm của Zoro không đỡ được sát thương từ Space Siêu Chiến Sĩ của Baymax, nên khả năng sống sót của Zoro giảm hẳn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank giữa bảng (hạng 51/91), tầm ngắn nhất game, bù lại bằng 3 lượt Space mạnh, vòng hồi máu và rút hồi chiêu qua dấu Quỷ Trảm, cùng R chặn đạn. Đủ mạnh khi chơi tốt nhưng có điểm yếu rõ: bị thả diều và bị chiêu vùng.",
+    "suggestion": "Giữ nguyên. Mô tả tự mâu thuẫn về hồi máu (R ghi 50%, nội tại ghi 25%); code dùng 25% công — nên sửa mô tả R cho khớp."
+  },
+  "evidence": [
+    "server/zoro_actions.py:cast slot 2 — 3 lượt, 1500 ms giữa hai lượt, 10000 ms mỗi lượt, power × 3.22 xuyên tường; _skill_hit + (max_hp - hp) × 0.05 sát thương thực",
+    "server/zoro_actions.py:_basic_hit — mục tiêu có dấu: hồi attacker_ap × 0.25, E/R/Space - 500 ms",
+    "server/zoro_actions.py:on_target_death — mục tiêu có dấu chết thì cooldowns[1] = now",
+    "BuffTemplate 351113 fEffectValA -0.25 (battle_runtime: giảm 25% sát thương của mục tiêu có dấu lên Zoro); 351401 chặn đạn 2000 ms (battle_runtime.projectile_blocked), 351402 khóa đòn thường và chiêu khác",
+    "server/zoro_actions.py:_event zoro_blink — dải 456 × 96, power × 2.07; BuffTemplate 351205/351206 +50% tốc đánh/tốc chạy 2000 ms"
+  ]
+}

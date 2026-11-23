@@ -1,0 +1,39 @@
+{
+  "summary": "Tank chịu đòn kiêm hỗ trợ, chỉ có E và Space: E giải hiệu ứng xấu và hồi máu cho cả mình lẫn hai đồng đội, Space phá giáp và khóa tấn công cả một vùng để đồng đội dồn sát thương.",
+  "strengths": [
+    "Trâu nhất bảng: 7.328 máu (cao nhất trong 91 tank), giáp 251/333, máu hiệu dụng 14.461 (hơn gần 99% số tank).",
+    "E hồi 20% máu tối đa cho Teddy và hai đồng đội gần nhất, giải mọi hiệu ứng xấu, dùng được cả khi đang bị khống chế, hồi chiêu chỉ 8 giây.",
+    "Space gây 379% công năng lượng trong bán kính 216; ai đứng trong bán kính 144 thì bị giảm 40% hai loại giáp, không thể tấn công và mất mọi hiệu ứng giáp, giảm sát thương trong 3 giây.",
+    "Đánh thường trúng là giảm 20% giáp vật lý, giáp năng lượng và 20% tốc chạy của mục tiêu trong 4 giây, giúp cả đội bắn đau hơn."
+  ],
+  "weaknesses": [
+    "Chỉ có hai chiêu chủ động, không có chiêu di chuyển; tốc chạy 155 gần chậm nhất bảng.",
+    "Sát thương mỗi giây thấp (344, chỉ hơn khoảng 29% số tank); Teddy làm nền cho đồng đội chứ không tự hạ được ai.",
+    "Space hồi 25 giây và bay 1 giây mới nổ, địch tỉnh táo có thể bước ra khỏi vùng 144 trước khi dính hiệu ứng.",
+    "Đạn Space có thể bị chặn hoặc phản lại bởi các tank có kỹ năng chặn đạn, khi đó cả chiêu bị mất."
+  ],
+  "tips": [
+    "Thả Space vào chỗ địch đang dồn cục hoặc đang bị đồng đội khống chế, để chắc chắn chúng nằm trong vùng 144.",
+    "Ngay sau Space, gọi đồng đội dồn sát thương: 3 giây đó địch không thể tấn công và mất hết giáp, giảm sát thương.",
+    "Đứng gần đồng đội chủ lực để E hồi máu trúng họ; giữ E cho lúc bị choáng hoặc trói để vừa thoát vừa hồi.",
+    "Bắn thường đều đặn vào mục tiêu chính để giữ hiệu ứng giảm 20% giáp suốt trận."
+  ],
+  "counters": [
+    "Thấy đạn Space bay tới thì bước ra khỏi điểm rơi ngay, vì phải 1 giây sau nó mới nổ.",
+    "Dồn sát thương lúc E đang hồi; ngoài E ra Teddy không có cách nào giải khống chế hay hồi máu.",
+    "Thả diều bằng tầm xa và tốc chạy: Teddy chạy 155 và không có chiêu áp sát.",
+    "Dùng sát thương bỏ qua giáp hoặc tính theo máu tối đa để không phải đục qua lớp giáp dày."
+  ],
+  "counter_why": "Văn bản gốc chép nhầm từ trang của Người Cây (Groot): E của Deadpool bỏ qua giáp vật lý của Người Cây để gây sát thương, Người Cây lại kém cơ động nên Deadpool dễ đẩy nó về phía đội mình rồi cả đội dồn hạ.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 36/91: trâu bậc nhất nhưng chậm, tầm ngắn và sát thương thấp. E hồi máu cả đội và Space phá giáp là bộ chiêu hỗ trợ mạnh, nhưng chỉ có hai chiêu và không cơ động nên vẫn cân bằng.",
+    "suggestion": "Theo dõi E: code chọn hai đồng đội gần nhất mà không giới hạn khoảng cách, nên đồng đội ở tận góc bản đồ vẫn được hồi 20% máu mỗi 8 giây. Nếu thấy Teddy giữ cả đội sống quá lâu thì thêm bán kính tối đa cho phần hồi máu đồng đội."
+  },
+  "evidence": [
+    "server/teddy_actions.py:cast slot 1 — hồi 20% max_hp cho bản thân và 2 đồng đội gần nhất (không có giới hạn khoảng cách), xóa buff iAspect -1, cooldown 8000 ms",
+    "EffectTemplate 306301 fAddVal 3.79 iRange1 216; 306311 iRange1 144 (vùng hiệu ứng)",
+    "BuffTemplate 306311/306321 fEffectValA -0.4 3000 ms; 306331 không thể tấn công 3000 ms; 306341 vô hiệu giáp và giảm sát thương 3000 ms",
+    "BuffTemplate 306101/306102/306103 fEffectValA -0.2 iPersistTime 4000 (nội tại; 306103 là giảm tốc chạy, mô tả không nhắc)"
+  ]
+}

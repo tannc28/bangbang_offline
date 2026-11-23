@@ -1,0 +1,42 @@
+{
+  "summary": "Pháp sư năng lượng tiêu hao, gây sát thương theo vùng: E nhấc địch lên rồi nện xuống gây choáng những người xung quanh, R thả hai thanh thép, Space là bão từ đánh mọi kẻ địch trên toàn bản đồ. Thắng bằng cách bào máu cả đội địch từ xa rồi dọn dẹp.",
+  "strengths": [
+    "Space đánh 8 nhịp trong 6 giây lên mọi người chơi địch trên toàn bản đồ, kể cả đang tàng hình, mỗi nhịp 0,25 lần công; mỗi nhịp một địch ngẫu nhiên trong bán kính 360 nhận 1,5 lần công thay vì 0,25.",
+    "R thả hai thanh thép bán kính 144: thanh đầu 1,24 lần công, thanh sau 1,83 lần; trúng cả hai thì mất thêm 10% máu tối đa dưới dạng sát thương chuẩn.",
+    "E nhấc mọi địch trong bán kính 108 lên không 1,5 giây, rồi nện xuống gây 1,9 lần công; người chơi đứng quanh chỗ rơi cũng nhận 1,9 lần công và bị choáng 1 giây.",
+    "Nội tại: chiêu nào gây sát thương cũng cho Magneto tăng 50% tốc chạy và đi xuyên thân địch trong 2 giây, dễ chọn vị trí.",
+    "Công năng lượng 378, cao hơn mặt bằng nhóm pháp sư cùng bảng."
+  ],
+  "weaknesses": [
+    "Bắn chậm (1.000 ms một phát), chỉ hơn khoảng 3% số tank về tốc bắn.",
+    "R phải đứng yên 0,3 giây tụ lực, sau đó thanh thép rơi chậm tới 1,3 giây: mục tiêu di chuyển dễ né thanh thứ hai và mất luôn phần 10% máu.",
+    "E có độ trễ 0,7 giây trước khi nhấc, nên chỉ chắc trúng mục tiêu đang đứng yên hoặc bị khống chế.",
+    "Không có chiêu thoát thân ngoài tốc chạy của nội tại; máu hiệu dụng 5.950 ở mức trung bình."
+  ],
+  "tips": [
+    "Bật Space ngay đầu giao tranh: cả đội địch bị bào máu, rồi đứng gần một mục tiêu yếu để nhịp 1,5 lần công rơi vào nó.",
+    "Thả R lên mục tiêu vừa bị E nhấc lên: đang ở trên không thì không né được thanh thứ hai.",
+    "Nhắm E vào giữa cụm địch: một người bị nhấc lên thì những người đứng quanh chỗ rơi bị choáng.",
+    "Dùng tốc chạy 50% từ nội tại sau mỗi chiêu để lùi ra khỏi tầm đánh trả."
+  ],
+  "counters": [
+    "Tránh xa Magneto khi nó bật Space: chỉ địch trong bán kính 360 mới dính nhịp 1,5 lần công.",
+    "Luôn di chuyển khi thấy dấu R và dấu E xuất hiện, cả hai đều có độ trễ.",
+    "Áp sát và dồn: Magneto không có chiêu thoát thân thật sự.",
+    "Biến mất khỏi bản đồ (không bị chọn làm mục tiêu) để Space đánh hụt, như Kirito làm được với R."
+  ],
+  "counter_why": "Kirito dùng R để biến mất, không chỉ áp sát gây sát thương lên Magneto được mà còn khiến chiêu cuối của nó đánh hụt.",
+  "against": "Khi Magneto dùng Space Bão Từ Tính, tuyệt đối đừng lại gần nó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 43/91, ở giữa. Space toàn bản đồ và phần 10% máu chuẩn của R cho sát thương tốt, nhưng mọi chiêu đều có độ trễ dễ né và Magneto không có chiêu thoát thân.",
+    "suggestion": "Giữ nguyên. Mô tả R ghi phần 10% máu tối đa là sát thương năng lượng, còn code gây sát thương chuẩn (bỏ qua giáp); nên thống nhất một bên. Dữ liệu khắc chế gốc ghi tank khắc chế là Edwina Knight nhưng lời giải thích lại nói về Kirito."
+  },
+  "evidence": [
+    "server/magneto_actions.py:_event magneto_storm — 8 nhịp mỗi 750 ms, mọi người chơi địch (cả tàng hình), power*0.25, một địch ngẫu nhiên trong 360 nhận power*1.5",
+    "server/magneto_actions.py:_event magneto_r_hit — bán kính 144, power*1.24 lúc 700 ms và power*1.83 lúc 1300 ms, trúng cả hai thêm max_hp*0.1 school='true'",
+    "server/magneto_actions.py:_event magneto_e_lift/magneto_e_land — bán kính 108, BuffTemplate 372202 nhấc 1500 ms, power*1.9, 372207 choáng 1000 ms cho người không bị nhấc",
+    "server/magneto_actions.py:_skill_hit — BuffTemplate 372102 +50% tốc chạy 2000 ms, 372103 xuyên thân",
+    "facts: stat_rank 43, atk 378, fire_ms 1000 (pct 0.033), ehp 5950 (pct 0.522); counter id 10000066 nhưng why nhắc 桐人 (Kirito)"
+  ]
+}

@@ -1,0 +1,134 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Bí Ngô Vương · Cẩm nang tank</title><meta name="description" content="Pháp sư bẫy và triệu hồi: rải Bí Ngô hất văng địch, thả Hồn Ma tự đuổi mục tiêu, rồi chốt bằng U Linh Vương bay càng xa đánh càng đau. Bí Ngô còn hồi máu và cho đồng đội 1 giây miễn sát thương.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/5d7812512dc968fa075b0ac07242c3d3.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Ta là người theo chủ nghĩa duy vật, không tin mấy thứ phù phiếm này!</div>
+<h2 class="page-title">Bí Ngô Vương</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Bẫy Triệu Tập</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000090.html">← Natsu</a>
+<a class="btn" href="10000076.html">Kaneki - Ghoul →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư bẫy và triệu hồi: rải Bí Ngô hất văng địch, thả Hồn Ma tự đuổi mục tiêu, rồi chốt bằng U Linh Vương bay càng xa đánh càng đau. Bí Ngô còn hồi máu và cho đồng đội 1 giây miễn sát thương.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Sát thương và khống chế đều tốt nhưng phụ thuộc cự ly bắn và vị trí đặt bẫy; thân mỏng, chạy chậm (hạng chỉ số thân 63/91). Không có điểm nào vượt trội rõ rệt.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Mô tả R ghi Hồn Ma có 100% máu của Bí Ngô, mô tả nội tại ghi 50%; code dùng 50%. Nên sửa mô tả R cho khớp.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3360</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">155 / 180</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">368 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">29</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#63/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5236</span></div><div class="progress progress-sm" title="Hơn 28% số tank"><div class="progress-bar bg-orange" style="width:28%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">387</span></div><div class="progress progress-sm" title="Hơn 61% số tank"><div class="progress-bar bg-lime" style="width:61%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/996779462f71fbc71db07d831969aaba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Bí Ngô Quỷ</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Tạo ra Bí Ngô tồn tại 45s. 
+
+Kẻ địch tiếp xúc thì Bí Ngô sẽ nổ, tạo #EN_215%_ER# ST Năng Lượng, đánh bay kẻ địch. Trên đường bay nếu xảy ra va chạm, địch sẽ Choáng 0.5s. 
+
+Đồng đội chạm phải Bí Ngô sẽ hồi #EN_127%_ER# HP và nhận trạng thái Vô Địch 1s.
+Skill này được cộng dồn 2 lần, khoảng cách dùng là 4s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9a9ea83a117b47b67c0f83521fe22b7a.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Ác Ma Báo Thù</span>
+<span class="badge bg-azure-lt">hồi 10s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Khi kẻ địch tử vong, Xe Bí Ngô được triệu hồi Hồn Ma, Hồn Ma có 100% HP của Xe Bí Ngô. Hồn Ma sẽ tấn công kẻ địch trong phạm vi, gây #EN_50%_ER# ST Năng Lượng lên địch, khiến địch trong 1.5s giảm 25% tốc độ di chuyển, hiệu quả giảm tốc cộng dồn dần theo lượt sát thương, tối đa cộng dồn đến 50%.
+
+HP Hồn Ma sẽ giảm dần theo thời gian, khi hoàn toàn biến mất sẽ gây lên địch trong phạm vi #EN_150%_ER# ST Năng Lượng.
+Cùng trận doanh chỉ có 1 Xe Bí Ngô có tác dụng.
+
+Chủ động: Triệu hồi 10 Hồn Ma khóa cà theo dõi kẻ địch gần nhất trong phạm vi, sau khi Hồn Ma va chạm người chơi địch sẽ gây #EN_65%_ER# ST Năng Lượng và hồi HP bằng Xe Bí Ngô 5% HP đã mất của Xe Bí Ngô.
+Skill này thi triển xong mới vào CD</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b4223531611999f55c903cb04ec3b9b4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Vua Ma Mị</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+<span class="badge bg-teal-lt">tầm 960</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Sau khi tụ lực ngắn hạn tại vị trí bản thân triệu hồi ra 1 U Linh Vương khổng lồ chầm chậm di chuyển về đường thẳng hướng chỉ định (Không truy kích mục tiêu), U Linh Vương va chạm mục tiêu địch hoặc đến điểm cuối sẽ nổ tung, gây lên kẻ địch trong phạm vi #EN_111%_ER# ST Năng Lượng(ST cuối cùng quyết định bởi cự ly đường thẳng giữa mục tiêu và Xe Bí Ngô khi nổ tung, cự ly càng xa ST càng lớn, tối đa ST không quá #EN_777%_ER#.) rồi choáng mục tiêu trong phạm vi 1.5s, đồng thời tạo 1 Cổng U Linh, Cổng U Linh sẽ liên tục tạo ra Hồn Ma tấn công kẻ địch trong phạm vi.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b4223531611999f55c903cb04ec3b9b4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Triệu Hồn</span>
+<span class="badge bg-azure-lt">hồi 1s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Năng Lượng
+VP Bay: Không
+
+Khi địch tử vong Xe Bí Ngô gọi ra Hồn Ma, Hồn Ma có 50% HP của Xe Bí Ngô. Hồn Ma tấn công địch trong phạm vi, gây #EN_50%_ER# ST Năng Lượng, trong 1s địch bị giảm tốc 20%.
+
+HP Hồn Ma sẽ giảm dần theo thời gian, khi cạn HP gây cho địch xung quanh #EN_150%_ER# ST Năng Lượng. 
+
+Cùng trận doanh chỉ tồn tại 1 Xe Bí Ngô.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Space bay xuyên tường, sát thương tăng theo quãng bay: 111% công khi nổ sát người, tối đa 777% khi bay hết 960. Nổ bán kính 192 và choáng 1,5 giây.</li><li>Space để lại Cổng U Linh, mỗi giây sinh một Hồn Ma trong 6 giây. Kẻ địch chết cũng để lại một Hồn Ma đánh tiếp.</li><li>E có 2 lượt tích, bẫy tồn tại 45 giây: kẻ địch chạm vào nhận 215% công và bị hất văng 240, văng trúng người khác thì cả hai choáng 0,5 giây. Đồng đội chạm vào được hồi máu bằng 127% công và miễn sát thương 1 giây.</li><li>R bắn 10 Hồn Ma tự đuổi, mỗi 0,5 giây một con, mỗi con 65% công và xuyên tường. Mỗi con trúng hồi cho Bí Ngô 5% máu đã mất.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng và chậm: 3.360 máu, máu hiệu dụng 5.236, tốc chạy 160.</li><li>Space phải đứng tụ lực 0,5 giây, bị choáng hay câm lặng lúc này là mất chiêu. Bắn gần thì chỉ còn 111%.</li><li>Hồn Ma dễ bị tháp pháo và vật triệu hồi (như của Minion) hút mất.</li><li>Suốt 5 giây bắn R, Bí Ngô không dùng lại R được, và R chỉ bắt đầu hồi 10 giây sau khi bắn xong: thực tế 15 giây một lần.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Đặt Bí Ngô ở lối hẹp, cạnh tường: kẻ địch bị hất văng vào nhau sẽ cùng choáng.</li><li>Bắn Space từ xa nhất có thể (gần 960) để ăn trọn 777%.</li><li>Rải Bí Ngô dưới chân đồng đội đang bị dồn: họ được hồi máu và 1 giây miễn sát thương.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Áp sát nhanh: Bí Ngô mỏng và chạy chậm.</li><li>Đừng giẫm lên Bí Ngô trên mặt đất, cũng đừng đi sát đồng đội khi ở gần bẫy.</li><li>Dùng tháp pháo hoặc vật triệu hồi để hứng Hồn Ma.</li><li>Lao sát vào khi Bí Ngô tụ Space: ở cự ly gần, đòn chỉ còn 111%.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chú ý né tránh hiệu quả skill [E-Bí Ngô Quỷ] của Bí Ngô (Đầu Bí Ngô trên mặt đất).</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000060.html">Minion</a>. Hồn Ma do Bí Ngô Vương triệu hồi sẽ đuổi theo cả tháp pháo của Minion. Vì vậy Minion có thể dùng tháp pháo hứng đòn thay, khiến Hồn Ma không đánh trúng mục tiêu chính.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/pumpkin_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/pumpkin_actions.py:_explosion — 1.11 + 6.66 × quãng bay/960, bán kính 192; EffectTemplate 327301 fAddVal 0.777 fEffectUpperRate 7.77; BuffTemplate 327302 choáng 1500 ms</li><li>server/pumpkin_actions.py:_event pumpkin_trap — 2.15 lên địch, hồi đồng đội 1.27 × công + BuffTemplate 327222 (miễn sát thương 1000 ms); va chạm BuffTemplate 327231/327232 choáng 500 ms</li><li>server/pumpkin_actions.py:_event pumpkin_volley — 10 lượt × 0.65, hồi 5% máu đã mất; hồi chiêu 5000 + 10000 ms</li><li>server/pumpkin_actions.py:_summon_stats — Hồn Ma có 0.5 × máu Bí Ngô, mất 12,5% mỗi giây (BuffTemplate 327122 fFixParam -0.125)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [28, 61, 17, 49, 20]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Bí Ngô Vương",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

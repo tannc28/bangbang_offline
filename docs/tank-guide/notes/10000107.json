@@ -1,0 +1,41 @@
+{
+  "summary": "Hỗ trợ năng lượng tầm xa, mạnh ở giao tranh tổng: mỗi chiêu đều cho đồng đội quanh mình 0,5 giây chặn đạn bay, còn sát thương chủ yếu tính theo máu đã mất của địch và cắt hồi máu. Space kéo địch vào, giải hiệu ứng xấu và hồi máu cho đồng đội.",
+  "strengths": [
+    "Mỗi lần dùng chiêu: Hikari và đồng đội trong bán kính 432 chặn mọi đạn bay của địch trong 0,5 giây; bản thân tăng 50% tốc chạy, giảm dần trong 2 giây.",
+    "Chiêu gây sát thương gắn Wind Hug 2 giây: mỗi tầng giảm 10% công, tốc chạy và hồi máu nhận vào của mục tiêu, tối đa 3 tầng.",
+    "E có 2 lượt tích (cách nhau 3 giây), bay xuyên tường: nổ bán kính 168, 100% công năng lượng cộng 5% máu đã mất sát thương thực; mục tiêu mất 100% hiệu quả hồi máu và khiên, chậm 25% trong 1,5 giây.",
+    "R: sau 0,75 giây nổ bán kính 168, 100% công năng lượng; trong 4,5 giây sau mỗi 1,5 giây mục tiêu chịu 5% máu đã mất sát thương thực và bị chậm 75% trong 0,25 giây.",
+    "Space: khóa chiêu địch trong bán kính 432 trong 1 giây, rồi 3 nhịp mỗi 1,5 giây: kéo địch lại gần 120, gây 5% máu đã mất sát thương thực (nhịp đầu 10%), làm chậm tốc đánh, tốc chạy, tốc đạn tới 50%; đồng đội được giải hiệu ứng xấu và hồi 5% máu tối đa của Hikari (nhịp đầu 10%)."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 60/91; sát thương mỗi giây từ đòn thường chỉ hơn khoảng 31% số tank.",
+    "Sát thương thực tính theo máu đã mất, nên gần như vô hại với mục tiêu còn đầy máu.",
+    "Chặn đạn chỉ kéo dài 0,5 giây mỗi lần dùng chiêu và không chặn chiêu vùng, chiêu cận chiến.",
+    "Space có 1 giây chuẩn bị; bị khóa chiêu lúc đó thì Space hỏng và hồi 8 giây."
+  ],
+  "tips": [
+    "Canh dùng chiêu đúng lúc xạ thủ địch bắn tới để cả đội ăn trọn 0,5 giây chặn đạn.",
+    "Ném E vào mục tiêu đang được hồi máu hoặc có khiên: 1,5 giây mất sạch hồi máu và khiên.",
+    "Dùng Space ở giữa đội mình khi giao tranh đã nổ ra: địch đã mất máu thì phần 5–10% máu đã mất mới đáng kể, đồng đội cũng cần được giải khống chế.",
+    "Đặt R lên mục tiêu đang chạy trốn: 3 nhịp làm chậm 75% xen kẽ và sát thương theo máu đã mất."
+  ],
+  "counters": [
+    "Dùng tank có chiêu không phải đạn bay (chiêu vùng, lướt cận chiến): chặn đạn không có tác dụng.",
+    "Khóa chiêu hoặc ngắt Hikari trong 1 giây chuẩn bị Space.",
+    "Bắt Hikari trước giao tranh, khi mọi người còn đầy máu: sát thương của nó lúc đó rất thấp.",
+    "Bước ra khỏi bán kính 432 sau nhịp Space đầu để không bị kéo tiếp."
+  ],
+  "counter_why": "Nội tại Wind Song của Hikari khắc chế mạnh các tank xạ thủ bắn đạn. Chọn tank có chiêu không phải đạn bay là cách khắc chế hiệu quả.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thấp (hạng 60/91) là bình thường cho một hỗ trợ; bù lại bằng chặn đạn cho cả đội, cắt hồi máu, giải khống chế và kéo địch. Sát thương thực theo máu đã mất chỉ mạnh khi giao tranh đã kéo dài.",
+    "suggestion": "Giữ nguyên. Mô tả Space ghi '5% HP' mà không nói là máu đã mất; code dùng máu đã mất cho địch và 5% máu tối đa của Hikari cho phần hồi máu — nên ghi rõ trong mô tả. Nội tại 382101 có trong SkillTemplate nhưng mô tả trống."
+  },
+  "evidence": [
+    "server/hikari_actions.py:_inspire — BuffTemplate 382121 chặn đạn 500 ms cho đồng đội trong bán kính 432 (battle_runtime.projectile_blocked), 382123 +50% tốc chạy",
+    "server/hikari_actions.py:_impact/_mark — (max_hp - hp) × 0.05 sát thương thực; BuffTemplate 382111/382112/382113 -10% mỗi tầng, tối đa 3",
+    "BuffTemplate 382213 -100% hồi máu và khiên 1500 ms, 382214 chậm 25% (E)",
+    "server/hikari_actions.py:_pulse — bán kính 432, nhịp đầu 0.1 rồi 0.05 máu đã mất (địch) / max_hp Hikari (đồng đội), cleanse, kéo 120; BuffTemplate 382605–382607 -20% rồi -15% mỗi tầng",
+    "server/hikari_actions.py:interrupt — Space bị ngắt khi chuẩn bị: cooldown 8000 ms; facts stat_rank 60"
+  ]
+}

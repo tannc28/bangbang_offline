@@ -1,0 +1,40 @@
+{
+  "summary": "Tank tuyến đầu vật lý, càng đứng giữa nhiều địch càng cứng: nội tại tăng giáp theo số địch quanh mình, E lao vào gây choáng, Space nhấc một địch ném vào đội nó. Thắng bằng cách mở giao tranh và kéo đúng mục tiêu về phía đồng đội.",
+  "strengths": [
+    "Rất trâu sẵn: máu 6.211, giáp 281 cả hai loại, máu hiệu dụng 12.029, hơn khoảng 94% số tank.",
+    "Nội tại đếm địch là người chơi trong bán kính 408, mỗi giây cập nhật: 1/2/3/4/5 địch thì tăng 10/30/60/100/150% giáp vật lý và giáp năng lượng, kèm 3–15% công vật lý.",
+    "E lao 480 đơn vị, mọi địch chạm phải nhận 1,32 lần công, bị choáng 0,5 giây và bị đẩy 72 đơn vị; mỗi người chơi trúng cho Superman giảm 15% sát thương nhận vào trong 4 giây, tối đa 60%.",
+    "Space nhấc địch gần nhất (trong 240) ném tới điểm chọn trong tầm 528: 1,05 lần công khi nhấc, 1 giây sau tiếp đất gây 2,62 lần công và choáng 1 giây mọi địch trong bán kính 120.",
+    "E hồi chỉ 6 giây, nên lớp giảm sát thương 4 giây gần như lúc nào cũng có trong giao tranh dài."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và chạy gần chậm nhất (155): bị thả diều là không làm được gì.",
+    "Không có ô R, bộ chiêu chỉ gồm E và Space.",
+    "Sát thương thấp: khoảng 348 mỗi giây từ đạn thường, công 313.",
+    "Space chỉ bắt được địch trong bán kính 240 quanh mình; đứng xa hoặc miễn khống chế thì Space không nhấc nổi."
+  ],
+  "tips": [
+    "Lao E xuyên qua càng nhiều địch càng tốt: vừa choáng cả hàng vừa cộng dồn giảm sát thương tới 60%.",
+    "Sau E, đứng giữa đội địch: càng nhiều địch quanh mình, nội tại càng tăng giáp.",
+    "Dùng Space ném pháo xa mỏng máu về phía đồng đội, hoặc ném vào giữa đội địch để cú tiếp đất choáng thêm người.",
+    "Đừng đuổi theo mục tiêu chạy nhanh: tầm 336 và tốc chạy 155 không theo kịp."
+  ],
+  "counters": [
+    "Thả diều từ xa: Superman có tầm bắn ngắn nhất và chạy gần chậm nhất.",
+    "Đứng tản ra, không cho nhiều người cùng ở trong bán kính 408, để nội tại không cộng nhiều giáp.",
+    "Giữ khoảng cách trên 240 với Superman để tránh bị ném.",
+    "Dùng tank gây sát thương bộc phát lớn như Mikasa khi lớp giảm sát thương 4 giây của E vừa hết."
+  ],
+  "counter_why": "Superman có giáp vật lý cao, nhưng đặc tính kỹ năng của Mikasa vẫn gây được sát thương lớn lên nó: combo E Móc Bật và Space Chém Xoay cho sát thương bộc phát rất cao.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 37/91: máu hiệu dụng hơn khoảng 94% số tank nhưng tầm bắn ngắn nhất và chạy gần chậm nhất. Bộ chiêu khống chế tốt nhưng sát thương thấp, đúng vai tank mở giao tranh 5 sao hỗ trợ.",
+    "suggestion": "Giữ nguyên. Mô tả E ghi giảm sát thương cho đòn kế tiếp, còn code và BuffTemplate 328231–328234 (iUseNum -1) giữ giảm sát thương suốt 4 giây; nếu Superman quá khó hạ khi giao tranh đông người thì đây là chỗ cần xem."
+  },
+  "evidence": [
+    "server/superman_actions.py:_event superman_aura — đếm địch không phải NPC trong 408, tối đa 5; BuffTemplate 328111–328115 và 328121–328125 fEffectValA 0.1/0.3/0.6/1/1.5",
+    "server/superman_actions.py:_event superman_dash — power*1.32, BuffTemplate 328222 choáng 500 ms, đẩy 72; 328231–328234 giảm 15–60% sát thương, 4000 ms, iUseNum -1",
+    "server/superman_actions.py:cast slot 2 — chọn địch gần nhất trong 240, ném tối đa 528, power*1.05; superman_landing power*2.62 bán kính 120, BuffTemplate 328306 choáng 1000 ms",
+    "facts: stat_rank 37, ehp 12029 (pct 0.944), range 336 (pct 0.0), speed 155 (pct 0.022)"
+  ]
+}

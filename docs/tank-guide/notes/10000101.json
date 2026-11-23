@@ -1,0 +1,41 @@
+{
+  "summary": "Sát thủ vật lý nhanh nhất game, tàng hình khi rời giao tranh và đánh úp bằng ba phát đạn đặc biệt của Space. Mọi chiêu đều gắn dấu, chiêu sau trúng mục tiêu có dấu là cộng thêm 100% công sát thương thực.",
+  "strengths": [
+    "Chạy 185, nhanh nhất trong 91 tank; công 420 và xuyên giáp 60, sát thương mỗi giây hơn khoảng 87% số tank.",
+    "Rời giao tranh 2 giây là vào tàng hình (không thể bị chọn) và chạy nhanh thêm 25%.",
+    "Dấu Đánh Úp: chiêu nào trúng cũng gắn dấu 3 giây; chiêu kế tiếp trúng mục tiêu có dấu gây thêm sát thương thực bằng 100% công rồi gắn dấu mới.",
+    "Space: 3 phát đạn đặc biệt bay xuyên tường, mỗi phát cách nhau 1,25 giây: 250% công kèm chậm 50%, rồi 300% công nổ bán kính 120, rồi 350% công trên đường thẳng dài 960. Mục tiêu trúng bị giảm 50% hồi máu và khiên trong 2 giây.",
+    "Đứng yên 1,5 giây là vào thế ngắm: đòn thường gấp đôi sát thương, trúng thì rút 15% thời gian hồi còn lại của Space; đứng yên lâu hơn cộng xuyên giáp 10% mỗi 0,5 giây, tối đa 10 tầng."
+  ],
+  "weaknesses": [
+    "Mỏng: máu 3.344, máu hiệu dụng 4.877, chỉ hơn khoảng 14% số tank.",
+    "Tàng hình mất ngay khi dùng chiêu, bắn, hoặc mất máu, và phải 2 giây yên ổn mới quay lại.",
+    "Ba phát Space cách nhau 1,25 giây và không bị tốc đánh ảnh hưởng: mục tiêu có thời gian né từng phát.",
+    "Thế ngắm mất ngay khi di chuyển, nên lối chơi đứng yên xung đột với lối chơi lướt vào."
+  ],
+  "tips": [
+    "Mở bằng E hoặc mìn R để gắn dấu, rồi mới vào Space: phát 2 và phát 3 đều ăn thêm 100% công sát thương thực.",
+    "E đẩy lùi 240; đẩy mục tiêu vào tường là choáng 1 giây, đủ để bắn trọn một phát Space.",
+    "Đặt mìn R ở lối địch rút lui: dẫm phải là chậm 75%, 1 giây sau nổ 205% công bán kính 120.",
+    "Khi không có mục tiêu, đứng yên ở chỗ an toàn để vào thế ngắm: mỗi phát ngắm trúng rút 15% hồi chiêu Space."
+  ],
+  "counters": [
+    "Dùng chiêu lộ diện hoặc chiêu vùng phá tàng hình (như Space của Magneto) để không bị đánh úp.",
+    "Sau phát Space đầu tiên, đổi hướng chạy liên tục: hai phát còn lại cách nhau 1,25 giây.",
+    "Đừng đứng sát tường khi Sniper có E: bị đẩy vào tường là choáng 1 giây.",
+    "Dồn sát thương ngay khi nó lộ diện: máu hiệu dụng dưới 4.900."
+  ],
+  "counter_why": "Space Bão Từ Tính của Magneto phá được tàng hình của Sniper.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương dồn một mục tiêu rất cao (ba phát Space 250% + 300% + 350% cộng 100% công sát thương thực mỗi phát sau), nhưng Sniper mỏng (máu hiệu dụng hơn 14% số tank) và các phát đều có thể né. Hạng chỉ số tổng 27/91; đây là mức hợp lý cho một sát thủ.",
+    "suggestion": "Giữ nguyên. Code khác mô tả ở hai chỗ: trạng thái Đánh Úp không làm chậm bản thân (BuffTemplate 376305 là khóa chiêu, dù mô tả ghi giảm tốc 50%), và tầng xuyên giáp bắt đầu sau 2 giây đứng yên thay vì 1,5 giây. Nếu Sniper đánh úp quá dễ, thêm lại làm chậm 50% bản thân như mô tả."
+  },
+  "evidence": [
+    "server/sniper_actions.py:_mark_hit — mục tiêu có BuffTemplate 376410: thêm power sát thương thực, gắn lại dấu 3000 ms",
+    "server/sniper_actions.py:cast slot 0 (special) / _event sniper_ready — 1250 ms mỗi phát; 2.5 × công, 3 × công bán kính 120, 3.5 × công dải 960; BuffTemplate 376421 -50% hồi máu/khiên",
+    "server/sniper_actions.py:update/_conceal — tàng hình 376111 sau 2000 ms không giao tranh, 376112 +25% tốc chạy; thế ngắm sau 1500 ms, tầng 376141 từ 2000 ms",
+    "server/sniper_actions.py:_bullet_hit — đòn ngắm × 2, trúng thì Space còn lại × 0.85; _push đẩy 240, vào tường BuffTemplate 376210 choáng 1000 ms",
+    "server/sniper_actions.py:_event sniper_blast — mìn 2.05 × công bán kính 120, BuffTemplate 376404 chậm 75%"
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "summary": "Sát thủ đánh sát người: đánh thường và kỹ năng càng gần càng đau (tối đa gấp đôi), tàng hình để áp sát, và Space liên tục bắn Dead Shadow vào một mục tiêu trong 3 giây.",
+  "strengths": [
+    "Mọi đòn tăng sát thương theo độ gần, tối đa ×2 khi bắn sát người, giảm dần về ×1 ở cự ly 408.",
+    "Trúng một mục tiêu 5 lần trong 3 giây gây Trọng Thương 3 giây: mất 50% công mỗi giây, và cứ di chuyển 100 lại mất thêm 50% công sát thương chuẩn.",
+    "Space: tàng hình 3 giây, tăng 100% tốc chạy, bắn 12 Dead Shadow vào mục tiêu đánh dấu, mỗi phát 50% công nhân hệ số cự ly. Mỗi phát trúng hồi lượng máu bằng 25% công.",
+    "E: tàng hình 6 giây, tăng 50% tốc chạy; phát đánh thường kế tiếp gây 75% công, làm chậm 50%, câm lặng 1,5 giây và hồi 25 năng lượng.",
+    "Né Hoàn Mỹ: 25% cơ hội né hẳn một đòn trực tiếp, tối đa một lần mỗi 0,5 giây."
+  ],
+  "weaknesses": [
+    "Thân mỏng hàng đầu: 3.161 máu, máu hiệu dụng 4.799.",
+    "Đánh thường gốc chỉ còn 50% công; đứng xa thì sát thương rất thấp.",
+    "Tàng hình vỡ ngay khi nhận sát thương hoặc ra bất kỳ đòn nào, và khi di chuyển vẫn để lại dấu vết địch nhìn thấy.",
+    "Năng lượng 100: E tốn 15, R 25, Space 60, chỉ hồi 10 mỗi 3 giây.",
+    "Dead Shadow trúng kẻ khác đứng chắn giữa thì chỉ gây một nửa."
+  ],
+  "tips": [
+    "Áp sát bằng E rồi mở bằng phát đánh thường cường hóa để câm lặng mục tiêu.",
+    "Bám sát mục tiêu trong Space để Dead Shadow ăn hệ số ×2.",
+    "Dùng R (3 phi tiêu bay đi rồi quay về) để gắn ấn nhanh; mỗi lần trúng rút 10% hồi chiêu E."
+  ],
+  "counters": [
+    "Đẩy lùi hoặc giữ khoảng cách: mọi sát thương của nó đều cần đến gần.",
+    "Đánh trúng một đòn để phá tàng hình.",
+    "Đứng chắn trước đồng đội bị đánh dấu Space để Dead Shadow chỉ còn một nửa.",
+    "Dính Trọng Thương thì đứng yên để không mất thêm sát thương chuẩn."
+  ],
+  "counter_why": "Chiêu R và nội tại của Captain chặn hiệu quả sát thương từ đạn bay của Night Wing.",
+  "balance": {
+    "status": "ok",
+    "reason": "Bùng nổ cao khi đánh sát, nhưng thân thuộc loại mỏng nhất game, tàng hình dễ vỡ và năng lượng hạn chế (hạng chỉ số thân 50/91).",
+    "suggestion": "Theo dõi Space: 12 phát × 50% công × hệ số cự ly tối đa 2 là tới 1.200% công trong 3 giây lên một mục tiêu. Mô tả ghi mỗi phát hồi 25% HP, nhưng code hồi 25% công; cần sửa văn bản cho khớp."
+  },
+  "evidence": [
+    "server/nightwing_actions.py:_hit — factor = 1 + max(0, 1 − khoảng cách/408); Dead Shadow trúng kẻ không bị đánh dấu × 0.5; restore_hp(power × 0.25)",
+    "server/nightwing_actions.py:_mark/_event night_wound — 5 tầng thì Trọng Thương 3000 ms: 0.5 × công mỗi giây, 0.5 × công sát thương chuẩn mỗi 100 di chuyển",
+    "server/nightwing_actions.py:block_hit — 25% né, cách nhau ít nhất 500 ms",
+    "server/nightwing_actions.py:_event night_cast — Dead Shadow mỗi 250 ms trong 3000 ms (12 phát); BuffTemplate 390303 +1.0 tốc chạy, 390222 câm lặng 1500 ms"
+  ]
+}

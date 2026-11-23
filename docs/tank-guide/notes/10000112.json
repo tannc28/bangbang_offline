@@ -1,0 +1,40 @@
+{
+  "summary": "Pháp sư lửa tiêu hao và khống chế nhóm: E rải cầu lửa có ba lượt, R phun lửa liên tục trong lúc miễn khống chế, Space thả trận lửa lên mọi kẻ địch đang thấy được trên bản đồ, nổ ra gây choáng 1 giây.",
+  "strengths": [
+    "Chỉ số thân tank hạng 10/91: công năng lượng 404 (sát thương mỗi giây hơn khoảng 71% số tank), tốc chạy 170.",
+    "Space không cần nhắm: đặt một trận lửa dưới chân mọi kẻ địch đang thấy được, 1,1 giây sau nổ 323% công trong bán kính 120 và choáng 1 giây; cầu lửa của E trong vùng nổ cũng nổ theo ngay.",
+    "R phun lửa hình quạt hẹp tầm 456: mỗi 0,3 giây 37,5% công (125% mỗi giây), mục tiêu ở xa hơn 408 ăn thêm 50%; trong lúc phun Chu Du miễn mọi khống chế, hút máu 25% sát thương phun lửa, và kẻ trúng lửa gây ít hơn 25% sát thương lên Chu Du trong 3 giây.",
+    "E có 3 lượt (8 giây mỗi lượt, cách nhau 2 giây): nổ 147% công bán kính 168 và làm chậm 50%, để lại cầu lửa 8 giây; cầu nổ thêm 126% và choáng 0,5 giây, rồi cháy đất 3 giây (30% công mỗi giây). Lửa R chạm cầu thì cầu nổ sau 1 giây.",
+    "Chiêu trúng là đốt: mục tiêu mất 2,5% máu đã mất mỗi giây, lửa lan sang kẻ địch trong bán kính 120, và bị giảm dần tốc chạy, sát thương vật lý, hiệu quả hồi máu (tối đa 25%)."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.749 máu, máu hiệu dụng 5.898; bắn chậm 1.000 ms một phát.",
+    "R tốn 10 năng lượng mỗi 0,4 giây trên tổng 100, năng lượng chỉ hồi 10 mỗi 3 giây; phun một lần dài là cạn, và bị câm lặng là đứt ngay.",
+    "Trong lúc phun lửa không đánh thường được.",
+    "E nổ gần chân (trong 168) thì chính Chu Du bị đẩy lùi 240."
+  ],
+  "tips": [
+    "Rải 2–3 quả E quanh địch trước, rồi phun R qua các cầu lửa để kích nổ, choáng 0,5 giây và cháy đất.",
+    "Giữ Space cho lúc nhiều kẻ địch đang bị chậm hoặc đứng yên, để trận lửa 1,1 giây không bị né.",
+    "Phun R ở rìa tầm (xa hơn 408) để có thêm 50% sát thương, và dùng R như chiêu miễn khống chế khi bị lao vào.",
+    "Ném E trúng để hồi năng lượng (thêm 25 sau mỗi lần nổ trúng), đủ cho lượt phun lửa tiếp theo."
+  ],
+  "counters": [
+    "Thấy trận lửa Space xuất hiện dưới chân thì bước ra khỏi bán kính 120 ngay.",
+    "Câm lặng Chu Du khi nó đang phun lửa: chiêu đứt ngay và R vào hồi 6 giây.",
+    "Đừng đứng gần đồng đội khi đang bị đốt, lửa lan sang người trong bán kính 120.",
+    "Tránh xa các cầu lửa còn trên sân, nhất là khi Chu Du chuẩn bị phun lửa."
+  ],
+  "counter_why": "Khi phun lửa, Chu Du không bị khống chế. Nhưng E Sương Mù của Gia Cát Lượng câm lặng được và xóa luôn trạng thái miễn khống chế đó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank tốt (hạng 10/91) và bộ chiêu mạnh về khống chế nhóm, nhưng mọi khống chế đều có thời gian báo trước (1,1 giây cho Space, cầu lửa nằm sẵn trên sân) và R bị năng lượng, câm lặng kìm lại. Mạnh trong tay người biết phối hợp, chưa tới mức áp đảo.",
+    "suggestion": "Giữ nguyên số. Code chưa cài phần tăng tốc chạy (tới 100%) khi phun lửa như mô tả. Choáng của E, Space và làm chậm của E có iAspect 1 (đánh dấu là hiệu ứng tốt), nên các chiêu giải hiệu ứng xấu như E của Panda, Teddy không gỡ được; cần kiểm tra lại."
+  },
+  "evidence": [
+    "server/chudu_actions.py:_event 'chu_ready' + 'chu_space' — mọi kẻ địch team_visible trong bán kính 10000, 3.23 × công bán kính 120, BuffTemplate 388322 choáng 1000 ms (iAspect 1)",
+    "server/chudu_actions.py:_event 'chu_beam'/'chu_cost' — 0.375 × công mỗi 300 ms, ×1.5 khi xa hơn 408, lifesteal 0.25; −10 năng lượng mỗi 400 ms; BuffTemplate 388402 miễn khống chế, 388411 −25% sát thương lên Chu Du",
+    "server/chudu_actions.py:_flight + _explode_orb — E 1.47 × công bán kính 168, cầu 1.26 × công + BuffTemplate 388212 choáng 500 ms, cháy đất 3 × 0.3; 3 lượt, 8000 ms mỗi lượt",
+    "server/chudu_actions.py:_event 'chu_dot'/'chu_spread' — 2.5% máu đã mất mỗi giây, lan trong bán kính 120; tank_stats(10000112, 6) iMp = 100"
+  ]
+}

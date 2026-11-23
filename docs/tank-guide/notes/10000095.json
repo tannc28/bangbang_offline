@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ vật lý tầm xa bắn nhanh, sống nhờ nhịp E: lướt ngắn rồi bắn tia xuyên thấu, đến lần E thứ ba thì tia chí mạng và hồi lại một mảng máu lớn. Space dựng kết giới làm chậm gần như mọi thứ của địch bên trong.",
+  "strengths": [
+    "Chỉ số thân tank hạng 17/91: sát thương mỗi giây hơn 94% số tank, tầm 552, 500 ms một phát; đòn thường +50% sát thương.",
+    "E lướt 300 và tăng 60% tốc chạy trong 2 giây; đòn thường kế tiếp thành tia xuyên thấu dài 600, 225% công vật lý lên mọi địch trên đường.",
+    "Lần E thứ ba (trong vòng 10 giây kể từ lần trúng trước): tia gây gấp đôi (450% công), làm chậm 60% trong 2 giây và hồi máu bằng 209% công.",
+    "Mỗi đòn thường hoặc tia trúng rút 0,5 giây hồi chiêu E, kể cả đòn của phân thân.",
+    "Space bay tới tầm 600, mở kết giới bán kính 192 trong 3 giây: địch bên trong chậm 75%, tốc đánh -60%, tốc đạn -90%, và bị khóa chiêu 0,5 giây lúc mở."
+  ],
+  "weaknesses": [
+    "Mỏng: máu 3.234, máu hiệu dụng 4.856, chỉ hơn khoảng 13% số tank.",
+    "Phân thân R chỉ có 50% công, chịu gấp đôi sát thương, và cú nổ 207% tính trên công của phân thân, nên thực tế chỉ bằng khoảng 103% công của Kurumi.",
+    "Tia của E là đòn thường: nếu bị khóa đòn thường hoặc bắn hụt thì mất nhịp, không tính vào chuỗi 3 lần.",
+    "Space bị ngắt bởi choáng, câm lặng, khóa chiêu trong lúc chuẩn bị, và hồi 30 giây."
+  ],
+  "tips": [
+    "Giữ nhịp E → tia → E → tia → E → tia trong vòng 10 giây: tia thứ ba chí mạng là nguồn hồi máu chính.",
+    "Bắn đòn thường liên tục giữa các lần E để rút hồi chiêu E 0,5 giây mỗi phát trúng.",
+    "Thả kết giới Space lên đám xạ thủ địch: tốc đạn -90% và tốc đánh -60% khiến chúng gần như vô hại trong 3 giây.",
+    "Đặt phân thân R làm mồi ở chỗ địch sẽ đi qua; nó tự đánh và bắn tia khi bạn dùng E."
+  ],
+  "counters": [
+    "Áp sát và dồn sát thương bùng nổ: máu hiệu dụng dưới 4.900.",
+    "Né tia ngay sau khi Kurumi lướt: tia luôn đi theo một đường thẳng dài 600.",
+    "Chặn chuỗi trước tia thứ ba (khống chế hoặc né), để nó không hồi được 209% công.",
+    "Bước ra khỏi kết giới bán kính 192 thay vì cố đánh trả từ bên trong."
+  ],
+  "counter_why": "Thuấn Di Thuật của Sasuke giúp nó áp sát Kurumi rất nhanh. Khi Sasuke bật Thuấn Di Thuật, Kurumi nên ngừng tấn công và cẩn thận khi dùng phân thân.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số tấn công rất cao (hạng 17/91) đi kèm máu hiệu dụng thấp (hơn 13% số tank). Hồi máu chỉ đến từ tia thứ ba, và Space khống chế mạnh nhưng hồi 30 giây.",
+    "suggestion": "Giữ nguyên. Cần quyết định: cú nổ của phân thân dùng công đã bị giảm 50%, nên chỉ bằng nửa con số 207% trên mô tả. Nội tại 370101 không có trong SkillTemplate, nên trang tank hiện trống phần nội tại."
+  },
+  "evidence": [
+    "server/kurumi_actions.py:_beam — dải 600 × 48, power × 2.25 (× 2 cho tia thứ ba), hồi power × 2.09, BuffTemplate 370221 chậm 60%; combo_until 10000 ms",
+    "server/kurumi_actions.py:_refund — mỗi đòn thường trúng E - 500 ms (gồm cả phân thân)",
+    "server/kurumi_actions.py:_event kurumi_field — bán kính 192, 3000 ms; BuffTemplate 370302 -75% tốc chạy, 370304 -60% tốc đánh, 370303/370308 -90% tốc đạn, 370306 khóa chiêu 500 ms",
+    "server/kurumi_actions.py:cast slot 10 / KurumiClone — iAttack × 0.5, limit_hit × 2, nổ 2.07 × công của phân thân bán kính 144",
+    "SkillTemplate 370101 không tồn tại (facts: Nội tại không có trong SkillTemplate)"
+  ]
+}

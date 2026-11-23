@@ -1,0 +1,125 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Nữ Thần Thời Gian · Cẩm nang tank</title><meta name="description" content="Hỗ trợ năng lượng tầm xa: đòn thường bay xuyên tường, nổ vừa gây sát thương vừa hồi máu đồng đội. Thắng nhờ E cho địch ngủ đông 4 giây và Space Time Back: 2 giây sau, đồng đội được trả máu về đúng lúc nhận dấu.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/html5/assets/m81319/original/fc9af748374a5649e2b9c95374d1df869f3f082c6cc353f6c863d4bd3ded3dbd.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Cắn nuốt thời không, tiến về phía trước.</div>
+<h2 class="page-title">Nữ Thần Thời Gian</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-pink-lt">Phụ trợ</span></div>
+<div class="text-secondary mt-2">Phụ Trợ Ngủ Đông Quay Ngược</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000050.html">← Thợ Săn Thời Gian</a>
+<a class="btn" href="10000031.html">Captain →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Hỗ trợ năng lượng tầm xa: đòn thường bay xuyên tường, nổ vừa gây sát thương vừa hồi máu đồng đội. Thắng nhờ E cho địch ngủ đông 4 giây và Space Time Back: 2 giây sau, đồng đội được trả máu về đúng lúc nhận dấu.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thuộc nhóm cuối (hạng 76/91) là bình thường cho một hỗ trợ. Bộ chiêu bù lại đủ: hồi máu theo vùng, ngủ đông 4 giây mỗi 8 giây và Time Back cứu cả đội trước một đợt dồn sát thương.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi E: ngủ đông 4 giây không bị đánh thức trong giây đầu, hồi chiêu chỉ 8 giây. Mô tả nội tại ghi nạp đạn sau 1,5 giây, R ghi 1 giây; code dùng 1 giây — nên sửa mô tả nội tại.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3638</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">158 / 147</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">339 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">30</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#76/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5487</span></div><div class="progress progress-sm" title="Hơn 40% số tank"><div class="progress-bar bg-yellow" style="width:40%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">339</span></div><div class="progress progress-sm" title="Hơn 27% số tank"><div class="progress-bar bg-orange" style="width:27%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9d5a94611e496648d101d88e7374755b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Nhiễu Thời Gian</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Công Thường Loại ST: Năng lượng
+VP bay: Có
+
+Bắn 1 máy nhiễu thời gian về hướng chỉ định, gây #EN_175%_ER# ST Năng Lượng lên mục tiêu bị đánh trúng, khiến địch tạm thời vào trạng thái ngủ đông, duy trì 4s, khi mục tiêu chịu ST sẽ thoát trạng thái ngủ đông.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/22b1cd2c2bfb99774340e8ece4894d61.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Thủ Hộ Thời Gian</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất:Skill Loại ST: Năng Lượng
+VP Bay:Không
+
+Skill này bao gồm chủ động và bị động.
+
+Bị động: Công Thường của Nữ Thần Thời Gian cần tiêu hao Năng Lượng, năng lượng ban đầu là 100, mỗi lần công thường sẽ tiêu hao 20 Năng Lượng, khi năng lượng còn 0 sẽ tự động nạp đầy năng lượng sau 1s, sau khi Nữ Thần Thời Gian thoát khỏi chiến đấu sẽ nhanh chóng hồi năng lượng.
+Tầm bắn Công Thường tăng 50% và Công Thường có thể xuyên thấu vật cản, đánh trúng mục tiêu sẽ nổ gây #EN_50%_ER# ST Năng Lượng lên địch trong phạm vi, mục tiêu bị đánh trúng cách Nữ Thần Thời Gian càng xa, ST gây ra càng lớn, tối đa có thể bỏ qua miễn ST gây #EN_100%_ER# ST Năng Lượng.
+Nếu trong phạm vi nổ có đồng đội sẽ hồi #EN_100%_ER# HP đồng đội.
+
+Chủ động: Triệu hồi Bảo Hộ Thời Gian có 50% HP của Nữ Thần Thời Gian, Bảo Hộ Thời Gian không thể di chuyển nhưng có thể hồi HP cho mục tiêu trong phạm vi, mỗi giây hồi #EN_75%_ER# HP, Thủ Hộ Thời Gian có thể bị tấn công và khi triệu hồi ra sẽ liên tục mất HP cho đến khi tử vong.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/3995b3f108d3567d0070f3789140f340.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Time Back</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất:Skill Loại ST: không
+VP Bay:Không
+
+Nữ Thần Thời Gian thi triển Time Back, khiến tất cả đồng đội trong phạm vi nhận ấn ký Time Back, ấn ký Time Back hiệu lực trong 2s, mục tiêu có ấn ký sẽ giảm 25% ST kỹ năng chịu được, khi ấn ký biến mất sẽ khiến HP trở về trạng thái lúc nhận ấn ký.
+Nếu mục tiêu đồng đội có năng lượng/Chakra/Nộ sẽ hồi ngay 100 Năng Lượng/Chakra/Nộ.
+Sau 4s thi triển skill, Nữ Thần Thời Gian sẽ tăng 150% tốc độ Công.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Viện Trợ Chiến Trường</span>
+
+
+</div>
+<div class="skill-desc">Tính chất:Skill Loại ST: không
+VP Bay:Không
+
+Tầm bắn Công Thường tăng 25%, sau khi Công Thường đánh trúng mục tiêu sẽ gây nổ, trị liệu đồng đội trong phạm vi, gây ST lên địch, cách trung tâm càng gần, hiệu quả trị liệu và ST càng cao. Công Thường cần tiêu hao năng lượng, năng lượng khởi đầu là 100, mỗi lần công thường sẽ tiêu hao 20 Năng Lượng, khi Năng Lượng còn 0 sẽ tự động nạp đầy năng lượng sau 1.5s.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Đòn thường bay tới 720, xuyên tường, nổ bán kính 144: gây 50% đến 100% công năng lượng tùy khoảng cách (xa hơn thì mạnh hơn; từ 720 trở lên bỏ qua mọi hiệu ứng giảm sát thương), và hồi máu bằng 100% công cho mọi đồng đội trong vùng nổ.</li><li>E bay xuyên tường tầm 720: 175% công năng lượng và cho mục tiêu ngủ đông 4 giây; sát thương chỉ đánh thức nó sau khi đã ngủ được 1 giây.</li><li>Space: mọi đồng đội (cả bản thân) trong bán kính 300 nhận dấu 2 giây, giảm 25% sát thương kỹ năng nhận vào; hết 2 giây máu trở về đúng mức lúc nhận dấu. Đồng đội dùng năng lượng được +100 năng lượng; bản thân +150% tốc đánh trong 4 giây.</li><li>R: đặt Thủ Hộ Thời Gian có 50% máu tối đa, mỗi giây hồi 75% công năng lượng cho đồng đội trong bán kính 300; nó tự mất 8% máu mỗi giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank hạng 76/91; đòn thường 1.000 ms một phát, gần chậm nhất game.</li><li>Đạn có hạn: mỗi phát tốn 20 trên 100 năng lượng; hết thì 1 giây không bắn được. Năng lượng chỉ tự hồi (10 mỗi 0,5 giây) khi đã ra khỏi giao tranh 4 giây.</li><li>Time Back trả máu về mức cũ cả khi đồng đội đã được hồi thêm trong 2 giây đó.</li><li>Không có chiêu lướt hay miễn nhiễm cho bản thân; Time Back cũng không cứu được ai chết trước khi hết 2 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Bắn đòn thường vào địch đứng gần đồng đội: một phát vừa gây sát thương vừa hồi máu cho họ.</li><li>Đứng xa khi rỉa máu: ở khoảng cách 720 đòn thường gây trọn 100% công và bỏ qua giảm sát thương.</li><li>Cho mục tiêu nguy hiểm nhất ngủ đông bằng E, rồi nhắc đồng đội đừng đánh nó trong giây đầu tiên.</li><li>Bật Space ngay khi đồng đội bắt đầu bị dồn sát thương, không phải sau khi họ đã được hồi đầy.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dồn sát thương bùng nổ để hạ đồng đội trước khi hết 2 giây Time Back.</li><li>Phá Thủ Hộ Thời Gian sớm: nó chỉ có 50% máu tối đa của Nữ Thần và còn tự mất máu.</li><li>Ép nó giao tranh liên tục để năng lượng không tự hồi.</li><li>Áp sát và giữ chân: Nữ Thần không có chiêu thoát thân.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Nữ Thần Thời Gian rỉa máu từ xa rất khó chịu, hãy cảnh giác hiệu ứng ngủ đông của Nhiễu Thời Gian!</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000105.html">Hỏa Thần</a>. Hỏa Thần có sát thương bùng nổ đủ cao để hạ gục nhanh Nữ Thần Thời Gian trước khi Time Back kịp có hiệu lực.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/timegoddess_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/timegoddess_actions.py:_impact — bán kính 144, factor 0.5 + khoảng cách/1440 (tối đa 1.0 ở 720), ignore_reductions khi ≥ 720; hồi power cho đồng đội trong vùng</li><li>BuffTemplate 389202 ngủ đông (nEffectType 30) 4000 ms; battle_runtime.py: sát thương chỉ gỡ ngủ đông sau 1000 ms</li><li>server/timegoddess_actions.py:cast slot 2 / _event time_rewind — bán kính 300, sau 2000 ms commit_hp(hp lúc nhận dấu); BuffTemplate 389305 -25% sát thương kỹ năng, 389304 +150% tốc đánh 4000 ms</li><li>server/timegoddess_actions.py:TimeGuardian — máu max_hp × 0.5, mất 8% mỗi giây, hồi iEgAtk × 0.75 mỗi giây bán kính 300</li><li>server/timegoddess_actions.py:cast slot 0 / time_reload / time_energy — 20 năng lượng mỗi phát, nạp lại sau 1000 ms, +10 mỗi 500 ms khi ngoài giao tranh 4000 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [40, 27, 43, 49, 41]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Nữ Thần Thời Gian",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

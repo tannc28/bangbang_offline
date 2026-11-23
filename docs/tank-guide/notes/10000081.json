@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư cấu rỉa tầm rất xa: đi lại để tích năng lượng, xả 3 lượt phi kiếm xuyên tường bỏ qua giáp, rồi Space khóa mọi kẻ địch trong bán kính 1.200 và chém thêm theo lượng máu chúng đã mất.",
+  "strengths": [
+    "E có 3 lượt (cách nhau 2 giây, nạp 6 giây), bay 840 xuyên tường; sát thương bỏ qua giáp, tăng dần theo khoảng cách tới 200% sức công ở tầm xa nhất.",
+    "Năng lượng tích bằng cách di chuyển (5 điểm mỗi 120 quãng đường, tối đa 100): đòn thường và chiêu mạnh thêm tới 25%, riêng phát E đầu tiên mạnh và bay nhanh thêm tới 50%; E trúng hoàn lại 25 năng lượng trong 1,5 giây.",
+    "Space khóa mọi tank địch trong bán kính 1.200, không cần ngắm: sau 1,5 giây gây 100% sức công (300% nếu mục tiêu đang mang dấu E) cộng sát thương thực bằng 15% máu đã mất của mục tiêu.",
+    "R dùng được cả khi đang choáng, hất tung hay đóng băng: xóa hiệu ứng xấu và khống chế, hồi 50 năng lượng, tăng 100% tốc chạy (giảm dần trong 3 giây), đẩy lùi 240 mọi địch trong bán kính 196; kẻ bị đẩy gây ít hơn 25% sát thương lên Kiếm Thần trong 3 giây.",
+    "Có địch trong bán kính 360 thì tốc chạy tăng 25%, giúp giữ khoảng cách."
+  ],
+  "weaknesses": [
+    "Thân mỏng: 3.395 máu, máu hiệu dụng 5.121 (chỉ hơn 23% số tank); chỉ số thân tank hạng 65/91.",
+    "Đứng yên quá 2 giây là mất sạch năng lượng; bị trói chân hay phải đứng giữ vị trí thì sát thương tụt.",
+    "Phát E đầu tiên tiêu hết năng lượng, nên chỉ một phát được cộng thưởng; hai phát sau yếu hơn rõ.",
+    "Sát thương phụ thuộc khoảng cách: đánh ở cự ly gần thì E chỉ còn khoảng 100% sức công."
+  ],
+  "tips": [
+    "Luôn di chuyển để giữ năng lượng gần 100 trước khi bắn phát E mở màn.",
+    "Bắn E ở tầm xa nhất có thể để đạt gần 200% sức công, rồi bấm Space trong 10 giây dấu E còn hiệu lực để nhân ba sát thương Space.",
+    "Giữ R làm chiêu thoát thân: nó giải được cả choáng và đẩy kẻ áp sát ra 240.",
+    "Dùng Space để kết liễu khi địch thấp máu: phần sát thương thực tăng theo máu đã mất và không thể né bằng cách chạy."
+  ],
+  "counters": [
+    "Áp sát nhanh: ở cự ly gần E yếu hẳn và Kiếm Thần rất mỏng.",
+    "Ép nó đứng yên bằng trói chân hoặc khống chế lâu hơn 2 giây để xóa năng lượng; đợi R hết rồi mới khống chế.",
+    "Né phi kiếm E để không mang dấu; không có dấu thì Space chỉ còn 100% sức công cộng phần máu đã mất.",
+    "Khi thấp máu, rút ra ngoài bán kính 1.200 hoặc ra khỏi tầm nhìn của Kiếm Thần."
+  ],
+  "counter_why": "E Móc Câu Bật Nảy của Mikasa giúp nó áp sát Kiếm Thần rất nhanh, mà ở cự ly gần thì sát thương của Kiếm Thần thấp.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank yếu (hạng 65/91) và rất mỏng; bù lại là cấu rỉa xuyên tường bỏ qua giáp cùng Space khóa mục tiêu tầm rất xa. Sức mạnh gắn với điều kiện (phải di chuyển, phải đánh ở tầm xa), nên tổng thể cân.",
+    "suggestion": "Theo dõi hai chỗ: code cho E bỏ qua giáp ở mọi khoảng cách (ignore_armor=True), trong khi mô tả nói chỉ bỏ qua giảm sát thương ở tầm tối đa; và Space khóa trong bán kính 1.200, gần như cả bản đồ. Mô tả nội tại và mô tả R cũng mâu thuẫn về điều kiện tăng 25% tốc chạy; code theo nội tại (có địch trong 360 thì tăng, không tăng công)."
+  },
+  "evidence": [
+    "server/swordgod_actions.py:_blade — power × (1 + khoảng cách/840), ignore_armor=True; dấu BuffTemplate 355202 10000 ms; hoàn 5 năng lượng × 5 mỗi 300 ms",
+    "server/swordgod_actions.py:cast slot 1 — 3 lượt, cách 2000 ms, nạp 6000 ms; power × (1 + 0.5 × năng lượng/100), tiêu hết năng lượng",
+    "server/swordgod_actions.py:_event sword_space — bán kính 1200, sau 1500 ms, × 3 nếu có dấu, + 15% máu đã mất (school='true')",
+    "server/swordgod_actions.py:cast slot 10 — bỏ qua blocked khi bị khống chế, cleanse, +50 năng lượng, đẩy 240 trong 196; BuffTemplate 355406 −25% sát thương 3000 ms",
+    "facts: ehp 5121 (pct 0.233), hp 3395, stat_rank 65"
+  ]
+}

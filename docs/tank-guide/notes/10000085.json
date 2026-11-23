@@ -1,0 +1,41 @@
+{
+  "summary": "Tank hỗ trợ năng lượng chuyên giữ mạng đồng đội: E xóa trạng thái bất lợi kèm khiên, Space làm đồng đội không thể tụt dưới 1 máu trong 3 giây, mỗi lần dùng chiêu lại hồi máu cho người yếu nhất. Năng lượng tích từ khiên được đổi thành R gây sát thương theo máu đã mất.",
+  "strengths": [
+    "Space nhắm đồng đội hoặc bản thân trong tầm 480: suốt 3 giây máu không xuống dưới 1, hết 3 giây hồi 30% máu tối đa của Athena (khoảng 1.102).",
+    "E xóa mọi trạng thái bất lợi của đồng đội và tạo khiên bằng 30% máu tối đa của Athena trong 2 giây; mỗi 3% máu Athena mà khiên đỡ được hoàn 15 năng lượng, đỡ trọn khiên là đủ 150 năng lượng.",
+    "Mỗi lần dùng E, R hoặc Space, đồng đội ít máu nhất trong bán kính 300 (tính cả bản thân) được hồi 1,5 lần công, và Athena tự hồi thêm 1,5 lần công trong 2 giây.",
+    "R tự khóa địch gần nhất trong tầm 600, ưu tiên người chơi; 1 giây sau gây 1,76 lần công năng lượng trong bán kính 96 cộng sát thương chuẩn bằng 15% máu đã mất.",
+    "R có 3 lượt, mỗi lượt cách nhau 2 giây, nên khi đủ năng lượng có thể dội liền 3 đòn lên mục tiêu đang mất máu."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 88/91: bắn chậm (1.000 ms), khoảng 320 sát thương mỗi giây, máu hiệu dụng 5.543.",
+    "Mỗi R tốn 50 năng lượng trên tổng 150, năng lượng tự hồi chỉ 10 điểm mỗi 3 giây; không có khiên nào bị đánh thì R gần như không dùng được.",
+    "Không có chiêu di chuyển hay khống chế; bị sát thủ áp sát thì chỉ biết tự dùng E và Space lên mình.",
+    "Mô tả bảng gốc ghi Space vẫn có thể bị kết liễu, nên các chiêu kết liễu theo ngưỡng máu vẫn xuyên qua được."
+  ],
+  "tips": [
+    "Đặt E lên đồng đội tuyến đầu đúng lúc họ sắp ăn chiêu lớn: vừa giải khống chế vừa tích năng lượng cho R.",
+    "Giữ Space cho khoảnh khắc đồng đội sắp chết, không dùng sớm.",
+    "Đứng trong bán kính 300 quanh đồng đội để phần hồi máu của nội tại luôn trúng người cần.",
+    "Dồn 3 lượt R lên mục tiêu đã mất nhiều máu: phần 15% máu đã mất là sát thương chuẩn, giáp không giảm được."
+  ],
+  "counters": [
+    "Đánh thẳng vào Athena trước: không có chiêu thoát và thân tank mỏng.",
+    "Đợi Space hết 3 giây rồi mới dồn tiếp người được chúc phúc.",
+    "Đánh đồng đội của Athena bằng đòn không vào khiên E, để Athena không nạp được năng lượng cho R.",
+    "Đứng ngoài tầm 600, vì R chỉ tự khóa mục tiêu gần nhất trong tầm."
+  ],
+  "counter_why": "Tháp pháo của Minion rất dễ khiến R Nghệ Thuật Chiến Tranh tự khóa của Athena đánh nhầm mục tiêu, làm năng lượng Athena tích được không biến thành sát thương.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 88/91, nhưng bộ chiêu cứu người (Space chặn chết 3 giây, khiên 30% máu, giải khống chế) đủ cho vai hỗ trợ. Sát thương R phụ thuộc vào việc khiên bị đánh trúng, nên không lệch hẳn về mạnh.",
+    "suggestion": "Giữ nguyên. Lưu ý code ưu tiên người chơi khi R tự khóa mục tiêu, nên lý do khắc chế gốc (tháp pháo Minion làm R khóa nhầm) không còn đúng trong code này. Bảng sao (stars) của Athena trong facts đều bằng 0, nên kiểm tra lại dữ liệu nguồn."
+  },
+  "evidence": [
+    "server/athena_actions.py:cast slot 2 — BuffTemplate 359301 3000 ms (máu không dưới 1), athena_blessing hồi max_hp*0.3 sau 3000 ms",
+    "server/athena_actions.py:_event athena_e — cleanse, add_shield 359201 = max_hp*0.3; battle_runtime.py:damage hoàn 15 năng lượng mỗi max_hp*0.03 hấp thụ",
+    "server/athena_actions.py:_event athena_mark — bán kính 96, power*1.76 năng lượng + 15% máu đã mất sát thương chuẩn",
+    "server/athena_actions.py:cast slot 10 — sắp xếp mục tiêu theo (a.id>>26!=0, khoảng cách): ưu tiên người chơi; -50 năng lượng, 3 lượt cách 2000 ms",
+    "facts: stat_rank 88, atk_per_s 320 (pct 0.111), ehp 5543 (pct 0.422); iMp 150 (tank_stats cấp 6)"
+  ]
+}

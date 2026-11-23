@@ -1,0 +1,14 @@
+ server/battle_runtime.py     |  5 ++++-
+ server/bot_ai.py             | 21 +++++++++++++--------
+ server/bot_elite.py          | 21 ++++++++++++++-------
+ server/bot_setup.py          | 18 ++++++++++++++++--
+ server/pk_rules.py           |  9 ++++++++-
+ server/ranked_matches.py     | 41 +++++++++++++++++++++++++++++++++++++++--
+ server/sixcube_server.py     | 19 +++++++++++++++++++
+ www/html5/battle_view.js     |  3 +++
+ www/html5/combat_protocol.js | 12 +++++++++++-
+ www/html5/combat_state.js    | 11 +++++++++--
+ www/html5/m4.js              |  9 ++++++++-
+ www/html5/m8_ui.js           |  2 +-
+ www/index.html               |  4 ++--
+ 13 files changed, 147 insertions(+), 28 deletions(-)

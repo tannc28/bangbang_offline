@@ -1,0 +1,41 @@
+{
+  "summary": "Sát thủ vật lý cơ động, lướt bằng 3 lượt E rồi chém kiếm áp hồi máu. Thắng nhờ Bankai: làm mới R để hất tung, rồi Gai Hắc Lưu lao vào mục tiêu đang bay, chém 4 nhát trong lúc chính mình biến mất, không nhận sát thương.",
+  "strengths": [
+    "E có 3 lượt tích (tốn 40 năng lượng): lao tới mục tiêu trong tầm 432, gây 125% công vật lý, sau đó 2 giây giảm 25% sát thương nhận vào và tăng tốc chạy.",
+    "Sau mỗi chiêu, đòn thường kế tiếp thành kiếm áp: 100% công lên mọi địch trong dải dài 408, cuối dải gây 150% và hất tung 0,25 giây; trúng thì hồi máu bằng 100% công vật lý và 15 năng lượng.",
+    "Chiêu gây sát thương cộng tầng (tối đa 1 tầng mỗi 0,5 giây, giữ 5 giây, tối đa 5): mỗi tầng +10% công, +15% xuyên giáp và giảm 15% sát thương kỹ năng nhận vào. Đủ 5 tầng là chỉ còn chịu 25% sát thương kỹ năng.",
+    "Space Bankai: xóa hiệu ứng khống chế đang dính, +75 năng lượng, tốc chạy +100% trong 2 giây, làm mới R; R đầu tiên sau Bankai hất tung 1,5 giây.",
+    "Gai Hắc Lưu: lao tới mục tiêu đang bị hất tung trong tầm 600, chém 4 nhát, mỗi nhát 150% công vật lý (0,75 × chí mạng) lên mọi địch bán kính 96 và hất tung 1,5 giây; trong lúc chém Ichigo không thể bị chọn, không nhận sát thương và khống chế."
+  ],
+  "weaknesses": [
+    "Mỏng: máu 3.430, máu hiệu dụng chỉ hơn khoảng 37% số tank.",
+    "Phụ thuộc năng lượng: E tốn 40, R tốn 30, tối đa 150 và chỉ hồi 5 mỗi 3 giây; nguồn hồi chính là kiếm áp trúng (+15) và Bankai (+75).",
+    "Không thể E lại vào cùng một địch trong 6 giây (dấu Tử Thần), trừ khi kiếm áp trúng và xóa dấu.",
+    "Gai Hắc Lưu chỉ dùng được khi có địch đang bị hất tung trong tầm 600; R hụt sau Bankai là mất cả chuỗi."
+  ],
+  "tips": [
+    "Nhịp cơ bản: E vào → đòn thường kiếm áp (hồi máu) → R → kiếm áp. Mỗi chiêu đều mở một kiếm áp mới.",
+    "Giữ năng lượng trên 70 trước khi lao vào để đủ một E và một R.",
+    "Bật Bankai, bắn R hất tung, rồi bấm Space lần nữa để Gai Hắc Lưu: cả chuỗi giữ mục tiêu trên không 3 giây và Ichigo không bị đánh lúc chém.",
+    "Đánh vào giữa giao tranh khi đã có 5 tầng: sát thương kỹ năng nhận vào chỉ còn 25%."
+  ],
+  "counters": [
+    "Dùng đòn thường và sát thương vật lý thường: tầng giảm 75% chỉ chặn sát thương kỹ năng.",
+    "Cắt năng lượng: không có 40 năng lượng thì không E được.",
+    "Hất tung hoặc giữ chân nó trước khi nó vào được chuỗi chiêu (như Tre Trận của Thánh Gióng).",
+    "Né R sau Bankai: không có mục tiêu bị hất tung thì Gai Hắc Lưu không dùng được."
+  ],
+  "counter_why": "E Tre Trận của Thánh Gióng hất tung được Ichigo, phá vỡ chuỗi chiêu của nó. Sức Mạnh Thánh Gióng lại vô hiệu khả năng cơ động để chạy thoát, khiến Ichigo không còn đường nào để trốn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank giữa bảng (hạng 34/91) và mỏng máu, đổi lại kit rất cơ động và có cửa sổ bất tử khi chém Gai Hắc Lưu. Năng lượng (E 40, R 30, hồi chậm) và điều kiện mục tiêu phải đang bay là cái phanh đủ chặt.",
+    "suggestion": "Giữ nguyên, nhưng theo dõi tầng nội tại: 5 tầng × 15% nhân dồn với 25% của E khiến Ichigo chỉ còn chịu khoảng 19% sát thương kỹ năng. Nếu thấy quá trâu trước pháp sư thì giảm còn 10% mỗi tầng. Code tốn 40 năng lượng cho E và 30 cho R, mô tả không ghi."
+  },
+  "evidence": [
+    "server/ichigo_actions.py:_start_step/_event ichigo_step — E tốn 40 năng lượng, 1.25 × công, BuffTemplate 339204 giảm 25% 2000 ms, 339210 khóa E cùng mục tiêu 6000 ms",
+    "server/ichigo_actions.py:_enhanced — dải 408 × 72, đầu mút 1.5 × công + BuffTemplate 339122 hất tung 250 ms, hồi máu = power, +15 năng lượng",
+    "server/ichigo_actions.py:_hit — tầng 339112/339113/339114 mỗi 500 ms; battle_runtime.py: 339113 giảm 0.15 × số tầng sát thương không phải đòn thường",
+    "server/ichigo_actions.py:_event ichigo_cut — 4 nhát × power × 1.5, bán kính 96, BuffTemplate 339306 hất tung 1500 ms; vanish đặt untargetable + damage_immune",
+    "server/ichigo_actions.py:_event ichigo_form — cleanse, +75 năng lượng, cooldowns[10] = 0"
+  ]
+}

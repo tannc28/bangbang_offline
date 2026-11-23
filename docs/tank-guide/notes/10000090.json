@@ -1,0 +1,37 @@
+{
+  "summary": "Đấu sĩ cận chiến năng lượng: R lướt vào xoay đao, E phun lửa làm chậm, và Space bật chế độ Lôi Viêm 8 giây vừa đốt quanh thân vừa trâu hơn, cường hóa luôn E và R.",
+  "strengths": [
+    "Space 8 giây: mỗi giây gây 100% công quanh thân bán kính 240 (150% nếu đứng trong 120), hồi 6% máu đã mất, giảm 30% sát thương và 30% thời gian khống chế nhận vào.",
+    "Trong Lôi Viêm, E thành hình quạt 166% công, hút 30% và câm lặng 1 giây; R thành 229% công bán kính 240, hút 30% và thêm sát thương chuẩn bằng 6% máu đã mất của mục tiêu.",
+    "Nội tại: mỗi kỹ năng cộng một tầng, mỗi tầng +10% giáp và tốc chạy. Đủ 3 tầng thì kỹ năng tiếp theo giảm ngay 6 giây hồi chiêu, kèm +100% giáp và tốc chạy giảm dần trong 1,5 giây.",
+    "Máu hiệu dụng 7.834, khá trâu cho một đấu sĩ."
+  ],
+  "weaknesses": [
+    "Tầm đánh 336, bắn chậm (1.000 ms một phát), sát thương đánh thường mỗi giây chỉ 325.",
+    "Ngoài 8 giây Lôi Viêm, E và R khá nhẹ (128% và 176% công).",
+    "R là chiêu áp sát duy nhất, lướt tối đa 336.",
+    "Giáp cao lại là mồi ngon cho nội tại phá giáp của Mikasa."
+  ],
+  "tips": [
+    "Lướt R vào rồi bật Space ngay trong giao tranh để E và R được cường hóa.",
+    "Đếm tầng nội tại: kỹ năng thứ tư nên là chiêu quan trọng nhất để ăn trọn 6 giây giảm hồi chiêu.",
+    "Đứng sát mục tiêu khi Lôi Viêm đang bật để ăn 150% mỗi giây."
+  ],
+  "counters": [
+    "Thả diều trong 8 giây Lôi Viêm, đợi hết rồi mới quay lại.",
+    "Chọn Mikasa: phá giáp gây sát thương lớn lên giáp dày của Natsu.",
+    "Khống chế ngay khi nó lướt R vào, trước khi kịp bật Space."
+  ],
+  "counter_why": "Natsu có giáp khá cao nên dễ bị sát thương lớn từ nội tại của Mikasa khắc chế.",
+  "balance": {
+    "status": "ok",
+    "reason": "Lôi Viêm là 8 giây rất mạnh nhưng hồi tới 25 giây; ngoài khoảng đó Natsu chỉ là đấu sĩ tầm ngắn, bắn chậm (hạng chỉ số thân 62/91).",
+    "suggestion": "Giữ nguyên. Mô tả R ghi đủ 3 tầng giảm 6 giây, mô tả nội tại ghi 8 giây; code dùng 6 giây. R cường hóa trong Lôi Viêm cũng không cộng 30% phòng thủ như R thường (code bỏ BuffTemplate 365305)."
+  },
+  "evidence": [
+    "server/natsu_actions.py:_event natsu_aura — 16 lần mỗi 500 ms, 0.75/0.5 × công theo bán kính 120/240, hồi 3% máu đã mất mỗi lần",
+    "server/natsu_actions.py:_passive — đủ 3 tầng thì cooldowns − 6000 ms; BuffTemplate 365106/365107 +0.3 ở tầng 3, 365109/365110 +1.0 giảm dần",
+    "server/natsu_actions.py:_event natsu_flame/natsu_arrive — E 1.28/1.66, R 1.76/2.29 + 6% máu đã mất, hút 0.3 khi cường hóa; BuffTemplate 365503 câm lặng 1000 ms",
+    "battle_runtime.py:damage — BuffTemplate 365403 giảm 30% sát thương; battle_runtime.py:_buff — 365404 thời gian khống chế × 0,7"
+  ]
+}

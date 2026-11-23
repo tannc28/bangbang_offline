@@ -1,0 +1,40 @@
+{
+  "summary": "Sát thủ cận chiến sống hoàn toàn nhờ bộ chiêu: hai lần biến mất để né đòn, E kéo địch vào tường cho choáng, và nội tại cứu mạng mỗi 30 giây. Chỉ số thân hạng 90/91.",
+  "strengths": [
+    "Nội tại: đòn lẽ ra hạ gục bị chặn lại, Kirito miễn mọi sát thương 1,5 giây và được làm mới E lẫn R; 30 giây một lần.",
+    "Space: biến mất 1,5 giây (không thể bị chọn, miễn sát thương), chém 15 nhát mỗi nhát 40% công trong bán kính 216, làm chậm 50% và chặn hoàn toàn hồi máu. Nhát cuối 175% công cộng 20% máu đã mất của mục tiêu, rồi hất tung 1 giây. Đánh một mục tiêu là tổng 775% công.",
+    "E lướt 336 kéo theo kẻ địch trên đường; đâm vào vật cản thì thêm 145% công, choáng 1,5 giây và Kirito được hồi máu.",
+    "R biến mất 0,5 giây rồi đáp xuống, 127% công bán kính 144 và khóa chân 1 giây.",
+    "Mỗi kỹ năng trúng cường hóa phát đánh thường kế tiếp: thêm 4 luồng kiếm khí, mỗi luồng 75% công, hút 25% và cộng dồn xuyên giáp."
+  ],
+  "weaknesses": [
+    "Chỉ số thân hạng 90/91: bắn chậm nhất game (1.357 ms một phát), sát thương đánh thường mỗi giây thấp nhất, tầm đánh 336.",
+    "Máu hiệu dụng 5.574, mỏng cho một tank cận chiến.",
+    "Sát thương Space chia đều cho mọi kẻ trong vùng; lao vào cụm đông thì mỗi người nhận rất ít.",
+    "Không có tường thì E không choáng được."
+  ],
+  "tips": [
+    "Kéo mục tiêu vào tường bằng E để choáng 1,5 giây, rồi nối R và Space.",
+    "Dùng Space để né chiêu lớn của địch: 1,5 giây biến mất miễn mọi sát thương.",
+    "Nhắm mục tiêu đứng lẻ cho Space để sát thương không bị chia nhỏ.",
+    "Đánh thường ngay sau mỗi kỹ năng để có kiếm khí."
+  ],
+  "counters": [
+    "Chơi tank cơ động (như Kurumi) và thả diều: Kirito không có chiêu đuổi dài.",
+    "Đừng đứng gần tường khi Kirito ở gần.",
+    "Ép nội tại nổ trước rồi mới dồn; trong 30 giây sau đó nó chết như mọi tank khác.",
+    "Đứng thành cụm khi nó tung Space để sát thương bị chia nhỏ."
+  ],
+  "counter_why": "Kurumi cơ động rất cao nên né được đòn tấn công của Kirito. Kirito phải chọn đúng thời điểm lao vào, tránh bị thả diều.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân gần chót (90/91) nhưng bộ chiêu bù lại đủ: hai lần biến mất, một lần cứu mạng mỗi 30 giây và chuỗi choáng, hất tung. Không xếp vào nhóm yếu vì sức mạnh nằm ở chiêu, không ở thân.",
+    "suggestion": "Giữ nguyên. Mô tả E ghi hồi 100% HP khi đâm tường, nhưng code chỉ hồi lượng máu bằng 100% công (362 ở cấp 6). Cần sửa văn bản mô tả cho khớp code."
+  },
+  "evidence": [
+    "server/kirito_actions.py:prevent_lethal_hit/_rescue — passive_ready_at + 30000, BuffTemplate 371111 miễn sát thương 1500 ms, cooldowns E/R = 0",
+    "server/kirito_actions.py:_event kirito_cut/kirito_final — 15 × 0.4 chia đều, nhát cuối 1.75 + 20% máu đã mất chia đều; BuffTemplate 371314 -1 hồi máu",
+    "server/kirito_actions.py:_event kirito_wall — 1.45 × công, BuffTemplate 371232 choáng 1500 ms, restore_hp(cast['power'])",
+    "server/kirito_actions.py:cast slot 0 — 4 luồng kiếm khí 0.75; BuffTemplate 371132 +0.1 xuyên giáp mỗi tầng, tối đa 10"
+  ]
+}

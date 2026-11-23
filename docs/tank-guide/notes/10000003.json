@@ -1,0 +1,40 @@
+{
+  "summary": "Tank chịu đòn cận chiến, thắng bằng cách bám dính: Space dịch chuyển tới mục tiêu rồi đứng giữa đám đông 5 giây, vừa gây sát thương liên tục vừa hút máu 100% sát thương gây ra.",
+  "strengths": [
+    "Trâu hàng đầu: 6.020 máu, giáp vật lý 258, giáp năng lượng 335, máu hiệu dụng 11.970 (hơn 93% số tank).",
+    "Space hút máu rất mạnh: đòn đầu 233% công, sau đó tối đa 20 nhịp 25% công trong bán kính 192, tổng cộng tới 733% công, và toàn bộ sát thương này được chuyển thành máu.",
+    "Trong 5 giây Space, mỗi lần dính sát thương năng lượng thì Panda bắn trả 50% công của kẻ tấn công (cũng hút máu 100%), nên pháp sư đánh vào Panda là tự thiệt.",
+    "E giải mọi hiệu ứng xấu (dùng được cả khi đang bị choáng), cho khiên 15% máu tối đa (khoảng 903) trong 4 giây, đồng thời kéo địch trong bán kính 192 lại gần và làm choáng 0,5 giây.",
+    "R lăn 336 đơn vị, hất tung địch trên đường đi 1 giây và làm chậm 50% trong 2 giây, vừa là chiêu áp sát vừa là chiêu khống chế."
+  ],
+  "weaknesses": [
+    "Chậm nhất bảng: tốc chạy 150 và tầm bắn 336 đều đứng cuối trong 91 tank, nên rất dễ bị thả diều.",
+    "Sát thương thấp (công 328, sao sát thương 2/5): giữ chân và trụ được nhưng khó tự tay hạ mục tiêu.",
+    "Space chỉ bắt đầu hồi sau khi hiệu ứng 5 giây kết thúc, nên một vòng Space thực tế mất khoảng 25 giây.",
+    "Phần hút máu của Space chỉ phát huy khi địch đứng trong bán kính 192 quanh Panda; địch tản ra là lượng hồi tụt hẳn."
+  ],
+  "tips": [
+    "Mở giao tranh bằng R để hất tung, rồi Space vào con đứng giữa đội địch để vòng tre trúng được nhiều người nhất.",
+    "Giữ E để giải khống chế và đỡ đòn dồn; bấm E khi địch đang đứng gần thì kéo được cả nhóm lại vào vòng Space.",
+    "Nhắm Space vào đội hình có nhiều pháp sư năng lượng: mỗi phát họ bắn vào Panda đều bị phản lại và biến thành máu.",
+    "Đi cùng đồng đội có sát thương cao; Panda giữ chân và hút đòn, đồng đội lo phần kết liễu."
+  ],
+  "counters": [
+    "Tản đội hình khi Panda bật Space, đừng đứng trong bán kính 192 quanh nó suốt 5 giây.",
+    "Trong 5 giây Space, đổi sang bắn sát thương vật lý thay vì năng lượng để không bị phản đòn.",
+    "Thả diều bằng tầm xa: Panda chạy 150 và tầm 336, đợi R và Space hồi rồi mới giao tranh.",
+    "Dùng kết liễu bỏ qua khiên như Space của Quan Vũ khi Panda đã thấp máu."
+  ],
+  "counter_why": "Khiên của E giúp Panda sống dai hơn lúc thấp máu, nhưng Space của Quan Vũ bỏ qua khiên và kết liễu được nó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 24/91, trâu gần nhất bảng nhưng chậm nhất và tầm ngắn nhất. Space hút máu 100% trên tới 733% công rất khỏe khi địch dồn cục, nhưng sát thương thấp và dễ bị thả diều nên đây là sức mạnh hợp lý cho một tank chịu đòn.",
+    "suggestion": "Giữ nguyên số. Cần bổ sung phần bị động của R (đánh thường hồi 5% máu đã mất) vì code hiện chưa cài; sau khi bổ sung thì theo dõi lại độ trâu, vì lúc đó Panda có thêm một nguồn hồi máu nữa."
+  },
+  "evidence": [
+    "server/panda_actions.py:_event 'prepared' slot 2 — Space 233% (lifesteal 1), 20 nhịp aura_tick mỗi 250 ms 25% bán kính 192, cooldown = 100 + 5000 + 20000 ms",
+    "server/panda_actions.py:on_damage — phản 50% attacker_ap khi nhận sát thương năng lượng, lifesteal 1",
+    "BuffTemplate 301201 fFixParam 0.15 iPersistTime 4000 (khiên E); 301204 choáng 500 ms; 301411 hất tung 1000 ms; 301412 chậm -0.5 2000 ms",
+    "server/panda_actions.py:on_bullet_hit — chỉ hồi 1% máu tối đa; không có code nào cài bị động 5% máu đã mất của R (SkillTemplate 301401)"
+  ]
+}

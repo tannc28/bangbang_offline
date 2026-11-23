@@ -1,0 +1,129 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Sniper · Cẩm nang tank</title><meta name="description" content="Sát thủ vật lý nhanh nhất game, tàng hình khi rời giao tranh và đánh úp bằng ba phát đạn đặc biệt của Space. Mọi chiêu đều gắn dấu, chiêu sau trúng mục tiêu có dấu là cộng thêm 100% công sát thương thực.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/90c67d1d5fc67916f57ff0853425da67.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · 1 đạn 1 người</div>
+<h2 class="page-title">Sniper</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Đánh Úp Thu Hoạch</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000019.html">← Gundam</a>
+<a class="btn" href="10000108.html">Shadowblade →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ vật lý nhanh nhất game, tàng hình khi rời giao tranh và đánh úp bằng ba phát đạn đặc biệt của Space. Mọi chiêu đều gắn dấu, chiêu sau trúng mục tiêu có dấu là cộng thêm 100% công sát thương thực.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Sát thương dồn một mục tiêu rất cao (ba phát Space 250% + 300% + 350% cộng 100% công sát thương thực mỗi phát sau), nhưng Sniper mỏng (máu hiệu dụng hơn 14% số tank) và các phát đều có thể né. Hạng chỉ số tổng 27/91; đây là mức hợp lý cho một sát thủ.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Code khác mô tả ở hai chỗ: trạng thái Đánh Úp không làm chậm bản thân (BuffTemplate 376305 là khóa chiêu, dù mô tả ghi giảm tốc 50%), và tầng xuyên giáp bắt đầu sau 2 giây đứng yên thay vì 1,5 giây. Nếu Sniper đánh úp quá dễ, thêm lại làm chậm 50% bản thân như mô tả.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3344</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">152 / 123</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">420 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">60</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">800 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#27/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">4877</span></div><div class="progress progress-sm" title="Hơn 14% số tank"><div class="progress-bar bg-red" style="width:14%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">525</span></div><div class="progress progress-sm" title="Hơn 87% số tank"><div class="progress-bar bg-green" style="width:87%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">185</span></div><div class="progress progress-sm" title="Hơn 100% số tank"><div class="progress-bar bg-green" style="width:100%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/a1c4cc3ecc7451b02900da289af52a0f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Dark Blow</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Bắn đạn về mục tiêu, tạo 175% ST Vật Lý và đánh lui kẻ địch, trong quá trình đánh lui nếu đụng trúng vật cản sẽ bị choáng 1s. Nếu tạo ST sẽ khiến bản thân trong 2s tăng tốc 100% (Trạng thái Đánh Úp không có hiệu lực).</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/7995afe3841fc35ea45dcbf594e4ed13.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Bom Ẩn</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này gồm hiệu quả bị động và chủ động.
+
+Bị Động: 
+Ngắm Bắn Tỉa: Khi Sniper đứng yên sẽ dần vào trạng thái ngắm bắn, bất động hơn 1.5s, công thường sẽ đổi thành súng bắn tỉa và tăng 100% tầm bắn và ST, lúc này cứ 0.5s tăng 10% Xuyên Thấu Vật Lý, tối đa cộng dồn 10 lần; Nếu ở hình thái ngắm bắn công thường trúng mục tiêu sẽ giảm ngay CD skill [Space-Đánh Úp] 15%.
+Sau khi thoát chiến đấu sẽ dần vào ẩn thân, trạng thái ẩn thân tăng tốc 25%, tất cả skill của Sniper sẽ gây lên mục tiêu thêm 3s ấn ký đánh úp, khi skill đánh trúng mục tiêu có ấn ký sẽ gây thêm 100% ST Thực.
+
+Chủ Động: Đặt 1 địa lôi, địa lôi tối đa tồn tại 15s, nếu địch vào khu vực chỉ định sẽ kích hoạt Địa Lôi trong 2s giảm tốc 75%(Hiệu quả giảm dần), sau khi trì hoãn ngắn hạn, Địa Lôi sẽ nổ gây 205% ST vật Lý lên địch trong phạm vi.
+
+Không gây ST lên Kiến Trúc</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ddaffd6c0338a05a05f6251ba42b7c6f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Đánh Úp</span>
+<span class="badge bg-azure-lt">hồi 15s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Vào trạng thái đánh úp (Sẽ giải trừ ẩn thân), 3 lần Công Thường tiếp theo sẽ biến thành súng đánh úp tấm bắn cực xa. Sau khi đánh trúng sẽ giảm 50% hiệu quả trị liệu của mục tiêu trong 2s, ở trạng thái này sẽ giảm 50% tốc độ di chuyển.
+
+Đạn 1: Gây 250% ST Vật Lý lên kẻ địch đầu tiên bị đánh trúng và giảm 50% tốc độ di chuyển của mục tiêu (Giảm theo thời gian) trong 2s.
+Đạn 2: Nổ sau khi đánh trúng kẻ địch đầu tiên, gây 300% ST Vật Lý lên địch trong phạm vi nhỏ.
+Đạn 3: Gây 350% ST Vật Lý lên địch trên đường thẳng.
+
+Ở trạng thái này Công Thường không bị Công Tốc ảnh hưởng (Khoảng cách tấn công cố định là 1.25s) và giảm tốc 50%_END.#
+Skill này không gây ST lên kiến trúc, khi giải phóng xong mới CD..</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Tay bắn tỉa bị động</span>
+
+
+</div>
+<div class="skill-desc">Tay bắn tỉa bị động</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Chạy 185, nhanh nhất trong 91 tank; công 420 và xuyên giáp 60, sát thương mỗi giây hơn khoảng 87% số tank.</li><li>Rời giao tranh 2 giây là vào tàng hình (không thể bị chọn) và chạy nhanh thêm 25%.</li><li>Dấu Đánh Úp: chiêu nào trúng cũng gắn dấu 3 giây; chiêu kế tiếp trúng mục tiêu có dấu gây thêm sát thương thực bằng 100% công rồi gắn dấu mới.</li><li>Space: 3 phát đạn đặc biệt bay xuyên tường, mỗi phát cách nhau 1,25 giây: 250% công kèm chậm 50%, rồi 300% công nổ bán kính 120, rồi 350% công trên đường thẳng dài 960. Mục tiêu trúng bị giảm 50% hồi máu và khiên trong 2 giây.</li><li>Đứng yên 1,5 giây là vào thế ngắm: đòn thường gấp đôi sát thương, trúng thì rút 15% thời gian hồi còn lại của Space; đứng yên lâu hơn cộng xuyên giáp 10% mỗi 0,5 giây, tối đa 10 tầng.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng: máu 3.344, máu hiệu dụng 4.877, chỉ hơn khoảng 14% số tank.</li><li>Tàng hình mất ngay khi dùng chiêu, bắn, hoặc mất máu, và phải 2 giây yên ổn mới quay lại.</li><li>Ba phát Space cách nhau 1,25 giây và không bị tốc đánh ảnh hưởng: mục tiêu có thời gian né từng phát.</li><li>Thế ngắm mất ngay khi di chuyển, nên lối chơi đứng yên xung đột với lối chơi lướt vào.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở bằng E hoặc mìn R để gắn dấu, rồi mới vào Space: phát 2 và phát 3 đều ăn thêm 100% công sát thương thực.</li><li>E đẩy lùi 240; đẩy mục tiêu vào tường là choáng 1 giây, đủ để bắn trọn một phát Space.</li><li>Đặt mìn R ở lối địch rút lui: dẫm phải là chậm 75%, 1 giây sau nổ 205% công bán kính 120.</li><li>Khi không có mục tiêu, đứng yên ở chỗ an toàn để vào thế ngắm: mỗi phát ngắm trúng rút 15% hồi chiêu Space.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dùng chiêu lộ diện hoặc chiêu vùng phá tàng hình (như Space của Magneto) để không bị đánh úp.</li><li>Sau phát Space đầu tiên, đổi hướng chạy liên tục: hai phát còn lại cách nhau 1,25 giây.</li><li>Đừng đứng sát tường khi Sniper có E: bị đẩy vào tường là choáng 1 giây.</li><li>Dồn sát thương ngay khi nó lộ diện: máu hiệu dụng dưới 4.900.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Sát thương Đánh Úp của Sniper rất lớn, chú ý quan sát đường đỏ để tránh.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000097.html">Magneto</a>. Space Bão Từ Tính của Magneto phá được tàng hình của Sniper.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/sniper_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/sniper_actions.py:_mark_hit — mục tiêu có BuffTemplate 376410: thêm power sát thương thực, gắn lại dấu 3000 ms</li><li>server/sniper_actions.py:cast slot 0 (special) / _event sniper_ready — 1250 ms mỗi phát; 2.5 × công, 3 × công bán kính 120, 3.5 × công dải 960; BuffTemplate 376421 -50% hồi máu/khiên</li><li>server/sniper_actions.py:update/_conceal — tàng hình 376111 sau 2000 ms không giao tranh, 376112 +25% tốc chạy; thế ngắm sau 1500 ms, tầng 376141 từ 2000 ms</li><li>server/sniper_actions.py:_bullet_hit — đòn ngắm × 2, trúng thì Space còn lại × 0.85; _push đẩy 240, vào tường BuffTemplate 376210 choáng 1000 ms</li><li>server/sniper_actions.py:_event sniper_blast — mìn 2.05 × công bán kính 120, BuffTemplate 376404 chậm 75%</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [14, 87, 100, 49, 19]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Sniper",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

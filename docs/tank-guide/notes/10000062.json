@@ -1,0 +1,41 @@
+{
+  "summary": "Đấu sĩ cận chiến chạy bằng Nộ: càng nhiều Nộ càng nhanh và càng giảm sát thương nhận vào. Ném kiếm R làm vùng giảm sát thương, E lao tới kiếm để hất tung, Space hóa Kỵ Sĩ Công Lý chém hình quạt bằng sát thương thực trong 8 giây.",
+  "strengths": [
+    "Nộ tối đa 200: ở mức đầy, Optimus được thêm 50% tốc bắn, 50% tốc chạy và giảm 50% sát thương nhận vào (tăng dần theo lượng Nộ).",
+    "Đòn thường trúng mục tiêu thì trừ thêm 10% máu hiện tại dưới dạng sát thương thực, mỗi mục tiêu 6 giây một lần; rất đau với tank đầy máu.",
+    "R ném kiếm xa 480, chạm đất gây 188% trong bán kính 192; vùng kiếm giữ thêm 2 giây: Optimus đứng trong vùng giảm 50% sát thương, đồng đội giảm 25%, địch bị chậm 50%.",
+    "E đánh theo đường thẳng 480 gây 146% và làm chậm, cho Optimus 2 giây miễn khống chế; nếu có kiếm trên đường thì lao tới kiếm, gây 196% và hất tung 1 giây mọi địch va phải.",
+    "Space ở chế độ Kỵ Sĩ 8 giây: đòn thường thành nhát chém hình quạt 180°, bán kính 216, gây 100% sức công sát thương thực, kèm thêm 25% tốc bắn và tốc chạy."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 78/91: sát thương thường 312 mỗi giây (gần thấp nhất), tốc chạy 155 và tầm 336 thuộc nhóm thấp nhất.",
+    "Nộ bắt đầu từ 0 và tự giảm 5 mỗi 0,6 giây; không giao tranh liên tục thì mất hết lợi thế tốc độ và giảm sát thương.",
+    "Space cần ít nhất 100 Nộ mới dùng được và tiêu luôn 100 Nộ; thời gian hồi 25 giây chỉ tính sau khi hết 8 giây biến hình.",
+    "Muốn hất tung thì phải ném kiếm trước rồi E qua đúng chỗ kiếm; địch rời khỏi đường thẳng là chuỗi chiêu hụt."
+  ],
+  "tips": [
+    "Tích Nộ trước khi lao vào: mỗi chiêu trúng một mục tiêu cho 25 Nộ, mỗi đòn thường trúng hoặc mỗi lần bị đánh cho 5 Nộ.",
+    "Combo chuẩn: R ném kiếm vào giữa địch, rồi E theo hướng kiếm để lao tới và hất tung cả hàng.",
+    "Đánh nhau ngay trong vùng kiếm để được giảm 50% sát thương; kéo đồng đội vào vùng để họ giảm 25%.",
+    "Bật Space khi đã áp sát và Nộ trên 100: nhát chém đầu gây tới 337% ở cự ly gần, sau đó chém hình quạt sát thương thực trong 8 giây."
+  ],
+  "counters": [
+    "Đứng tránh xa vị trí thanh kiếm, nhất là đường thẳng từ Optimus tới kiếm.",
+    "Thả diều để Nộ tự cạn: Optimus chạy 155 và tầm 336, không đuổi được nếu không có Nộ.",
+    "Dùng sát thương theo % máu tối đa hoặc sát thương thực để vượt qua phần giảm sát thương từ Nộ và vùng kiếm.",
+    "Kéo Optimus ra khỏi vùng kiếm trước khi dồn sát thương."
+  ],
+  "counter_why": "Optimus là tank chịu đòn nhiều máu, còn chiêu của Người Sói bỏ qua hiệu ứng giảm sát thương của Optimus và gây sát thương theo phần trăm máu tối đa, nên hiệu quả rất cao.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thấp (hạng 78/91) nhưng Nộ cho tới 50% giảm sát thương và 50% tốc bắn, cộng sát thương thực từ đòn thường và Space, đủ bù cho một đấu sĩ cần áp sát. Mọi lợi thế đều phải tích Nộ mới có, nên khó lạm dụng.",
+    "suggestion": "Giữ nguyên số liệu, sửa mô tả cho khớp code: Space cần và tiêu 100 Nộ (mô tả không nhắc); E làm chậm theo BuffTemplate 8190214 ghi 35% trong 1,5 giây (mô tả ghi 50%); vùng kiếm chỉ còn 2 giây sau khi chạm đất (mô tả ghi 3 giây)."
+  },
+  "evidence": [
+    "server/optimus_actions.py:attr_bonus / _speed — +0.5 × mp/200 tốc bắn và tốc chạy; battle_runtime.py giảm sát thương 0.5 × mp/200 khi có BuffTemplate 8190103",
+    "server/optimus_actions.py:_hit — đòn thường trừ before*0.1 (school='true'), khóa 6000 ms mỗi mục tiêu; +5 Nộ đòn thường, +25 Nộ chiêu",
+    "server/optimus_actions.py:cast slot 2 — đòi mp ≥ 100, _resource(-100); 3.37 − 1.685 × khoảng cách/216; hình quạt 216/180° true",
+    "server/optimus_actions.py:_event optimus_sword_land — 1.88 bán kính 192, end = now+2000; BuffTemplate 8190421 −50%, 8190422 −25%",
+    "facts: atk_per_s 312 (pct 0.067), speed 155, range 336, ehp 7708, stat_rank 78"
+  ]
+}

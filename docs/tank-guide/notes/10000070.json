@@ -1,0 +1,40 @@
+{
+  "summary": "Đấu sĩ cận chiến bám đuổi và lì đòn: E đánh dấu rồi dịch chuyển tới mục tiêu, Space hất văng địch vào tường hoặc vào đồng đội của nó, R mở cửa sổ 2 giây để chết rồi sống lại.",
+  "strengths": [
+    "Chỉ số thân tank hạng 8/91: 4.550 máu, giáp 212/207, máu hiệu dụng 7.727, tốc chạy 170.",
+    "R mở cửa sổ 2 giây (hồi 8 giây): dính đòn chí tử trong lúc đó thì Deadpool biến mất 1 giây, bất tử, rồi sống lại với 50% máu, kèm 4 giây +50% tốc chạy, giảm 50% sát thương nhận vào và miễn khống chế.",
+    "Mỗi lần sống lại cộng vĩnh viễn (tới khi chết thật) một tầng +15% công và giảm 10% sát thương nhận vào, tối đa 3 tầng.",
+    "E bắn xuyên tường 600, gây 185% công và đánh dấu 6 giây; bấm lại thì dịch chuyển tới mục tiêu, gây sát thương chuẩn 25% máu đã mất, mục tiêu gây ít hơn 50% sát thương trong 2 giây, còn Deadpool chạy nhanh hơn 50% và đi xuyên vật cản.",
+    "Space gây 358% công rồi hất văng mục tiêu 480 đơn vị: va vào kẻ địch khác thì cả hai ăn thêm 250% và bị hất tung 1,5 giây; va vào tường thì thêm 250% và choáng 1,5 giây."
+  ],
+  "weaknesses": [
+    "Tầm bắn 336, thuộc nhóm ngắn nhất; không có E thì khó tiếp cận tank tầm xa.",
+    "R chỉ có tác dụng trong 2 giây; bấm sớm hay muộn là mất lần hồi sinh và phải chờ 8 giây.",
+    "Space chỉ dùng trong tầm 168 và phải nhắm một mục tiêu; muốn có thêm sát thương thì phải đứng đúng góc để hất vào tường hoặc vào người khác.",
+    "Lần dịch chuyển của E có thể bị câm lặng hoặc choáng ngắt trong 50 ms chuẩn bị."
+  ],
+  "tips": [
+    "Bắn E trước, rồi bấm lại để dịch chuyển tới khi mục tiêu đã mất nhiều máu: sát thương chuẩn tính theo máu đã mất.",
+    "Đứng sao cho sau lưng mục tiêu là tường hoặc đồng đội của nó, rồi Space để lấy thêm 250% và hiệu ứng khống chế 1,5 giây.",
+    "Bấm R ngay trước khi một đợt dồn sát thương lớn rơi xuống (ví dụ khi bị khống chế giữa đội địch).",
+    "Sau khi hồi sinh, tận dụng 4 giây miễn khống chế và giảm 50% sát thương để quay lại kết thúc giao tranh."
+  ],
+  "counters": [
+    "Thấy R của Deadpool sáng lên thì ngừng dồn sát thương 2 giây, đợi cửa sổ hết rồi mới ra tay.",
+    "Dính dấu E thì giữ khoảng cách quá 600 hoặc lùi về gần đồng đội trong 6 giây.",
+    "Đừng đứng sát tường hay đứng sát đồng đội khi Deadpool ở trong tầm 168.",
+    "Khống chế Deadpool bằng hiệu ứng gây rối loạn để nó không tận dụng được dịch chuyển."
+  ],
+  "counter_why": "E Bẫy Mây Sấm của Điện Hồn (tank 10000068) làm Deadpool rối loạn, không phát huy được lợi thế dịch chuyển. Hiệu ứng rối loạn còn khiến Deadpool vừa hồi sinh xong cũng không chạy thoát được.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank tốt (hạng 8/91) và bộ chiêu đầy đủ: bám đuổi, khống chế, hồi sinh. Nhưng hồi sinh đòi canh đúng cửa sổ 2 giây mỗi 8 giây, Space cần đúng góc, nên sức mạnh phụ thuộc kỹ năng người chơi và có cách đối phó rõ ràng.",
+    "suggestion": "Giữ nguyên số. Code lệch mô tả ở tầng cộng dồn: công +15% mỗi tầng (khớp mô tả nhờ phần cộng thêm 5% trong attr_bonus), nhưng giảm sát thương nhận vào chỉ 10% mỗi tầng thay vì 15%. Nên thống nhất một con số."
+  },
+  "evidence": [
+    "server/deadpool_actions.py:commit_hp — chết khi có BuffTemplate 344101 (2000 ms) thì bất tử 1000 ms rồi 'deadpool_return' hồi 50% max_hp",
+    "BuffTemplate 344108/344109/344110 — 4000 ms miễn khống chế, +50% tốc chạy, giảm 50% sát thương; 344112 +0.1/tầng (+0.05 trong attr_bonus), 344113 −0.1/tầng, tối đa 3",
+    "server/deadpool_actions.py:_event 'deadpool_recast' — sát thương chuẩn 25% máu đã mất; BuffTemplate 344207 mục tiêu −50% sát thương gây ra 2000 ms",
+    "server/deadpool_actions.py:_push + 'deadpool_push' — 3.58 × công, đẩy 480, va chạm 2.5 × công + BuffTemplate 344305 hất tung 1500 ms, va tường 2.5 × công + 344307 choáng 1500 ms"
+  ]
+}

@@ -1,0 +1,124 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Gundam · Cẩm nang tank</title><meta name="description" content="Pháo xa đơn mục tiêu có sát thương đánh thường mỗi giây cao nhất game, giữ khoảng cách nhờ tầm bắn 552 và cú lùi của R. Cái giá là thân máu thuộc loại mỏng nhất trong 91 tank.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/be16b8b4cc9476fa0365be9349eb12d0.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Tăng lực sát thương đến mức tối đa</div>
+<h2 class="page-title">Gundam</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-green-lt">Xạ thủ</span></div>
+<div class="text-secondary mt-2">Xạ Thủ Đơn Thể Linh Động</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000041.html">← Legolas</a>
+<a class="btn" href="10000101.html">Sniper →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháo xa đơn mục tiêu có sát thương đánh thường mỗi giây cao nhất game, giữ khoảng cách nhờ tầm bắn 552 và cú lùi của R. Cái giá là thân máu thuộc loại mỏng nhất trong 91 tank.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Sát thương cao nhất game đi kèm thân mỏng gần nhất game, đúng kiểu đánh đổi của xạ thủ. Hạng chỉ số thân 26/91, bộ chiêu không có khống chế cứng hay hồi máu, nên không vượt trội.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Theo dõi hai quyết định trong code: hỏa tiễn E được tính như đánh thường (góp vào phát thứ 3 và bắn kèm), và tỉ lệ bắn kèm 25% theo mô tả thay cho 40% ghi trong EffectTemplate 302600. Nếu Gundam dọn tank quá nhanh thì bỏ E ra khỏi nhịp phát thứ 3 trước.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★☆☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3080</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">128 / 141</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">375 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">32</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">450 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#26/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">4461</span></div><div class="progress progress-sm" title="Hơn 1% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">833</span></div><div class="progress progress-sm" title="Hơn 100% số tank"><div class="progress-bar bg-green" style="width:100%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">552</span></div><div class="progress progress-sm" title="Hơn 88% số tank"><div class="progress-bar bg-green" style="width:88%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b5b5965f35db9533fd7caab5fde2caae.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Hỏa tiễn theo dõi</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Đánh thường Loại sát thương: Năng lượng
+Đạn bay: Có
+
+Bắn 4 đạn truy đuổi vào một kẻ địch chỉ định; mỗi viên trúng gây #EN_90%_ER# sát thương năng lượng.
+Đòn đánh thường của Gundam có 25% cơ hội bắn thêm một đạn truy đuổi.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ab6632a1f7e80197ce63cd014987f2a6.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Rút lui cấp tốc</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 552</span>
+</div>
+<div class="skill-desc">Tính chất: Đánh thường Loại sát thương: Năng lượng
+Đạn bay: Có
+
+Kỹ năng gồm hiệu quả bị động và chủ động.
+
+Hiệu quả bị động:
+Tăng 100% tốc độ bay của đạn thường và 50% sát thương đánh thường.
+Đòn đánh thường liên tiếp trúng cùng mục tiêu lần thứ 3 gây thêm #EN_150%_ER# sát thương năng lượng.
+
+Hiệu quả chủ động: Bắn một viên đạn theo hướng chỉ định, gây #EN_122%_ER# sát thương năng lượng lên địch trúng đòn và làm chậm 50% trong 2 giây. Đồng thời bản thân nhanh chóng lùi lại một đoạn.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/1e2c0463e3404db58f1c4210fc105d09.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Đại bác laser</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 528</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Tụ lực tại chỗ 0.5s, bắn một tia laser, gây cho địch trong phạm vi #EN_445%_ER# ST Năng Lượng.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/dd6c0a41c2207bc78fa22fad94d88e04.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Chùm đạn năng lượng</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Tăng 100% tốc độ bay của đạn thường</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Sát thương đánh thường mỗi giây 833, đứng đầu 91 tank: mỗi phát gây 150% công năng lượng, 450 ms một phát, đạn bay nhanh gấp đôi.</li><li>Phát trúng thứ 3 liên tiếp vào cùng một mục tiêu (mỗi phát cách nhau không quá 1 giây) gây thêm 150% công. Mỗi phát trúng còn có 25% cơ hội bắn kèm một hỏa tiễn 90% công.</li><li>E khóa mục tiêu trong tầm 600, bắn 4 hỏa tiễn 90% công trong 2 giây. Code tính các hỏa tiễn này như đánh thường, nên chúng góp luôn vào nhịp phát thứ 3 và tỉ lệ bắn kèm.</li><li>R vừa gây 122% công và làm chậm 50% trong 2 giây, vừa đẩy Gundam lùi 300: một chiêu vừa thả diều vừa thoát thân.</li><li>Space bắn tia laser dài 528, rộng 72, gây 445% công lên mọi kẻ địch nằm trên đường thẳng.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Máu hiệu dụng chỉ 4.461 (3.080 máu, giáp 128/141), gần thấp nhất game: bị sát thủ áp sát là chết rất nhanh.</li><li>Space phải đứng yên tụ lực 0,5 giây và tia chỉ rộng 72, dễ bị né. Bị ngắt giữa chừng thì Space vẫn phải hồi 10 giây.</li><li>Ngoài R không có chiêu thoát thân nào khác, cũng không có khống chế cứng.</li><li>Sát thương dồn vào một mục tiêu: đổi mục tiêu liên tục hay để địch núp sau vật cản là mất nhịp phát thứ 3.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Bám một mục tiêu mà bắn để phát thứ 3 nổ đều. E cũng tính vào nhịp này, nên mở đầu bằng E rồi nối đánh thường.</li><li>Giữ R để thoát thân: sát thủ lao vào thì bấm R về phía nó, vừa làm chậm vừa lùi ra.</li><li>Tung Space khi địch đang bị khống chế hoặc đi thành hàng dọc; đừng tụ lực khi địch có chiêu ngắt ở gần.</li><li>Đứng sau tiền tuyến và tận dụng tầm 552, thuộc nhóm xa nhất game.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Áp sát bằng dịch chuyển hoặc chiêu lướt (như Ichigo): Gundam chỉ có R để chạy.</li><li>Thấy Gundam đứng tụ lực thì đổi hướng ngay; tia laser chỉ rộng 72.</li><li>Dùng khống chế ngắt Space trong 0,5 giây tụ lực.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Nhanh chóng di chuyển né [Space-Đại Bác Laser] của Gundam, cũng có thể dùng skill khống chế để gián đoạn.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000064.html">Ichigo</a>. Gundam là tank tầm xa công cao máu mỏng. Ichigo có chiêu dịch chuyển tức thời, áp sát Gundam rất nhanh khiến nó mất lợi thế tầm bắn. Chuỗi chiêu bùng nổ của Ichigo làm Gundam không kịp trở tay.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/gundam_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/gundam_actions.py:on_bullet_hit — phát thứ 3 liên tiếp +150% (EffectTemplate 302611 fAddVal 1.5, cửa sổ BuffTemplate 302601 iPersistTime 1000), EXTRA_MISSILE_CHANCE = .25</li><li>EffectTemplate 302600 fAddVal 1.5 nNextRate 40 (đánh thường); 302701 fAddVal 0.90 (hỏa tiễn); 302911 fAddVal 1.22 (R); 302801 fAddVal 4.45 iRange1 528 iRange2 72 (Space)</li><li>SkillTemplate 302801 iReadyTime 500, iSkillBreakCoolTime 10000; SkillTemplate 302701 iCount 4 iInterval 500</li><li>BuffTemplate 302912 fEffectValA -0.5 iPersistTime 2000 (R làm chậm); EffectTemplate 302902 nEffectValB 300 (khoảng lùi)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [1, 100, 64, 88, 1]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Gundam",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

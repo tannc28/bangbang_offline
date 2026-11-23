@@ -1,0 +1,40 @@
+{
+  "summary": "Sát thủ năng lượng cơ động: năng lượng càng đầy thì càng nhanh và càng đau, nên phải ra đòn liên tục. Space hóa bóng lao xa 720 và tạo trận câm lặng 3 giây.",
+  "strengths": [
+    "Ảnh·Lực: mỗi 10 năng lượng tăng 5% sát thương và tốc chạy, tối đa +50%. Tốc chạy gốc 180 đã thuộc nhóm nhanh nhất game, xuyên giáp năng lượng 59.",
+    "Space: 0,5 giây chuẩn bị không thể bị chọn và miễn sát thương, rồi lao 720, gây 319% công bán kính 216. Trận tồn tại 3 giây, câm lặng và giảm 50% hồi máu mọi kẻ bên trong, 72% công mỗi giây. Mỗi kẻ trúng giúp Shadowblade giảm thêm 10% sát thương nhận vào (tối đa 50%) trong 3 giây.",
+    "E có 2 lượt tích: dịch chuyển 240, phát đánh thường kế tiếp thành Lốc Đao 197% công, nảy tối đa 4 lần (mỗi lần giảm 25%), hút 25% và làm chậm 75%.",
+    "R gây 150% công bán kính 216 và nối dây 3 giây (50% công mỗi giây, mục tiêu gây ít hơn 25% sát thương lên Shadowblade). Gây sát thương thì nhận khiên biến đánh thường thành máu.",
+    "Diệt mục tiêu: hồi 15% máu và năng lượng, giảm 15% thời gian hồi chiêu còn lại; trợ công được 5%."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.491 máu, máu hiệu dụng 5.091.",
+    "Năng lượng tự tụt 5 mỗi giây; đứng ngoài giao tranh là mất hết phần thưởng sát thương và tốc chạy.",
+    "Bị khống chế cứng (như Space của Tào Tháo) lúc lao vào là gần như chết.",
+    "Dây nối R đứt khi hai bên cách nhau quá 300."
+  ],
+  "tips": [
+    "Giữ năng lượng cao bằng đánh thường (+5), Lốc Đao (+10 mỗi lần nảy) và đứng trong trận Space (+5 mỗi 0,25 giây).",
+    "Dùng Space để vào giữa cụm: 0,5 giây chuẩn bị miễn sát thương giúp né chiêu lớn.",
+    "Mở bằng E và Lốc Đao, rồi R để nối dây và có khiên chống đánh thường.",
+    "Ưu tiên kết liễu: mỗi mạng hạ giảm 15% hồi chiêu."
+  ],
+  "counters": [
+    "Để dành khống chế cứng cho lúc nó lao vào (như Tào Tháo).",
+    "Thấy cảnh báo Space thì rời vùng ngay; ở trong trận là bị câm lặng.",
+    "Kéo dài giao tranh để năng lượng của nó tụt.",
+    "Dùng kỹ năng thay vì đánh thường khi khiên của R hoặc của trận Space đang bật."
+  ],
+  "counter_why": "Chiêu Space [Ép Thiên Tử Lệnh Chư Hầu] của Tào Tháo khống chế cực mạnh, là ác mộng của Shadowblade. Khi lao vào, Shadowblade phải canh đúng thời điểm để không dính khống chế.",
+  "balance": {
+    "status": "ok",
+    "reason": "Cơ động và có khống chế diện rộng, nhưng mỏng và phải ra đòn liên tục để giữ năng lượng. Hạng chỉ số thân 28/91 chủ yếu nhờ tốc chạy và xuyên giáp.",
+    "suggestion": "Giữ nguyên. Mô tả R và mô tả nội tại mâu thuẫn về phần thưởng diệt mạng (15% so với 25%); code dùng 15%. Khiên của R kéo dài 2 giây theo BuffTemplate 383402, mô tả ghi 1,5 giây."
+  },
+  "evidence": [
+    "server/shadowblade_actions.py:_factor/_speed — +5% sát thương và tốc chạy mỗi 10 năng lượng; _event shadow_energy −5 mỗi 1000 ms",
+    "server/shadowblade_actions.py:_arrive/_field — 3.19 khi đáp, 0.18 mỗi 250 ms trong 3000 ms; BuffTemplate 383342 câm lặng, 383343 -0.5 hồi máu, 383323 +0.1 mỗi tầng tối đa 5",
+    "server/shadowblade_actions.py:on_target_death — ratio 0.15 (diệt) / 0.05 (trợ công)",
+    "server/shadowblade_actions.py:_bounce_hit — 1.97 × 0.75^n, tối đa 4 lần trúng, hút 0.25"
+  ]
+}

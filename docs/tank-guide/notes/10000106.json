@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư băng khống chế diện rộng: chiêu nào trúng cũng để lại ấn ký, đánh tiếp vào mục tiêu có ấn ký thì đau thêm 50% và có thể đóng băng. Bản thân không bao giờ mất quá 15% máu tối đa trong một đòn.",
+  "strengths": [
+    "Nội tại phòng thủ: mỗi đòn đánh chỉ lấy tối đa 15% máu tối đa (khoảng 529); bị chiêu đánh trúng thì kẻ tấn công bị dính ấn ký, Elsa được +50% tốc chạy và +50% phòng thủ trong 1,5 giây.",
+    "Ấn ký Hàn Băng làm mục tiêu chậm 25% tốc chạy, tốc đánh; chiêu trúng mục tiêu có ấn ký thì mạnh thêm 50% và có 25% cơ hội đóng băng 0,5 giây.",
+    "R có 2 lượt (8 giây mỗi lượt): đặt vòng băng ở xa tới 600, sau 0,65 giây gây 237% công trong bán kính 168; ai đứng ở vành ngoài (cách tâm 72 tới 168) bị đóng băng 1,5 giây và nhận thêm 10% sát thương.",
+    "E thổi quạt 60 độ tầm 360: 188% công, đẩy lùi 216, làm chậm 50% (giảm dần) và giảm 25% công của địch trong 2 giây.",
+    "Space gọi bão tuyết bán kính 216 ở xa tới 600: 5 đợt mỗi 0,75 giây, mỗi đợt 177% công (265% nếu có ấn ký); trong lúc duy trì Elsa giảm 25% sát thương nhận vào."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.528 máu, máu hiệu dụng 5.286 (chỉ hơn khoảng 29% số tank); bắn chậm 1.000 ms một phát.",
+    "Giới hạn 15% mỗi đòn không giúp gì trước nhiều đòn nhỏ liên tiếp, nên xạ thủ bắn nhanh khắc chế Elsa.",
+    "Space là chiêu duy trì, đứng yên gần 4 giây và bị câm lặng ngắt.",
+    "Đóng băng của R chỉ áp vào vành ngoài; ai đứng ngay tâm vòng chỉ ăn sát thương."
+  ],
+  "tips": [
+    "Mở bằng E hoặc R để in ấn ký, rồi mới dùng các chiêu còn lại để được +50% sát thương.",
+    "Đặt R sao cho mục tiêu nằm ở vành ngoài của vòng để đóng băng 1,5 giây, rồi thả Space lên chỗ đó.",
+    "Dùng E đẩy kẻ áp sát ra xa 216, giữ khoảng cách để bắn tiếp.",
+    "Đừng ngại ăn chiêu của địch: mỗi lần bị chiêu đánh trúng, Elsa chạy nhanh và cứng hơn trong 1,5 giây."
+  ],
+  "counters": [
+    "Dùng xạ thủ hoặc tank bắn nhanh: nhiều đòn nhỏ không bị giới hạn 15% chặn lại.",
+    "Câm lặng Elsa khi nó bắt đầu Space để ngắt cơn bão.",
+    "Thấy vòng băng R xuất hiện thì chạy vào tâm hoặc ra hẳn ngoài 168, đừng đứng ở vành ngoài.",
+    "Áp sát khi E đang hồi: ngoài E, Elsa không có chiêu đẩy lùi hay thoát thân."
+  ],
+  "counter_why": "Elsa có giới hạn sát thương tối đa mỗi lần nhận đòn, nên các tank kiểu xạ thủ bắn nhiều phát nhỏ khắc chế nó tốt hơn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 56/91, mỏng và bắn chậm, nhưng bộ chiêu bù lại: khống chế diện rộng, sát thương Space cao và giới hạn 15% mỗi đòn giúp sống sót trước pháp sư dồn chiêu. Có khắc chế rõ là xạ thủ bắn nhanh.",
+    "suggestion": "Giữ nguyên số. Mô tả có hai bản lệch nhau (R ghi đóng băng 0,5 giây và tăng 10% sát thương, nội tại ghi 1 giây và 15%); code theo bản R. Nên sửa mô tả nội tại cho khớp."
+  },
+  "evidence": [
+    "server/elsa_actions.py:limit_hit — mỗi đòn tối đa 15% max_hp (BuffTemplate 381102 fFixParam 0.15)",
+    "server/elsa_actions.py:_hit — ×1.5 khi mục tiêu có BuffTemplate 381114; 25% đóng băng 381131 (500 ms) + 381132 nhận thêm 10%",
+    "server/elsa_actions.py:_event 'elsa_ring' — 2.37 × công bán kính 168, vành 72–168 bị BuffTemplate 381412 đóng băng 1500 ms",
+    "server/elsa_actions.py:_event 'elsa_wave' — 5 đợt mỗi 750 ms, 1.77 × công bán kính 216; BuffTemplate 381307 giảm 25% sát thương nhận",
+    "server/elsa_actions.py:_event 'elsa_e' — quạt 60° tầm 360, 1.88 × công, đẩy lùi 216; BuffTemplate 381203 chậm 50%, 381204 −25% công"
+  ]
+}

@@ -1,0 +1,131 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Thiên Thần · Cẩm nang tank</title><meta name="description" content="Tank hai dạng: dạng Thiên Thần hồi máu và bảo kê đồng đội, dạng Sa Ngã kéo và choáng địch. R đổi dạng, lướt đi và làm mới E, nên Thiên Thần thắng bằng cách đổi dạng đúng lúc.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/306f828dbcdf307119fbfdb7b610ac49.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Sa ngã là con đường để vươn đến mục đích cao hơn!</div>
+<h2 class="page-title">Thiên Thần</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-pink-lt">Phụ trợ</span></div>
+<div class="text-secondary mt-2">Phụ Trợ Bảo Vệ Biến Thân</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000040.html">← Người Sói</a>
+<a class="btn" href="10000102.html">Saitama →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Tank hai dạng: dạng Thiên Thần hồi máu và bảo kê đồng đội, dạng Sa Ngã kéo và choáng địch. R đổi dạng, lướt đi và làm mới E, nên Thiên Thần thắng bằng cách đổi dạng đúng lúc.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank yếu (hạng 71/91) nhưng hai dạng cho đủ cả hồi máu, miễn sát thương cho đội và choáng 2 giây. Hai Space dùng chung hồi chiêu nên không thể vừa bảo kê vừa khống chế trong cùng một giao tranh, đó là cái giá hợp lý.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Code khác mô tả: dạng Sa Ngã có tầm 432 (BuffTemplate 336101) chứ không phải 480; Thanh Tẩy chỉ tác dụng lên đồng đội trong bán kính 240, không phải toàn đội; R làm mới E nhưng mô tả không nhắc.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4130</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">197 / 197</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">315 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">27</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#71/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">6842</span></div><div class="progress progress-sm" title="Hơn 63% số tank"><div class="progress-bar bg-lime" style="width:63%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">350</span></div><div class="progress progress-sm" title="Hơn 34% số tank"><div class="progress-bar bg-orange" style="width:34%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">155</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/e3ff898031eb84505a66e2b02ce7bee0.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Thánh Quang Chiếu Rọi/Dẫn Dắt Linh Hồn</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 408</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý Năng Lượng
+VP Bay: Có
+
+Thánh Quang Chiếu Rọi (Thiên Thần): Triệu tập Thánh Quang hồi cho bản thân #EN_223%_ER# HP. Thánh Quang nhảy đến mục tiêu ngẫu nhiên. Nếu là đồng đội, thì hồi cho đồng đội #EN_178%_ER# HP; Nếu là địch thì gây cho địch #EN_178%_ER# ST Năng Lượng. Tối đa nhảy 4 lần, mỗi lần hiệu quả giảm 20%. 
+
+Dẫn Dắt Linh Hồn (Thiên Thần Sa Ngã): Tụ lực 0.5s sẽ kéo địch khu vực hình quạt phía trước đến vị trí bản thân, gây 195% ST Vật Lý.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/5f5956e41e8e6d782a747e65bc58c099.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Thánh Hóa / Sa Ngã</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động: Thiên sứ có 2 hình thái Thiên Thần và Sa Ngã, hình thái khác nhau sẽ có tầm bắn và thuộc tính khác nhau: 
+Thiên Thần: Tầm bắn 336; sát thương nhận giảm 25%; có thể dùng [E-Thánh Quang Chiếu Rọi] và [Space-Thanh Tẩy]
+
+Thiên Thần Sa Ngã: Tầm bắn 480; Sát thương tạo ra tăng 25%; có thể dùng [E-Dẫn Dắt Linh Hồn] và [Space-Giam Giữ Linh Hồn].
+
+Chủ động: Bay 1 đoạn về hướng chỉ định, đổi thành hình thái Thiên Thần hoặc Thiên Thần Sa Ngã, sau khi đổi hình thái trong 3s Thiên Thần tăng tốc 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/a65afb1afaad76d2b16425a9f3d04da9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Thanh Tẩy/Giam Giữ Linh Hồn</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Tổng CD của Thanh Tẩy và Giam Giữ Linh Hồn.
+
+Thanh Tẩy (Thiên Thần): Triệu tập năng lượng Thần, 1s sau giúp tất cả đồng đội trong 2s miễn dịch mọi sát thương, đồng thời xóa trạng thái xấu và hồi #EN_296%_ER# HP, khi thi triển sẽ trục xuất mục tiêu địch đến khu Thanh Tẩy.
+Trong thời gian triệu hồi Thần miễn mọi ST nhưng không thể tấn công và dùng skill.
+
+Giam Giữ Linh Hồn (Thiên Thần Sa Ngã): Tạo 455% ST Vật Lý cho địch trong phạm vi, gây choáng 2s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Hóa thánh khi vào trận</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Vào trận giảm 25% sát thương nhận</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Dạng Thiên Thần giảm 25% sát thương nhận. E hồi bản thân 223% công năng lượng, rồi tia sáng nảy 4 lần sang người ngẫu nhiên trong bán kính 336: hồi cho đồng đội hoặc gây sát thương cho địch, bắt đầu 178% và giảm 20% mỗi lần nảy.</li><li>Space dạng Thiên Thần: niệm 1 giây (bản thân miễn sát thương), rồi đồng đội trong bán kính 240 được miễn sát thương 2 giây, xóa hiệu ứng xấu và hồi 296%; địch trong vùng bị đẩy ra 240.</li><li>Dạng Sa Ngã tăng 25% sát thương. E tụ 0,5 giây rồi kéo địch trong hình quạt dài 408 về sát mình, gây 195% công. Space gây 455% công trong bán kính 216 và choáng 2 giây.</li><li>R lướt 360, tăng 50% tốc chạy 3 giây và làm mới hồi chiêu E ngay lập tức.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank hạng 71/91: chạy chậm (155), dạng Thiên Thần tầm đánh 336, ngắn nhất game.</li><li>Hai dạng dùng chung hồi chiêu Space (25 giây): dùng Thanh Tẩy rồi thì không còn chiêu choáng 2 giây, và ngược lại.</li><li>E dạng Sa Ngã là hình quạt rất hẹp (20°) và cần tụ 0,5 giây; bị choáng hoặc câm lặng lúc tụ là mất chiêu.</li><li>Tia sáng E nảy ngẫu nhiên: trong giao tranh lộn xộn nó có thể dồn vào địch thay vì đồng đội đang cần máu.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Combo Sa Ngã: E kéo địch về sát → Space choáng 2 giây và gây 455% → R đổi dạng để có E mới.</li><li>Giữ Space dạng Thiên Thần cho lúc đồng đội sắp chết: 2 giây miễn sát thương cộng hồi 296% thường lật được giao tranh.</li><li>Dùng R vừa làm chiêu thoát vừa reset E: đổi dạng xong luôn có E sẵn.</li><li>Ở dạng Sa Ngã, nhắm E thật chính xác vì vùng kéo rất hẹp.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Khống chế Thiên Thần lúc đang tụ E Sa Ngã hoặc niệm Space: chiêu bị hủy.</li><li>Khi thấy nó ở dạng Sa Ngã, đừng đứng thẳng hàng trước mặt (E kéo) và đừng lại gần (Space choáng 2 giây).</li><li>Ép nó dùng Space trước, sau đó còn 25 giây không có cả miễn sát thương lẫn choáng.</li><li>Thả diều khi nó ở dạng Thiên Thần: tầm 336 và chạy chậm.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi kẻ địch ở trạng thái Thiên Thần, duy cự khoảng cách tránh bị sát thương nặng từ [E-Thánh Quang Chiếu Rọi]; Khi ở trạng thái Sa Ngã, [Space-Giam Giữ Linh Hồn] sẽ có hiệu quả khống chế quần thể xung quan bản thân, đừng đến gần.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000074.html">Điêu Thuyền</a>. Điêu Thuyền dùng [Khuynh Quốc Khuynh Thành] khống chế Thiên Thần, khiến nó không ra được combo và không kịp hồi máu.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/angel_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/angel_actions.py:_switch — lướt 360, cooldowns[1] = 0, buff 336109 +50% tốc chạy 3000 ms</li><li>server/angel_actions.py:_next_bounce — tối đa 4 lần nảy, 1.78 × 0.8^n, bán kính 336; cast slot 1 hồi 2.23 × công năng lượng</li><li>server/angel_actions.py:angel_sanctuary — bán kính 240: miễn sát thương 336311 2000 ms, hồi 2.96 ×, cleanse; địch bị đẩy 240</li><li>server/angel_actions.py:cast/angel_pull — Sa Ngã sức mạnh × 1.25; E nón 408 góc 20° gây 1.95 ×; Space 4.55 × bán kính 216, choáng 336702 2000 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [63, 34, 2, 0, 59]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Thiên Thần",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,38 @@
+{
+  "summary": "Pháp sư bẫy và triệu hồi: rải Bí Ngô hất văng địch, thả Hồn Ma tự đuổi mục tiêu, rồi chốt bằng U Linh Vương bay càng xa đánh càng đau. Bí Ngô còn hồi máu và cho đồng đội 1 giây miễn sát thương.",
+  "strengths": [
+    "Space bay xuyên tường, sát thương tăng theo quãng bay: 111% công khi nổ sát người, tối đa 777% khi bay hết 960. Nổ bán kính 192 và choáng 1,5 giây.",
+    "Space để lại Cổng U Linh, mỗi giây sinh một Hồn Ma trong 6 giây. Kẻ địch chết cũng để lại một Hồn Ma đánh tiếp.",
+    "E có 2 lượt tích, bẫy tồn tại 45 giây: kẻ địch chạm vào nhận 215% công và bị hất văng 240, văng trúng người khác thì cả hai choáng 0,5 giây. Đồng đội chạm vào được hồi máu bằng 127% công và miễn sát thương 1 giây.",
+    "R bắn 10 Hồn Ma tự đuổi, mỗi 0,5 giây một con, mỗi con 65% công và xuyên tường. Mỗi con trúng hồi cho Bí Ngô 5% máu đã mất."
+  ],
+  "weaknesses": [
+    "Mỏng và chậm: 3.360 máu, máu hiệu dụng 5.236, tốc chạy 160.",
+    "Space phải đứng tụ lực 0,5 giây, bị choáng hay câm lặng lúc này là mất chiêu. Bắn gần thì chỉ còn 111%.",
+    "Hồn Ma dễ bị tháp pháo và vật triệu hồi (như của Minion) hút mất.",
+    "Suốt 5 giây bắn R, Bí Ngô không dùng lại R được, và R chỉ bắt đầu hồi 10 giây sau khi bắn xong: thực tế 15 giây một lần."
+  ],
+  "tips": [
+    "Đặt Bí Ngô ở lối hẹp, cạnh tường: kẻ địch bị hất văng vào nhau sẽ cùng choáng.",
+    "Bắn Space từ xa nhất có thể (gần 960) để ăn trọn 777%.",
+    "Rải Bí Ngô dưới chân đồng đội đang bị dồn: họ được hồi máu và 1 giây miễn sát thương."
+  ],
+  "counters": [
+    "Áp sát nhanh: Bí Ngô mỏng và chạy chậm.",
+    "Đừng giẫm lên Bí Ngô trên mặt đất, cũng đừng đi sát đồng đội khi ở gần bẫy.",
+    "Dùng tháp pháo hoặc vật triệu hồi để hứng Hồn Ma.",
+    "Lao sát vào khi Bí Ngô tụ Space: ở cự ly gần, đòn chỉ còn 111%."
+  ],
+  "counter_why": "Hồn Ma do Bí Ngô Vương triệu hồi sẽ đuổi theo cả tháp pháo của Minion. Vì vậy Minion có thể dùng tháp pháo hứng đòn thay, khiến Hồn Ma không đánh trúng mục tiêu chính.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương và khống chế đều tốt nhưng phụ thuộc cự ly bắn và vị trí đặt bẫy; thân mỏng, chạy chậm (hạng chỉ số thân 63/91). Không có điểm nào vượt trội rõ rệt.",
+    "suggestion": "Giữ nguyên. Mô tả R ghi Hồn Ma có 100% máu của Bí Ngô, mô tả nội tại ghi 50%; code dùng 50%. Nên sửa mô tả R cho khớp."
+  },
+  "evidence": [
+    "server/pumpkin_actions.py:_explosion — 1.11 + 6.66 × quãng bay/960, bán kính 192; EffectTemplate 327301 fAddVal 0.777 fEffectUpperRate 7.77; BuffTemplate 327302 choáng 1500 ms",
+    "server/pumpkin_actions.py:_event pumpkin_trap — 2.15 lên địch, hồi đồng đội 1.27 × công + BuffTemplate 327222 (miễn sát thương 1000 ms); va chạm BuffTemplate 327231/327232 choáng 500 ms",
+    "server/pumpkin_actions.py:_event pumpkin_volley — 10 lượt × 0.65, hồi 5% máu đã mất; hồi chiêu 5000 + 10000 ms",
+    "server/pumpkin_actions.py:_summon_stats — Hồn Ma có 0.5 × máu Bí Ngô, mất 12,5% mỗi giây (BuffTemplate 327122 fFixParam -0.125)"
+  ]
+}

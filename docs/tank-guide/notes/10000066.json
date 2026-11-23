@@ -1,0 +1,41 @@
+{
+  "summary": "Kỵ sĩ năng lượng cận chiến, rất bền: E là vòng gió quanh mình hút máu liên tục, R lướt ngắn và xóa đạn bay 2,5 giây, Space cắm kiếm tạo vùng 6 giây vừa làm chậm địch vừa hồi máu cho mình. Thắng bằng cách đứng lì giữa địch lâu hơn bất kỳ ai.",
+  "strengths": [
+    "Thân tank dày: máu 5.845, giáp vật lý 255, giáp năng lượng 327, máu hiệu dụng 11.515, hơn khoảng 89% số tank.",
+    "Space tụ lực 0,5 giây trong trạng thái miễn sát thương và miễn khống chế, gây 2,23 lần công trên dải dài 600 rộng 150, rồi để lại vùng 6 giây: cứ 0,5 giây gây 0,82 lần công và làm chậm 75%.",
+    "Đứng trong vùng Space, Edwina giảm 30% sát thương nhận vào, mỗi giây hồi 3% máu tối đa và 15 năng lượng.",
+    "R lướt 336 đơn vị, trong 2,5 giây xóa mọi đạn bay trúng mình, tăng 25% tốc chạy, mỗi 0,5 giây hồi 3% máu tối đa và 10 năng lượng (tổng 15% máu).",
+    "E là vòng gió bán kính 144: mỗi giây gây 1,52 lần công năng lượng lên địch xung quanh, hút máu 30%, đi xuyên thân địch và tăng 25% tốc chạy; khống chế không cắt được E."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và sát thương đạn thường thấp: khoảng 316 mỗi giây, chỉ hơn khoảng 9% số tank.",
+    "E tốn 10 năng lượng mỗi 0,5 giây trên tổng 100, nên bật liên tục chỉ được khoảng 5 giây nếu không nạp thêm.",
+    "Lớp chặn của R chỉ xóa đạn bay; chiêu không phải đạn (như của Transformer) vẫn đánh trúng bình thường.",
+    "Chạy chậm (160) nên khó bám theo mục tiêu biết thả diều."
+  ],
+  "tips": [
+    "Cắm Space dọc theo hướng địch phải đi qua rồi đứng trong vùng: vừa làm chậm 75% địch vừa nhận giảm 30% sát thương.",
+    "Bật E khi đã sát địch, tắt ngay khi địch chạy xa để giữ năng lượng; đạn thường trúng cũng hồi 5 năng lượng.",
+    "Giữ R cho lúc bị pháo xa tập trung bắn: 2,5 giây xóa đạn bay kèm hồi 15% máu.",
+    "Ra khỏi giao tranh thì nghỉ một lúc: thoát chiến đấu 5 giây là Edwina tự hồi 3% máu và 5 năng lượng mỗi giây."
+  ],
+  "counters": [
+    "Dùng tank có chiêu không phải đạn bay, như Transformer, để R không chặn được.",
+    "Thả diều ngoài tầm 336 và đứng ngoài bán kính 144 của E.",
+    "Bước ngay ra khỏi dải kiếm của Space; ở lại trong đó là bị chậm 75% và ăn đòn liên tục 6 giây.",
+    "Dồn Edwina khi năng lượng cạn: lúc đó không còn E để hút máu."
+  ],
+  "counter_why": "Kỹ năng của Transformer đều không phải đạn bay, nên R Avalon Xa Xôi của Edwina Knight không chặn được, khả năng sống sót của nó giảm mạnh.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 66/91 vì tầm ngắn và sát thương đạn thường thấp, nhưng bộ chiêu hồi máu (hút máu E, 15% máu từ R, 3% mỗi giây trong vùng Space) và vùng làm chậm 75% bù lại. Vai tank 5 sao sinh tồn, sát thương vừa phải, khớp với thiết kế.",
+    "suggestion": "Giữ nguyên. Code khác mô tả ở hai chỗ: E làm chậm tối đa 2 tầng (25% rồi 30%, BuffTemplate 341212) trong khi mô tả ghi cộng dồn tới 60%; đạn thường hồi 5 năng lượng như mô tả nội tại, còn mô tả R ghi 10."
+  },
+  "evidence": [
+    "server/edwina_actions.py:_event edwina_aura — trừ 10 năng lượng mỗi 500 ms, mỗi 1000 ms power*1.52 bán kính 144, lifesteal 0.3, BuffTemplate 341212 tối đa 2 tầng (fEffectValA -0.25, iStackAdd -0.05)",
+    "server/edwina_actions.py:_event edwina_sword/edwina_field — power*2.23 rồi 12 nhịp power*0.82 trên dải 600x150; BuffTemplate 341312 -0.75, 341313 giảm 30% sát thương cho Edwina, hồi 3% máu + 15 năng lượng mỗi 1000 ms",
+    "server/edwina_actions.py:cast slot 10 — lướt 336, 5 nhịp edwina_guard_heal 3% máu + 10 năng lượng; BuffTemplate 341401 xóa đạn bay 2500 ms, 341402 +25% tốc chạy",
+    "server/edwina_actions.py:interrupt — còn sống thì không gì cắt được E; cast slot 2 đặt damage_immune trong 500 ms tụ lực",
+    "facts: stat_rank 66, ehp 11515 (pct 0.889), range 336 (pct 0.0), atk_per_s 316 (pct 0.089)"
+  ]
+}

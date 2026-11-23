@@ -1,0 +1,130 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Transformer · Cẩm nang tank</title><meta name="description" content="Pháp sư tầm xa sống nhờ phản ứng giữa hai chiêu: E và R dính vào cùng một mục tiêu thì choáng 1 giây và trừ 15% máu tối đa, rồi Space bắn từ tầm 960 gây thêm 50% sát thương lên mục tiêu đã dính phản ứng.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/18b7d01dfe85517c3ab99a9dd1487373.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Ta là con ong nhỏ, vo ve vo ve</div>
+<h2 class="page-title">Transformer</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Tân Thủ Sát Thương Nhóm</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000056.html">← Quan Công</a>
+<a class="btn" href="10000044.html">Naruto →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư tầm xa sống nhờ phản ứng giữa hai chiêu: E và R dính vào cùng một mục tiêu thì choáng 1 giây và trừ 15% máu tối đa, rồi Space bắn từ tầm 960 gây thêm 50% sát thương lên mục tiêu đã dính phản ứng.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank ở giữa (hạng 46/91) và thân mỏng; sức mạnh nằm ở combo phản ứng cần trúng hai chiêu liên tiếp, có cửa sổ ngắn và để lại đúng 1,5 giây khống chế. Phần trừ theo máu tối đa mạnh nhưng phải đánh đúng mới có.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi phần sát thương theo máu tối đa: code cộng 15% máu tối đa ở phản ứng và ở Space mà không có trần, trong khi EffectTemplate 324412 có fEffectUpperRate 0.2 (iEffectUpperType 2) chưa được áp dụng. Mô tả nội tại (6%, 5 tầng) cũng khác code và mô tả R (10%, 3 tầng, BuffTemplate 324111).</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★☆☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3640</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">159 / 159</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">370 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">29</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#46/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5569</span></div><div class="progress progress-sm" title="Hơn 44% số tank"><div class="progress-bar bg-yellow" style="width:44%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">370</span></div><div class="progress progress-sm" title="Hơn 48% số tank"><div class="progress-bar bg-yellow" style="width:48%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d5b102ed72369936192f2ad155269f5b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Đạn Điện Từ</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Thi triển điện từ tấn công địch, sau khi đánh trúng gây #EN_212%_ER# ST Năng Lượng và giảm tốc 50% trong 2s.
+Nếu địch được đánh trúng bị [Pháo Laser] làm giảm tốc sẽ khiến địch choáng 1s, gây 15% giới hạn HP ST Năng Lượng.
+
+Giảm 25% ST lên Kiến Trúc.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/4280c2a40144a848d262bbef510fa145.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Pháo Laser</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Năng lượng
+Đạn bay: Có
+
+Kỹ năng gồm hiệu quả bị động và chủ động.
+
+Hiệu quả bị động: Khi kỹ năng trúng mục tiêu, Bumblebee nhận ra điểm phòng ngự yếu của địch trong 5 giây. Mọi sát thương bỏ qua 10% giáp năng lượng của mục tiêu và tăng 10% tốc độ di chuyển; tối đa 3 tầng.
+
+Hiệu quả chủ động: Bắn laser xuyên địch theo hướng chỉ định, gây #EN_192%_ER# sát thương năng lượng lên mọi địch trên đường, giảm 50% tốc độ di chuyển trong 2 giây.
+Mỗi mục tiêu trúng giảm 15% hồi chiêu kỹ năng này và [E Đạn Xung Điện Từ]. Nếu mục tiêu đang bị Đạn Xung Điện Từ làm chậm, gây choáng 1 giây và sát thương năng lượng bằng 15% HP tối đa của mục tiêu; trong 3 giây tiếp theo tăng 50% sát thương nhận từ [Space - Pháo Tụ Năng].
+Kỹ năng tích trữ 2 lần; khoảng cách sử dụng 3 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/3129513fb8f98f071fac5cbca63a0533.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Pháo Tụ Năng</span>
+<span class="badge bg-azure-lt">hồi 20s</span>
+<span class="badge bg-teal-lt">tầm 960</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Dùng Súng Siêu Ánh Sáng tại điểm chỉ định, sau 1s tất cả địch xung quanh nhận #EN_250%_ER# ST Năng Lượng, kèm ST Năng Lượng bằng 15% giới hạn HP mục tiêu, đồng thời khiến mục tiêu choáng 0.5s.
+
+Giảm 50% ST lên Kiến Trúc.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/4d27a74add9b7c7eca78824d38fd5189.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Chuyên gia súng</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Khi skill đánh trúng mục tiêu, Transformer trong 5s tiếp theo có thể thấy rõ nơi phòng thủ yếu của địch, khiến mọi ST bỏ qua 6% Khiên Năng Lượng của mục tiêu.
+
+Hiệu quà này cộng dồn tối đa 5 lần.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Phản ứng E ↔ R: mục tiêu đang mang dấu của chiêu này mà trúng chiêu kia thì bị choáng 1 giây, mất thêm 15% máu tối đa dưới dạng sát thương năng lượng, và nhận thêm 50% sát thương từ Space trong 3 giây.</li><li>R có 2 lượt (cách nhau 3 giây), tia laser xuyên mọi địch trên đường, gây 192% và làm chậm 50% trong 2 giây; mỗi mục tiêu trúng giảm 1,2 giây hồi E và 0,9 giây hồi lượt R.</li><li>Tầm chiêu rất xa: E và R tới 720, Space tới 960. Space nổ bán kính 192 sau 1 giây, gây 250% sức công cộng 15% máu tối đa và choáng 0,5 giây.</li><li>Phần sát thương theo máu tối đa khiến Transformer đánh tank chịu đòn vẫn đau; nội tại còn cho bỏ qua 10% khiên năng lượng và thêm 10% tốc chạy mỗi tầng, tối đa 3 tầng.</li><li>Chạy khá nhanh (170) và bắn thường tầm 480, đủ để giữ khoảng cách.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Thân mỏng: 3.640 máu, máu hiệu dụng 5.569, không có chiêu lướt hay chiêu tự bảo vệ.</li><li>Bắn thường chậm (1.000 ms một phát, thuộc nhóm chậm nhất game); hết chiêu thì sát thương tụt hẳn.</li><li>Mỗi lần dùng chiêu phải đứng yên tụ lực 100 ms, và Space phải chờ thêm 1 giây mới nổ, địch nhanh chân né được.</li><li>Phản ứng cần trúng đúng thứ tự trong cửa sổ ngắn: dấu của R chỉ giữ 1 giây, dấu của E giữ 2 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Combo chuẩn: R trúng trước rồi E ngay trong 1 giây, hoặc E trước rồi R trong 2 giây, để kích phản ứng choáng 1 giây.</li><li>Thả Space ngay sau khi phản ứng nổ: mục tiêu đang choáng nên không né được, và nhận thêm 50% sát thương.</li><li>Bắn R xuyên qua cả hàng địch để mỗi người trúng đều rút ngắn hồi chiêu E và R.</li><li>Ưu tiên nhắm tank nhiều máu bằng phản ứng; phần 15% máu tối đa giúp Transformer không bất lực trước tank chịu đòn.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Di chuyển không theo quy luật để R và E khó trúng liên tiếp; né một chiêu là phản ứng không kích được.</li><li>Khi thấy vòng Space xuất hiện dưới chân, rời khỏi bán kính 192 trong 1 giây trước khi nó nổ.</li><li>Lao vào áp sát: Transformer không có chiêu thoát thân và bắn thường rất chậm.</li><li>Dùng chiêu chặn đạn hoặc khiên để đỡ chiêu đầu tiên, phá nhịp combo.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Cố gắng di chuyển không quy luật, khiến Transformer địch không thể phán đoán vị trí của bạn. Khi Transformer thi triển [Space-Pháo Tụ Năng], chú ý lẩn tránh để không bị ST.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000051.html">Sơn Tinh</a>. So với Transformer, Sơn Tinh có tầm bắn xa hơn, có thể dùng E Khát Máu và Space Sơn Thần Giáng Thế để khống chế rồi hạ gục Transformer.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/transformer_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/transformer_actions.py:_reaction — đòi dấu 324402/324203 của chiêu kia, choáng BuffTemplate 324411 1000 ms, damage(max_hp*0.15), buff 324413 3000 ms</li><li>server/transformer_actions.py:_hit — E 2.12, R 1.92 (EffectTemplate 324201/324401); R trúng trừ 1200 ms hồi E và 900 ms hồi lượt R</li><li>server/transformer_actions.py:_event transformer_beam — bán kính 192, power*2.5 + max_hp*0.15, × 1.5 nếu có 324413, choáng 324313 500 ms</li><li>EffectTemplate 324412 fAddValB 0.15 fEffectUpperRate 0.2 — trần chưa dùng trong code</li><li>facts: ehp 5569, fire_ms 1000 (pct 0.033), speed 170, stat_rank 46</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [44, 48, 64, 49, 43]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Transformer",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

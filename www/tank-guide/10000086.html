@@ -1,0 +1,122 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Cửu Vĩ Hồ · Cẩm nang tank</title><meta name="description" content="Pháp sư tầm xa nhiều lượt chiêu: E bắn ba sóng xuyên thấu, Space lướt chớp nhoáng, mỗi chiêu trúng tích một Lửa Yêu; đủ 5 lửa thì lửa tự bay đi đánh tank địch gần nhất và hồi máu cho Cửu Vĩ Hồ. Thắng bằng cách xả liên tục để lửa không bao giờ tắt.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/bfda08e1da7c316dc5c82c44b5c6a1ee.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Thiên hạ không phải của yêu, không phải của người, mà là của chúng sinh.</div>
+<h2 class="page-title">Cửu Vĩ Hồ</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Tiêu Hao Linh Động</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000033.html">← Pea Shooter</a>
+<a class="btn" href="10000098.html">Tư Mã Ý →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư tầm xa nhiều lượt chiêu: E bắn ba sóng xuyên thấu, Space lướt chớp nhoáng, mỗi chiêu trúng tích một Lửa Yêu; đủ 5 lửa thì lửa tự bay đi đánh tank địch gần nhất và hồi máu cho Cửu Vĩ Hồ. Thắng bằng cách xả liên tục để lửa không bao giờ tắt.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank tốt (hạng 13/91) và 6 lượt chiêu cho sát thương dồn rất cao, nhưng không có khống chế cứng hay bất tử, chạy và bắn đều chậm, và có khoảng trống rõ sau khi xả hết lượt. Mạnh nhưng có cửa để bắt.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi sát thương 3 lượt E liền nhau (khoảng 382% công mỗi lượt lên một mục tiêu). Code khác mô tả: Lửa Yêu hồi cho Cửu Vĩ Hồ 50% công mỗi lần trúng tank (mô tả không nhắc), và lửa chỉ nhắm tank chứ không đánh NPC với 50% sát thương như mô tả.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4195</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">149 / 179</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">405 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">53</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#13/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">6488</span></div><div class="progress progress-sm" title="Hơn 60% số tank"><div class="progress-bar bg-lime" style="width:60%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">405</span></div><div class="progress progress-sm" title="Hơn 72% số tank"><div class="progress-bar bg-lime" style="width:72%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/1ba001639286f1303f72b22e91d52ec9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Sóng Hủy Diệt</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Thi triển 3 sóng năng lượng có thể xuyên thấu về hướng chỉ định, gây lên tất cả địch tiếp xúc trên đường #EN_165%_ER# ST Năng Lượng, mỗi khi gây 1 lần ST sẽ giảm 5% CD skill này, trúng cùng 1 mục tiêu ST sẽ giảm dần.
+
+Skill này được cộng dồn, tối đa dồn 3 lần, khoảng cách dùng là 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d8fdc5a950d2561ce66089a8af059557.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Thiên Hồ Chú Thuật</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Skill gồm hiệu quả chủ động và bị động.
+
+Bị Động：Skill của Cửu Vĩ Hồ gây 1 lần sT, tích lũy 1 Lửa Yêu (Vô hiệu với kiến trúc). Tích lũy đến 5 Lửa Yêu thì trong 10s xung quanh nếu có tank địch Lửa Yêu sẽ bay đến tấn công tank địch gần nhất, nếu không 5 Lửa Yêu sẽ biến mất. Mỗi Lửa Yêu gây ra #EN_100%_ER# ST Năng Lượng(Giảm 50% ST lên đơn vị không phải Tank), nếu liên tục đánh trúng cùng 1 mục tiêu, mỗi lần sát thương giảm 20%.
+
+Chủ Động: Đối với mục tiêu chỉ định gây ra #EN_156%_ER# ST Năng Lượng, trong 3sST lên Cửu Vĩ Hồ giảm 30% đồng thời tốc độ giảm 60% (Hiệu quả giảm theo thời gian).</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/aa537fdf78b275069ff8688c27da8065.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Hồ Yêu Mị Ảnh</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 336</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Sau khi di chuyển đến nơi chỉ định, lấy khởi điểm và điểm cuối của dịch chuyển làm mốc, gây lên kẻ địch trong phạm vi #EN_100%_ER# ST Năng Lượng, nếu trong thời gian ngắn mục tiêu liên tục nhận 2 lần ST thì giảm tốc 100% trong 1.5s, hiệu quả giảm theo thời gian.
+
+Skill này được cộng dồn, tối đa 3 lần, khoảng cách dùng là 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d8fdc5a950d2561ce66089a8af059557.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Thiên Hồ Thần Hỏa</span>
+
+
+</div>
+<div class="skill-desc">Thiên Hồ Thần Hỏa</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Công năng lượng 405 và xuyên giáp 53, thuộc nhóm cao; chỉ số thân tank hạng 13/91.</li><li>E có 3 lượt (6 giây mỗi lượt, cách nhau 1,5 giây): 3 sóng lệch 15°, dài 600, mỗi sóng 165% công và xuyên qua mọi địch. Một mục tiêu trúng cả 3 sóng nhận khoảng 382% công; mỗi lần trúng lượt E hồi nhanh thêm 0,3 giây.</li><li>Space cũng 3 lượt: lướt 336, gây 100% công quanh điểm đi và điểm đến (bán kính 168). Trúng cả hai lần thì mục tiêu bị chậm 100% trong 1,5 giây (giảm dần), gần như trói chân.</li><li>R chỉ định một mục tiêu trong 480: gây 156% công, làm chậm 60% trong 3 giây và mục tiêu gây ít hơn 30% sát thương lên Cửu Vĩ Hồ.</li><li>5 Lửa Yêu bay lần lượt mỗi 0,4 giây, mỗi viên 100% công (giảm 20% mỗi lần trúng cùng mục tiêu); mỗi viên trúng tank địch hồi cho Cửu Vĩ Hồ 50% công.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chạy chậm (160) và bắn chậm (1.000 ms): giữa hai đợt chiêu, sát thương đánh thường rất thấp.</li><li>Không có khống chế cứng; chậm 100% của Space giảm dần theo thời gian.</li><li>Lửa Yêu chỉ nhắm tank trong 480 và tắt sau 10 giây; xả chiêu vào NPC vẫn tích lửa nhưng lửa không đánh NPC.</li><li>Khi đã xả hết 3 lượt E và 3 lượt Space, có một khoảng trống dài để địch bắt.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Ném E ở khoảng gần để cả 3 sóng cùng trúng một mục tiêu; lần trúng đầu tiên mạnh nhất.</li><li>Dùng Space hai lần liên tiếp quanh cùng mục tiêu để có chậm 100%.</li><li>Mở bằng R lên tank lao vào mình: nó gây ít hơn 30% sát thương lên Cửu Vĩ Hồ trong 3 giây.</li><li>Đếm Lửa Yêu: đủ 5 thì đứng trong 480 quanh tank địch để lửa có mục tiêu và hồi máu.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Chờ Cửu Vĩ Hồ xả hết lượt E và Space rồi mới lao vào: lúc đó nó chỉ còn đánh thường chậm.</li><li>Khống chế cứng ngay khi nó vừa lướt Space xong.</li><li>Di chuyển ngang hướng sóng E; sóng thứ hai, thứ ba lên cùng mục tiêu yếu dần.</li><li>Tránh đứng gần khi nó đang có 5 Lửa Yêu.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Sát thương của Cửu Vĩ Hồ bắt nguồn từ Thần Hỏa, né trạng thái kích hoạt.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000079.html">Thủy Tinh</a>. Khống chế mạnh của Thủy Tinh dễ bắt Cửu Vĩ Hồ đúng lúc nó vừa hết chiêu, khiến nó khó thoát.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/fox_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/fox_actions.py:_flight 360401 — 3 sóng ±15°, 1.65 × công năng lượng, giảm × 0.75 mỗi mục tiêu đã trúng/lần trúng trước; e_next_charge − 300 ms</li><li>server/fox_actions.py:on_bullet_hit 360601 — Lửa Yêu power × 0.8^n, hồi bản thân 0.5 × công; fox_fire chỉ chọn tank (không NPC) trong 480</li><li>server/fox_actions.py:_blink_hit — bán kính 168, trúng lần 2 thì 360311 chậm 100% 1500 ms</li><li>battle_runtime.py:damage — mục tiêu mang 360203 của Cửu Vĩ Hồ gây ít hơn 30% lên nó; BuffTemplate 360202 chậm 60% 3000 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [60, 72, 17, 49, 62]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Cửu Vĩ Hồ",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

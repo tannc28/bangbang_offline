@@ -1,0 +1,132 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Ông già Noel · Cẩm nang tank</title><meta name="description" content="Tank hỗ trợ tầm xa: E và R mỗi chiêu 3 lượt, vừa hồi máu đồng đội vừa gây sát thương; mỗi lần dùng chiêu rơi ra một hộp quà buff cho phe mình. Space nhốt một tank địch vào hộp 8 giây, biến giao tranh thành đánh đông hơn.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/eef472b4e631b28ffd807d42cd3098a3.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Chuông Noel~~</div>
+<h2 class="page-title">Ông già Noel</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-pink-lt">Phụ trợ</span></div>
+<div class="text-secondary mt-2">Phụ Trợ Hồi Phục Khống Chế</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000073.html">← Baymax</a>
+<a class="btn" href="10000055.html">Kakashi →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Tank hỗ trợ tầm xa: E và R mỗi chiêu 3 lượt, vừa hồi máu đồng đội vừa gây sát thương; mỗi lần dùng chiêu rơi ra một hộp quà buff cho phe mình. Space nhốt một tank địch vào hộp 8 giây, biến giao tranh thành đánh đông hơn.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thuộc nhóm yếu nhất (hạng 85/91), nhưng bộ chiêu bù bằng vai trò khác: 6 lượt chiêu vừa hồi vừa đánh, quà buff cả đội và một chiêu loại một tank địch khỏi trận 8 giây. Yếu khi đi một mình là hợp lý cho tank hỗ trợ.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Code khác mô tả: mỗi hộp quà giảm 0,5 giây hồi chiêu (mô tả Nội tại ghi 1 giây), và quà đỏ giảm cả hồi chiêu Space (mô tả Nội tại ghi trừ Space).</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3605</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">143 / 153</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">333 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">29</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#85/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5383</span></div><div class="progress progress-sm" title="Hơn 34% số tank"><div class="progress-bar bg-orange" style="width:34%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">333</span></div><div class="progress progress-sm" title="Hơn 21% số tank"><div class="progress-bar bg-orange" style="width:21%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d045f8102eac6147c009fa9edb84ad9a.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Tuần Lộc</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 10000</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Sau khi thi triển hồi bản thân #EN_225%_ER# HP và gọi Tuần Lộc bay về hướng chỉ định, Tuần Lộc va phải đồng đội sẽ hồi #EN_225%_ER# HP, va phải địch sẽ tạo #EN_225%_ER# ST Năng Lượng.
+
+Có thể cộng dồn, tối đa 3 lần, khoảng cách dùng là 1.5s.
+
+Vô hiệu với kiến trúc.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/66088c59aec18ad4b4df7577c738e3a9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Crazy Snowball</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động: Mỗi lần thi triển skill sẽ ném ngẫu nhiên xung quanh 1 hộp quà, bản thân và đồng đội nhặt sẽ nhận hiệu quả tăng ích, giảm 0.5s CD mọi skill của Ông Già Noel
+
+Quà Tím: Tăng tốc 60% trong 2s
+Quà Lục: Nhận 1 Khiên hút ST bằng 20% giới hạn HP trong 3s
+Quà Đỏ: Giảm 20% thời gian CD mọi skill (Trừ skill Guild)
+
+Chủ động: Ném Cầu Tuyết ở khu vực mục tiêu, gây #EN_165%_ER# ST Năng Lượng và giảm tốc 50%, trong 2s, nếu trong phạm vi có mục tiêu đồng đội sẽ giúp họ hồi #EN_165%_ER# HP.
+
+Skill này được cộng dồn, tối đa 3 lần, khoảng cách dùng 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ea7a329881a632e1548e7a1ff3b61819.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Hộp Quà Noel</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 960</span>
+</div>
+<div class="skill-desc">Ném hộp quà nhốt Tank địch trong hộp có 6000 HP. Mục tiêu không thể di chuyển, bắn hoặc dùng kỹ năng. Hộp tự mở sau 8 giây hoặc được phá sớm khi HP về 0. Chỉ đồng đội của người bị nhốt có thể gây sát thương để giải cứu; đạn và kỹ năng của phe Noel đi xuyên qua hộp. Khi thoát hộp, trạng thái hồi chiêu trở lại thời điểm trước khi bị nhốt.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Tiệc Quà Tặng</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Mỗi lần thi triển skill sẽ ném ngẫu nhiên xung quanh 1 hộp quà, bản thân và đồng đội nhặt sẽ nhận hiệu quả tăng ích, giảm 1s CD mọi skill của Ông Già Noel.
+
+Quà Tím: Tăng tốc 60%, trong 2s
+Quà Lục: Nhận 1 Khiên hút ST bằng 20% giới hạn HP trong 3s
+Quà Đỏ: Giảm 20% thời gian CD mọi skill khác skill space</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>E có 3 lượt (mỗi lượt hồi 6 giây, cách nhau 1,5 giây): tự hồi 225% công năng lượng (khoảng 749 máu ở cấp 6), Tuần Lộc bay xuyên qua mọi người, hồi 225% cho đồng đội và gây 225% cho địch.</li><li>R cũng 3 lượt: ném cầu tuyết tới xa 720, nổ bán kính 120 gây 165% công và làm chậm 50% trong 2 giây, đồng đội trong vùng được hồi 165%.</li><li>Mỗi lần dùng chiêu rơi một hộp quà; ai nhặt cũng giảm 0,5 giây hồi chiêu của Noel. Quà tím +60% tốc chạy 2 giây, quà lục khiên 20% máu tối đa 3 giây, quà đỏ giảm thêm 20% hồi chiêu còn lại.</li><li>Space nhốt tank địch đầu tiên trúng vào hộp 6.000 máu trong 8 giây: không di chuyển, không bắn, không dùng chiêu, và hồi chiêu của nó bị đóng băng.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank hạng 85/91: chạy chậm (160), bắn chậm (1.000 ms), máu hiệu dụng 5.383.</li><li>Không có chiêu lướt hay bất tử; bị lao vào thì chỉ biết hồi máu cầm cự.</li><li>E và R cần 50 ms đứng yên để ra chiêu; bị câm lặng hoặc khống chế đúng lúc đó là mất chiêu.</li><li>Hộp Space chặn mục tiêu nhưng cũng bảo vệ nó: chỉ đồng đội của người bị nhốt mới đánh được hộp, phe Noel không gây sát thương được.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Nhốt tank mạnh nhất hoặc đang lao vào bằng Space để đánh 3 chọi 2 trong 8 giây.</li><li>Bắn Tuần Lộc xuyên qua cả đồng đội lẫn địch để vừa hồi vừa gây sát thương trong một lượt.</li><li>Rải quà gần đồng đội rồi nhắc họ nhặt: mỗi hộp giảm hồi chiêu của Noel.</li><li>Đứng sau tuyến đầu; Noel sống nhờ khoảng cách 720 của cầu tuyết.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Khống chế Noel lúc nó đang ra chiêu: E và R bị hủy, mất cả hồi máu.</li><li>Lao vào bắt riêng Noel: thân yếu, không có chiêu thoát.</li><li>Bị nhốt thì đồng đội phá hộp 6.000 máu để giải cứu sớm; hồi chiêu được trả về như lúc trước khi vào hộp.</li><li>Nhặt hoặc đứng chắn chỗ quà rơi để phe Noel khó nhặt.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi bị Hộp Noel đóng gói, hãy hét lên để đồng đội đến cứu T.T</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000049.html">Transformer</a>. Transformer dùng khống chế để Ông già Noel không gọi được Tuần Lộc, rồi dùng sát thương cao hạ gục.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/noel_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/noel_actions.py:noel_cast — E hồi bản thân 2.25 × công năng lượng, Tuần Lộc 2.25 ×; R 1.65 ×</li><li>server/noel_actions.py:_gift_reward — hồi chiêu còn lại − 500 ms, quà đỏ × 0.8 áp cho cả slot 2 (Space); quà lục khiên 20% máu tối đa</li><li>server/noel_actions.py:noel_box / NoelBox — hộp 6000 máu, 8000 ms, lưu và trả lại hồi chiêu của mục tiêu</li><li>BuffTemplate 329113 +60% tốc chạy 2000 ms, 329402 chậm 50% 2000 ms; E/R 3 lượt, mỗi lượt 6000 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [34, 21, 17, 49, 38]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Ông già Noel",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

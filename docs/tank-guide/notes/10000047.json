@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư năng lượng cận chiến, trâu hơn mặt bằng: mọi đòn đều gắn Ấn Ký Dẫn Điện, đủ 5 tầng thì địch bị choáng và mất 10% máu tối đa. Thắng bằng cách lướt E vào giữa đội địch rồi bật Space phóng điện 5 giây.",
+  "strengths": [
+    "Space phóng điện 5 giây, cứ 0,5 giây gây 0,75 lần công năng lượng lên mọi địch trong bán kính 240: tổng 10 nhịp, 7,5 lần công mỗi mục tiêu, hút máu 30%.",
+    "Trong 5 giây Space, Pikachu nhận ít hơn 50% sát thương, bị khống chế ngắn hơn 50% và đi xuyên qua thân địch.",
+    "Đủ 5 tầng Ấn Ký thì địch choáng 0,75 giây, mất 10% máu tối đa, rồi trong 2 giây nhận thêm 25% sát thương và giảm 50% hồi máu. Mỗi nhịp Space gắn 1 tầng, nên một lần Space làm nổ Ấn Ký ít nhất hai lần.",
+    "E lướt 360 đơn vị rồi trong 4 giây ai chạm vào Pikachu đều nhận 1,85 lần công, 2 tầng Ấn Ký và giảm 50% sát thương gây lên Pikachu trong 2 giây; tốc chạy tăng 100%, giảm dần về 50%.",
+    "Thân tank khá: máu 4.130, giáp 174 cả hai loại, máu hiệu dụng 6.525, hơn khoảng 61% số tank."
+  ],
+  "weaknesses": [
+    "Bắn chậm nhất nhóm: 1.000 ms một phát, chỉ hơn khoảng 3% số tank; đạn thường không nhận hiệu ứng Liên Xạ và Tản Xạ.",
+    "Sát thương chính nằm trong bán kính 240 của Space, nên bị đẩy lùi hoặc thả diều thì gần như vô hại.",
+    "Space hồi 25 giây; ngoài Space chỉ còn khoảng 375 sát thương mỗi giây từ đạn thường.",
+    "E và R đều phải tụ lực 0,15 giây trước khi ra đòn, có thể bị cắt ngang."
+  ],
+  "tips": [
+    "Tích Ấn Ký trước: E chạm người (2 tầng) cộng 2 lượt R (mỗi lượt 1 tầng) là đã 4 tầng, nhịp đầu của Space sẽ choáng ngay.",
+    "Lướt E xuyên qua cụm địch để chạm nhiều người: mỗi mục tiêu chỉ trúng một lần nhưng ai cũng dính 2 tầng Ấn Ký.",
+    "Bật Space khi đã đứng giữa địch, đừng bật từ xa rồi mới chạy vào.",
+    "R trúng mỗi mục tiêu giảm 1 giây thời gian nạp lại, nên bắn R xuyên qua cả hàng địch."
+  ],
+  "counters": [
+    "Đẩy lùi Pikachu ra khỏi người mình, như Luffy làm được, để Space không chạm tới.",
+    "Khi đang dính Ấn Ký thì lùi ra ngoài tầm cho tới khi Ấn Ký hết 4 giây.",
+    "Chạy khỏi bán kính 240 lúc Pikachu bật Space thay vì đứng đánh trả, vì lúc đó nó chỉ nhận một nửa sát thương.",
+    "Mở giao tranh khi Space vừa hết: 25 giây sau đó Pikachu chỉ là tank bắn chậm."
+  ],
+  "counter_why": "Pikachu chủ yếu gây sát thương ở cự ly gần, còn Luffy có thể đánh lùi Pikachu, không cho nó áp sát.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 29/91 và Space rất mạnh trong bán kính 240, nhưng bắn chậm nhất nhóm và phải áp sát mới có tác dụng. Điểm yếu bị thả diều hoặc đẩy lùi đủ rõ để không xếp vào nhóm quá mạnh.",
+    "suggestion": "Theo dõi Space: bảng gốc đặt Space 3 giây (BuffTemplate 321301–321304 đều 3000 ms), code kéo lên 5 giây nên từ 6 thành 10 nhịp, kèm 10 tầng Ấn Ký và 5 giây giảm 50% sát thương. Nếu Pikachu thắng quá nhiều giao tranh tổng thì đưa Space về 3 giây trước tiên. Mô tả R ghi choáng 1,5 giây, còn code và mô tả nội tại dùng 0,75 giây."
+  },
+  "evidence": [
+    "server/pikachu_actions.py:_event electric_discharge — bán kính 240, power*0.75 mỗi 500 ms tới 5000 ms, lifesteal 0.3, mỗi nhịp _mark 1 tầng",
+    "server/pikachu_actions.py:cast slot 2 — BuffTemplate 321301–321304 ép duration=5000 (bảng gốc 3000 ms); 321302 giảm 50% sát thương nhận vào, 321304 -0.5 khống chế",
+    "server/pikachu_actions.py:_mark — tầng 5: BuffTemplate 321111 choáng 750 ms, max_hp*0.1, 321113 -0.25 và 321114 -0.5 trong 2000 ms",
+    "server/pikachu_actions.py:_event electric_contact — E power*1.85, 2 tầng Ấn Ký, BuffTemplate 321213 -0.5 sát thương lên Pikachu 2000 ms",
+    "facts: stat_rank 29, ehp 6525 (pct 0.611), fire_ms 1000 (pct 0.033)"
+  ]
+}

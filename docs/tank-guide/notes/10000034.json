@@ -1,0 +1,39 @@
+{
+  "summary": "Tank cận chiến lì đòn hàng đầu: hồi máu suốt trận, càng bị đánh thường càng mạnh lên, và mở giao tranh bằng cú nhảy E hất tung cả cụm.",
+  "strengths": [
+    "Máu hiệu dụng 12.342 (6.265 máu, giáp vật lý 333, năng lượng 249), thuộc nhóm cao nhất game.",
+    "Tự hồi 6% máu tối đa mỗi 3 giây suốt trận. Máu càng thấp thì hiệu quả hồi máu càng tăng, tối đa thêm 50%.",
+    "Space trong 8 giây: mỗi giây hồi thêm 3% máu tối đa, chạy nhanh hơn 25%, thời gian bị khống chế giảm một nửa. Mỗi lần dính đánh thường lại hồi 3% máu đã mất, giảm 10% thời gian hồi E và R, cộng 5% công và tốc đánh (tối đa 20 tầng, tức 100%).",
+    "E nhảy tới điểm cách tối đa 408, đáp xuống gây 155% công và hất tung 0,5 giây mọi kẻ địch trong bán kính 168.",
+    "R hồi chỉ 6 giây: 163% công quanh thân (bán kính 192), làm địch chậm 25% và giảm 25% công trong 2 giây."
+  ],
+  "weaknesses": [
+    "Chạy chậm nhất game (150), tầm đánh 336 cũng ở mức thấp nhất: E đang hồi là bị thả diều.",
+    "Sát thương đánh thường mỗi giây chỉ 308, gần chót bảng. Hulk giữ chân và chịu đòn, không tự hạ được ai.",
+    "Máu càng dày càng thiệt trước sát thương theo % máu tối đa (như Thor).",
+    "Space hồi 25 giây; ngoài 8 giây phẫn nộ, khống chế lên Hulk vẫn đủ thời gian."
+  ],
+  "tips": [
+    "Nhảy E vào giữa cụm địch, rồi bấm R ngay khi đáp để giữ chúng lại.",
+    "Bật Space khi đang bị xạ thủ bắn thường: mỗi phát trúng vừa hồi máu, vừa rút hồi chiêu, vừa cộng công.",
+    "Đứng chắn trước đồng đội tầm xa. Việc của Hulk là nhận đòn và giữ chân, không phải đuổi theo."
+  ],
+  "counters": [
+    "Thả diều: Hulk chậm nhất game, cứ đứng ngoài 408 để né E rồi bắn.",
+    "Dùng sát thương theo % máu tối đa (như Thor) thay vì đánh thường vào giáp dày.",
+    "Đừng đánh thường Hulk khi Space đang bật; dùng kỹ năng, hoặc chờ hết 8 giây.",
+    "Đứng tản ra để một cú E không hất tung được nhiều người."
+  ],
+  "counter_why": "Đánh thường và kỹ năng của Thor khi trúng sẽ gây thêm sát thương theo % máu tối đa của kẻ địch. Hulk máu rất dày nên sát thương này của Thor càng có lời.",
+  "balance": {
+    "status": "ok",
+    "reason": "Lì đòn hàng đầu và hồi máu đều, nhưng chạy chậm nhất game, tầm đánh ngắn và sát thương thấp (hạng chỉ số thân 68/91). Hồi máu có trần: 2% máu tối đa mỗi giây, thêm 3% mỗi giây trong 8 giây Space, và chỉ thật sự đáng sợ khi đối thủ cứ đánh thường vào nó.",
+    "suggestion": "Giữ nguyên. Theo dõi Space trước những đội nhiều xạ thủ: 20 tầng cộng tới 100% công và tốc đánh, mỗi phát trúng còn rút 10% hồi chiêu E và R."
+  },
+  "evidence": [
+    "server/hulk_actions.py:_event hulk_regen — 6% máu tối đa mỗi 3000 ms; BuffTemplate 308102 fFixParam 0.5 (tăng hồi máu theo máu đã mất)",
+    "server/hulk_actions.py:on_basic_damage — hồi 3% máu đã mất, hồi chiêu E/R × 0,9; BuffTemplate 308631/308641 +0.05 mỗi tầng, iStackCount 20",
+    "server/hulk_actions.py:cast — E 1.55 bán kính 168, R 1.63 bán kính 192 (EffectTemplate 308401 fAddVal 1.63 iRange1 192); BuffTemplate 308402/308403 -0.25 iPersistTime 2000",
+    "BuffTemplate 308603 + battle_runtime.py:_buff — thời gian khống chế nhận vào × 0,5 khi Space bật"
+  ]
+}

@@ -1,0 +1,39 @@
+{
+  "summary": "Tank hỗ trợ tầm xa: E và R mỗi chiêu 3 lượt, vừa hồi máu đồng đội vừa gây sát thương; mỗi lần dùng chiêu rơi ra một hộp quà buff cho phe mình. Space nhốt một tank địch vào hộp 8 giây, biến giao tranh thành đánh đông hơn.",
+  "strengths": [
+    "E có 3 lượt (mỗi lượt hồi 6 giây, cách nhau 1,5 giây): tự hồi 225% công năng lượng (khoảng 749 máu ở cấp 6), Tuần Lộc bay xuyên qua mọi người, hồi 225% cho đồng đội và gây 225% cho địch.",
+    "R cũng 3 lượt: ném cầu tuyết tới xa 720, nổ bán kính 120 gây 165% công và làm chậm 50% trong 2 giây, đồng đội trong vùng được hồi 165%.",
+    "Mỗi lần dùng chiêu rơi một hộp quà; ai nhặt cũng giảm 0,5 giây hồi chiêu của Noel. Quà tím +60% tốc chạy 2 giây, quà lục khiên 20% máu tối đa 3 giây, quà đỏ giảm thêm 20% hồi chiêu còn lại.",
+    "Space nhốt tank địch đầu tiên trúng vào hộp 6.000 máu trong 8 giây: không di chuyển, không bắn, không dùng chiêu, và hồi chiêu của nó bị đóng băng."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 85/91: chạy chậm (160), bắn chậm (1.000 ms), máu hiệu dụng 5.383.",
+    "Không có chiêu lướt hay bất tử; bị lao vào thì chỉ biết hồi máu cầm cự.",
+    "E và R cần 50 ms đứng yên để ra chiêu; bị câm lặng hoặc khống chế đúng lúc đó là mất chiêu.",
+    "Hộp Space chặn mục tiêu nhưng cũng bảo vệ nó: chỉ đồng đội của người bị nhốt mới đánh được hộp, phe Noel không gây sát thương được."
+  ],
+  "tips": [
+    "Nhốt tank mạnh nhất hoặc đang lao vào bằng Space để đánh 3 chọi 2 trong 8 giây.",
+    "Bắn Tuần Lộc xuyên qua cả đồng đội lẫn địch để vừa hồi vừa gây sát thương trong một lượt.",
+    "Rải quà gần đồng đội rồi nhắc họ nhặt: mỗi hộp giảm hồi chiêu của Noel.",
+    "Đứng sau tuyến đầu; Noel sống nhờ khoảng cách 720 của cầu tuyết."
+  ],
+  "counters": [
+    "Khống chế Noel lúc nó đang ra chiêu: E và R bị hủy, mất cả hồi máu.",
+    "Lao vào bắt riêng Noel: thân yếu, không có chiêu thoát.",
+    "Bị nhốt thì đồng đội phá hộp 6.000 máu để giải cứu sớm; hồi chiêu được trả về như lúc trước khi vào hộp.",
+    "Nhặt hoặc đứng chắn chỗ quà rơi để phe Noel khó nhặt."
+  ],
+  "counter_why": "Transformer dùng khống chế để Ông già Noel không gọi được Tuần Lộc, rồi dùng sát thương cao hạ gục.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm yếu nhất (hạng 85/91), nhưng bộ chiêu bù bằng vai trò khác: 6 lượt chiêu vừa hồi vừa đánh, quà buff cả đội và một chiêu loại một tank địch khỏi trận 8 giây. Yếu khi đi một mình là hợp lý cho tank hỗ trợ.",
+    "suggestion": "Giữ nguyên. Code khác mô tả: mỗi hộp quà giảm 0,5 giây hồi chiêu (mô tả Nội tại ghi 1 giây), và quà đỏ giảm cả hồi chiêu Space (mô tả Nội tại ghi trừ Space)."
+  },
+  "evidence": [
+    "server/noel_actions.py:noel_cast — E hồi bản thân 2.25 × công năng lượng, Tuần Lộc 2.25 ×; R 1.65 ×",
+    "server/noel_actions.py:_gift_reward — hồi chiêu còn lại − 500 ms, quà đỏ × 0.8 áp cho cả slot 2 (Space); quà lục khiên 20% máu tối đa",
+    "server/noel_actions.py:noel_box / NoelBox — hộp 6000 máu, 8000 ms, lưu và trả lại hồi chiêu của mục tiêu",
+    "BuffTemplate 329113 +60% tốc chạy 2000 ms, 329402 chậm 50% 2000 ms; E/R 3 lượt, mỗi lượt 6000 ms"
+  ]
+}

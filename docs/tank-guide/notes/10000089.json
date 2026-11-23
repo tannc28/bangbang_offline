@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ năng lượng tầm xa bắn nhanh, mọi đòn đều đốt mục tiêu. Mỏng vào hàng nhất game, sống nhờ R nhảy (không thể bị chọn lúc bay) và thắng giao tranh bằng Space quét 3 giây quanh người.",
+  "strengths": [
+    "Bắn nhanh và xa: 500 ms một phát, tầm 552 (hơn khoảng 88% số tank); nội tại +50% sát thương đòn thường, mỗi phát trúng +5% tốc đánh trong 2 giây, tối đa 5 tầng.",
+    "Mọi sát thương đều đốt 2 giây: mỗi lần trúng gây ngay 10% công năng lượng × số tầng (tối đa 4 tầng, mỗi 0,5 giây lên 1 tầng), thêm một nhịp sau 1 giây; mục tiêu bị chậm 10% mỗi tầng và giảm 30% hồi phục.",
+    "E: đạn nổ bán kính 144, 193% công năng lượng; mỗi tank trúng rút 1 giây hồi chiêu E, R và Space.",
+    "R: sau 50 ms nhảy tối đa 408, lúc bay không thể bị chọn, không nhận sát thương và khống chế; chỗ cất cánh gây 139% và đẩy lùi 144, chỗ đáp gây 168%, đều bán kính 144.",
+    "Space: 3 giây, mỗi 0,25 giây gây 100% công lên mọi địch trong bán kính 288 (12 nhịp, mỗi nhịp đều đốt), giảm 25% sát thương nhận vào, tốc chạy +50%; khống chế không ngắt được, hạ gục thì hồi 10% máu tối đa."
+  ],
+  "weaknesses": [
+    "Mỏng nhất nhì game: máu 3.185, máu hiệu dụng 4.565, chỉ hơn khoảng 2% số tank.",
+    "Trong lúc Space không được bắn thường hay dùng chiêu khác, và tự lộ diện 4 giây.",
+    "Space hồi 30 giây; ngoài E trúng nhiều tank thì không có cách nào rút ngắn.",
+    "R có 0,05 giây chuẩn bị và chỉ là chiêu thoát thân duy nhất; R bị ngắt hoặc đã dùng thì Star Lord rất dễ bị bắt."
+  ],
+  "tips": [
+    "Giữ tầm 552 và bắn liên tục để giữ 4 tầng đốt trên mục tiêu: vừa gây sát thương vừa làm chậm 40%, giảm hồi máu.",
+    "Bắn E vào chỗ đông để rút hồi chiêu Space; mỗi tank trúng là bớt 1 giây.",
+    "Space là chiêu nhập cuộc: chạy vào giữa đám đông với +50% tốc chạy, khống chế không cắt được 3 giây quét.",
+    "Giữ R để thoát hoặc để né một chiêu lớn: lúc bay không nhận sát thương."
+  ],
+  "counters": [
+    "Dồn sát thương bùng nổ: máu hiệu dụng dưới 4.600 nên một chuỗi chiêu mạnh là đủ.",
+    "Khi Star Lord bật Space, tản ra khỏi bán kính 288 thay vì cố khống chế nó.",
+    "Đợi nó dùng R rồi mới lao vào; không có R thì nó không còn đường thoát.",
+    "Chiêu choáng ở cự ly gần (như của Iron Man) là đủ để giữ và hạ nó."
+  ],
+  "counter_why": "Choáng của Iron Man rất dễ trúng khi đứng sát, còn Star Lord vốn mỏng manh nên dễ bị hạ gục ngay lập tức.",
+  "balance": {
+    "status": "ok",
+    "reason": "Space rất mạnh (12 nhịp × 100% công vùng 288, khống chế không cắt được), nhưng chỉ số thân tank là cái giá thật: máu hiệu dụng gần thấp nhất game (hơn 2% số tank), tổng hạng 41/91. Sức mạnh và độ mong manh đang bù trừ nhau.",
+    "suggestion": "Theo dõi Space. Code để khống chế không ngắt được Space (quyết định của người dùng, mô tả không nói); nếu Star Lord thắng giao tranh tổng quá dễ thì cho choáng/hất tung ngắt Space, hoặc giảm từ 100% xuống 80% công mỗi nhịp."
+  },
+  "evidence": [
+    "server/starlord_actions.py:_event star_sweep — 12 nhịp mỗi 250 ms, bán kính 288, power × 1; interrupt chỉ dừng Space khi chết",
+    "BuffTemplate 364302 +50% tốc chạy, 364303 giảm 25% sát thương (battle_runtime), 364305 khóa chiêu, 364308 lộ diện 4000 ms",
+    "server/starlord_actions.py:_burn — power × 0.1 × số tầng (tối đa 4) ngay và sau 1000 ms; BuffTemplate 364103 -10% tốc chạy mỗi tầng; battle_runtime giảm 30% hồi phục",
+    "server/starlord_actions.py:_flight — E nổ bán kính 144, 1.93 × công, E/R/Space - 1000 ms mỗi mục tiêu",
+    "server/starlord_actions.py:_event star_takeoff/star_land — 1.39 × công + đẩy lùi 144, 1.68 × công; untargetable + damage_immune lúc bay; facts pct ehp 0.022"
+  ]
+}

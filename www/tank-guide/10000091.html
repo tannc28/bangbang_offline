@@ -1,0 +1,127 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Tào Tháo · Cẩm nang tank</title><meta name="description" content="Tank vật lý cận chiến bám người: E kéo cụm địch lại gần, R là vòng sát thương quanh mình vừa đánh vừa hồi máu, Space lao tới bắt giữ một mục tiêu 3 giây và chia một nửa sát thương mình nhận sang nó. Thắng bằng cách khóa chặt một người và đứng lì trong giao tranh.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/07d236824607257d6441fc6831e33c18.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Thà ta phụ thiên hạ, chứ không để thiên hạ phụ ta!</div>
+<h2 class="page-title">Tào Tháo</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-azure-lt">Chống chịu</span></div>
+<div class="text-secondary mt-2">Chống Chịu Chuyển Vị Trí Hồi Phục</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000107.html">← Hikari</a>
+<a class="btn" href="10000090.html">Natsu →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Tank vật lý cận chiến bám người: E kéo cụm địch lại gần, R là vòng sát thương quanh mình vừa đánh vừa hồi máu, Space lao tới bắt giữ một mục tiêu 3 giây và chia một nửa sát thương mình nhận sang nó. Thắng bằng cách khóa chặt một người và đứng lì trong giao tranh.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 61/91: dày nhưng tầm ngắn nhất và sát thương thấp. Space là khống chế 3 giây mạnh nhưng hồi 30 giây và trói luôn cả Tào Tháo, nên sức mạnh cân với cái giá.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Lưu ý: lúc bắt giữ, code gỡ mọi buff miễn khống chế (nEffectType 54) khỏi mục tiêu, nên lý do khắc chế gốc (Gia Cát Lượng miễn khống chế Space) cần thử trong trận mới biết còn đúng không.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">5670</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">318 / 258</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">298 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">30</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#61/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">11113</span></div><div class="progress progress-sm" title="Hơn 88% số tank"><div class="progress-bar bg-green" style="width:88%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">314</span></div><div class="progress progress-sm" title="Hơn 8% số tank"><div class="progress-bar bg-red" style="width:8%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/5adbc12add096f03a37ffea869ce1c11.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Bàn Tay Bá Đạo</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Bàn Tay Bá Đạo thi triển đến vị trí chỉ định, kéo kẻ địch xung quanh cự ly 72. Đồng thời gây 183% ST Vật Lý cho họ, trong 2s giảm tốc 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9487d4bf208b649e4b1311bd5a6d178c.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Kiêu Hùng Đẫm Máu</span>
+<span class="badge bg-azure-lt">hồi 10s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này bao gồm hiệu quả chủ động và bị động.
+
+Bị Động: Khi Tào Tháo tích lũy mất 30% HP sẽ kích hoạt hiệu quả bị động (Trong 15s chỉ được kích hoạt 1 lần) khiến mỗi lần Tào Tháo nhận sát thương từ kỹ năng sẽ hồi 3% HP, trong 3 giây, hiệu quả này trong 15 giây dùng 1 lần. Mỗi lần Tào Tháo kích sát địch có thể kích hoạt hiệu quả chủ động [Kiêu Hùng Đẫm Máu].
+
+Chủ Động: Có thể chủ động thi triển. Trong 5 giây sau khi thi triển, cứ 0.5 giây sẽ gây cho địch xung quanh 50% ST Vật Lý, cứ gây 1 lần sát thương cho mỗi một tank địch, bản thân sẽ hồi 2% HP. Đồng thời, trong 5 giây bản thân tăng tốc 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ca0b30259c3cbc739494540ef9da0e98.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Ép thiên tử lệnh chư hầu</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+<span class="badge bg-teal-lt">tầm 264</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Chọn thủ công 1 tank địch trong phạm vi, xông tới địch và kích hoạt [R-Kiêu Hùng Đẫm Máu]. Sau khi đến mục tiêu, vào trạng thái Gọng Kìm trong 3 giây.
+
+Trong trạng thái Gọng Kìm, Tào Tháo và kẻ địch này sẽ bị bất động và không thể thi triển skill. Trong thời gian này, cứ mỗi 0.25 giây Tào Tháo sẽ gây cho kẻ địch 20% ST Vật Lý. Chuyển 50% tất cả ST Tào Tháo phải nhận thành ST lên kẻ địch.
+
+Trong trạng thái Gọng Kìm, tất cả ST kẻ địch bị chọn phải nhận sẽ được tính là DPS của Tào Tháo.
+
+Skill này không thể chọn trúng mục tiêu đang có Gọng Kìm của Tào Tháo khác.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9487d4bf208b649e4b1311bd5a6d178c.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Kiêu Hùng Đẫm Máu</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Diệt địch kích hoạt hiệu quả chủ động</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Space lao tới một tank địch trong tầm 264 rồi bắt giữ 3 giây: cả hai đứng im, không dùng chiêu được; mục tiêu bị gỡ các buff miễn khống chế, còn Tào Tháo được miễn khống chế suốt lúc giữ.</li><li>Trong 3 giây giữ, cứ 0,25 giây gây 0,2 lần công (tổng 2,4 lần), và 50% sát thương Tào Tháo nhận vào được chuyển sang mục tiêu đang bị giữ.</li><li>R tạo vòng bán kính 240 trong 5 giây: cứ 0,5 giây gây 0,5 lần công lên địch quanh mình, mỗi người chơi trúng hồi cho Tào Tháo 2% máu tối đa, kèm tăng 50% tốc chạy. Space tự bật R, hạ được người chơi thì R được làm mới.</li><li>Thân tank dày: máu 5.670, giáp vật lý 318, máu hiệu dụng 11.113, hơn khoảng 88% số tank.</li><li>Nội tại: mất đủ 30% máu tối đa thì trong 3 giây mỗi đòn kỹ năng trúng người hồi 3% máu tối đa; 15 giây một lần.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm bắn ngắn nhất game (336) và sát thương đạn thường thấp: khoảng 314 mỗi giây, chỉ hơn khoảng 8% số tank.</li><li>Space hồi tới 30 giây, và lúc giữ thì Tào Tháo cũng đứng im, không dùng chiêu được.</li><li>Space bị khống chế cắt ngang nếu dính choáng hoặc câm lặng trong lúc đang lao tới.</li><li>Lượng hồi của R phụ thuộc vào số người chơi đứng trong bán kính 240; thả diều xa thì R gần như không hồi gì.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở bằng E (tầm 480, xuyên tường) để kéo và làm chậm 50% cụm địch, rồi bật R đứng giữa chúng.</li><li>Dùng Space lên pháo xa hoặc hỗ trợ của địch: 3 giây đứng im là đủ để đồng đội dồn chết nó.</li><li>Bắt giữ đúng lúc mình đang bị bắn nhiều: một nửa sát thương đó chuyển sang mục tiêu bị giữ.</li><li>Cố lấy điểm hạ gục để làm mới R, kéo dài thời gian hồi máu trong giao tranh.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Thả diều ngoài tầm 336 và ngoài bán kính 240 của R.</li><li>Đứng xa hơn 264 với Tào Tháo khi Space của nó còn, hoặc choáng nó lúc đang lao tới để cắt Space.</li><li>Khi đồng đội bị giữ, đừng dồn sát thương vào Tào Tháo: một nửa sẽ chuyển sang đồng đội mình.</li><li>Dùng Gia Cát Lượng để chống lại chiêu khống chế của Space.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Tào Tháo chủ yếu gây sát thương liên tục quanh người, cố gắng giữ khoảng cách và trạng thái giảm ích để hạn chế y.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000084.html">Gia Cát Lượng</a>. Ngọa Long Thần Sách · Sương của Gia Cát Lượng miễn nhiễm hiệu ứng khống chế từ chiêu cuối của Tào Tháo, đồng thời đe dọa mạng sống của Tào Tháo.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/caocao_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/caocao_actions.py:_hold — gỡ buff nEffectType 54 của mục tiêu, BuffTemplate 366804/366808 đứng im 3000 ms cho cả hai, 366811 miễn khống chế cho Tào Tháo; cao_hostage 12 nhịp power*0.2 mỗi 250 ms</li><li>server/caocao_actions.py:redirect_damage — chuyển một nửa sát thương sang mục tiêu bị giữ</li><li>server/caocao_actions.py:_event cao_aura — bán kính 240, power*0.5 mỗi 500 ms trong 5000 ms, hồi max_hp*0.02 mỗi người chơi trúng; BuffTemplate 366401 +50% tốc chạy</li><li>server/caocao_actions.py:on_damage/on_skill_damage — ngưỡng max_hp*0.3, hồi max_hp*0.03 mỗi đòn kỹ năng trong 3000 ms, 15000 ms hồi</li><li>facts: stat_rank 61, ehp 11113 (pct 0.878), range 336 (pct 0.0), atk_per_s 314 (pct 0.078)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [88, 8, 43, 0, 88]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Tào Tháo",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

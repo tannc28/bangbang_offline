@@ -1,0 +1,42 @@
+{
+  "summary": "Pháp sư triệu hồi vật lý: đặt tháp pháo bắn đuổi, khóa địch bằng tia lạnh của R và vùng nổ của Space, rồi nhặt linh kiện rơi ra để giảm hồi chiêu. Thắng bằng cách giữ trận địa có tháp pháo và đánh từ phía sau.",
+  "strengths": [
+    "Space đặt thiết bị nổ: 1 giây sau gây 3,98 lần công cho mọi địch trong bán kính 240, rồi để lại vòng ranh giới 3 giây. Địch đi qua vòng (240–264) bị giảm 75% tốc chạy và tốc bắn trong 3 giây.",
+    "Trong vòng Space, đạn thường của Minion và của tháp pháo gây thêm 25% sát thương; bản thân Minion đứng trong vòng thì giảm 25% sát thương nhận vào.",
+    "R bắn tia lạnh theo dải 600 x 96: 1,99 lần công và đóng băng 1,25 giây mọi địch trúng.",
+    "Tháp pháo của E mỗi giây bắn đạn đuổi 0,5 lần công, tầm 480; cùng một mục tiêu trúng liên tiếp thì mỗi phát tăng 2,5% sát thương, tối đa gấp đôi.",
+    "Nhặt linh kiện (tháp pháo chết hoặc thiết bị Space hết hạn) giảm 4 giây hồi chiêu R, Space và lượt nạp E, hồi 10 năng lượng và cho một lớp khiên nhỏ."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank thấp nhất trong 91 tank: máu 3.150, máu hiệu dụng 4.898.",
+    "Bắn chậm (1.000 ms một phát) và chỉ khoảng 328 sát thương mỗi giây từ đạn thường.",
+    "R phải đứng yên 0,6 giây tụ lực, không di chuyển hay bắn được; bị cắt ngang thì R vẫn vào hồi 3 giây.",
+    "E tốn 30 năng lượng mỗi lần, năng lượng chỉ hồi 5 điểm mỗi giây; tháp pháo tự mất 5% máu mỗi giây và sống tối đa 20 giây.",
+    "Linh kiện chỉ tồn tại 5 giây và Minion phải tự đi tới trong bán kính 72 mới nhặt được."
+  ],
+  "tips": [
+    "Đặt tháp pháo trước giao tranh, ở chỗ địch phải đi qua, để chúng kịp tích tầng sát thương.",
+    "Thả Space lên cụm địch đang đứng yên, rồi bắn R qua vòng: địch muốn chạy ra phải đi qua vòng và bị giảm 75% tốc chạy.",
+    "Đứng trong vòng Space của mình khi giao tranh để nhận giảm 25% sát thương.",
+    "Nhặt linh kiện ngay khi rơi ra: 4 giây hồi chiêu cho cả R lẫn Space là rất lớn."
+  ],
+  "counters": [
+    "Lao thẳng vào Minion: máu hiệu dụng 4.898, thấp hơn gần hết các tank.",
+    "Đánh hạ tháp pháo từ ngoài tầm 480, hoặc dùng Medusa để chiêu nảy qua lại giữa Minion và tháp pháo.",
+    "Thấy Space rơi thì chạy ra khỏi tâm ngay, đừng đi ngang qua vòng ranh giới.",
+    "Cắt ngang R trong 0,6 giây Minion đứng yên tụ lực."
+  ],
+  "counter_why": "E Rắn Bí Thuật của Medusa nảy qua lại giữa Minion và các tháp pháo nó triệu hồi, và mỗi lần nảy thành công lại giảm hồi chiêu của chính E đó.",
+  "balance": {
+    "status": "review",
+    "reason": "Chỉ số thân tank xếp cuối (91/91), nhưng code khác mô tả ở nhiều chỗ nên chưa đánh giá được bộ chiêu: E có 2 lượt thay vì 3, tháp pháo 60% máu Minion thay vì 100%, khiên khi nhặt linh kiện bằng chỉ số công thay vì theo máu tối đa.",
+    "suggestion": "Thống nhất code và mô tả trước. Nếu giữ code hiện tại thì Minion nhiều khả năng yếu: cân nhắc trả E về 3 lượt và tháp pháo 100% máu như mô tả."
+  },
+  "evidence": [
+    "server/minion_actions.py:__init__/update — e_count = 2, tối đa 2 lượt (mô tả ghi 3); cast slot 1 trừ 30 năng lượng",
+    "server/minion_actions.py:cast slot 1 — tháp pháo iHp = max_hp*0.6 (mô tả 100%); MinionTurret tick mất 5% máu mỗi giây, chết ở nhịp 20",
+    "server/minion_actions.py:_pickup — giảm 4000 ms R/Space/lượt nạp E, +10 năng lượng, add_shield(335103, power) giảm 10% power mỗi giây (BuffTemplate 335103 ghi 10% máu tối đa)",
+    "server/minion_actions.py:_event minion_device_start — power*3.98 bán kính 240; BuffTemplate 335313/335314 -0.75 3000 ms; 335315 giảm 25% sát thương cho Minion",
+    "facts: stat_rank 91, ehp 4898 (pct 0.167), hp 3150 (pct 0.044)"
+  ]
+}

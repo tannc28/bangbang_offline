@@ -1,0 +1,41 @@
+{
+  "summary": "Chỉ huy hỗ trợ của đội: hào quang tăng tốc và giáp cho đồng đội xung quanh, E ném khiên choáng hai lượt, R chặn đạn cho một đồng đội, Space phát khiên lớn kèm miễn khống chế cho cả nhóm.",
+  "strengths": [
+    "Space là chiêu cứu đội mạnh: mọi đồng đội trong bán kính 360 nhận khiên bằng 720% sức công (khoảng 2.232 ở cấp 6), miễn choáng, câm lặng, đẩy lùi, đóng băng trong 5 giây và tăng 50% tốc chạy.",
+    "E có 2 lượt, chỉ cách nhau 4 giây: khiên bay đi gây 76% sức công và choáng 0,5 giây, bay về gây 159% và choáng 1 giây; khiên xuyên tường cả hai chiều.",
+    "Mỗi mục tiêu trúng khiên lúc bay về giảm 1,2 giây thời gian hồi lượt E, nên trúng nhiều người là có E rất nhanh.",
+    "Hào quang thường trực trong bán kính 480 tăng tốc chạy, giáp và khiên năng lượng cho đồng đội; mỗi lần Captain dùng chiêu, đồng đội gần đó còn được thêm 25% tốc chạy và giảm 25% sát thương đòn đánh thường trong 2 giây.",
+    "R hồi 6 giây, tầm 600: Captain và một đồng đội cùng được khiên hút mọi đạn bay trong 1,25 giây và giảm 50% hiệu lực khống chế."
+  ],
+  "weaknesses": [
+    "Sát thương thường gần thấp nhất game: 310 mỗi giây, bắn 1.000 ms một phát (thuộc nhóm chậm nhất), tầm chỉ 336.",
+    "Chỉ số thân tank hạng 77/91; máu hiệu dụng 6.960 chỉ ở mức khá, không đủ để đứng tuyến đầu lâu.",
+    "Space phải tụ lực 0,5 giây; bị khống chế trong lúc này thì mất chiêu và vẫn phải chờ 10 giây.",
+    "Giá trị khiên Space giảm đều 72% sức công mỗi 0,5 giây, nên dùng sớm quá thì khiên tan trước khi địch dồn sát thương."
+  ],
+  "tips": [
+    "Đứng sau tuyến đầu, trong vòng 480 quanh đồng đội để hào quang luôn có tác dụng.",
+    "Ném E sao cho khiên bay về đi qua nhiều địch: choáng 1 giây và mỗi người trúng giảm 1,2 giây hồi E.",
+    "Giữ Space cho đúng lúc địch tung khống chế hoặc dồn sát thương vào cả nhóm, không dùng để mở giao tranh.",
+    "Dùng R lên đồng đội đang bị pháo xa nhắm bắn: khiên hút toàn bộ đạn bay trong 1,25 giây."
+  ],
+  "counters": [
+    "Đừng đứng thành hàng cùng đồng đội trên đường bay của khiên E, nhất là lúc khiên bay về.",
+    "Ngắt Captain trong 0,5 giây tụ lực của Space, hoặc đợi khiên giảm dần rồi mới dồn sát thương.",
+    "Ép thẳng vào Captain khi nó đứng một mình: sát thương thấp và tầm ngắn khiến nó khó tự cứu mình.",
+    "Dùng sát thương không phải đạn bay khi R đang bật, vì khiên R chỉ hút đạn bay."
+  ],
+  "counter_why": "Captain tăng sức mạnh cho cả đội rất tốt. Nếu đội có Chopper thì khả năng sống sót của cả đội tăng lên nhiều, đủ để đối chọi với Captain bên địch.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank yếu (hạng 77/91, sát thương 310 mỗi giây) nhưng đây là tank hỗ trợ, và giá trị nằm ở khiên 720% sức công cùng miễn khống chế 5 giây cho cả nhóm. Đổi lại sát thương cá nhân thấp, nên bộ chiêu cân với vai trò.",
+    "suggestion": "Giữ nguyên. Mô tả nội tại ghi hào quang tăng 5% còn mô tả R và BuffTemplate 323102 ghi 10%; nên thống nhất lại câu chữ. Theo dõi thêm: code cho khiên E xuyên tường cả hai chiều (ghi chú đã được người dùng duyệt), mô tả không nói tới."
+  },
+  "evidence": [
+    "server/captain_actions.py:_event courage — bán kính 360, add_shield(power*7.2), giảm 0.72 × power mỗi 500 ms; BuffTemplate 323302 miễn khống chế 5000 ms",
+    "server/captain_actions.py:_flight — E bay đi 0.76, bay về 1.59 (EffectTemplate 323201/323211), choáng 500/1000 ms, mỗi mục tiêu bay về trừ 1200 ms hồi lượt, wall = None",
+    "server/captain_actions.py:cast — E cách nhau 4000 ms, nạp lượt 8000 ms; R 1250 ms cho bản thân và đồng đội trong 600",
+    "server/captain_actions.py:_event command_aura / _inspire — bán kính 480; BuffTemplate 323121 +25% tốc, −25% sát thương đòn thường 2000 ms",
+    "facts: atk_per_s 310 (pct 0.056), ehp 6960, stat_rank 77"
+  ]
+}

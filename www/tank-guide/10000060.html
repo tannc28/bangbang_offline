@@ -1,0 +1,130 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Minion · Cẩm nang tank</title><meta name="description" content="Pháp sư triệu hồi vật lý: đặt tháp pháo bắn đuổi, khóa địch bằng tia lạnh của R và vùng nổ của Space, rồi nhặt linh kiện rơi ra để giảm hồi chiêu. Thắng bằng cách giữ trận địa có tháp pháo và đánh từ phía sau.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/5d9428e81f0ab596c367d4e001a5a84b.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · BEE DO BEE DO BEE DO ！</div>
+<h2 class="page-title">Minion</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-blue-lt">Cần theo dõi</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Triệu Tập Sát Thương Nhóm</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000096.html">← Kirito</a>
+<a class="btn" href="10000067.html">Triệu Vân →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-blue bg-blue-lt mb-3"><b>Pháp sư triệu hồi vật lý: đặt tháp pháo bắn đuổi, khóa địch bằng tia lạnh của R và vùng nổ của Space, rồi nhặt linh kiện rơi ra để giảm hồi chiêu. Thắng bằng cách giữ trận địa có tháp pháo và đánh từ phía sau.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-blue"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-blue-lt">Cần theo dõi</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank xếp cuối (91/91), nhưng code khác mô tả ở nhiều chỗ nên chưa đánh giá được bộ chiêu: E có 2 lượt thay vì 3, tháp pháo 60% máu Minion thay vì 100%, khiên khi nhặt linh kiện bằng chỉ số công thay vì theo máu tối đa.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Thống nhất code và mô tả trước. Nếu giữ code hiện tại thì Minion nhiều khả năng yếu: cân nhắc trả E về 3 lượt và tháp pháo 100% máu như mô tả.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3150</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">180 / 153</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">328 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">30</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#91/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">4898</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">328</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/544310b71e6e6746cbb9e1103b940ec9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Gelu Paor！</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Tạo tháp pháo tại điểm chỉ định, bắn đạn theo dõi tấn công kẻ địch gây 50% ST Vật Lý(ST tăng dần theo số lần mục tiêu bị tấn công).
+Tháp Pháo có 100% HP Minion, tháp pháo đã tạo ra sẽ tiếp tục giảm HP theo thời gian.
+
+Skill này được cộng dồn, tối đa 3 lần.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/648d0f36b70070cd87a7a1aab349917f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Dong~Wastel！</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Minion có hệ thống Năng Lượng, giới hạn Năng Lượng là 100đ, mỗi giây hồi phục 5đ Năng Lượng, khi đồng đội hoặc tháp pháo triệu hồi ra tử vong sẽ rớt linh kiện, linh kiện sẽ được đồng đội hoặc bản thân nhặt, sau khi nhặt, Minion sẽ giảm 10% CD của tất cả skill và hồi 10đ Năng Lượng, nhận Khiên có thể hấp thu 100% ST (Hiệu quả khiên giảm theo thời gian), kéo dài 5s. Khi đồng đội nhặt cũng sẽ nhận được khiên tạm thời, hiệu quả và thời gian của khiên chỉ có 1 nửa.
+
+Chủ động: Sau khi thi triển sẽ kích hoạt súng bắn tia lạnh, súng này cần thời gian chuẩn bị khá dài (Thời gian này không thể di chuyển hoặc tấn công), sau khi thi triển thành công gây lên mục tiêu địch trong khu vực hình chữ nhật 199% ST Vật Lý và khiến mục tiêu đóng băng 1.25s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/68911a0328c898f4990f1f61a8ba3db1.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">BEE DO BEE DO！</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Tạo thiết bị nổ tại nơi chỉ định, sau 1s gây cho địch trong phạm vi 398% ST Vật Lý.
+
+Xung quanh thiết bị này có một vòng ranh giới tồn tại 3s, nếu kẻ địch đi qua vòng này sẽ bị thu nhỏ, trong 3s tốc độ giảm 75%, công tốc giảm 75%, Minion và tháp pháo gây ST lên mục tiêu bị ảnh hưởng bởi thiết bị này tăng 25% rồi thiết bị giúp Minion giảm 25% ST phải nhận.
+
+Giảm 50% ST lên kiến trúc.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/648d0f36b70070cd87a7a1aab349917f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Dong~Wastel！</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Tháp pháo của [E-Gelu Paor!] và thiết bị nổ của [Space-BEE DO BEE DO!] biến mất sẽ để lại linh kiện. Tự nhặt linh kiện thì CD tất cả skill giảm 4s. 
+
+Chỉ nhặt linh kiện của mình.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Space đặt thiết bị nổ: 1 giây sau gây 3,98 lần công cho mọi địch trong bán kính 240, rồi để lại vòng ranh giới 3 giây. Địch đi qua vòng (240–264) bị giảm 75% tốc chạy và tốc bắn trong 3 giây.</li><li>Trong vòng Space, đạn thường của Minion và của tháp pháo gây thêm 25% sát thương; bản thân Minion đứng trong vòng thì giảm 25% sát thương nhận vào.</li><li>R bắn tia lạnh theo dải 600 x 96: 1,99 lần công và đóng băng 1,25 giây mọi địch trúng.</li><li>Tháp pháo của E mỗi giây bắn đạn đuổi 0,5 lần công, tầm 480; cùng một mục tiêu trúng liên tiếp thì mỗi phát tăng 2,5% sát thương, tối đa gấp đôi.</li><li>Nhặt linh kiện (tháp pháo chết hoặc thiết bị Space hết hạn) giảm 4 giây hồi chiêu R, Space và lượt nạp E, hồi 10 năng lượng và cho một lớp khiên nhỏ.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank thấp nhất trong 91 tank: máu 3.150, máu hiệu dụng 4.898.</li><li>Bắn chậm (1.000 ms một phát) và chỉ khoảng 328 sát thương mỗi giây từ đạn thường.</li><li>R phải đứng yên 0,6 giây tụ lực, không di chuyển hay bắn được; bị cắt ngang thì R vẫn vào hồi 3 giây.</li><li>E tốn 30 năng lượng mỗi lần, năng lượng chỉ hồi 5 điểm mỗi giây; tháp pháo tự mất 5% máu mỗi giây và sống tối đa 20 giây.</li><li>Linh kiện chỉ tồn tại 5 giây và Minion phải tự đi tới trong bán kính 72 mới nhặt được.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Đặt tháp pháo trước giao tranh, ở chỗ địch phải đi qua, để chúng kịp tích tầng sát thương.</li><li>Thả Space lên cụm địch đang đứng yên, rồi bắn R qua vòng: địch muốn chạy ra phải đi qua vòng và bị giảm 75% tốc chạy.</li><li>Đứng trong vòng Space của mình khi giao tranh để nhận giảm 25% sát thương.</li><li>Nhặt linh kiện ngay khi rơi ra: 4 giây hồi chiêu cho cả R lẫn Space là rất lớn.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Lao thẳng vào Minion: máu hiệu dụng 4.898, thấp hơn gần hết các tank.</li><li>Đánh hạ tháp pháo từ ngoài tầm 480, hoặc dùng Medusa để chiêu nảy qua lại giữa Minion và tháp pháo.</li><li>Thấy Space rơi thì chạy ra khỏi tâm ngay, đừng đi ngang qua vòng ranh giới.</li><li>Cắt ngang R trong 0,6 giây Minion đứng yên tụ lực.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi Minion địch dùng skill space, đừng đi qua rìa khu vực hình tròn!</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000058.html">Medusa</a>. E Rắn Bí Thuật của Medusa nảy qua lại giữa Minion và các tháp pháo nó triệu hồi, và mỗi lần nảy thành công lại giảm hồi chiêu của chính E đó.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/minion_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/minion_actions.py:__init__/update — e_count = 2, tối đa 2 lượt (mô tả ghi 3); cast slot 1 trừ 30 năng lượng</li><li>server/minion_actions.py:cast slot 1 — tháp pháo iHp = max_hp*0.6 (mô tả 100%); MinionTurret tick mất 5% máu mỗi giây, chết ở nhịp 20</li><li>server/minion_actions.py:_pickup — giảm 4000 ms R/Space/lượt nạp E, +10 năng lượng, add_shield(335103, power) giảm 10% power mỗi giây (BuffTemplate 335103 ghi 10% máu tối đa)</li><li>server/minion_actions.py:_event minion_device_start — power*3.98 bán kính 240; BuffTemplate 335313/335314 -0.75 3000 ms; 335315 giảm 25% sát thương cho Minion</li><li>facts: stat_rank 91, ehp 4898 (pct 0.167), hp 3150 (pct 0.044)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [17, 17, 43, 49, 4]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Minion",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

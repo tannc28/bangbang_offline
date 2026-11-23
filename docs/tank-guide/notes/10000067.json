@@ -1,0 +1,39 @@
+{
+  "summary": "Đấu sĩ cận chiến càng bị đánh càng trâu và càng hút máu: mỗi lần mất máu cộng một tầng, tối đa 10 tầng. Thắng bằng cách lao vào bằng E, giữ chân cả nhóm bằng Space, rồi đứng giữa xả R mà hút máu.",
+  "strengths": [
+    "Chỉ số thân tank hạng 1/91: máu hiệu dụng 7.757, tốc chạy 175, tốc bắn 700 ms, đều trong nhóm đầu.",
+    "Hút máu sẵn 25% với đánh thường và 50% với chiêu; mỗi tầng Huyết Chiến cộng thêm 15%, nên 10 tầng đưa hút máu chiêu lên 200% và đánh thường lên 175%.",
+    "Mỗi tầng còn tăng 15% giáp vật lý và năng lượng (10 tầng là +150%). Tầng cộng mỗi lần mất máu, kéo dài 3 giây.",
+    "E và R mỗi chiêu 2 lượt, cách nhau 1,5 giây. E lướt 360, gây 206% công, kéo địch theo, làm chậm 50% và tăng 25% sát thương R lên mục tiêu; R xả 5 nhát 50% công trong 1 giây, lúc đó miễn khống chế và giảm 50% sát thương kỹ năng.",
+    "Space trói chân mọi địch trong dải dài 480, rộng 192 trong 1 giây, rồi kéo cả nhóm về giữa và trói thêm 1 giây. Cứ mất 5% máu tối đa thì lượt E, R hồi nhanh thêm 0,5 giây."
+  ],
+  "weaknesses": [
+    "Tầm đánh 336, ngắn nhất game: bị thả diều thì không đánh được ai.",
+    "Space không gây sát thương; nó chỉ giữ chân để đồng đội và R làm việc.",
+    "Tầng Huyết Chiến chỉ giữ 3 giây: đứng ngoài giao tranh một lúc là mất hết phần trâu và hút máu."
+  ],
+  "tips": [
+    "Lao vào bằng E, Space giữ chân cả nhóm, rồi xả hai lượt R lên mục tiêu vừa trúng E (+25% sát thương).",
+    "Đừng ngại ăn đòn: mỗi lần mất máu là thêm một tầng giáp và hút máu, và lượt E, R hồi nhanh hơn.",
+    "Giữ một lượt E để rút lui hoặc đuổi theo mục tiêu chạy trốn.",
+    "Dùng R lúc địch tung khống chế: trong 1 giây xả R, Triệu Vân miễn khống chế."
+  ],
+  "counters": [
+    "Thả diều bằng tầm xa: đứng ngoài 360 của E, rỉa máu từ xa.",
+    "Đừng đứng cụm thành dải khi Triệu Vân còn Space.",
+    "Dồn sát thương lớn một lần thay vì đánh rỉa: nhiều đòn nhỏ chỉ làm nó lên tầng nhanh hơn.",
+    "Dùng hiệu ứng giảm hồi máu trước khi giao tranh để cắt phần hút máu."
+  ],
+  "counter_why": "Thạch Sanh có lợi thế tầm bắn xa, né được khống chế của Triệu Vân và rỉa máu nó từ ngoài tầm chiêu.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank tốt nhất game (hạng 1/91) mà bộ chiêu còn cộng thêm: 10 tầng cho +150% giáp và hút máu chiêu tới 200%, gần như không có trần hồi máu khi đứng giữa giao tranh, cộng khống chế 2 giây diện rộng. Khó tìm điểm yếu ngoài tầm đánh ngắn.",
+    "suggestion": "Đưa mỗi tầng về như mô tả R: giáp +10% mỗi tầng và hút máu thêm 5–10% mỗi tầng thay vì 15% (comment trong code ghi \"Source 10%, user chose 15%\"). Nếu vẫn mạnh, giảm hút máu gốc của chiêu từ 50% xuống 25% như đánh thường."
+  },
+  "evidence": [
+    "server/zhaoyun_actions.py:damage — lifesteal = 0.25 (đánh thường) hoặc 0.5 (chiêu) + 0.15 × số tầng 342103",
+    "server/zhaoyun_actions.py:attr_bonus — giáp + 0.05 × tầng, cộng với BuffTemplate 342102 (0.1 mỗi tầng, iStackAdd 0.1, tối đa 10) = 15% mỗi tầng",
+    "server/zhaoyun_actions.py:on_damage — mỗi 5% máu tối đa mất đi thì lượt E/R − 500 ms",
+    "server/zhaoyun_actions.py:zhao_field/zhao_pull — dải 480 × 192, định thân 342304 1000 ms rồi kéo về giữa và định thân lần nữa; R 342402/342403 miễn khống chế, giảm 50% sát thương kỹ năng"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "summary": "Tank hỗ trợ thuần hồi máu: E hồi máu cho một đồng đội, Space thành một vùng hồi máu di động quanh mình trong 6 giây. Thắng bằng cách giữ đồng đội sống lâu hơn đối phương, không phải bằng sát thương.",
+  "strengths": [
+    "Space hồi tổng cộng 8,4 lần công năng lượng (khoảng 2.646 máu ở cấp 6) cho mọi đồng đội trong bán kính 300, chia thành 12 nhịp mỗi 0,5 giây, kèm giảm 25% sát thương kỹ năng nhận vào.",
+    "Trong 6 giây của Space, bản thân được tăng 50% tốc chạy và giảm 50% sát thương nhận vào, nên vừa chạy theo đồng đội vừa khó bị hạ.",
+    "E hồi 2,6 lần công năng lượng (khoảng 819 máu) cho một đồng đội trong tầm 480, hồi chiêu chỉ 6 giây, kèm tăng 50% tốc chạy giảm dần trong 3 giây.",
+    "Luôn có khiên bằng 25% máu tối đa (khoảng 857) ngay khi xuất hiện; khiên vỡ thì 15 giây sau tự có lại.",
+    "R có 2 lượt tích trữ: sóng năng lượng gây 2,26 lần công, đẩy lùi địch 240 đơn vị và làm chậm 40% trong 2 giây, đủ để tách sát thủ ra khỏi đồng đội."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank gần như thấp nhất: hạng 89/91, máu 3.430, máu hiệu dụng 5.145.",
+    "Sát thương thấp: công 315, khoảng 332 sát thương mỗi giây bằng đạn thường, nên không tự thắng được một trận đấu tay đôi.",
+    "Space thực chất hồi chiêu 31 giây: 6 giây thi triển rồi mới bắt đầu tính 25 giây hồi chiêu.",
+    "Vùng hồi máu của Space chỉ rộng 300, đồng đội tản ra là mất gần hết lượng hồi."
+  ],
+  "tips": [
+    "Đứng sau tuyến đầu, giữ E cho đồng đội đang bị dồn thay vì dùng ngay khi vừa hồi xong.",
+    "Bật Space khi cả đội đang ôm sát nhau giao tranh, rồi chạy theo người bị đánh nhiều nhất: vùng hồi đi theo Chopper.",
+    "Dùng R để đẩy sát thủ ra khỏi đồng đội mỏng máu, không phải để gây sát thương.",
+    "Khi khiên vừa vỡ, lùi lại: phải chờ 15 giây mới có khiên mới."
+  ],
+  "counters": [
+    "Lao thẳng vào Chopper bằng sát thủ có bộc phát cao: máu hiệu dụng chỉ 5.145, một chuỗi chiêu là đủ.",
+    "Đánh vỡ khiên trước rồi mới dồn, tránh mất chiêu mạnh vào khiên.",
+    "Kéo giao tranh ra rộng để đồng đội của Chopper không cùng đứng trong bán kính 300 của Space.",
+    "Đợi Space hết rồi mới mở giao tranh lớn: Chopper không có Space trong khoảng 25 giây sau đó."
+  ],
+  "counter_why": "Sát thủ có sát thương bộc phát cao, có thể tàng hình áp sát Chopper và hạ gục rất nhanh, khiến Chopper không kịp hồi máu cho chính mình.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank xếp 89/91, nhưng đó là cái giá hợp lý của một tank hỗ trợ 5 sao. Lượng hồi của Space (8,4 lần công cho cả đội) cộng khiên 25% máu bù lại đủ cho vai trò, và Chopper vẫn dễ bị sát thủ hạ như mô tả gốc.",
+    "suggestion": "Giữ nguyên. Lưu ý mô tả nội tại ghi khiên 20% máu tối đa, còn mô tả R và code dùng 25%; nên thống nhất mô tả theo 25%."
+  },
+  "evidence": [
+    "server/chopper_actions.py:_event heal_aura — mỗi 0,5 giây hồi power*0.7 trong bán kính 300, 12 nhịp; Space vào hồi chiêu 25000 ms sau khi kết thúc",
+    "server/chopper_actions.py:on_spawn — khiên 304111 = max_hp*0.25; on_shield_break hẹn 15000 ms",
+    "server/chopper_actions.py:cast — E hồi power*2.6 (EffectTemplate 304201 fAddVal 2.6), R power*2.26, R đẩy lùi 240",
+    "BuffTemplate 304302 fEffectValA 0.5, 6000 ms (tăng tốc + giảm sát thương nhận vào); 304312 -0.25 (giảm sát thương kỹ năng); 304401 -0.4, 2000 ms (làm chậm)",
+    "facts: stat_rank 89, ehp 5145 (pct 0.244), atk_per_s 332"
+  ]
+}

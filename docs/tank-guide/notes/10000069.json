@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư tầm trung sống bằng độc: mọi đòn thường và chiêu đều chồng độc (tối đa 10 tầng) vừa gây sát thương theo thời gian vừa hút máu, rồi Space kích nổ toàn bộ độc trong bán kính 600 và làm tê liệt mục tiêu đủ 10 tầng.",
+  "strengths": [
+    "Độc mỗi giây gây từ 10% (1 tầng) tới 75% (10 tầng) sức công năng lượng, 50% sát thương độc chuyển thành máu; độc còn giảm 30% hồi máu của mục tiêu.",
+    "Địch đang trúng độc của Bò Cạp gây ít hơn 20% sát thương lên nó; trúng Space thì thêm 25% nữa trong 3 giây.",
+    "E hồi 6 giây: 3 giây tăng 200% tốc bắn, đạn xuyên mục tiêu, xuyên tường, tầm 630, kèm tăng tốc chạy; mỗi viên trúng là thêm một tầng độc.",
+    "Space có 2 lượt (cách nhau 5 giây, nạp 15 giây), đánh mọi địch trong bán kính 600 quanh mình: 237% sức công, hút 50% máu, kích nổ độc trong bán kính 120 (tới 250% ở 10 tầng) và làm tê liệt 2 giây mục tiêu đủ 10 tầng.",
+    "R phun độc 5 lần trong 1,5 giây vào hình quạt hẹp dài 480, mỗi lần 58% và thêm một tầng độc."
+  ],
+  "weaknesses": [
+    "Thân mỏng: 3.710 máu, máu hiệu dụng 5.590, không có chiêu lướt hay chiêu miễn khống chế.",
+    "Ngoài lúc bật E, bắn thường rất chậm (1.000 ms một phát), nên cần E để chồng độc nhanh.",
+    "Độc hết hạn tự nhiên thì không nổ; nếu Space đang hồi, chồng độc lâu chỉ còn phần sát thương theo thời gian.",
+    "Mục tiêu giải được hiệu ứng xấu sẽ xóa sạch độc, làm mất cả phần hút máu lẫn phần kích nổ."
+  ],
+  "tips": [
+    "Bật E rồi xả đạn vào cụm địch: tốc bắn tăng 200% và đạn xuyên giúp chồng độc lên nhiều mục tiêu cùng lúc.",
+    "Đợi mục tiêu chính lên 10 tầng rồi mới bấm Space để có tê liệt 2 giây và vụ nổ mạnh nhất.",
+    "Giữ một lượt Space để thoát hiểm: hút 50% máu và giảm thêm 25% sát thương từ những kẻ trúng chiêu.",
+    "Dùng R lên kẻ đang đứng yên hoặc bị chậm, vì hình quạt chỉ rộng 30°."
+  ],
+  "counters": [
+    "Mang chiêu giải hiệu ứng xấu để xóa độc trước khi Bò Cạp kịp bấm Space.",
+    "Áp sát và khống chế nó ngay khi E vừa hết; không có E thì sát thương của nó tụt hẳn.",
+    "Đứng tách nhau: vụ nổ độc lan trong bán kính 120 quanh mỗi mục tiêu.",
+    "Khi đã trúng nhiều tầng độc, rời khỏi bán kính 600 quanh Bò Cạp để tránh bị kích nổ."
+  ],
+  "counter_why": "E Tâm Tĩnh Như Nước của Panda xóa mọi hiệu ứng xấu, khiến Bò Cạp Độc không chồng được nhiều tầng độc để dồn sát thương lớn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank ở giữa (hạng 54/91), thân mỏng. Bộ chiêu mạnh về giao tranh kéo dài nhờ hút máu và giảm sát thương từ mục tiêu trúng độc, nhưng cần thời gian chồng độc và bị giải hiệu ứng xấu khắc chế rõ ràng.",
+    "suggestion": "Sửa mô tả nội tại cho khớp code: độc hết hạn tự nhiên không nổ (chỉ Space kích nổ), và chỉ vụ nổ của Space ở 10 tầng mới gây tê liệt. Công thức nổ trong code là 100% × (1 + 0,5 mỗi 3 tầng), khác bảng hệ số gốc (ghi chú 'User retained V1')."
+  },
+  "evidence": [
+    "server/scorpion_actions.py:DOT — 0.10 … 0.75 sức công mỗi giây theo tầng, lifesteal 0.5; ghi chú 'No natural-expiry explosion'",
+    "server/scorpion_actions.py:_explode — bán kính 120, power × (1 + 0.5 × ((stacks−1)//3)), lifesteal 0.25; 10 tầng thì BuffTemplate 343321/343322 2000 ms",
+    "server/scorpion_actions.py:cast slot 2 — bán kính 600, 2.37 (EffectTemplate 343301), 2 lượt, cách 5000 ms, nạp 15000 ms",
+    "server/battle_runtime.py — giảm 0.2 sát thương từ kẻ mang độc 343111–343120, thêm 0.25 với BuffTemplate 343304; độc giảm 0.3 hồi máu",
+    "facts: ehp 5590, fire_ms 1000 (pct 0.033), stat_rank 54"
+  ]
+}

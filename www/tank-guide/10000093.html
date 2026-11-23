@@ -1,0 +1,133 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Sasuke · Cẩm nang tank</title><meta name="description" content="Sát thủ năng lượng dồn sát thương và lây lan: mọi chiêu trúng đều đốt Amaterasu, lửa tự lây sang địch đứng gần; E lao xuyên đội hình và hồi máu, R phản đòn thường để tàng hình rồi dịch chuyển ra sau lưng kẻ đánh, Space mở Susanoo 8 giây và bắn Mũi Tên Indra.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/21ab88001378c217815e5809ef35c17b.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Đôi mắt luân hồi, ý chí ngọn lửa</div>
+<h2 class="page-title">Sasuke</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Bạo Phát Dịch Chuyển</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000075.html">← Lữ Bố</a>
+<a class="btn" href="10000002.html">Groot →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ năng lượng dồn sát thương và lây lan: mọi chiêu trúng đều đốt Amaterasu, lửa tự lây sang địch đứng gần; E lao xuyên đội hình và hồi máu, R phản đòn thường để tàng hình rồi dịch chuyển ra sau lưng kẻ đánh, Space mở Susanoo 8 giây và bắn Mũi Tên Indra.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số tốt (hạng 21/91) và bộ chiêu dồn sát thương lớn, nhưng đổi lại thân mỏng, Space phụ thuộc chakra nạp chậm, còn R chỉ có tác dụng khi bị đánh thường. Khống chế cứng chỉ có 1 giây định thân và 1 giây choáng, nên chưa đến mức vượt khung.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi sát thương lây của Amaterasu trong giao tranh tổng: một chuỗi lây kéo dài tới 12 giây và lửa từ Susanoo lây cả sang NPC. Nếu đội đứng gần bị đốt quá nặng thì giảm hệ số 0,75 hoặc rút ngắn chuỗi lây.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3638</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">149 / 159</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">402 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">52</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#21/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5506</span></div><div class="progress progress-sm" title="Hơn 41% số tank"><div class="progress-bar bg-yellow" style="width:41%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">423</span></div><div class="progress progress-sm" title="Hơn 77% số tank"><div class="progress-bar bg-lime" style="width:77%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">408</span></div><div class="progress progress-sm" title="Hơn 37% số tank"><div class="progress-bar bg-orange" style="width:37%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/46373e453a7abd826925d2cad3f07636.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Chidori</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 432</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Tụ lực thời gian ngắn rồi xông lên, gây #EN_206%_ER# Sát Thương Năng Lượng cho kẻ địch va chạm trên đường đi, bản thân hồi #EN_100%_ER# HP và 20 Chakra.
+
+Nếu kẻ địch bị ảnh hưởng bởi [Space-Susanoo], sẽ tê liệt mục tiêu 1 giây khiến mục tiêu bất động.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/aa139e5dbbc5f1c3d01ed70a85784404.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Thuấn Di Thuật</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Skill này bao gồm hiệu quả chủ động và bị động.
+
+Bị Động: 
+Khi skill gây ra sát thương cho địch sẽ kèm hiệu quả Amaterasu: Mỗi giây nhận #EN_75%_ER# ST Năng Lượng, kéo dài 4s, kẻ địch khác đến gần mục tiêu đang bị Amaterasu thiêu đốt sẽ bị lây, 1 lần Amaterasu tối đa lây nhiễm 12 giây
+
+Chủ Động: 
+Sau khi skill thi triển trong 4s miễn dịch công thường lần sau, sau khi nhận ST công thường sẽ để lại phân thân tại chỗ và vào trạng thái ẩn thân rồi giảm 75% CD của [E-Chidori] và đánh dấu kẻ tấn công.
+
+Lúc này nếu dùng skill này thêm lần nữa, sẽ hủy trạng thái ẩn thân và xuất hiện ngay phía sau kẻ tấn công bị đánh dấu, gây cho mục tiêu #EN_200%_ER# ST Năng Lượng rồi gây choáng 1s, đồng thời bản thân trong 3s nhận được khiên có thể cản 3 lần Sát Thương trực tiếp, hiệu quả tăng tốc 50% và hồi ngay 30đ Chakra.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/bcce5109d6b97b373c302ee7194ffa59.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Susanoo</span>
+<span class="badge bg-azure-lt">hồi 20s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Susanoo:
+Tiêu hao 100 điểm Chakra để vào trạng thái Susanoo 8 giây, ở trạng thái này ST phải chịu giảm 25% và Công Thường kèm hiệu quả Amaterasu.Khi mở sẽ gây #EN_246%_ER# Sát Thương Năng Lượng cho kẻ địch xung quanh và tốc độ di chuyển giảm 50% (Giảm dần theo thời gian), đồng thời kẻ địch bị đánh dấu 3 giây, lúc này nếu bị [Chidori] bắn trúng, sẽ tê liệt mục tiêu 1 giây khiến mục tiêu bất động..
+
+Mũi Tên Indra: 
+Bắn Mũi Tên Indra,sau khi trì hoãn ngắn thì oanh kích phạm vi quanh mục tiêu gây #EN_387%_ER# Sát Thương Năng Lượng cho tất cả địch xung quanh.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Amaterasu</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Không
+Đạn bay: Không
+
+Kỹ năng trúng mục tiêu kích hoạt Thiên Chiếu.
+Thiêu đốt/Độc làm giảm 30% hiệu quả hồi phục khi hiệu ứng còn tồn tại; không cộng dồn trên cùng một tank.
+Mỗi lần gây sát thương sẽ làm mới Thiêu Đốt: gây 4 nhịp sát thương: ngay lập tức, rồi sau 1, 2 và 3 giây (hiệu ứng tồn tại 4 giây).</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Sức công năng lượng 402 và xuyên giáp 52 thuộc hàng cao nhất; chỉ số thân tank hạng 21/91.</li><li>Amaterasu: chiêu trúng là đốt 75% sức công mỗi nhịp, 4 nhịp trong 4 giây; lửa lây sang địch trong bán kính 144 và một chuỗi lây kéo dài tối đa 12 giây. Thiêu đốt còn giảm 30% hồi máu của mục tiêu.</li><li>E lao 432 sau 0,1 giây tụ lực: mỗi địch va phải nhận 206%, Sasuke hồi 100% sức công máu và 20 chakra cho mỗi địch; mục tiêu đang mang dấu Susanoo bị định thân 1 giây.</li><li>R miễn một đòn thường trong 4 giây; bị đánh thường thì để lại phân thân, tàng hình 3 giây, rút 75% thời gian hồi E và đánh dấu kẻ đánh. Bấm lại trong 3 giây để dịch chuyển ra sau lưng nó, gây 200%, choáng 1 giây, rồi nhận lá chắn đỡ 3 đòn và tăng 50% tốc chạy.</li><li>Space (100 chakra) bật Susanoo 8 giây: giảm 25% sát thương nhận vào, đòn thường cũng đốt Amaterasu; lúc mở gây 246% trong bán kính 192 và làm chậm 50%; bấm lại để bắn Mũi Tên Indra tầm 600, nổ bán kính 192 gây 387%.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Thân mỏng: máu hiệu dụng 5.506, không có miễn khống chế trong lúc lao; bị choáng hay câm lặng khi đang tụ hoặc đang lao là mất chiêu.</li><li>Chakra tối đa 100 và chỉ hồi 2 mỗi giây; Space tiêu đúng 100, nên phải dùng E và R trúng mới nạp lại kịp.</li><li>R chỉ phản đòn thường: đối thủ chỉ đánh bằng chiêu thì không kích được tàng hình và dịch chuyển.</li><li>Lửa Amaterasu chỉ lây khi các địch đứng gần nhau trong bán kính 144; đội địch dàn trải thì giảm nhiều sát thương.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở bằng Space giữa đội địch để đánh dấu và làm chậm, rồi E xuyên qua để định thân những kẻ có dấu.</li><li>Bấm R trước khi lao vào đám pháo xa đánh thường: phát đầu tiên trúng sẽ cho tàng hình, rồi bấm lại để dịch chuyển ra sau lưng chúng.</li><li>Lao E xuyên qua càng nhiều địch càng tốt: mỗi địch cho thêm máu và 20 chakra.</li><li>Để dành Mũi Tên Indra cho cụm địch đang bị Amaterasu thiêu, nổ 387% lên mọi kẻ trong bán kính 192.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Khi Sasuke vừa bấm R, đừng đánh thường vào nó; đánh bằng chiêu hoặc chờ 4 giây hiệu lực hết.</li><li>Đứng tách nhau để Amaterasu không lây từ người này sang người khác.</li><li>Khống chế Sasuke trong 0,1 giây tụ lực của E hoặc trong lúc lao để cắt chiêu.</li><li>Giữ chiêu soi tàng hình hoặc chiêu đánh lan cho 3 giây tàng hình sau khi R kích hoạt.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Hiệu quả thiêu đốt của Amaterasu sẽ lây cho đồng đội, chú ý di chuyển.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000071.html">Joker</a>. Khi đã trúng Space của Joker, Sasuke phải hết sức cẩn thận khi dùng R và E.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/sasuke_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/sasuke_actions.py:_ignite / _dot_hit — 0.75 × sức công mỗi nhịp, 4 nhịp; sasuke_spread bán kính 144 mỗi 900 ms, chuỗi end = now+12000</li><li>server/sasuke_actions.py:_event sasuke_dash — 2.06 mỗi địch, restore_hp(power), +20 chakra; định thân BuffTemplate 368204 1000 ms nếu có dấu 368305</li><li>server/sasuke_actions.py:block_hit — phản đòn thường khi có BuffTemplate 368401 (4000 ms), tàng hình 368403 3000 ms, hồi E × 0.25; recast 368410 tầm 720, × 2, choáng 368412 1000 ms, +30 chakra</li><li>server/sasuke_actions.py:cast Space — đòi 100 chakra, bán kính 192 × 2.46; Indra tầm 600, sau 800 ms, × 3.87 bán kính 192; BuffTemplate 368302 −25% sát thương 8000 ms</li><li>facts: atk 402, pen 52, ehp 5506, stat_rank 21</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [41, 77, 64, 37, 41]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Sasuke",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

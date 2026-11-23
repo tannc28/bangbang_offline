@@ -1,0 +1,42 @@
+{
+  "summary": "Đấu sĩ cận chiến lì đòn nhờ hai lớp khiên, mở giao tranh bằng E hai lần lướt (lần sau choáng), rồi bật Space hóa rồng nước 8 giây để bắn đạn sóng xa 480, lan sát thương và tự hồi máu.",
+  "strengths": [
+    "Chỉ số thân tank hạng 4/91: 4.814 máu, giáp 219/195, máu hiệu dụng 8.136, tốc chạy 170.",
+    "Hai lớp khiên riêng: khiên nước bị động 15% máu tối đa (vỡ thì gây 231% công trong bán kính 192 và làm chậm 50% 2 giây, 15 giây sau có lại); R thêm một khiên 15% máu tối đa trong 2 giây.",
+    "E lướt 192 và gây 123% công trong bán kính 168, đẩy địch theo; trong 2 giây sau lướt tiếp 240, gây 157% và choáng 1 giây.",
+    "Space hóa rồng nước 8 giây: giảm 25% sát thương nhận vào, +50% tốc đánh, đạn thường mạnh thêm 50%, bay 480 và lan 144; mỗi phát trúng hồi 5% máu đã mất, cộng một tầng +5% công và giảm 5% sát thương (tối đa 5 tầng).",
+    "Trong Space bấm lại để gọi sóng: 216% công trong bán kính 192; có từ 4 tầng trở lên thì sóng đầu 368% và chậm 60%, thêm một sóng 216% và choáng 1 giây."
+  ],
+  "weaknesses": [
+    "Ngoài Space, tầm đánh thường chỉ 336 (nhóm ngắn nhất), phải dùng E để áp sát.",
+    "Space chỉ bắt đầu hồi sau khi 8 giây hóa rồng kết thúc, nên một vòng mất khoảng 38 giây.",
+    "R chỉ tự nhắm kẻ địch gần nhất trong 192; không có ai trong tầm là không dùng được.",
+    "E lướt có thể bị khống chế ngắt giữa chừng."
+  ],
+  "tips": [
+    "Mở giao tranh bằng E lần một để kéo địch, rồi E lần hai ngay để choáng 1 giây.",
+    "Bật Space rồi đánh thường đủ 4 tầng trước khi gọi sóng, để có sóng 368% và thêm một lần choáng.",
+    "Lao vào trước khi khiên nước vỡ: khiên vỡ giữa đội địch là thêm 231% công và làm chậm cả nhóm.",
+    "Dùng R khi đang bị dồn: vừa thêm 15% khiên vừa làm chậm 40% tốc chạy và tốc đánh của kẻ gần nhất."
+  ],
+  "counters": [
+    "Tránh xa Lạc Long Quân trong 8 giây Space, nhất là khi nó đã có 4 tầng trở lên.",
+    "Giữ khoảng cách hơn 240 sau E lần một để né lần lướt choáng.",
+    "Phá khiên nước khi Lạc Long Quân ở xa đội mình, để vụ nổ 231% không trúng ai.",
+    "Dùng chiêu dịch chuyển hoặc lướt để thoát khỏi tầm đánh, như Mikasa."
+  ],
+  "counter_why": "E Móc Câu Bật Nảy của Mikasa giúp cô thoát nhanh khỏi vùng sát thương của Lạc Long Quân.",
+  "against": "Khi bật tuyệt chiêu, Lạc Long Quân tăng sát thương rất mạnh, nhớ tránh xa.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank rất tốt (hạng 4/91) và bộ chiêu đầy đủ: hai lớp khiên, lướt có choáng, Space vừa tăng sát thương vừa hồi máu. Bù lại tầm ngắn khi không có Space và Space chu kỳ 38 giây, nên vẫn nằm trong mức cân bằng của đấu sĩ.",
+    "suggestion": "Giữ nguyên số. Cần thống nhất với mô tả: code hồi 5% máu đã mất mỗi phát đạn sóng (mô tả 2,5%), R làm chậm 40% (mô tả 50%) và lan cho cả vùng 168 quanh mục tiêu, đạn sóng không hất tung như mô tả. Nếu Lạc Long Quân trụ quá lâu trong Space thì hạ phần hồi máu về 2,5%."
+  },
+  "evidence": [
+    "server/laclongquan_actions.py:on_shield_break — 2.31 × công bán kính 192, BuffTemplate 387105 chậm 50% 2000 ms, khiên mới sau 15000 ms (BuffTemplate 387101 fFixParam 0.15)",
+    "server/laclongquan_actions.py:_water_hit — lan 144, restore_hp 5% máu đã mất, BuffTemplate 387313/387314 ±0.05 mỗi tầng, tối đa 5",
+    "server/laclongquan_actions.py:_event 'lac_wave' — 2.16 × công, tăng cường 3.68 rồi 2.16 + BuffTemplate 387339 choáng 1000 ms",
+    "server/laclongquan_actions.py:_event 'lac_dash' — 1.23 / 1.57 × công bán kính 168, BuffTemplate 387210 choáng 1000 ms; cooldown Space = hết hình thái + 30000 ms",
+    "BuffTemplate 387302 −25% sát thương nhận, 387303 +50% tốc đánh (8000 ms); 387402/387404 −0.4 (R)"
+  ]
+}

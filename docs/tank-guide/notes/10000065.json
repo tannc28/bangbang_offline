@@ -1,0 +1,38 @@
+{
+  "summary": "Pháp sư tầm xa khống chế theo nhóm: hai chiêu hất tung 1,5 giây, và mỗi kỹ năng trúng mục tiêu đang mang ấn ký gây thêm sát thương chuẩn bằng 10% máu tối đa.",
+  "strengths": [
+    "Ấn Ký Đại Dương: kỹ năng trúng mục tiêu đang mang ấn gây thêm sát thương chuẩn bằng 10% máu tối đa của nó. Kẻ mang ấn gây ít hơn 25% sát thương lên Tiên Cá.",
+    "R tầm 720, hồi 6 giây, nổ 205% công bán kính 120. Trúng thì giảm ngay 3 giây hồi chiêu và nhận khiên bằng 150% công, nên R trúng đều là 3 giây một phát.",
+    "E nổ sau 0,8 giây, gây 216% công và hất tung 1,5 giây. Space là con sóng xuyên tường dài 840, gây 444% công và hất tung 1,5 giây mọi kẻ trên đường.",
+    "Mọi kỹ năng trúng làm chậm 50%, giảm dần trong 5 giây."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.290 máu, máu hiệu dụng 4.951, thuộc nhóm thấp nhất game.",
+    "Không có chiêu lướt hay thoát thân; chỉ có khiên của R và hiệu ứng giảm sát thương từ ấn ký.",
+    "E nổ trễ 0,8 giây nên dễ né. Space phải đứng tụ lực 0,5 giây, bị câm lặng là hủy.",
+    "Đánh thường không gắn ấn ký; mọi sát thương theo % máu đều phải đến từ kỹ năng."
+  ],
+  "tips": [
+    "Mở bằng E hoặc R để gắn ấn, rồi nối kỹ năng tiếp theo trong 5 giây để ăn 10% máu tối đa.",
+    "Cố bắn R trúng người để giảm 3 giây hồi chiêu và có khiên.",
+    "Bắn Space dọc theo hàng địch; sóng xuyên tường nên kẻ núp sau vật cản vẫn dính."
+  ],
+  "counters": [
+    "Áp sát: Tiên Cá không có chiêu thoát thân.",
+    "Thấy Tiên Cá tụ Space thì tránh xa, hoặc câm lặng, choáng nó trong 0,5 giây tụ lực.",
+    "Dùng chiêu hóa giải sát thương diện rộng như R của Edwina Knight.",
+    "Di chuyển liên tục để né E nổ trễ 0,8 giây."
+  ],
+  "counter_why": "[R-Avalon] của Edwina Knight hóa giải hoàn toàn [Space-Đại Hồng Thủy] và hiệu ứng nội tại của Tiên Cá.",
+  "balance": {
+    "status": "ok",
+    "reason": "Khống chế nhóm tốt và sát thương theo % máu rất hiệu quả với tank, nhưng thân mỏng và không có đường thoát (hạng chỉ số thân 52/91). Mạnh nhất khi có tiền tuyến che chắn, đúng vai pháp sư.",
+    "suggestion": "Giữ nguyên. Theo dõi R: trúng đều thì 3 giây một phát, mỗi phát 205% công cộng 10% máu tối đa lên mục tiêu có ấn, là nguồn sát thương ổn định nhất của bộ chiêu."
+  },
+  "evidence": [
+    "server/mermaid_actions.py:_hit — mục tiêu có BuffTemplate 340103 nhận thêm 10% máu tối đa sát thương chuẩn; BuffTemplate 340104 fEffectValA -0.25",
+    "server/mermaid_actions.py:_burst — trúng thì cooldowns[10] − 3000 ms, khiên 1.5 × công (BuffTemplate 340403)",
+    "server/mermaid_actions.py:cast/_event — R 2.05, E 2.16 nổ sau 800 ms, Space 4.44 sau 500 ms tụ lực; BuffTemplate 340212/340302 hất tung 1500 ms",
+    "BuffTemplate 340102 fEffectValA -0.5 fTimeEffectValA 0.03 iPersistTime 5000 (làm chậm giảm dần)"
+  ]
+}

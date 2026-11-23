@@ -1,0 +1,40 @@
+{
+  "summary": "Tank chống chịu cận chiến trâu nhất game, chỉ có E và Space. Thắng nhờ đi thẳng vào giữa đội địch, bật Space làm cả đám hỗn loạn 3 giây, rồi sống tiếp nhờ hồi máu từ xà phòng.",
+  "strengths": [
+    "Máu hiệu dụng 14.469, cao nhất trong 91 tank: 7.326 máu, giáp vật lý 275, giáp năng lượng 310.",
+    "Space quanh thân bán kính 288: 380% công năng lượng lên mọi địch trong vùng và hỗn loạn 3 giây.",
+    "E ném bong bóng rơi sau 1 giây ở bán kính 96: 170% công năng lượng và giữ mục tiêu lơ lửng 1,5 giây; trong code đây là choáng (không chạy, không bắn được).",
+    "Mỗi lần E hoặc Space gây sát thương: tự hồi 10% máu tối đa và ném ra một bánh xà phòng tồn tại 8 giây. Đồng đội nhặt được hồi 10% máu tối đa, địch nhặt phải thì bị giam chân 1 giây."
+  ],
+  "weaknesses": [
+    "Tầm bắn 336, ngắn nhất trong 91 tank; chạy 155, chậm hơn gần như mọi tank.",
+    "Đòn thường 1.000 ms một phát, sát thương mỗi giây thấp; ngoài E và Space thì gần như không gây áp lực.",
+    "Không có R và không có chiêu lướt: bị thả diều thì chỉ biết đi bộ đuổi theo.",
+    "Bong bóng E mất 1 giây mới rơi, mục tiêu nhanh nhẹn dễ bước ra khỏi bán kính 96."
+  ],
+  "tips": [
+    "Đi trước đội, chờ địch dồn vào rồi mới bật Space: hỗn loạn 3 giây là lúc đồng đội dồn sát thương.",
+    "Ném E vào chỗ địch sắp đứng (sau chiêu lướt, trong cửa hẹp) thay vì vào chỗ nó đang đứng.",
+    "Đứng gần đồng đội khi đánh trúng chiêu để họ nhặt xà phòng hồi 10% máu tối đa.",
+    "Ném xà phòng vào lối địch chạy qua: dẫm phải là bị giam chân 1 giây."
+  ],
+  "counters": [
+    "Thả diều: đứng ngoài tầm 336 và ngoài bán kính 288 của Space, Bọt Biển không có cách áp sát.",
+    "Tránh dẫm xà phòng; nếu có thể, nhặt trước khi đồng đội của nó tới.",
+    "Dùng sát thương theo % máu tối đa hoặc sát thương thực: 7.326 máu và giáp cao làm sát thương thường rất kém hiệu quả.",
+    "Bước ra khỏi chỗ bong bóng E sắp rơi; có 1 giây để né."
+  ],
+  "counter_why": "Nội tại của Tiên Cá gây sát thương theo phần trăm máu tối đa của Bọt Biển, nên rất hiệu quả trước một con nhiều máu như vậy. Chiêu của Tiên Cá lại khống chế mạnh, khiến Bọt Biển khó thoát.",
+  "balance": {
+    "status": "ok",
+    "reason": "Trâu nhất game và Space khống chế vùng rất mạnh, nhưng tầm bắn ngắn nhất, chạy gần chậm nhất và không có chiêu áp sát, nên hạng chỉ số tổng là 32/91. Sức mạnh nằm hết vào một chiêu hồi 20 giây; ngoài nó ra Bọt Biển gây ít sát thương.",
+    "suggestion": "Giữ nguyên. Theo dõi hai điểm: E trong code là choáng (BuffTemplate 319211 nEffectType 30, cấm cả tấn công) trong khi mô tả chỉ nói không di chuyển được; và mỗi lần trúng chiêu hồi 10% máu tối đa có thể khiến nó gần như không chết khi giao tranh kéo dài."
+  },
+  "evidence": [
+    "server/sponge_actions.py:cast slot 2 — _area bán kính 288, power × 3.8, BuffTemplate 319311 hỗn loạn 3000 ms",
+    "server/sponge_actions.py:_flight — E rơi sau 1000 ms, bán kính 96, power × 1.7, BuffTemplate 319211 nEffectType 30 (choáng) 1500 ms",
+    "server/sponge_actions.py:_passive — hồi max_hp × 0.1 và ném 1 xà phòng mỗi lần chiêu gây sát thương; xà phòng tồn tại 8000 ms",
+    "BuffTemplate 319104 nEffectType 36 giam chân 1000 ms (địch nhặt xà phòng)",
+    "facts: ehp 14469 (pct 1.0), range 336 (pct 0.0), speed 155 (pct 0.022), stat_rank 32"
+  ]
+}

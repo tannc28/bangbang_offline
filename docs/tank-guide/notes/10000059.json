@@ -1,0 +1,39 @@
+{
+  "summary": "Pháp sư tầm trung cơ động: lướt E hai lần để rải lửa, R câm lặng cả cụm, và Space cho một lần tái sinh hồi đầy máu nếu giữ được khiên qua 2,5 giây.",
+  "strengths": [
+    "Space đổi 50% máu tối đa lấy một khiên bằng 50% máu tối đa và giáp tăng 250% trong 2,5 giây. Giữ được khiên thì hồi đầy máu, làm mới E và R, và choáng 2 giây mọi kẻ địch trong bán kính 288.",
+    "Trong lúc Niết Bàn, Phượng Hoàng phun lửa 5 lần, mỗi lần 88% công và làm chậm 60%. Kẻ địch dính lửa gây ít hơn 50% sát thương lên nó.",
+    "E lướt 432, gây 138% công và để lại vệt lửa 3 giây (91% công mỗi giây). Lướt trúng thì được dùng lại trong 3 giây; khi đang lướt giảm 50% sát thương nhận vào và không bị đạn bay chạm.",
+    "R gây 214% công trong bán kính 192, câm lặng 1,5 giây và làm chậm 35%.",
+    "Mọi kỹ năng trúng đều thiêu đốt 2 giây: mỗi giây mất 3% máu tối đa, giảm 30% tốc đánh và giảm 30% hồi máu."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.430 máu, máu hiệu dụng 5.339; bắn chậm (1.000 ms một phát).",
+    "Space là canh bạc: khiên vỡ là mất ngay một nửa máu tối đa mà không được gì.",
+    "Suốt 2,5 giây Niết Bàn, Phượng Hoàng đứng yên một chỗ.",
+    "Thợ Săn Thời Gian khắc chế thẳng Space: bị đánh dấu lúc Niết Bàn thì tái sinh xong chỉ còn 1 máu."
+  ],
+  "tips": [
+    "Dùng Space khi kẻ dồn mình đứng sát: ai trong bán kính 288 cũng bị lửa giảm 50% sát thương lên Phượng Hoàng, giữ khiên dễ hơn. Xạ thủ đứng ngoài vùng lửa thì không bị giảm.",
+    "Lướt E xuyên qua mục tiêu để có lần lướt thứ hai, dùng nó để rút ra hoặc kéo vệt lửa qua cả cụm.",
+    "Giữ R để câm lặng những tank có chiêu lướt hay khống chế ngay khi chúng lao vào."
+  ],
+  "counters": [
+    "Dồn đủ sát thương phá khiên 50% máu trong 2,5 giây; khiên vỡ là Phượng Hoàng mất nửa máu.",
+    "Đứng ngoài bán kính 288 khi nó Niết Bàn để không dính choáng 2 giây và không bị giảm sát thương.",
+    "Dùng khống chế ngắt E khi nó lướt vào.",
+    "Chọn Thợ Săn Thời Gian để đánh dấu nó lúc Niết Bàn."
+  ],
+  "counter_why": "Thợ Săn Thời Gian có thể dùng [E-Đảo Ngược Thời Gian] đánh dấu Phượng Hoàng lúc đang Niết Bàn, khiến nó dù tái sinh xong cũng chỉ còn 1 máu.",
+  "balance": {
+    "status": "ok",
+    "reason": "Space là một lần hồi đầy máu kèm choáng diện rộng mỗi 25 giây, rất mạnh nếu khiên không vỡ. Bù lại thân mỏng (hạng chỉ số thân 53/91), Space đứng yên 2,5 giây và khiên vỡ là mất nửa máu.",
+    "suggestion": "Theo dõi tỉ lệ Niết Bàn thành công; nếu quá cao thì giảm mức tăng giáp 250% (BuffTemplate 334303) trước. Mô tả nội tại ghi giảm 25% tốc đánh, mô tả R ghi làm chậm 30%, nhưng bảng và code đều giảm 30% tốc đánh (BuffTemplate 334112). Thiêu đốt còn giảm 30% hồi máu mà mô tả không nhắc tới."
+  },
+  "evidence": [
+    "server/phoenix_actions.py:cast slot 2 — commit_hp(max(1, hp − 0.5 × máu tối đa)), add_shield 0.5 × máu tối đa trong 2500 ms; _end_egg: hồi đầy, cooldowns E/R = now, BuffTemplate 334332 choáng 2000 ms bán kính 288",
+    "BuffTemplate 334303 fEffectValA 2.5 (giáp +250%); BuffTemplate 334313 -0.5 + battle_runtime.py:damage (kẻ dính lửa gây ít hơn 50% lên Phượng Hoàng)",
+    "server/phoenix_actions.py:_event phoenix_burn — 3% máu tối đa mỗi 1000 ms; battle_runtime.py:restore_hp — BuffTemplate 334111 giảm 30% hồi máu",
+    "server/phoenix_actions.py:cast — E 1.38 lướt 432, vệt lửa 0.91; R 2.14 bán kính 192, BuffTemplate 334411 câm lặng 1500 ms, 334412 -0.35 tốc chạy"
+  ]
+}

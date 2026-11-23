@@ -1,0 +1,39 @@
+{
+  "summary": "Đấu sĩ hút máu: lao vào bằng E, khiêu khích cả cụm bằng Space, rồi sống nhờ hút máu và sát thương chuẩn theo máu đã mất. Càng thấp máu càng khó giết.",
+  "strengths": [
+    "Mọi sát thương hút 25% thành máu. Với kỹ năng, mức hút tăng thêm tối đa 25% khi máu thấp.",
+    "Sát thương đánh thường nhận vào giảm theo máu đã mất, tối đa 60% khi gần cạn máu.",
+    "Space khiêu khích mọi kẻ địch trong bán kính 192 suốt 3 giây: chúng không dùng được kỹ năng, phải đi về phía Người Sói và đánh thường nó. Mỗi đòn đó bị nội tại giảm bớt và có 25% cơ hội kích hoạt R miễn phí.",
+    "R có 2 lượt tích, hồi 8 giây: 100% công quanh thân, cộng sát thương chuẩn bằng 5% máu đã mất của bản thân và 5% máu hiện tại của mục tiêu.",
+    "Máu hiệu dụng 11.860, thuộc nhóm cao nhất game."
+  ],
+  "weaknesses": [
+    "Tầm đánh 336 ở mức thấp nhất game, sát thương đánh thường mỗi giây 300 gần chót bảng.",
+    "Chạy chậm (160). E là chiêu áp sát duy nhất: lao cố định 360 và dừng ở mục tiêu đầu tiên.",
+    "Space hồi 30 giây; khiêu khích hụt là mất luôn cả pha giao tranh.",
+    "Giáp vật lý 320 lại thành điểm yếu trước Mikasa, người gây thêm sát thương theo giáp của mục tiêu."
+  ],
+  "tips": [
+    "Mở bằng E (làm chậm 75% trong 1,5 giây), tiến vào giữa cụm rồi bấm Space khi bắt được nhiều người.",
+    "Đừng ngại tụt máu: hút máu kỹ năng và giảm sát thương đánh thường đều mạnh dần khi máu thấp.",
+    "Đứng giữa địch thì dùng R ngay; hai lượt tích cách nhau 4 giây."
+  ],
+  "counters": [
+    "Đừng đứng trong bán kính 192 quanh Người Sói khi Space còn sẵn: dính khiêu khích là phải đứng đánh thường nó 3 giây.",
+    "Khi nó đã thấp máu, dùng kỹ năng thay vì đánh thường, vì đánh thường bị giảm tới 60%.",
+    "Thả diều từ xa và né cú lao E dài 360.",
+    "Chọn Mikasa: nội tại phá giáp gây sát thương rất lớn lên giáp vật lý 320."
+  ],
+  "counter_why": "Người Sói có giáp vật lý cao, mà đặc tính kỹ năng của Mikasa lại gây sát thương lớn lên mục tiêu như vậy. Dùng combo [E-Mũi Lao Móc] và [Space-Lốc Kiếm] để dồn một lượng sát thương cực lớn lên Người Sói.",
+  "balance": {
+    "status": "ok",
+    "reason": "Lì và hút máu mạnh, Space khiêu khích 3 giây theo nhóm là khống chế cứng hiếm có. Đổi lại tầm đánh, tốc chạy và sát thương đều thấp (hạng chỉ số thân 70/91), Space hồi 30 giây và không có kết liễu.",
+    "suggestion": "Giữ nguyên. Code đặt khiêu khích 3 giây theo mô tả, trong khi BuffTemplate 314303 ghi 2,5 giây. Nếu Người Sói thắng giao tranh tổng quá dễ thì đưa về 2,5 giây theo bảng."
+  },
+  "evidence": [
+    "server/wolf_actions.py:_hit — hút 0.25 + 0.25 × tỉ lệ máu đã mất (kỹ năng); sát thương chuẩn 5% máu hiện tại của mục tiêu, tối đa một lần mỗi 250 ms",
+    "server/wolf_actions.py:_taunt — duration=3000, trong khi BuffTemplate 314303 iPersistTime 2500",
+    "battle_runtime.py:damage — đánh thường lên mục tiêu có BuffTemplate 314101 bị giảm 0.6 × tỉ lệ máu đã mất",
+    "server/wolf_actions.py:on_basic_damage — 25% cơ hội kích hoạt R; cast Space 2.68 + 10% máu đã mất, bán kính 192"
+  ]
+}

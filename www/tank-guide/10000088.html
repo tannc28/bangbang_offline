@@ -1,0 +1,129 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Gilgamesh · Cẩm nang tank</title><meta name="description" content="Pháp sư năng lượng gây sát thương diện rộng và dồn dập: E trút vũ khí xuống một vùng 3 giây, Space phóng 40 món binh khí theo một hướng trong 4 giây; trúng đủ 7 đòn trong 2 giây là mục tiêu bị khóa chân.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/54c1fcbd8ae5ecab6c6f2a149ea1d5e9.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Vị vua lâu đời nhất, có tất cả mọi thứ.</div>
+<h2 class="page-title">Gilgamesh</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-blue-lt">Cần theo dõi</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Tiêu Hao ST Nhóm</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000080.html">← Doraemon</a>
+<a class="btn" href="10000078.html">Mikasa →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-blue bg-blue-lt mb-3"><b>Pháp sư năng lượng gây sát thương diện rộng và dồn dập: E trút vũ khí xuống một vùng 3 giây, Space phóng 40 món binh khí theo một hướng trong 4 giây; trúng đủ 7 đòn trong 2 giây là mục tiêu bị khóa chân.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-blue"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-blue-lt">Cần theo dõi</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thuộc nhóm cuối, nhưng Space có thể gây tới 2.880% công lên một mục tiêu nên chưa thể gọi là yếu. Vấn đề là hai mô tả tự mâu thuẫn: R ghi 5 đòn và sát thương chuẩn 15% máu đã mất, nội tại ghi 7 đòn và chỉ làm chậm. Code theo bản 7 đòn, không có sát thương chuẩn, nên chưa chắc đây là thiết kế mong muốn.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Cần quyết định bản mô tả nào là đúng. Nếu theo R (5 đòn, thêm 15% máu đã mất), Gilgamesh sẽ mạnh lên rõ, nên đo lại Space sau khi sửa.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3535</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">158 / 185</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">330 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">28</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#82/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5556</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">330</span></div><div class="progress progress-sm" title="Hơn 18% số tank"><div class="progress-bar bg-red" style="width:18%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/a4ebc08635ac5c4ce3d5e6fc6b28ab42.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Enuma Elish</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Triệu hồi Enuma Elish liên tục tấn công tại nơi chỉ định trong 3s, cứ 0.3s gây #EN_60%_ER# ST Năng LƯợng, tất cả địch trong khu vực nhận giảm tốc 30%.
+
+Sát thương lên kiến trúc giảm 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/840669b07216d2bf76bbfd8952af1b7a.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Khóa Thần</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng Thực
+VP Bay: Không
+
+Skill này gồm hiệu quả chủ động và bị động.
+
+Bị Động: Nếu trong 2s Gilgamesh gây 5 lần ST Skill lên cùng 1 mục tiêu, kích hoạt Khóa Thần, gây lên mục tiêu này thêm ST Thực bằng 15% HP mục tiêu đã mất, đồng thời khiến họ giảm tốc 100%(Giảm dần theo thời gian), kéo dài 1.5s. Hiệu quà này trong 3s chỉ được kích hoạt 1 lần.
+
+Chủ Động: Khóa Thần giúp bản thân nhận Khiên trong 4s, tối đa hút sát thương bằng 20% giới hạn HP. Đồng thời trong 4s, Công bản thân tăng 15%, tốc độ tăng 40%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/a48043525a59b63849871596eb78dd1f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Kho Báu Nhà Vua</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Tụ lực 0.3s lấy ra 40 món Binh Khí (lúc này sẽ không bị khống chế), liên tục tấn công về phía chỉ định trong 4s, mỗi món Binh Khí sẽ gây #EN_72%_ER# ST Năng Lượng.
+
+Trong quá trình thi triển có thể di chuyển và tốc độ tăng 40%, nhưng không thể tấn công thường, không thể thi triển skill [E Enuma Elish].</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/840669b07216d2bf76bbfd8952af1b7a.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Khóa Thần</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Skill này gồm hiệu quả chủ động và bị động.
+
+Bị Động: Nếu trong 2s Gilgamesh gây 7 lần ST Skill lên cùng 1 mục tiêu, thì người này sẽ bị giảm tốc 50% trong 2s. Kẻ địch bị giảm tốc trong 3s sau đó sẽ không bị ảnh hưởng bởi hiệu quả này.
+
+Chủ Động: Khóa Thần giúp bản thân nhận Khiên trong 3s, tối đa hút sát thương bằng 20% giới hạn HP. Đồng thời trong 3s, Công bản thân tăng 15%, tốc độ tăng 40%.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Space phóng 40 món binh khí trong 4 giây (0,1 giây một món), mỗi món 72% công, bay 840 và xuyên tường; mục tiêu đứng trong đường bắn ăn đủ thì lên tới 2.880% công.</li><li>Trong Space vẫn chạy được, nhanh hơn 40%, và không bị khống chế trong 0,3 giây tụ lực.</li><li>E đặt vùng bán kính 144 ở xa tới 600: 10 nhịp mỗi 0,3 giây, mỗi nhịp 60% công (tổng 600%), làm chậm 30% cộng dồn tới 60%.</li><li>Nội tại: gây sát thương 7 lần lên cùng một mục tiêu trong 2 giây thì mục tiêu bị chậm 100% (giảm dần) trong 2 giây. E và Space đều đạt mốc này rất nhanh.</li><li>R cho khiên 20% máu tối đa, +15% công và +40% tốc chạy trong 4 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank thuộc nhóm cuối (hạng 82/91): bắn 1.000 ms một phát, sát thương mỗi giây 330, máu hiệu dụng 5.556.</li><li>Trong Space không đánh thường và không dùng được E.</li><li>Binh khí Space bay theo hướng chọn lúc bấm; mục tiêu bước ra khỏi làn bắn hẹp là mất phần lớn sát thương.</li><li>Ngoài R, Gilgamesh không có chiêu thoát thân hay giải khống chế.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Đặt E lên chỗ địch đang bị đồng đội giữ chân để trúng đủ 10 nhịp và kích hoạt khóa chân của nội tại.</li><li>Bật Space khi mục tiêu đang bị chậm hoặc bị khóa chân, nhắm theo hướng nó buộc phải đi qua.</li><li>Dùng R trước khi lao lên bắn Space: khiên 20% máu và +40% tốc chạy giúp giữ vị trí suốt 4 giây.</li><li>Đứng sau đồng đội tuyến đầu, Gilgamesh mỏng và không có chiêu thoát thân.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Thấy Space thì bước ngang ra khỏi làn bắn, đừng chạy dọc theo hướng binh khí bay.</li><li>Ra khỏi vùng E bán kính 144 ngay, mỗi nhịp đứng lại vừa ăn sát thương vừa bị chậm thêm.</li><li>Dùng chiêu chặn hoặc xóa đạn để vô hiệu binh khí của Space.</li><li>Áp sát Gilgamesh lúc R đang hồi; nó bắn chậm và không có cách thoát.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chsu ý né xa khu vực tuyệt chiêu của Gilgamesh.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000066.html">Edwina Knight</a>. Khả năng xóa đạn của Edwina Knight khiến toàn bộ sát thương của Gilgamesh thành công cốc.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/gilgamesh_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/gilgamesh_actions.py:_hit — đủ 7 đòn trong 2000 ms thì BuffTemplate 362107 (fEffectValA −1, giảm dần) 2000 ms; không có sát thương chuẩn</li><li>server/gilgamesh_actions.py:_event &#x27;gil_weapon&#x27; — 40 món mỗi 100 ms, 0.72 × công, SkillTemplate 362501 iFlyRange 840</li><li>server/gilgamesh_actions.py:_event &#x27;gil_field&#x27; — 10 nhịp 300 ms, 0.6 × công, bán kính 144; BuffTemplate 362203 −0.3, mỗi tầng −0.06</li><li>BuffTemplate 362402 fFixParam 0.2 iPersistTime 4000 (khiên R); 362401 +15% công; 362302/362403 +40% tốc chạy</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [43, 18, 17, 49, 36]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Gilgamesh",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

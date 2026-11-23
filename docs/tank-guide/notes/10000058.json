@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư năng lượng tầm trung, khống chế bằng hóa đá. Mọi đòn trúng đều tích dấu Nguyền Rủa, đủ 5 dấu là hóa đá; R hóa đá cả hình quạt, Space vừa xả rắn xuyên tường vừa miễn sát thương năng lượng.",
+  "strengths": [
+    "Nội tại: đòn thường và chiêu trúng đều cướp 5 năng lượng của mục tiêu, tích 1 dấu Nguyền Rủa (giảm 10% xuyên giáp mỗi dấu, tối đa 5 dấu); đủ 5 dấu là hóa đá 0,5 giây.",
+    "E có 2 lượt tích: rắn đuổi mục tiêu xuyên tường, nảy tối đa 5 mục tiêu trong bán kính 336, lần đầu 151% công năng lượng, mỗi lần nảy +10% sát thương và rút 0,8 giây hồi chiêu E.",
+    "R: sau 0,5 giây hóa đá 1 giây mọi địch trong hình quạt 60° tầm 480, gây 187% công năng lượng.",
+    "Space: mỗi 0,5 giây tốn 25 năng lượng, bắn 3 rắn xuyên tường (100% công mỗi con, có thể xoay hướng bằng chuột) và giữ khiên miễn sát thương năng lượng.",
+    "Chạy 175, nhanh hơn khoảng 88% số tank."
+  ],
+  "weaknesses": [
+    "Mỏng: máu hiệu dụng 5.301, chỉ hơn khoảng 31% số tank.",
+    "Đòn thường 1.000 ms một phát, gần chậm nhất game.",
+    "Khiên Space chỉ chặn sát thương năng lượng; sát thương vật lý vẫn ăn trọn. Trong lúc Space không đánh thường được, chậm 25%, và bị khống chế là đứt.",
+    "Năng lượng hồi chậm: tối đa 150, hồi 10 mỗi 3 giây; một lần Space trọn vẹn chỉ khoảng 3 giây (6 nhịp)."
+  ],
+  "tips": [
+    "Mở R trước rồi bắn E: mục tiêu hóa đá 1 giây không né được rắn, và các lượt trúng dồn dấu lên 5 để hóa đá thêm 0,5 giây.",
+    "Dùng E khi địch đứng gần nhau trong bán kính 336: mỗi lần nảy rút 0,8 giây hồi chiêu E.",
+    "Bật Space khi đối đầu tank sát thương năng lượng: khiên miễn trọn sát thương đó.",
+    "Đánh tank dùng năng lượng (Pea Shooter, Spider Man): mỗi lần trúng cướp 5 năng lượng, E cướp thêm 10."
+  ],
+  "counters": [
+    "Dùng sát thương vật lý: khiên của Medusa không chặn được.",
+    "Khống chế ngay khi nó bật Space: chiêu bị ngắt và mất khiên.",
+    "Né sang hai bên khi thấy R chuẩn bị (0,5 giây): hình quạt chỉ rộng 60°.",
+    "Áp sát nhanh: Medusa mỏng máu và bắn thường chậm."
+  ],
+  "counter_why": "Khiên của Medusa chỉ miễn sát thương năng lượng. Sát thủ tàng hình áp sát rồi mở Space Đòn Chí Mạng, gây sát thương vật lý bùng nổ, thường hạ gục Medusa chỉ trong một đòn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank giữa bảng (hạng 48/91), bù lại bằng nhiều khống chế: R hóa đá 1 giây theo vùng và hóa đá 0,5 giây khi đủ 5 dấu. Điểm yếu rõ ràng (mỏng, khiên chỉ chặn năng lượng, Space bị ngắt) giữ cho kit cân bằng.",
+    "suggestion": "Giữ nguyên. Mô tả tự mâu thuẫn về năng lượng (R ghi 5 mỗi giây, nội tại ghi 10 mỗi 3 giây; code dùng 10 mỗi 3 giây) và về thời gian dấu (3 giây hay 2 giây; code để 2 giây) — nên sửa mô tả cho khớp code."
+  },
+  "evidence": [
+    "server/medusa_actions.py:_curse — 5 dấu → BuffTemplate 333125 hóa đá 500 ms; 333112 -10% xuyên giáp mỗi tầng; cướp 5 năng lượng",
+    "server/medusa_actions.py:on_bullet_hit — E nảy tối đa 5 mục tiêu, bán kính 336, × (1 + 0.1 × số lần trúng), e_next_charge - 800",
+    "server/medusa_actions.py:_event medusa_gaze — quạt ±30°, tầm 480, 1.87 × công, BuffTemplate 333402 hóa đá 1000 ms",
+    "server/medusa_actions.py:_event medusa_channel — 25 năng lượng mỗi 500 ms, 3 rắn × 100% công; BuffTemplate 333301 khiên (battle_runtime.damage_immune: chỉ school energy)",
+    "server/medusa_actions.py:_event medusa_regen — +10 năng lượng mỗi 3000 ms; facts stat_rank 48"
+  ]
+}

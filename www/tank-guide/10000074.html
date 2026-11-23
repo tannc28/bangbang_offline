@@ -1,0 +1,117 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Điêu Thuyền · Cẩm nang tank</title><meta name="description" content="Pháp sư tầm xa có sát thương dồn dập và nhiều đường thoát: ba lượt quạt Space bay đi bay về, mỗi quạt trúng lại rút ngắn hồi chiêu E và R. Thắng bằng cách quạt liên tục, mê hoặc kéo mục tiêu lại, và lướt E bất tử khi bị bắt.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/6275fda1743fe92ad4c071514e05069f.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Tuyệt sắc.</div>
+<h2 class="page-title">Điêu Thuyền</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-red-lt">Mạnh</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Mê Hoặc Sát Thương Nhóm</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000094.html">← Lạc Long Quân</a>
+<a class="btn" href="10000099.html">Hoa Mộc Lan →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-red bg-red-lt mb-3"><b>Pháp sư tầm xa có sát thương dồn dập và nhiều đường thoát: ba lượt quạt Space bay đi bay về, mỗi quạt trúng lại rút ngắn hồi chiêu E và R. Thắng bằng cách quạt liên tục, mê hoặc kéo mục tiêu lại, và lướt E bất tử khi bị bắt.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-red"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-red-lt">Mạnh</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank đã top 5, mà bộ chiêu còn cho bất tử 1 giây mỗi lần E, hút máu 25%, khống chế mê hoặc, và ba lượt quạt có thể gây tới 720% công lên một mục tiêu mỗi lượt. Mỗi quạt trúng giảm 30% hồi chiêu E và R, nên ba quạt trúng là E và R gần như hồi xong, tức bất tử lặp lại rất dày.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giới hạn phần giảm hồi chiêu: chỉ tính một lần cho mỗi lượt Space thay vì mỗi quạt, hoặc giảm 30% xuống 10% mỗi quạt. Code khác mô tả: E bất tử 1 giây trong khi BuffTemplate 348202 ghi 0,5 giây; dấu nội tại trói 0,5 giây (mô tả Nội tại ghi 1 giây).</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4175</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">162 / 179</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">383 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">30</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#5/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">6548</span></div><div class="progress progress-sm" title="Hơn 62% số tank"><div class="progress-bar bg-lime" style="width:62%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">426</span></div><div class="progress progress-sm" title="Hơn 78% số tank"><div class="progress-bar bg-lime" style="width:78%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b73b807f3646e61957ef076fff5c2993.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Thiên Nữ</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+</div>
+<div class="skill-desc">Lướt đến vị trí chỉ định và được bất tử 1 giây. Triệu hồi 4 hoa tự động tấn công; ưu tiên Tank địch, nếu không có Tank thì tìm NPC địch, không chọn vật phẩm. Mỗi hoa gây 50% Công năng lượng.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/31f6ecde165191e8abcd7ad2b57a36f3.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Khuynh Quốc Khuynh Thành</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động: Skill đánh trúng mục tiêu nhận Ấn Ký Loạn Thế, cộng dồn đến 5 lần sẽ gây lên địch #EN_100%_ER# ST Thực và khiến địch định thân 0.5s. 
+
+Chuyển 25% ST từ skill thành HP Điêu Thuyền.
+
+Chủ động: Thi triển tim mê hoặc địch, tim sẽ xuyên qua kiến trúc và vật cản, gây #EN_152%_ER# ST năng Lượng lên địch đầu tiên bị đánh trúng. Kẻ địch này trong 1s vào trạng thái Mê Hoặc, di chuyển chậm về Điêu Thuyền, trong thời gian đó không thể tấn công thường và thi triển skill.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/6aee575f966a21dacde9ba9e385168b3.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Phiến Vũ</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Ném 3 quạt theo hướng chỉ định; quạt gây 60% Công năng lượng lúc bay đi và 180% khi bay về. Mỗi quạt trúng giảm 30% hồi chiêu của E và R. Tích trữ tối đa 3 lượt, khoảng cách giữa hai lần dùng là 3 giây. Sát thương lên công trình giảm 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d30f34cd78d1060c005bebf99cac4e34.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Loạn Thế</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Sau khi skill đánh trúng mục tiêu sẽ cộng dồn Ấn Ký, dồn đến 5 lần sẽ kích hoạt ST thêm và định thân 1s, đồng thời chuyển 25% mọi ST từ skill thành HP cho Điêu Thuyền</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Chỉ số thân tank hạng 5/91: công năng lượng 383, máu 4.175, máu hiệu dụng 6.548 (hơn khoảng 62% số tank).</li><li>Space có 3 lượt, cách nhau 3 giây: ném 3 quạt lệch nhau 15°, mỗi quạt gây 60% công lúc bay đi và 180% lúc quay về. Mỗi quạt trúng giảm 30% hồi chiêu còn lại của E và R.</li><li>E lướt 360, bất tử 1 giây, tăng 25% tốc chạy, rồi gọi 4 cánh hoa tự bắn, mỗi cánh 50% công.</li><li>R bắn tim xuyên tường 152% công: mục tiêu bị mê hoặc 1 giây, tự đi về phía Điêu Thuyền, không đánh, không dùng chiêu được, rồi bị chậm 50% trong 1,5 giây.</li><li>Mọi chiêu hút 25% sát thương thành máu. Chiêu trúng 5 lần lên cùng mục tiêu thì nổ sát thương chuẩn 100% công trong bán kính 192 và trói chân 0,5 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Hầu hết sát thương cần chiêu chạm người: né được quạt là mất cả sát thương lẫn phần giảm hồi chiêu.</li><li>E, R, Space đều cần 0,1 giây đứng yên để ra chiêu; bị câm lặng đúng lúc đó là chiêu bị hủy.</li><li>Tầm 480 chỉ trung bình; tank có chiêu kéo hoặc lướt dài bắt được cô.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Ném quạt ở khoảng gần để cả 3 quạt cùng trúng một mục tiêu, rồi đứng yên chờ quạt quay về.</li><li>Mở bằng R mê hoặc để mục tiêu đi vào tầm quạt, sau đó xả Space.</li><li>Giữ E để né chiêu lớn: 1 giây bất tử đủ né phần lớn đòn bộc phát.</li><li>Đếm dấu: lần trúng thứ 5 cho sát thương chuẩn và trói 0,5 giây, dùng để nối combo.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Kéo hoặc lao vào sát Điêu Thuyền: cô mất lợi thế tầm xa và quạt khó trúng.</li><li>Di chuyển ngang khi thấy quạt bay ra, rồi tránh xa đường quạt quay về Điêu Thuyền.</li><li>Khống chế lúc cô vừa dùng E xong: 6 giây sau mới có lại bất tử, trừ khi quạt kịp trúng.</li><li>Dùng hiệu ứng giảm hồi máu để cắt 25% hút máu từ chiêu.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Cố gắng tránh bị [R-Khuynh Thành] Điêu Thuyền khống chế; quạt của [Space-Phiến Vũ] bay đi bay về gây sát thương nặng, chú ý di chuyển tránh né.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000038.html">Ghost Rider</a>. [E - Móng sắt] của Ghost Rider kéo Điêu Thuyền lại gần, khiến cô mất lợi thế tầm xa, không kịp tung mê hoặc và quạt.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/diaochan_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/diaochan_actions.py:diao_cast — 3 quạt lệch ±15°, tầm 480, 0.6 × công năng lượng; quạt quay về 1.8 ×</li><li>server/diaochan_actions.py:_impact — quạt trúng thì hồi chiêu E/R còn lại × 0.7; lifesteal 0.25; R mê hoặc 348402 1000 ms, chậm 348403 50% 1500 ms</li><li>server/diaochan_actions.py:_mark — 4 dấu rồi lần thứ 5 nổ sát thương chuẩn 1 × công bán kính 192, trói 348123 500 ms</li><li>server/diaochan_actions.py:diao_cast slot 1 — bất tử 348202 duration 1000 ms (bảng 500 ms), 4 cánh hoa 0.5 × mỗi 150 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [62, 78, 43, 49, 61]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Điêu Thuyền",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

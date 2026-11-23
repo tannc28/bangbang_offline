@@ -1,0 +1,127 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Joker · Cẩm nang tank</title><meta name="description" content="Pháp sư vật lý tầm trung chuyên dồn sát thương vùng bằng hộp quà nổ chậm. Mỗi chiêu trúng hồi 8% máu và rút 8% thời gian hồi chiêu, nên giao tranh càng đông, Joker càng xoay chiêu nhanh và càng khó chết.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/d70f40a208066af979c78bda7107242c.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Đoán xem, người mà ngươi đang đánh có thật là ta không?</div>
+<h2 class="page-title">Joker</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Phân Thân Khống Chế</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000079.html">← Thủy Tinh</a>
+<a class="btn" href="10000095.html">Kurumi →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư vật lý tầm trung chuyên dồn sát thương vùng bằng hộp quà nổ chậm. Mỗi chiêu trúng hồi 8% máu và rút 8% thời gian hồi chiêu, nên giao tranh càng đông, Joker càng xoay chiêu nhanh và càng khó chết.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank cao (hạng 16/91) và E rất mạnh (354% vùng, nhiều lượt tích), nhưng mọi sát thương đều có 1 giây báo trước hoặc là đạn bay, và Joker chạy gần chậm nhất game. Vòng hồi máu và hồi chiêu chỉ chạy khi chiêu trúng.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ code ở 3 lượt tích E. SkillTemplate 451201 và mô tả ghi 5 lượt; nếu ai đó sửa code cho khớp bảng thì E (5 × 354%, mỗi lần trúng hồi 8% máu) sẽ quá mạnh. Nên sửa mô tả về 3 lượt thay vì sửa code.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3780</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">176 / 168</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">370 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">26</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">850 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#16/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5947</span></div><div class="progress progress-sm" title="Hơn 51% số tank"><div class="progress-bar bg-yellow" style="width:51%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">435</span></div><div class="progress progress-sm" title="Hơn 82% số tank"><div class="progress-bar bg-green" style="width:82%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">155</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/6b5ca4ea161319b347c7fe598ddab511.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Hộp Quà Ma Quái</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+<span class="badge bg-purple-lt">5 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Ném ra một hộp quà, sau 1s hộp sẽ phát nổ, gây cho tất cả địch xung quanh 354% ST Vật Lý, giảm tốc 50% trong 1.5s(Hiệu quả giảm theo thời gian). 
+
+Skill này được cộng dồn tối đa 5 lần. Khoảng cách sử dụng là 1s.
+-----------------------------------------------
+ST lên kiến trúc sẽ giảm 75%。</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b256f4cdaa83b281796b076a5d386eda.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Ảo Ảnh</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 336</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này bao gồm hiệu quả chủ động và bị động.
+
+Bị Động: Skill đánh trúng mục tiêu hoặc phân thân, mỗi lần nhận ST bằng 8% giới hạn HP sẽ giảm 8% CD tất cả skill của Joker.
+
+Chủ Động: Hiện thân tại nơi chỉ định cự ly ngắn, giữ một phân thân ở tại chỗ, bản thân tàng hình 2s. Sau 2s phân thân tử vong sẽ tạo 270% sát thương Vật Lý cho mục tiêu xung quanh.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/37ad987511705fe5b6195690a0017b42.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Lá Bài Phép Thuật</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý Thực
+VP Bay: Có
+
+Ném hạt giống về phía mục tiêu, tạo 412% ST Vật Lý và ký sinh lên địch.
+
+Hạt giống ký sinh trong 0.5s bắt đầu xâm nhập vào mục tiêu, khiến địch trong 3s vào trạng thái Xé Rách Linh Hồn, cố gắng di chuyển sẽ mất máu liên tục. Mỗi lần di chuyển 24 ô sẽ nhận 36% ST Thực.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Sức mạnh Joker</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP bay:Không
+
+Skill đánh trúng mục tiêu, Joker giảm 8% CD mọi skill và hồi 8% HP.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Chỉ số thân tank hạng 16/91: sát thương mỗi giây hơn 82% số tank, máu 3.780.</li><li>E ném hộp quà tầm 600, nổ sau 1 giây trong bán kính 144: 354% công vật lý và làm chậm 50% (giảm dần) trong 1,5 giây. Code cho 3 lượt tích, mỗi lần ném cách nhau 1 giây.</li><li>Nội tại: chiêu trúng là hồi 8% máu tối đa và rút 8% thời gian hồi còn lại của E, R, Space (tối đa một lần mỗi 0,25 giây). Phân thân mất 8% máu cũng kích hoạt hiệu ứng này.</li><li>Space: hạt giống bay xuyên tường, 412% công vật lý, sau 0,5 giây gắn Xé Rách Linh Hồn 3 giây: mỗi 24 đơn vị mục tiêu di chuyển là chịu 36% công sát thương thực, mỗi lần đều kích hoạt nội tại.</li><li>R: dịch chuyển tối đa 336, để lại phân thân cùng máu và chỉ số, bản thân không thể bị chọn trong 2 giây; phân thân chết hoặc hết 2 giây thì nổ 270% công bán kính 144.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chạy 155, chậm hơn gần như mọi tank (chỉ hơn khoảng 2%).</li><li>Hộp quà nổ sau 1 giây: mục tiêu nhanh nhẹn bước ra khỏi bán kính 144 là né trọn.</li><li>Tàng hình của R mất ngay khi Joker bắn hoặc dùng chiêu, và bị gỡ khi dính hiệu ứng lộ diện.</li><li>Hồi máu và giảm hồi chiêu chỉ đến khi chiêu trúng: bị né liên tục thì Joker vừa yếu vừa chậm chiêu.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Ném hộp quà vào chỗ địch buộc phải đứng hoặc ngay sau khi đồng đội khống chế: 1 giây chờ nổ là điểm yếu duy nhất của E.</li><li>Bắn Space vào mục tiêu đang phải chạy (đang rút lui hoặc đuổi theo): càng chạy càng mất máu, và mỗi nhịp đều hồi máu cho Joker.</li><li>Dùng R để thoát hoặc để mồi: để phân thân lại chỗ địch đang dồn, chúng đánh phân thân thì vừa rút hồi chiêu cho Joker vừa ăn cú nổ 270%.</li><li>Giao tranh đông người là lúc Joker mạnh nhất: mỗi mục tiêu trúng đều là thêm một lần hồi máu và rút hồi chiêu.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Né hộp quà bằng cách liên tục đổi vị trí; có 1 giây báo trước.</li><li>Khi dính Space, đứng yên hoặc chỉ di chuyển khi cần né: 3 giây đó mỗi bước đi đều mất máu thực.</li><li>Đừng dồn chiêu vào phân thân: mỗi 8% máu nó mất là Joker được hồi máu và rút hồi chiêu.</li><li>Dùng hiệu ứng lộ diện hoặc tàng hình áp sát (như Sát thủ) để bắt Joker lúc nó đứng một mình.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Khi trúng [Space - Đậu Vương Xuất Kích] của địch, hãy hạn chế di chuyển và chỉ né kỹ năng sát thương lớn; di chuyển nhiều sẽ khiến bạn bị hạ nhanh hơn.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000048.html">Sát thủ</a>. Sát thủ tận dụng tàng hình để lặng lẽ áp sát Joker, rồi dùng sát thương bùng nổ hạ gục nó trong chớp mắt.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/joker_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/joker_actions.py:__init__/update — e_count tối đa 3, mỗi lượt 8000 ms, cách nhau 1000 ms (SkillTemplate 451201 iStackCount 5)</li><li>server/joker_actions.py:_area — bán kính 144, 3.54 × công vật lý, BuffTemplate 451204 chậm 50% 1500 ms</li><li>server/joker_actions.py:_proc — hồi max_hp × 0.08, thời gian hồi còn lại × 0.92, giới hạn mỗi 250 ms</li><li>server/joker_actions.py:_event joker_tear — 0.36 × công sát thương thực mỗi 24 đơn vị di chuyển, 3000 ms</li><li>server/joker_actions.py:cast slot 10 / JokerClone — dịch chuyển 336, BuffTemplate 451403 tàng hình 2000 ms, phân thân nổ 2.7 × công bán kính 144</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [51, 82, 2, 49, 51]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Joker",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,40 @@
+{
+  "summary": "Pháp sư năng lượng gây sát thương diện rộng và dồn dập: E trút vũ khí xuống một vùng 3 giây, Space phóng 40 món binh khí theo một hướng trong 4 giây; trúng đủ 7 đòn trong 2 giây là mục tiêu bị khóa chân.",
+  "strengths": [
+    "Space phóng 40 món binh khí trong 4 giây (0,1 giây một món), mỗi món 72% công, bay 840 và xuyên tường; mục tiêu đứng trong đường bắn ăn đủ thì lên tới 2.880% công.",
+    "Trong Space vẫn chạy được, nhanh hơn 40%, và không bị khống chế trong 0,3 giây tụ lực.",
+    "E đặt vùng bán kính 144 ở xa tới 600: 10 nhịp mỗi 0,3 giây, mỗi nhịp 60% công (tổng 600%), làm chậm 30% cộng dồn tới 60%.",
+    "Nội tại: gây sát thương 7 lần lên cùng một mục tiêu trong 2 giây thì mục tiêu bị chậm 100% (giảm dần) trong 2 giây. E và Space đều đạt mốc này rất nhanh.",
+    "R cho khiên 20% máu tối đa, +15% công và +40% tốc chạy trong 4 giây."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank thuộc nhóm cuối (hạng 82/91): bắn 1.000 ms một phát, sát thương mỗi giây 330, máu hiệu dụng 5.556.",
+    "Trong Space không đánh thường và không dùng được E.",
+    "Binh khí Space bay theo hướng chọn lúc bấm; mục tiêu bước ra khỏi làn bắn hẹp là mất phần lớn sát thương.",
+    "Ngoài R, Gilgamesh không có chiêu thoát thân hay giải khống chế."
+  ],
+  "tips": [
+    "Đặt E lên chỗ địch đang bị đồng đội giữ chân để trúng đủ 10 nhịp và kích hoạt khóa chân của nội tại.",
+    "Bật Space khi mục tiêu đang bị chậm hoặc bị khóa chân, nhắm theo hướng nó buộc phải đi qua.",
+    "Dùng R trước khi lao lên bắn Space: khiên 20% máu và +40% tốc chạy giúp giữ vị trí suốt 4 giây.",
+    "Đứng sau đồng đội tuyến đầu, Gilgamesh mỏng và không có chiêu thoát thân."
+  ],
+  "counters": [
+    "Thấy Space thì bước ngang ra khỏi làn bắn, đừng chạy dọc theo hướng binh khí bay.",
+    "Ra khỏi vùng E bán kính 144 ngay, mỗi nhịp đứng lại vừa ăn sát thương vừa bị chậm thêm.",
+    "Dùng chiêu chặn hoặc xóa đạn để vô hiệu binh khí của Space.",
+    "Áp sát Gilgamesh lúc R đang hồi; nó bắn chậm và không có cách thoát."
+  ],
+  "counter_why": "Khả năng xóa đạn của Edwina Knight khiến toàn bộ sát thương của Gilgamesh thành công cốc.",
+  "balance": {
+    "status": "review",
+    "reason": "Chỉ số thân tank thuộc nhóm cuối, nhưng Space có thể gây tới 2.880% công lên một mục tiêu nên chưa thể gọi là yếu. Vấn đề là hai mô tả tự mâu thuẫn: R ghi 5 đòn và sát thương chuẩn 15% máu đã mất, nội tại ghi 7 đòn và chỉ làm chậm. Code theo bản 7 đòn, không có sát thương chuẩn, nên chưa chắc đây là thiết kế mong muốn.",
+    "suggestion": "Cần quyết định bản mô tả nào là đúng. Nếu theo R (5 đòn, thêm 15% máu đã mất), Gilgamesh sẽ mạnh lên rõ, nên đo lại Space sau khi sửa."
+  },
+  "evidence": [
+    "server/gilgamesh_actions.py:_hit — đủ 7 đòn trong 2000 ms thì BuffTemplate 362107 (fEffectValA −1, giảm dần) 2000 ms; không có sát thương chuẩn",
+    "server/gilgamesh_actions.py:_event 'gil_weapon' — 40 món mỗi 100 ms, 0.72 × công, SkillTemplate 362501 iFlyRange 840",
+    "server/gilgamesh_actions.py:_event 'gil_field' — 10 nhịp 300 ms, 0.6 × công, bán kính 144; BuffTemplate 362203 −0.3, mỗi tầng −0.06",
+    "BuffTemplate 362402 fFixParam 0.2 iPersistTime 4000 (khiên R); 362401 +15% công; 362302/362403 +40% tốc chạy"
+  ]
+}

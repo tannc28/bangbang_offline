@@ -1,0 +1,41 @@
+{
+  "summary": "Hỗ trợ năng lượng tầm xa: đòn thường bay xuyên tường, nổ vừa gây sát thương vừa hồi máu đồng đội. Thắng nhờ E cho địch ngủ đông 4 giây và Space Time Back: 2 giây sau, đồng đội được trả máu về đúng lúc nhận dấu.",
+  "strengths": [
+    "Đòn thường bay tới 720, xuyên tường, nổ bán kính 144: gây 50% đến 100% công năng lượng tùy khoảng cách (xa hơn thì mạnh hơn; từ 720 trở lên bỏ qua mọi hiệu ứng giảm sát thương), và hồi máu bằng 100% công cho mọi đồng đội trong vùng nổ.",
+    "E bay xuyên tường tầm 720: 175% công năng lượng và cho mục tiêu ngủ đông 4 giây; sát thương chỉ đánh thức nó sau khi đã ngủ được 1 giây.",
+    "Space: mọi đồng đội (cả bản thân) trong bán kính 300 nhận dấu 2 giây, giảm 25% sát thương kỹ năng nhận vào; hết 2 giây máu trở về đúng mức lúc nhận dấu. Đồng đội dùng năng lượng được +100 năng lượng; bản thân +150% tốc đánh trong 4 giây.",
+    "R: đặt Thủ Hộ Thời Gian có 50% máu tối đa, mỗi giây hồi 75% công năng lượng cho đồng đội trong bán kính 300; nó tự mất 8% máu mỗi giây."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 76/91; đòn thường 1.000 ms một phát, gần chậm nhất game.",
+    "Đạn có hạn: mỗi phát tốn 20 trên 100 năng lượng; hết thì 1 giây không bắn được. Năng lượng chỉ tự hồi (10 mỗi 0,5 giây) khi đã ra khỏi giao tranh 4 giây.",
+    "Time Back trả máu về mức cũ cả khi đồng đội đã được hồi thêm trong 2 giây đó.",
+    "Không có chiêu lướt hay miễn nhiễm cho bản thân; Time Back cũng không cứu được ai chết trước khi hết 2 giây."
+  ],
+  "tips": [
+    "Bắn đòn thường vào địch đứng gần đồng đội: một phát vừa gây sát thương vừa hồi máu cho họ.",
+    "Đứng xa khi rỉa máu: ở khoảng cách 720 đòn thường gây trọn 100% công và bỏ qua giảm sát thương.",
+    "Cho mục tiêu nguy hiểm nhất ngủ đông bằng E, rồi nhắc đồng đội đừng đánh nó trong giây đầu tiên.",
+    "Bật Space ngay khi đồng đội bắt đầu bị dồn sát thương, không phải sau khi họ đã được hồi đầy."
+  ],
+  "counters": [
+    "Dồn sát thương bùng nổ để hạ đồng đội trước khi hết 2 giây Time Back.",
+    "Phá Thủ Hộ Thời Gian sớm: nó chỉ có 50% máu tối đa của Nữ Thần và còn tự mất máu.",
+    "Ép nó giao tranh liên tục để năng lượng không tự hồi.",
+    "Áp sát và giữ chân: Nữ Thần không có chiêu thoát thân."
+  ],
+  "counter_why": "Hỏa Thần có sát thương bùng nổ đủ cao để hạ gục nhanh Nữ Thần Thời Gian trước khi Time Back kịp có hiệu lực.",
+  "against": "Nữ Thần Thời Gian rỉa máu từ xa rất khó chịu, hãy cảnh giác hiệu ứng ngủ đông của Nhiễu Thời Gian!",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm cuối (hạng 76/91) là bình thường cho một hỗ trợ. Bộ chiêu bù lại đủ: hồi máu theo vùng, ngủ đông 4 giây mỗi 8 giây và Time Back cứu cả đội trước một đợt dồn sát thương.",
+    "suggestion": "Theo dõi E: ngủ đông 4 giây không bị đánh thức trong giây đầu, hồi chiêu chỉ 8 giây. Mô tả nội tại ghi nạp đạn sau 1,5 giây, R ghi 1 giây; code dùng 1 giây — nên sửa mô tả nội tại."
+  },
+  "evidence": [
+    "server/timegoddess_actions.py:_impact — bán kính 144, factor 0.5 + khoảng cách/1440 (tối đa 1.0 ở 720), ignore_reductions khi ≥ 720; hồi power cho đồng đội trong vùng",
+    "BuffTemplate 389202 ngủ đông (nEffectType 30) 4000 ms; battle_runtime.py: sát thương chỉ gỡ ngủ đông sau 1000 ms",
+    "server/timegoddess_actions.py:cast slot 2 / _event time_rewind — bán kính 300, sau 2000 ms commit_hp(hp lúc nhận dấu); BuffTemplate 389305 -25% sát thương kỹ năng, 389304 +150% tốc đánh 4000 ms",
+    "server/timegoddess_actions.py:TimeGuardian — máu max_hp × 0.5, mất 8% mỗi giây, hồi iEgAtk × 0.75 mỗi giây bán kính 300",
+    "server/timegoddess_actions.py:cast slot 0 / time_reload / time_energy — 20 năng lượng mỗi phát, nạp lại sau 1000 ms, +10 mỗi 500 ms khi ngoài giao tranh 4000 ms"
+  ]
+}

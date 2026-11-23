@@ -1,0 +1,42 @@
+{
+  "summary": "Tank hỗ trợ cận chiến: nối dây hồi máu với một đồng đội, tự cứu người sắp chết bằng nội tại, và dùng Space bay xuyên bản đồ tới bảo vệ đồng đội rồi đẩy lùi mọi kẻ địch quanh đó. Thắng bằng cách giữ người gánh sát thương của đội sống sót.",
+  "strengths": [
+    "Space nhắm một đồng đội trong tầm 1.200: đồng đội đó được giảm 50% sát thương trong lúc chờ, Baymax bay tới gây 2,66 lần công và hất tung 1 giây mọi địch trên đường.",
+    "Tới nơi, cả Baymax và đồng đội nhận khiên bằng 50% máu tối đa của Baymax (khoảng 2.152) trong 5 giây, địch trong bán kính 216 bị đẩy lùi 240 đơn vị.",
+    "Sau đó 10 giây ở dạng Chiến Binh Siêu Năng: tốc chạy tăng 100%, cứ 0,5 giây gây 0,5 lần công và đẩy lùi địch trong bán kính 144.",
+    "Nội tại: đồng đội (kể cả bản thân) trong bán kính 360 tụt xuống 30% máu thì được hồi ngay 4,5 lần công và giảm 50% sát thương trong 2 giây, 30 giây một lần.",
+    "E có 3 lượt: bom rơi sau 0,5 giây, gây 2 lần công trong bán kính 120, đẩy lùi và làm chậm 50% trong 2 giây; trúng thì hoàn 25 năng lượng."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và bắn chậm (1.000 ms): sát thương đạn thường chỉ khoảng 308 mỗi giây, hơn khoảng 3% số tank.",
+    "Chỉ số thân tank hạng 84/91.",
+    "Dây hồi máu của R tốn 20 năng lượng lúc nối và 10 mỗi giây, năng lượng chỉ hồi 5 mỗi giây trên tổng 100; đứng xa nhau quá 360 là đứt dây.",
+    "Trong 10 giây dạng Chiến Binh Siêu Năng, Baymax không bắn đạn thường được.",
+    "Lượng hồi của nội tại và R tính theo công (308), không theo máu tối đa, nên hồi ít với tank nhiều máu."
+  ],
+  "tips": [
+    "Nối R với đồng đội tuyến đầu và đi sát phía sau họ, giữ khoảng cách dưới 360.",
+    "Dùng E trúng địch để nạp lại năng lượng cho R.",
+    "Giữ Space để cứu đồng đội đang bị dồn ở xa: khiên 50% máu Baymax cộng đẩy lùi cả nhóm địch thường lật được giao tranh.",
+    "Trong dạng Chiến Binh Siêu Năng, lao vào giữa địch để đẩy chúng ra khỏi đồng đội."
+  ],
+  "counters": [
+    "Thả diều ngoài tầm 336, Baymax không đuổi được khi không có Space.",
+    "Tách đồng đội ra xa Baymax hơn 360 để đứt dây R và nội tại không với tới.",
+    "Dồn sát thương lúc nội tại đang hồi 30 giây.",
+    "Dùng Dracula: Space hoán đổi máu biến lượng máu Baymax giữ được thành lợi thế của Dracula."
+  ],
+  "counter_why": "Baymax có khả năng hồi máu nên giữ được lượng máu khá tốt, nhưng Dracula có thể dùng Space Nghi Lễ Máu để hoán đổi lượng máu với nó và phản sát Baymax.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 84/91 và sát thương thấp, đúng vai hỗ trợ. Space (khiên 2 người, hất tung, đẩy lùi, 10 giây dạng siêu năng) và nội tại cứu người bù lại đủ cho vai trò.",
+    "suggestion": "Giữ nguyên. Mô tả ghi R hồi 100% HP mỗi giây và nội tại hồi 450% HP, nhưng code hồi theo 100% và 450% công vật lý; nên sửa mô tả cho rõ."
+  },
+  "evidence": [
+    "server/baymax_actions.py:_arrive — khiên 347321/347331 = max_hp*0.5 cho cả hai, đẩy 240 trong bán kính 216; dạng siêu năng 10000 ms, BuffTemplate 347325 +100% tốc chạy, 347326 khóa đạn thường",
+    "server/baymax_actions.py:_event bay_dash/bay_form — power*2.66 kèm BuffTemplate 347312 hất tung 1000 ms; mỗi 500 ms power*0.5 bán kính 144",
+    "server/baymax_actions.py:_emergency — hồi iAttack*4.5, BuffTemplate 347104 giảm 50% sát thương 2000 ms, 30000 ms hồi",
+    "server/baymax_actions.py:_event bay_link — mỗi giây -10 năng lượng, hồi power cho cả hai; cast slot 10 -20 năng lượng, tầm 336, đứt ở 360",
+    "facts: stat_rank 84, range 336 (pct 0.0), atk_per_s 308 (pct 0.033), ehp 7139 (pct 0.667)"
+  ]
+}

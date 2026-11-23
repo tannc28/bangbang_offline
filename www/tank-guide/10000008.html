@@ -1,0 +1,117 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Spider Man · Cẩm nang tank</title><meta name="description" content="Tank tầm xa năng lượng mỏng máu nhưng khó bắt: mỗi lần dùng chiêu là được 0,5 giây miễn sát thương trực tiếp. Thắng nhờ thả mạng nhện làm chậm, kéo địch sát lại, rồi mở Space để cả đội đánh mạnh hơn 30%.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/adf10c001f855324dd35f33225ba9fec.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Dùng khả năng tự thay thế của bản thân làm cách tấn công</div>
+<h2 class="page-title">Spider Man</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Chuyển Vị Trí Khống Chế</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000066.html">← Edwina Knight</a>
+<a class="btn" href="10000034.html">Hulk →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Tank tầm xa năng lượng mỏng máu nhưng khó bắt: mỗi lần dùng chiêu là được 0,5 giây miễn sát thương trực tiếp. Thắng nhờ thả mạng nhện làm chậm, kéo địch sát lại, rồi mở Space để cả đội đánh mạnh hơn 30%.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thuộc nhóm cuối (hạng 67/91, máu hiệu dụng chỉ hơn 12% số tank), nhưng bộ chiêu bù lại đủ: miễn sát thương 0,5 giây sau mỗi chiêu, E hồi máu, Space vừa khống chế vùng vừa tăng 30% sát thương cả đội nhận được lên địch.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Theo dõi tổ hợp R 3 lượt + Space (R hồi gấp 3): nếu Spider Man trong vùng Space gần như không bao giờ hết miễn nhiễm thì giảm tốc hồi chiêu trong vùng từ 200% xuống 100%.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★☆☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3290</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">128 / 155</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">380 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">55</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#67/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">4842</span></div><div class="progress progress-sm" title="Hơn 12% số tank"><div class="progress-bar bg-red" style="width:12%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">400</span></div><div class="progress progress-sm" title="Hơn 69% số tank"><div class="progress-bar bg-lime" style="width:69%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">408</span></div><div class="progress progress-sm" title="Hơn 37% số tank"><div class="progress-bar bg-orange" style="width:37%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/4e46f8d1e2ecb77c2d4dec197b8769fd.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Tơ Nhện Xung Kích</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+</div>
+<div class="skill-desc">Tính chất: Skill
+VP Bay: Không
+MP tiêu hao: 25
+
+Lướt theo hướng chỉ định trong khung hình chữ nhật, gây #EN_246%_ER# sát thương năng lượng lên mọi địch va phải và làm chậm 50%. Mỗi mục tiêu trúng chiêu hồi #EN_75%_ER# công năng lượng HP cùng 25 điểm năng lượng. Đi qua Mạng Nhện sẽ hấp thu mạng đó và xóa ngay hồi chiêu E.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/8ad3ca4c86abeddd0c795182baa4119b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Máy Bắn Mạng Nhện</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill
+VP Bay: Có
+
+Bị động: tối đa 100 năng lượng, hồi 10/giây. Sau khi dùng kỹ năng, Spider-Man miễn mọi sát thương trong 0,5 giây; mỗi kỹ năng gây sát thương cộng 10% xuyên thấu năng lượng và 10% tốc chạy trong 3 giây, tối đa 5 tầng.
+
+Chủ động: bắn mạng nhện đến điểm chỉ định trong tầm 480, mục tiêu đầu tiên chịu #EN_105%_ER# sát thương năng lượng. Khi tới điểm chọn hoặc trúng mục tiêu, mạng bung ra tồn tại 8 giây; địch đi qua chịu #EN_50%_ER# sát thương năng lượng và bị giảm 50% tốc chạy. Tơ Nhện Siêu Năng kéo mục tiêu vào mạng sẽ định thân 1 giây. Đòn thường kế tiếp thành Tơ Nhện Siêu Năng, gây #EN_150%_ER#, kéo cả hai tank áp sát nhau nhưng không đổi vị trí. Tích trữ tối đa 3 lần, cách lần dùng 1,5 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/da63c114d21c9155b66b4978f6c3f435.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Mạng Nhện Độc</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill
+VP Bay: Không
+
+Sau thời gian tụ lực ngắn, tạo Mạng Nhện Độc có vòng tầm ảnh hưởng quanh bản thân trong 6 giây. Mỗi giây mọi địch trong vùng nhận #EN_60%_ER# sát thương năng lượng và bị giảm 50% tốc chạy. Địch trong mạng phải nhận thêm 30% sát thương từ mọi nguồn. Spider-Man trong mạng hồi thêm 20 năng lượng/giây và tốc độ hồi chiêu các kỹ năng khác tăng 200%. Kỹ năng vô hiệu với kiến trúc.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/8ad3ca4c86abeddd0c795182baa4119b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Giác Quan Nhện</span>
+
+
+</div>
+<div class="skill-desc">Sau khi dùng kỹ năng, miễn nhiễm sát thương trực tiếp trong 0,5 giây. Mỗi lần thi triển kỹ năng nhận 1 tầng 10% xuyên năng lượng và 10% tốc chạy trong 3 giây, tối đa 5 tầng.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Mỗi lần dùng chiêu (E, R, Space) nhận 0,5 giây miễn sát thương trực tiếp; R có 3 lượt tích, mỗi lượt cách nhau 1,5 giây, nên có thể nối nhiều lần miễn nhiễm liên tiếp.</li><li>E lướt 360, gây 246% công năng lượng, làm chậm 50% trong 2 giây và hồi 75% công năng lượng cho mỗi mục tiêu trúng; lướt qua mạng nhện của mình thì E hồi ngay.</li><li>Space tạo vùng bán kính 300 trong 6 giây: địch bên trong chịu thêm 30% sát thương từ mọi nguồn, chậm 50% và mỗi giây chịu sát thương bằng 60% công năng lượng.</li><li>Đứng trong vùng Space, E và R hồi nhanh gấp 3 (mỗi mili giây trôi qua trừ thêm 2 mili giây hồi chiêu).</li><li>Đòn thường sau R kéo cả hai lại gần nhau; mục tiêu bị kéo qua mạng nhện thì bị định thân 1 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Rất mỏng: máu hiệu dụng 4.842, chỉ hơn khoảng 12% số tank; tổng chỉ số thân tank hạng 67/91.</li><li>Miễn nhiễm chỉ chặn sát thương trực tiếp, không chặn sát thương theo thời gian (đốt, độc) — code kiểm tra `not periodic`.</li><li>Phụ thuộc năng lượng: E tốn 25 năng lượng, tối đa 100 và hồi 10 mỗi giây; hết năng lượng thì mất cả chiêu lướt lẫn chiêu thoát thân.</li><li>Space hồi 25 giây và tụ lực 0,5 giây trước khi mở; vùng cố định tại chỗ cast nên địch chỉ cần đi ra khỏi bán kính 300.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Canh dùng chiêu đúng lúc địch bắn tới: 0,5 giây miễn sát thương sau mỗi chiêu là lá chắn chính của Spider Man.</li><li>Bắn R xuống trước mặt rồi đánh thường để kéo địch qua mạng: vừa định thân 1 giây vừa mở đường cho đồng đội.</li><li>Mở Space giữa giao tranh tổng và đứng yên trong vùng: E, R hồi gấp 3, cả đội gây thêm 30% sát thương lên địch trong vùng.</li><li>Lướt E qua mạng nhện cũ để làm mới E, dùng E vừa để rượt vừa để hồi máu.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dùng sát thương theo thời gian (đốt, độc): không bị 0,5 giây miễn nhiễm chặn.</li><li>Đợi nó xài hết 3 lượt R và E rồi mới dồn sát thương; lúc đó máu hiệu dụng dưới 5.000 không trụ được lâu.</li><li>Rời khỏi vùng Space (bán kính 300) ngay khi nó tụ lực, đừng đánh nhau trong vùng chịu thêm 30% sát thương.</li><li>Tank có chiêu xóa hiệu ứng bất lợi như Panda gỡ được làm chậm và hiệu ứng tăng sát thương nhận vào.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Né tránh [E-Tơ Nhện Bay] của Spider Man, tránh bị tiếp cận nhanh.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000003.html">Panda</a>. Chiêu E Tĩnh Tâm của Panda xóa sạch mọi hiệu ứng bất lợi, khiến Space Mạng Nhện Độc của Spider Man mất tác dụng.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/spider_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/spider_actions.py:cast — cooldown E 8000, Space 25000, R 1500 giữa hai lượt, 3 lượt tích mỗi lượt 6000; E tốn 25 năng lượng</li><li>server/spider_actions.py:_event spider_dash — 2.46 × công năng lượng, hồi 0.75 × công, +25 năng lượng; lướt qua mạng đặt cooldowns[1] = now</li><li>server/spider_actions.py:_event spider_field_clock — hồi chiêu E/R trừ thêm 2 ms mỗi ms trong bán kính 300</li><li>BuffTemplate 303111 iPersistTime 500 (miễn sát thương, battle_runtime.damage_immune chỉ áp khi not periodic); 303305 +30% sát thương nhận vào (battle_runtime incoming_bonus)</li><li>BuffTemplate 303303 fEffectValA -0.5 (chậm 50%), 303141 định thân 1000 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [12, 69, 43, 37, 14]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Spider Man",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,38 @@
+{
+  "summary": "Đấu sĩ tầm trung chỉ có E và Space nhưng chỉ số thân hạng 2/91: đẩy địch vào tường cho choáng, rồi khóa chân dội 455% công trong 1 giây. Nội tại cứu mạng mỗi 30 giây.",
+  "strengths": [
+    "Chỉ số thân hạng 2/91: 4.659 máu, máu hiệu dụng 7.447, sát thương đánh thường mỗi giây 426.",
+    "Nội tại: khi một đòn đẩy máu xuống dưới 40%, Luffy giữ lại ít nhất 1 máu và miễn mọi sát thương trong 3 giây, 30 giây dùng một lần. Cả đòn lẽ ra hạ gục cũng không giết được nó.",
+    "E đấm theo đường thẳng 360 × 72, gây 124% công và đẩy lùi 240. Mục tiêu va tường hoặc va người khác thì mất thêm 5% máu tối đa và choáng 1 giây.",
+    "Space tung 5 cú đấm trong 1 giây, mỗi cú 91% công (tổng 455%) trong hình quạt 60° tầm 360, khóa chân mục tiêu suốt lúc đấm."
+  ],
+  "weaknesses": [
+    "Không có R: chỉ hai kỹ năng chủ động, E hồi 8 giây, Space hồi 25 giây.",
+    "Không có chiêu lướt hay thoát thân; tốc chạy 165 chỉ ở mức trung bình.",
+    "Lúc tung Space phải đứng yên 1 giây, bị khống chế là mất chuỗi đấm.",
+    "Trong 30 giây nội tại hồi, Luffy chỉ là một đấu sĩ bình thường."
+  ],
+  "tips": [
+    "Đứng sao cho đối thủ nằm giữa Luffy và bức tường rồi mới bấm E, để chắc chắn choáng 1 giây.",
+    "Nối Space ngay sau E choáng: mục tiêu không chạy được nên ăn trọn 5 cú đấm.",
+    "Dám lao sâu khi nội tại còn sẵn; nội tại đã nổ thì rút về chờ 30 giây."
+  ],
+  "counters": [
+    "Đánh từ xa bằng sát thương năng lượng (như Thủy Tinh) và giữ khoảng cách ngoài 360.",
+    "Đừng đứng sát tường hay ngay sau đồng đội khi Luffy còn E.",
+    "Ép nội tại nổ bằng một đòn vừa phải, đợi hết 3 giây miễn sát thương rồi mới dồn chiêu lớn.",
+    "Khống chế để ngắt Space trong 1 giây Luffy đứng đấm."
+  ],
+  "counter_why": "Nội tại của Luffy miễn nhiễm toàn bộ sát thương vật lý, còn Thủy Tinh là tank năng lượng, có thể dựa vào lợi thế tầm xa để gây sát thương lên Luffy mà không bị Luffy đánh trúng.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân đứng thứ 2/91 nhưng bộ chiêu chỉ có hai kỹ năng chủ động và không có đường thoát. Nội tại 3 giây miễn sát thương mỗi 30 giây là phao cứu sinh, chưa đến mức bất tử.",
+    "suggestion": "Theo dõi. Code cho nội tại miễn mọi loại sát thương (BuffTemplate 320101 nằm trong danh sách damage_immune chung), trong khi ghi chú khắc chế gốc nói chỉ miễn sát thương vật lý. Nếu Luffy thắng quá nhiều pha đấu tay đôi thì giới hạn nội tại chỉ miễn sát thương vật lý."
+  },
+  "evidence": [
+    "server/luffy_actions.py:commit_hp — ngưỡng 0.4 máu tối đa, max(1, hp), passive_ready_at + 30000; BuffTemplate 320101 iPersistTime 3000",
+    "battle_runtime.py:damage_immune — 320101 miễn mọi trường phái sát thương",
+    "server/luffy_actions.py:_event luffy_punch — 5 cú × 0.91 (EffectTemplate 320201 fAddVal 0.91), hình quạt 360/60°",
+    "server/luffy_actions.py:_push — đẩy 240, va chạm 5% máu tối đa + BuffTemplate 320411 choáng 1000 ms; EffectTemplate 320301 fAddVal 1.24"
+  ]
+}

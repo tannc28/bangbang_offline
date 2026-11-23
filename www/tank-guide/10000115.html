@@ -1,0 +1,128 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Daredevil · Cẩm nang tank</title><meta name="description" content="Chiến sĩ vật lý đánh gần, đổi máu lấy sức mạnh: mỗi chiêu tốn 15% máu hiện tại nhưng cho 1 giây giảm sát thương, càng thấp máu càng bắn nhanh, chạy nhanh và hút máu mạnh. Thắng bằng cách móc vào mục tiêu, dồn chiêu rồi hút máu ngược lại bằng đạn thường.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/ad25326f04c4057363fc2dd414ef204c.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Cắn nuốt thời không, tiến về phía trước.</div>
+<h2 class="page-title">Daredevil</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Khiên Hút Máu</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000106.html">← Elsa</a>
+<a class="btn" href="10000092.html">Hades →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Chiến sĩ vật lý đánh gần, đổi máu lấy sức mạnh: mỗi chiêu tốn 15% máu hiện tại nhưng cho 1 giây giảm sát thương, càng thấp máu càng bắn nhanh, chạy nhanh và hút máu mạnh. Thắng bằng cách móc vào mục tiêu, dồn chiêu rồi hút máu ngược lại bằng đạn thường.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 57/91: tầm ngắn nhất và bắn chậm, nhưng bộ chiêu cho sát thương 5 sao và hút máu tăng dần khi thấp máu. Cái giá 15% máu mỗi chiêu và việc phụ thuộc vào đạn thường giữ nó ở mức cân bằng.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi Space: 3 lượt, mỗi lượt cách 5 giây, nạp lại 8 giây, mỗi lượt lại xóa đạn bay và cho 2 giây tăng tốc bắn, hút máu. Nếu Daredevil trụ quá lâu ở mức máu thấp thì giảm Space còn 2 lượt trước. Dữ liệu gốc (mẹo đối đầu, lý do khắc chế) gọi tank này là Night Wing.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4300</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">207 / 192</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">336 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">40</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#57/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7160</span></div><div class="progress progress-sm" title="Hơn 69% số tank"><div class="progress-bar bg-lime" style="width:69%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 24% số tank"><div class="progress-bar bg-orange" style="width:24%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/73e367fd655acaaf02c1dd68ad1c49bf.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Pawl Fold</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Thi triển móc về hướng chỉ định, đánh trúng mục tiêu gây 158% ST vật Lý và khiến mục tiêu định thân 1s, đồng thời móc sẽ kéo bản thân đến vị trí mục tiêu rồi trong 2s tiếp theo nhận hiệu quả bỏ qua va chạm thể tích.
+
+Skill này được cộng dồn 2 lần, khoảng cách dùng là 4s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/756019a994841a25b6083ff11678c50e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Sóng Xung Kích</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST:Vật Lý
+VP Bay:Có
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: HP càng thấp, tốc độ di chuyển, công tốc và Hút Máu Công Thường càng cao, tối đa tăng đến 100%.
+Daredevil thi triển skill sẽ tiêu hao 15% HP hiện tại của bản thân nhưng nhận 1 Vỏ Bảo Vệ trong 1 giây có thể trì hoãn tổng kết ST và hiệu quả Trị Liệu, trong thời gian này ST phải chịu của Daredevil giảm 25%, hiệu quả trị liệu nhận được tăng 25%, khi Vỏ Bảo Vệ kết thúc sẽ dựa theo ST và hiệu quả trị liệu nhận được để tổng kết.
+Sau khi thi triển skill thì ST công thường lần sau gây thêm 50% ST rồi mục tiêu giảm tốc 75% kéo dài 0.5s (Hiệu quả suy giảm theo thời gian), nếu gây ST sẽ hồi ngay 10% HP đã mất.
+Giác Quan Radar: Có 25% né VP Bay của địch, sau khi kích hoạt Né giảm CD tất cả skill 5% rồi hồi 5% HP đã mất.
+
+Chủ động: Daredevil thi triển sóng xung kích lên hướng chỉ định, tiêu hủy tất cả VP Bay khu vực hình quạt phía trước, gây cho kẻ địch trên đường 187% ST Vật Lý và giảm 50% tốc độ di chuyển trong 2s, mục tiêu bị giảm tốc nhận ST công thường của Daredevil tăng 25%.
+
+Skill này được cộng dồn 2 lần, khoảng cách dùng 3s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/bb30b3b00df0aac81224894a4cf44978.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Đại Sư Côn Thuật</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Vật lý
+Đạn bay: Có
+
+Vung song côn gây 206% sát thương vật lý lên địch xung quanh và hất tung 0.5 giây. Song côn phá đạn bay trong phạm vi. Trong 2 giây kế tiếp, Daredevil đánh thường có tán xạ, giảm 25% hiệu quả khống chế nhận vào, tăng 50% tốc độ đánh và 25% hút máu đánh thường.
+
+Kỹ năng tích trữ 3 lần; khoảng cách sử dụng 5 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Sức Mạnh Devil</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP bay: Không</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Máu càng thấp thì tốc bắn, tốc chạy và hút máu đạn thường càng cao, tối đa thêm 100% khi gần cạn máu.</li><li>Mỗi lần dùng chiêu mở một lớp vỏ 1 giây: sát thương nhận vào giảm 25%, hồi máu nhận vào tăng 25%, tất cả được cộng trừ một lần khi vỏ kết thúc. Phát đạn thường kế tiếp gây 1,5 lần công, làm chậm 75% trong 0,5 giây và hồi 10% máu đã mất nếu trúng.</li><li>Space có 3 lượt: gây 2,06 lần công trong bán kính 192, hất tung 0,5 giây, xóa đạn bay của địch trong bán kính 240; 2 giây sau đó đạn thường tỏa 3 tia, tăng 50% tốc bắn, thêm 25% hút máu và giảm 25% thời gian bị khống chế.</li><li>R có 2 lượt: xóa đạn bay của địch trên dải 480 x 120, gây 1,87 lần công xuyên thấu và làm chậm 50% trong 2 giây; mục tiêu bị chậm nhận thêm 25% sát thương đạn thường từ Daredevil.</li><li>E có 2 lượt: móc xa 480 gây 1,58 lần công, trói chân mục tiêu 1 giây và kéo Daredevil tới sát nó. Nội tại còn có 25% né đạn bay; né được thì hồi 5% máu đã mất và giảm 5% thời gian nạp lại mọi chiêu.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm bắn ngắn nhất game (336) và bắn chậm khi còn đầy máu (1.000 ms một phát), sát thương đạn thường khởi điểm chỉ khoảng 336 mỗi giây.</li><li>Mỗi chiêu tốn 15% máu hiện tại; dồn chiêu khi không trúng ai là tự đưa mình vào ngưỡng chết.</li><li>Máu hiệu dụng 7.160 ở mức khá nhưng không đủ để đứng lâu nếu không hút máu được.</li><li>Sức mạnh dựa vào đạn thường: bị chặn hoặc né đạn thường là mất gần hết lượng hồi.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở bằng E móc vào mục tiêu, bắn ngay phát đạn cường hóa để hồi 10% máu đã mất bù cho phần máu vừa tốn.</li><li>Bật Space khi đứng giữa địch: vừa hất tung vừa xóa đạn bay, rồi tận dụng 2 giây đạn tỏa 3 tia.</li><li>Dùng R để chặn loạt đạn của pháo xa trước khi áp sát, mục tiêu trúng R còn nhận thêm 25% sát thương đạn thường.</li><li>Khi máu đã thấp, đứng đánh bằng đạn thường thay vì xả chiêu: lúc đó hút máu và tốc bắn đang ở mức cao nhất.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Đẩy lùi hoặc thả diều ngoài tầm 336: mọi sát thương của Daredevil đều cần áp sát.</li><li>Dùng tank chặn được đạn bay như Captain để vô hiệu đạn thường, nguồn hồi máu chính của nó.</li><li>Dồn sát thương bộc phát lớn đúng lúc nó vừa dùng chiêu xong và máu đã tụt, trước khi kịp hút máu lại.</li><li>Tránh bị móc E: đứng sau đồng đội hoặc vật cản ở xa hơn 480.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Mọi ST của Night Wing đều phải đến gần mới phát huy được, có thể dùng đánh lui hoặc di chuyển để kéo khoảng cách</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000031.html">Captain</a>. R và nội tại của Captain chặn hiệu quả sát thương từ đạn bay của Daredevil.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/daredevil_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/daredevil_actions.py:_cast_cost/_settle — mỗi chiêu hp*0.85, sổ 1000 ms: sát thương *0.75, hồi máu *1.25, quyết toán khi hết</li><li>server/daredevil_actions.py:missing_bonus/attr_bonus/_speed/_hit — tốc bắn, tốc chạy và hút máu đạn thường cộng (1 - hp/max_hp)</li><li>server/daredevil_actions.py:CHARGES — E 2 lượt (8000/4000 ms), Space 3 lượt (8000/5000), R 2 lượt (6000/3000)</li><li>server/daredevil_actions.py:_event dare_space — power*2.06 bán kính 192, BuffTemplate 391302 hất tung 500 ms, xóa đạn bay 240; 391305 +50% tốc bắn, 391308 -25% khống chế, 2000 ms</li><li>facts: stat_rank 57, range 336 (pct 0.0), fire_ms 1000 (pct 0.033), ehp 7160 (pct 0.689)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [69, 24, 64, 0, 67]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Daredevil",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

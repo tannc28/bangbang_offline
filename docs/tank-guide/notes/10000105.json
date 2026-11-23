@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư cận chiến dồn sát thương diện rộng: mọi chiêu đều để lại vệt nham thạch và đốt Hơi Thở Lửa, càng nhiều địch đang cháy thì Hỏa Thần càng đau và càng trâu, rồi Space nổ tung quanh mình tới 725% sức công.",
+  "strengths": [
+    "Space tụ 2 giây rồi nổ bán kính 192: 725% sức công năng lượng ở tâm, giảm dần còn khoảng 360% ở rìa; địch trong vòng 96 bị choáng 1,5 giây.",
+    "Hơi Thở Lửa chồng tối đa 5 tầng, mỗi giây gây 25% sức công sát thương thực cho mỗi tầng; đủ 5 tầng thì mục tiêu bị hỗn loạn 1 giây. Mỗi địch đang cháy cho Hỏa Thần thêm 10% sát thương và giảm 10% sát thương nhận vào.",
+    "Sau mỗi chiêu, 2 giây di chuyển để lại vệt nham thạch tồn tại 6 giây, đốt bất kỳ địch nào đi qua.",
+    "E tụ 0,3 giây rồi nhảy 480, đáp xuống gây tới 229% trong bán kính 192, hất tung 0,5 giây rồi làm chậm 50%; sau đó tăng 100% tốc chạy và đi xuyên vật cản 2 giây.",
+    "R: khiên 150% sức công, giảm 50% sát thương đòn thường trong 3 giây, tăng 100% tốc bắn; 3 đòn thường kế tiếp thành nhát chém diện rộng 150%, hút 75% sát thương thành máu và mỗi lần trúng rút 10% hồi E."
+  ],
+  "weaknesses": [
+    "Bắn thường chậm (1.000 ms một phát) và gây sát thương chủ yếu khi đứng giữa địch; ở xa thì chỉ còn đòn thường tầm 480.",
+    "Space phải chờ 2 giây trước khi nổ; địch tinh ý sẽ chạy khỏi bán kính 192, đặc biệt là vòng choáng 96.",
+    "E có 0,3 giây tụ lực và 0,55 giây bay, bị câm lặng hay khống chế trong lúc tụ là mất chiêu.",
+    "Thân ở mức trung bình (máu hiệu dụng 6.470); phần giảm sát thương chỉ có khi có địch đang cháy."
+  ],
+  "tips": [
+    "Mở bằng E vào giữa cụm địch, chạy vòng quanh để rải nham thạch, rồi bấm R để chém diện rộng và hồi máu.",
+    "Bấm Space ngay sau E khi địch còn đang bị hất tung và làm chậm, để chúng không kịp ra khỏi vòng nổ.",
+    "Cố giữ lửa trên càng nhiều địch càng tốt: mỗi người đang cháy là thêm 10% sát thương và 10% giảm sát thương cho Hỏa Thần.",
+    "Đòn thường cường hóa của R trúng mục tiêu sẽ rút ngắn hồi E, giúp nhảy lại nhanh hơn."
+  ],
+  "counters": [
+    "Khi Hỏa Thần bật Space (2 giây tụ lực), chạy ra ngoài bán kính 192 ngay.",
+    "Tránh đi qua vệt nham thạch để không bị chồng lửa và để nó không được cộng thưởng.",
+    "Khống chế Hỏa Thần trong 0,3 giây tụ của E, hoặc thả diều khi E đang hồi.",
+    "Dùng chiêu bất tử hoặc hóa đá để đỡ đúng thời điểm vụ nổ Space."
+  ],
+  "counter_why": "Hỏa Thần cơ động chủ yếu nhờ E Sao Băng Dòng Lửa, mà chiêu này tụ lực khá lâu; tank cơ động cao có thể nắm thời cơ rời khỏi vùng mục tiêu của nó để tránh sát thương.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank ở giữa (hạng 38/91). Sát thương diện rộng lớn nhưng chiêu nào cũng có thời gian tụ (Space 2 giây, E 0,3 giây) để đối thủ né, và lợi thế cộng dồn đòi phải giữ lửa trên nhiều mục tiêu.",
+    "suggestion": "Theo dõi phần giảm sát thương theo số địch đang cháy: code tính 10% mỗi địch, trần chỉ ở 100% (min(1, 0.1 × số địch)). Trong trận đông người, nên đặt trần thấp hơn, ví dụ 30%. Đòn thường cường hóa trong code hút 75% sát thương, còn BuffTemplate 380402 ghi 50%."
+  },
+  "evidence": [
+    "server/firegod_actions.py:_radial — Space power × 7.25 × (1 − d/384) trong 192, choáng BuffTemplate 380312 1500 ms nếu d ≤ 96; E × 2.29",
+    "server/firegod_actions.py:_burn / fire_dot — tối đa 5 tầng, 0.25 × tầng mỗi giây (school='true'), 5 tầng thì hỗn loạn 380126 1000 ms",
+    "server/battle_runtime.py — giảm min(1, 0.1 × burning_count) khi có 380147; tăng (1 + 0.1 × burning_count) sát thương",
+    "server/firegod_actions.py:cast slot 10 — add_shield(power*1.5); đòn thường cường hóa power × 1.5, lifesteal 0.75, hồi E × 0.9",
+    "facts: ehp 6470, fire_ms 1000 (pct 0.033), stat_rank 38"
+  ]
+}

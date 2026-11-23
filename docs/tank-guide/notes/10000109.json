@@ -1,0 +1,41 @@
+{
+  "summary": "Tank vật lý bảo hộ, càng thấp máu càng khó hạ bằng kỹ năng: E chui xuống đất hồi máu rồi trồi lên hất tung, R là bão đá quanh mình, Space nhập vào một tank 5 giây để che chắn đồng đội hoặc hành hạ kẻ địch. Thắng bằng cách đứng lì ở tuyến đầu và chọn đúng người để nhập.",
+  "strengths": [
+    "Sát thương kỹ năng nhận vào giảm theo máu đã mất, tối đa 60% khi gần cạn máu; cứ 3 giây lại có khiên 5% máu tối đa.",
+    "E chui xuống đất tối đa 4 giây: giảm 25% sát thương nhận vào, mỗi 0,5 giây hồi 5% máu đã mất, sau 1 giây thì không bị chọn làm mục tiêu. Trồi lên ở điểm chọn trong tầm 480: 1,62 lần công bán kính 168, hất tung 1 giây rồi làm chậm 2 giây.",
+    "Space lao 480 đơn vị và nhập vào tank đầu tiên chạm phải trong 5 giây, suốt lúc đó Thạch Thần miễn sát thương, miễn khống chế và không bị chọn làm mục tiêu.",
+    "Nhập vào đồng đội: mỗi 0,5 giây họ nhận khiên 10% máu tối đa của Thạch Thần (khoảng 613), tăng 50% tốc bắn và miễn khống chế. Nhập vào địch: mỗi 0,5 giây gây 0,35 lần công, làm chậm 50% và khiến nó nhận thêm 50% sát thương đạn thường. Kết thúc thì nổ 2,24 lần công, hất tung 1,5 giây trong bán kính 168.",
+    "R tạo bão đá 5 giây bán kính 192: địch ở vòng ngoài (120–192) nhận 1,25 lần công mỗi 0,5 giây, ở trong nhận 0,25; trúng đủ 5 lần thì bắn 5 tảng đá xuyên tường, mỗi tảng 2,08 lần công."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và chạy chậm (160).",
+    "Phần giảm sát thương của nội tại chỉ áp lên kỹ năng, đạn thường vẫn ăn đủ.",
+    "Trong 5 giây nhập Space, Thạch Thần không bắn và không tự di chuyển được; Space hồi 30 giây.",
+    "Bão đá của R đánh mạnh ở vòng ngoài, địch áp sát vào trong 120 chỉ ăn 0,25 lần công mỗi nhịp."
+  ],
+  "tips": [
+    "Giữ địch ở vòng ngoài bão đá (cách mình 120–192) để mỗi nhịp gây gấp 5 lần.",
+    "Dùng E khi bị dồn: vừa hồi máu đã mất vừa biến mất khỏi tầm ngắm, rồi trồi lên giữa đội địch để hất tung.",
+    "Nhập Space vào đồng đội gánh sát thương chính để họ miễn khống chế và có khiên liên tục 5 giây.",
+    "Nhập Space vào pháo xa địch để đồng đội bắn nó với thêm 50% sát thương đạn thường."
+  ],
+  "counters": [
+    "Dùng tank sát thương chủ yếu bằng đạn thường như Falcon: nội tại chỉ giảm sát thương kỹ năng.",
+    "Dồn Thạch Thần khi còn nhiều máu, lúc phần giảm sát thương kỹ năng còn thấp.",
+    "Chạy sát vào trong bán kính 120 hoặc ra hẳn ngoài 192 khi nó bật R.",
+    "Thả diều ngoài tầm 336 khi Space đang hồi."
+  ],
+  "counter_why": "Phần lớn sát thương của Falcon đến từ đánh thường, nên bỏ qua được nội tại của Giáp Nham và vẫn gây sát thương đầy đủ lên Thạch Thần.",
+  "balance": {
+    "status": "review",
+    "reason": "Chỉ số thân tank hạng 33/91 và bộ chiêu bảo hộ đã chạy đúng, nhưng mô tả ô Nội tại (năng lượng tăng sát thương và tốc chạy tới 50%, hạ địch giảm 25% hồi chiêu và hồi 25% máu) hoàn toàn không có trong code. Chưa thể đánh giá cho tới khi biết phần này có định làm hay không.",
+    "suggestion": "Quyết định giữ hay bỏ phần nội tại năng lượng. Nếu làm theo mô tả, Thạch Thần sẽ có thêm hồi máu và giảm hồi chiêu khi hạ địch, rất có thể thành quá mạnh; khi đó nên sửa mô tả theo code hiện tại thay vì thêm vào."
+  },
+  "evidence": [
+    "battle_runtime.py:damage — buff 384101: không phải đạn thường thì giảm 0.6*(1-hp/max_hp); buff 384205 giảm 0.25",
+    "server/stonegod_actions.py:_event stone_burrow/_emerge — hồi 5% máu đã mất mỗi 500 ms, 384208 không bị chọn sau 1000 ms; trồi lên power*1.62 bán kính 168, BuffTemplate 384222 hất tung 1000 ms",
+    "server/stonegod_actions.py:_event stone_attach/_end_attach — đồng đội: khiên max_hp*0.1 mỗi 500 ms, BuffTemplate 384335 +50% tốc bắn, 384336 miễn khống chế; địch: power*0.35, 384337 +50% sát thương đạn thường; kết thúc power*2.24, 384342 hất tung 1500 ms",
+    "server/stonegod_actions.py:_event stone_storm — bán kính 192, power*0.25 nhân 5 ở vòng 120–192; đủ 5 lần trúng thì R2 bắn 5 tảng power*2.08 xuyên tường",
+    "facts: stat_rank 33, ehp 11779 (pct 0.9), range 336 (pct 0.0); ô Nội tại 384101 mô tả hệ năng lượng không có trong stonegod_actions.py"
+  ]
+}

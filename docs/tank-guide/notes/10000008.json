@@ -1,0 +1,41 @@
+{
+  "summary": "Tank tầm xa năng lượng mỏng máu nhưng khó bắt: mỗi lần dùng chiêu là được 0,5 giây miễn sát thương trực tiếp. Thắng nhờ thả mạng nhện làm chậm, kéo địch sát lại, rồi mở Space để cả đội đánh mạnh hơn 30%.",
+  "strengths": [
+    "Mỗi lần dùng chiêu (E, R, Space) nhận 0,5 giây miễn sát thương trực tiếp; R có 3 lượt tích, mỗi lượt cách nhau 1,5 giây, nên có thể nối nhiều lần miễn nhiễm liên tiếp.",
+    "E lướt 360, gây 246% công năng lượng, làm chậm 50% trong 2 giây và hồi 75% công năng lượng cho mỗi mục tiêu trúng; lướt qua mạng nhện của mình thì E hồi ngay.",
+    "Space tạo vùng bán kính 300 trong 6 giây: địch bên trong chịu thêm 30% sát thương từ mọi nguồn, chậm 50% và mỗi giây chịu sát thương bằng 60% công năng lượng.",
+    "Đứng trong vùng Space, E và R hồi nhanh gấp 3 (mỗi mili giây trôi qua trừ thêm 2 mili giây hồi chiêu).",
+    "Đòn thường sau R kéo cả hai lại gần nhau; mục tiêu bị kéo qua mạng nhện thì bị định thân 1 giây."
+  ],
+  "weaknesses": [
+    "Rất mỏng: máu hiệu dụng 4.842, chỉ hơn khoảng 12% số tank; tổng chỉ số thân tank hạng 67/91.",
+    "Miễn nhiễm chỉ chặn sát thương trực tiếp, không chặn sát thương theo thời gian (đốt, độc) — code kiểm tra `not periodic`.",
+    "Phụ thuộc năng lượng: E tốn 25 năng lượng, tối đa 100 và hồi 10 mỗi giây; hết năng lượng thì mất cả chiêu lướt lẫn chiêu thoát thân.",
+    "Space hồi 25 giây và tụ lực 0,5 giây trước khi mở; vùng cố định tại chỗ cast nên địch chỉ cần đi ra khỏi bán kính 300."
+  ],
+  "tips": [
+    "Canh dùng chiêu đúng lúc địch bắn tới: 0,5 giây miễn sát thương sau mỗi chiêu là lá chắn chính của Spider Man.",
+    "Bắn R xuống trước mặt rồi đánh thường để kéo địch qua mạng: vừa định thân 1 giây vừa mở đường cho đồng đội.",
+    "Mở Space giữa giao tranh tổng và đứng yên trong vùng: E, R hồi gấp 3, cả đội gây thêm 30% sát thương lên địch trong vùng.",
+    "Lướt E qua mạng nhện cũ để làm mới E, dùng E vừa để rượt vừa để hồi máu."
+  ],
+  "counters": [
+    "Dùng sát thương theo thời gian (đốt, độc): không bị 0,5 giây miễn nhiễm chặn.",
+    "Đợi nó xài hết 3 lượt R và E rồi mới dồn sát thương; lúc đó máu hiệu dụng dưới 5.000 không trụ được lâu.",
+    "Rời khỏi vùng Space (bán kính 300) ngay khi nó tụ lực, đừng đánh nhau trong vùng chịu thêm 30% sát thương.",
+    "Tank có chiêu xóa hiệu ứng bất lợi như Panda gỡ được làm chậm và hiệu ứng tăng sát thương nhận vào."
+  ],
+  "counter_why": "Chiêu E Tĩnh Tâm của Panda xóa sạch mọi hiệu ứng bất lợi, khiến Space Mạng Nhện Độc của Spider Man mất tác dụng.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm cuối (hạng 67/91, máu hiệu dụng chỉ hơn 12% số tank), nhưng bộ chiêu bù lại đủ: miễn sát thương 0,5 giây sau mỗi chiêu, E hồi máu, Space vừa khống chế vùng vừa tăng 30% sát thương cả đội nhận được lên địch.",
+    "suggestion": "Giữ nguyên. Theo dõi tổ hợp R 3 lượt + Space (R hồi gấp 3): nếu Spider Man trong vùng Space gần như không bao giờ hết miễn nhiễm thì giảm tốc hồi chiêu trong vùng từ 200% xuống 100%."
+  },
+  "evidence": [
+    "server/spider_actions.py:cast — cooldown E 8000, Space 25000, R 1500 giữa hai lượt, 3 lượt tích mỗi lượt 6000; E tốn 25 năng lượng",
+    "server/spider_actions.py:_event spider_dash — 2.46 × công năng lượng, hồi 0.75 × công, +25 năng lượng; lướt qua mạng đặt cooldowns[1] = now",
+    "server/spider_actions.py:_event spider_field_clock — hồi chiêu E/R trừ thêm 2 ms mỗi ms trong bán kính 300",
+    "BuffTemplate 303111 iPersistTime 500 (miễn sát thương, battle_runtime.damage_immune chỉ áp khi not periodic); 303305 +30% sát thương nhận vào (battle_runtime incoming_bonus)",
+    "BuffTemplate 303303 fEffectValA -0.5 (chậm 50%), 303141 định thân 1000 ms"
+  ]
+}

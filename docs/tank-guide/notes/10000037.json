@@ -1,0 +1,41 @@
+{
+  "summary": "Tank hồi máu thuần của đội: nội tại hồi máu cả nhóm mỗi 3 giây, E đặt khiên tự chuyển thành máu, Space là vùng hồi máu kèm giảm sát thương và miễn khống chế, R gọi tháp hồ lô làm chậm và soi tàng hình.",
+  "strengths": [
+    "Nội tại hồi 50% sức công năng lượng (khoảng 159 ở cấp 6) cho mọi đồng đội trong bán kính 360, cứ 3 giây một lần, suốt trận.",
+    "E hồi 6 giây, tầm 480: đồng đội nhận khiên 225% sức công trong 6 giây và thêm sức công; phần khiên chưa bị đánh vỡ cứ 1,2 giây đổi 45% sức công thành máu, nên khiên không bao giờ phí.",
+    "Space là vùng bán kính 264 kéo dài 4 giây: đồng đội trong vùng hồi 50% sức công mỗi 0,5 giây (8 lần, tổng 400%), giảm 25% sát thương nhận vào và miễn mọi khống chế.",
+    "R đặt tháp đứng yên trong 10 giây: mỗi giây bắn một tia 50% sức công, làm chậm 25% cộng dồn; tháp soi lộ tàng hình trong bán kính 480 và không bị kéo hay đẩy.",
+    "Tầm bắn thường 480, đứng được ở hàng sau an toàn hơn đa số tank hỗ trợ."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 87/91: chỉ 3.535 máu, máu hiệu dụng 5.297, rất dễ bị sát thủ tóm.",
+    "Gần như không có sát thương: đòn thường 335 mỗi giây và không có chiêu khống chế cứng nào để tự cứu mình.",
+    "Hồi máu tính theo sức công năng lượng (318), nên mỗi lượt hồi nhỏ; gặp đội dồn sát thương nhanh thì hồi không kịp.",
+    "Tháp R chỉ có 50% máu tối đa của Hồ Lô và tự mất 2% mỗi giây, dễ bị phá sớm."
+  ],
+  "tips": [
+    "Luôn đứng trong vòng 360 quanh đồng đội để nội tại hồi máu đều đặn mỗi 3 giây.",
+    "Đặt E lên tuyến đầu ngay trước khi lao vào: khiên đỡ đòn, phần còn lại tự đổi thành máu.",
+    "Giữ Space cho lúc địch tung khống chế diện rộng; đồng đội đứng trong vùng sẽ miễn khống chế và giảm 25% sát thương.",
+    "Đặt tháp R chặn lối truy đuổi hoặc cạnh bụi cỏ để soi tàng hình và làm chậm kẻ áp sát."
+  ],
+  "counters": [
+    "Lao thẳng vào Hồ Lô: máu hiệu dụng chỉ 5.297 và không có chiêu thoát thân.",
+    "Đánh tầm xa để bào máu trước khi giao tranh, đừng để nó hồi dần cả đội.",
+    "Rút khỏi vùng Space trong 4 giây vùng còn hiệu lực rồi quay lại; đánh vào trong vùng là phí sát thương.",
+    "Phá tháp R nhanh bằng đòn thường vì tháp chỉ có nửa lượng máu của Hồ Lô."
+  ],
+  "counter_why": "Legolas tận dụng tầm bắn xa hơn: dùng đòn thường bào máu đồng thời tích dấu ấn tinh linh, rồi tung E Mũi Tên Tinh Linh và Space Cơn Thịnh Nộ Của Rừng để dồn sát thương, khiến Hồ Lô không còn sức chống trả.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm cuối (hạng 87/91) nhưng đây là tank hồi máu thuần: hồi máu cả nhóm liên tục, khiên chuyển máu và vùng miễn khống chế bù lại đủ cho vai trò. Đổi lại nó rất dễ chết khi bị áp sát, là điểm yếu hợp lý.",
+    "suggestion": "Giữ nguyên số liệu, nhưng sửa mô tả cho khớp code: tháp R chỉ có 50% máu của Hồ Lô (mô tả ghi 100%) và mất 2% mỗi giây (BuffTemplate 311431 ghi 10%); nội tại hồi mỗi 3 giây trong bán kính 360 (mô tả nội tại ghi 4 giây, tầm 480)."
+  },
+  "evidence": [
+    "server/hulu_actions.py:_event hulu_passive — mỗi 3000 ms, bán kính 360, restore_hp(power*0.5)",
+    "server/hulu_actions.py:cast slot 1 — add_shield(power*2.25), 5 lần hulu_convert mỗi 1200 ms × 0.45",
+    "server/hulu_actions.py:_area — bán kính 264, hồi 0.5 mỗi 500 ms trong 4000 ms; BuffTemplate 311312 −25% sát thương, 311313 miễn khống chế",
+    "server/hulu_actions.py:cast slot 10 — tháp iHp = max_hp*0.5; HuluTurret turret_tick mất 2%/giây, chết ở tick 10; tia 0.5 (EffectTemplate 311411), làm chậm BuffTemplate 311412",
+    "facts: hp 3535, ehp 5297 (pct 0.3), stat_rank 87"
+  ]
+}

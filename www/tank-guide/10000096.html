@@ -1,0 +1,124 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Kirito · Cẩm nang tank</title><meta name="description" content="Sát thủ cận chiến sống hoàn toàn nhờ bộ chiêu: hai lần biến mất để né đòn, E kéo địch vào tường cho choáng, và nội tại cứu mạng mỗi 30 giây. Chỉ số thân hạng 90/91.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/a136cf14f28308fccf3beddb6241ca14.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Kiếm sĩ thần vực.</div>
+<h2 class="page-title">Kirito</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Bạo Phát Cấm Trị Liệu</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000029.html">← Chopper</a>
+<a class="btn" href="10000060.html">Minion →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ cận chiến sống hoàn toàn nhờ bộ chiêu: hai lần biến mất để né đòn, E kéo địch vào tường cho choáng, và nội tại cứu mạng mỗi 30 giây. Chỉ số thân hạng 90/91.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân gần chót (90/91) nhưng bộ chiêu bù lại đủ: hai lần biến mất, một lần cứu mạng mỗi 30 giây và chuỗi choáng, hất tung. Không xếp vào nhóm yếu vì sức mạnh nằm ở chiêu, không ở thân.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Mô tả E ghi hồi 100% HP khi đâm tường, nhưng code chỉ hồi lượng máu bằng 100% công (362 ở cấp 6). Cần sửa văn bản mô tả cho khớp code.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3712</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">164 / 137</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">362 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">34</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1357 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#90/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5574</span></div><div class="progress progress-sm" title="Hơn 46% số tank"><div class="progress-bar bg-yellow" style="width:46%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">267</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">175</span></div><div class="progress progress-sm" title="Hơn 88% số tank"><div class="progress-bar bg-green" style="width:88%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/114ba5b29ab6db415ecaeac351b45128.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Âm Tốc Xuất Kích</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 336</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Xông lên, kéo đơn vị địch trên đường đi, gây 100% ST Vật Lý, va chạm phải vật cản sẽ tạo thêm 145% ST Vật Lý và choáng 1.5s, đồng thời bản thân hồi 100% HP.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/5cd32795de66bbd074838b5f0608c6bf.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Lôi Đình Xuất Kích</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Tứ Phương Trảm: Sau khi skill đánh trúng mục tiêu trong 2s tăng 50% tốc độ di chuyển và bỏ qua va chạm thể tích, đồng thời Công Thường lần sau sẽ thi triển thêm 4 kiếm khí, đánh trúng địch gây 75% ST Vật Lý và chuyển hóa 25% ST gây ra thành HP, kiếm khí mỗi gây 1 lần ST sẽ cộng dồn 10% Xuyên Thấu V.Lý của Kirito trong 5 giây, tối đa được cộng dồn 10 tầng.
+Khi nhận ST chí mạng sẽ miễn ST lần này và làm mới ngay thời gian CD skill [Âm Tốc Xuất Kích] và [Lôi Đình Xuất Kích], trong 1.5s miễn bất kỳ ST, mỗi 30s được kích hoạt 1 lần.
+
+Chủ động: Sau khi biến mất ngắn hạn sẽ di chuyển đến khu vực mục tiêu, gây 127% ST Vật Lý và khiến địch trong khu vực định thân 1s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/916a37a4ada8255f7e3fc4a4f04d8e84.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Tinh Khí Lưu Trảm</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Bản thân biến mất, vung 15 thanh đao tấn công xung quanh, mỗi lần gây 40% ST Vật Lý rồi giảm tốc 50% và giảm 100% hiệu quả trị liệu nhận được, 1.5s sau xuất hiện, tung đòn tấn công cuối cùng vào hướng chuột dừng, gây 175% ST Vật Lý, đồng thời kèm thêm sát thương bằng 20% HP mục tiêu đã mất (Bỏ qua hiệu quả giảm ST Vật Lý) rồi đánh bay 1 giây.
+
+ST do Tinh Khí Lưu Trảm gây ra sẽ chia đều lên tất cả địch trong phạm vi.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Tứ Phương Trảm</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay:Không
+
+Ý Chí Bất Khuất</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Nội tại: đòn lẽ ra hạ gục bị chặn lại, Kirito miễn mọi sát thương 1,5 giây và được làm mới E lẫn R; 30 giây một lần.</li><li>Space: biến mất 1,5 giây (không thể bị chọn, miễn sát thương), chém 15 nhát mỗi nhát 40% công trong bán kính 216, làm chậm 50% và chặn hoàn toàn hồi máu. Nhát cuối 175% công cộng 20% máu đã mất của mục tiêu, rồi hất tung 1 giây. Đánh một mục tiêu là tổng 775% công.</li><li>E lướt 336 kéo theo kẻ địch trên đường; đâm vào vật cản thì thêm 145% công, choáng 1,5 giây và Kirito được hồi máu.</li><li>R biến mất 0,5 giây rồi đáp xuống, 127% công bán kính 144 và khóa chân 1 giây.</li><li>Mỗi kỹ năng trúng cường hóa phát đánh thường kế tiếp: thêm 4 luồng kiếm khí, mỗi luồng 75% công, hút 25% và cộng dồn xuyên giáp.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân hạng 90/91: bắn chậm nhất game (1.357 ms một phát), sát thương đánh thường mỗi giây thấp nhất, tầm đánh 336.</li><li>Máu hiệu dụng 5.574, mỏng cho một tank cận chiến.</li><li>Sát thương Space chia đều cho mọi kẻ trong vùng; lao vào cụm đông thì mỗi người nhận rất ít.</li><li>Không có tường thì E không choáng được.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Kéo mục tiêu vào tường bằng E để choáng 1,5 giây, rồi nối R và Space.</li><li>Dùng Space để né chiêu lớn của địch: 1,5 giây biến mất miễn mọi sát thương.</li><li>Nhắm mục tiêu đứng lẻ cho Space để sát thương không bị chia nhỏ.</li><li>Đánh thường ngay sau mỗi kỹ năng để có kiếm khí.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Chơi tank cơ động (như Kurumi) và thả diều: Kirito không có chiêu đuổi dài.</li><li>Đừng đứng gần tường khi Kirito ở gần.</li><li>Ép nội tại nổ trước rồi mới dồn; trong 30 giây sau đó nó chết như mọi tank khác.</li><li>Đứng thành cụm khi nó tung Space để sát thương bị chia nhỏ.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: [Âm Tốc Xuất Kích] của Kirito sẽ khiến tank choáng ở vùng biên địa hình, tránh đối chiến khi ở vùng biên.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000095.html">Kurumi</a>. Kurumi cơ động rất cao nên né được đòn tấn công của Kirito. Kirito phải chọn đúng thời điểm lao vào, tránh bị thả diều.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/kirito_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/kirito_actions.py:prevent_lethal_hit/_rescue — passive_ready_at + 30000, BuffTemplate 371111 miễn sát thương 1500 ms, cooldowns E/R = 0</li><li>server/kirito_actions.py:_event kirito_cut/kirito_final — 15 × 0.4 chia đều, nhát cuối 1.75 + 20% máu đã mất chia đều; BuffTemplate 371314 -1 hồi máu</li><li>server/kirito_actions.py:_event kirito_wall — 1.45 × công, BuffTemplate 371232 choáng 1500 ms, restore_hp(cast[&#x27;power&#x27;])</li><li>server/kirito_actions.py:cast slot 0 — 4 luồng kiếm khí 0.75; BuffTemplate 371132 +0.1 xuyên giáp mỗi tầng, tối đa 10</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [46, 0, 88, 0, 49]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Kirito",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

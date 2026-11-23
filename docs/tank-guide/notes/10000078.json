@@ -1,0 +1,39 @@
+{
+  "summary": "Sát thủ cận chiến sống nhờ tường: móc E vào tường để lướt, xoay Space liên tục để hút máu, và sát thương vật lý càng lớn khi mục tiêu càng nhiều giáp.",
+  "strengths": [
+    "Phá Giáp: giáp của mục tiêu không làm giảm sát thương vật lý của Mikasa mà còn làm nó tăng, hệ số 1 + giáp/(300 + giáp). Gặp Hulk giáp 333 là ×1,53, trong khi tank khác bị chính lớp giáp đó cắt còn khoảng một nửa.",
+    "Space có 3 lượt tích (mỗi lượt hồi 4 giây, cách nhau 1,5 giây): 100% công quanh thân bán kính 144, hút 50% thành máu, mỗi lần trúng cộng 25% sát thương cho lần sau (tối đa 3 tầng).",
+    "Tung Space trong 1 giây sau khi móc trúng tường thì gây gấp đôi sát thương.",
+    "E có 3 lượt tích: lướt về điểm móc với tốc 720, miễn khống chế khi bay, gây 100% công và làm chậm 50% trong 2 giây mọi kẻ trên đường; sau đó giảm 50% sát thương kỹ năng nhận vào trong 2 giây.",
+    "R xóa mọi hiệu ứng xấu, lùi 336, nhận khiên 25% máu tối đa, miễn khống chế 4 giây, tăng 25% tốc chạy và hồi 75 năng lượng."
+  ],
+  "weaknesses": [
+    "Chỉ số thân hạng 83/91; sát thương đánh thường mỗi giây 289, gần thấp nhất game.",
+    "E chỉ kéo Mikasa đi khi móc trúng tường hoặc kiến trúc; ở bãi trống là mất gần hết cơ động.",
+    "Mỗi lần E tốn 50 trong 150 năng lượng, chỉ hồi 5 mỗi giây và 5 mỗi phát đánh trúng.",
+    "Gặp mục tiêu giáp mỏng thì phần thưởng phá giáp nhỏ đi nhiều."
+  ],
+  "tips": [
+    "Luôn đánh gần tường: E rồi Space ngay trong 1 giây để ăn sát thương gấp đôi.",
+    "Dồn Space liên tục lên cùng một mục tiêu để cộng tầng +25%.",
+    "Ưu tiên tank giáp dày như Hulk, Người Sói, Natsu: đó là con mồi lý tưởng.",
+    "Giữ R làm nút thoát: xóa khống chế, có khiên và 4 giây miễn khống chế."
+  ],
+  "counters": [
+    "Kéo giao tranh ra bãi trống, xa tường và kiến trúc.",
+    "Đe dọa điểm đáp của E bằng sát thương lớn, như Space của Joker.",
+    "Bắt Mikasa ngay khi khiên R vừa hết; R chỉ bắt đầu hồi 7 giây sau khi khiên mất."
+  ],
+  "counter_why": "Joker có thể dùng [Space-Lá Bài Phép Thuật] ép Mikasa không dám dùng chiêu lướt [E-Mũi Lao Móc], nếu không sẽ lãnh sát thương chí mạng.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân thấp (83/91) nhưng phá giáp biến Mikasa thành khắc tinh của tank giáp dày, còn Space hút 50% giúp nó trụ lâu. Phụ thuộc tường và năng lượng là cái giá hợp lý.",
+    "suggestion": "Giữ nguyên. Mô tả E ghi giảm 30% sát thương kỹ năng nhận vào sau khi móc, nhưng bảng và code dùng 50% (BuffTemplate 352504). Nếu Mikasa trụ quá tốt thì đưa về 30% theo mô tả."
+  },
+  "evidence": [
+    "server/mikasa_actions.py:damage — inverse_armor=True cho sát thương vật lý; combat_math.py:damage_amount — hệ số 1 + a/(300 + a)",
+    "server/mikasa_actions.py:cast slot 2 — power × 2 khi có BuffTemplate 352502 (1000 ms), lifesteal 0.5, BuffTemplate 352302 +0.25 mỗi tầng, tối đa 3",
+    "server/mikasa_actions.py:_event mikasa_reload — lùi 336, khiên 0.25 × máu tối đa (BuffTemplate 352406), 352404 miễn khống chế 4000 ms, +75 năng lượng",
+    "BuffTemplate 352504 fEffectValA -0.5 + battle_runtime.py:damage (giảm 50% sát thương kỹ năng); iMp 150, E tốn 50"
+  ]
+}

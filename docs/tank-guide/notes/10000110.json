@@ -1,0 +1,40 @@
+{
+  "summary": "Đấu sĩ cận chiến rất trâu dùng năng lượng: E lướt tạo lốc xoáy hút địch rồi choáng, R ba đoạn vừa đánh vừa hồi máu, Space tụ lực sau một tấm khiên bằng 100% máu rồi hất tung cả vùng. Thắng bằng cách lao vào, chịu đòn và trụ lâu hơn đối thủ.",
+  "strengths": [
+    "Thân trâu nhất nhóm: máu 4.631 và máu hiệu dụng 7.927, hơn khoảng 82% số tank.",
+    "E lướt 480, hút đạn bay trên đường lướt; đáp xuống gây 135% công trong bán kính 168, 1 giây sau lốc xoáy hút địch về tâm, gây 187% và choáng 1 giây.",
+    "R ba đoạn, đoạn sau mạnh hơn đoạn trước 25% (101%, khoảng 126%, khoảng 158% công). Mỗi đoạn trúng hồi 5% máu đã mất (đoạn 3 là 10%), giảm 10% hồi chiêu E và Space; đoạn 3 hất tung 0,5 giây.",
+    "Space nhận ngay khiên bằng 100% máu tối đa (khoảng 4.631) và miễn khống chế 3 giây; tụ càng lâu càng mạnh, tối đa gây 229% công trong bán kính 360 và hất tung 1,5 giây.",
+    "Cứ 3 phát đánh thường thì phát thứ 3 là đinh ba xuyên tường gây 150% công, trói chân 0,25 giây và hồi 3% máu tối đa mỗi mục tiêu trúng."
+  ],
+  "weaknesses": [
+    "Bắn chậm (1.000 ms) và tầm 336, ngắn nhất game; sát thương đánh thường thấp.",
+    "Chiêu tốn năng lượng (E 20, R 30, Space 60) mà năng lượng tự hồi chậm: 5 điểm mỗi 3 giây, cộng 5 mỗi phát đánh thường trúng.",
+    "Khiên Space giảm 5% máu tối đa mỗi 0,25 giây nên hết sạch sau 5 giây; lúc tụ lực không di chuyển, không đánh được.",
+    "Bị choáng, câm lặng hay hất tung lúc đang lướt E là lướt dừng ngay."
+  ],
+  "tips": [
+    "E vào giữa đám địch, rồi R đủ ba đoạn trong lúc lốc xoáy giữ chúng lại.",
+    "Bấm Space khi bị dồn: khiên 100% máu và miễn khống chế giúp sống sót, nhả sớm (sau 0,75 giây) nếu cần hất tung ngay.",
+    "Để dành 60 năng lượng cho Space; đừng xả hết vào E và R.",
+    "Đếm phát đánh thường: phát thứ 3 xuyên tường và trói chân, dùng để kéo dài khống chế."
+  ],
+  "counters": [
+    "Né điểm Aquaman đáp E: lốc xoáy hút sau 1 giây, đủ thời gian bước ra.",
+    "Thấy Aquaman tụ Space thì lùi ra ngoài 360 thay vì đánh vào khiên 100% máu.",
+    "Ép nó tiêu năng lượng rồi đánh lúc cạn: thiếu năng lượng thì không có E, R hay Space.",
+    "Khống chế cứng ngay giữa các đợt chiêu để cắt phần hồi máu của R."
+  ],
+  "counter_why": "Khống chế mạnh của Thủy Tinh dễ bắt Aquaman đúng lúc nó vừa hết chiêu, cắt đứt khả năng trụ lâu. Nhân lúc đó dồn hỏa lực hạ nó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 59/91: rất trâu nhưng gây sát thương và bắn chậm. Bộ chiêu cho khống chế tốt (choáng 1 giây, hất tung 1,5 giây) và hồi máu, nhưng bị năng lượng giới hạn số lần dùng chiêu. Vai trò tank chịu đòn được cân đúng.",
+    "suggestion": "Giữ nguyên. Code khác mô tả R: năng lượng tự hồi 5 điểm mỗi 3 giây (mô tả R ghi 10), và đinh ba hồi 3% máu tối đa theo mô tả Nội tại chứ không phải 5% máu đã mất cộng 10 năng lượng như mô tả R."
+  },
+  "evidence": [
+    "server/aquaman_actions.py:aqua_land / aqua_whirl — 1.35 × công bán kính 168, sau 1000 ms 1.87 ×, kéo về tâm, choáng 385223 1000 ms",
+    "server/aquaman_actions.py:cast slot 10 — 1.01 × 1.25^đoạn, hồi 5%/10% máu đã mất, hồi chiêu E/Space × 0.9, đoạn 3 hất tung 385423 500 ms",
+    "server/aquaman_actions.py:cast slot 2 / _release — khiên 385315 = máu tối đa, giảm 5% máu tối đa mỗi 250 ms; 1.145 × (1 + tỉ lệ tụ) bán kính 120 + 240 × tỉ lệ; hất tung 385302 1500 ms",
+    "server/aquaman_actions.py:aqua_energy / _basic_hit — +5 năng lượng mỗi 3000 ms và mỗi phát trúng; đinh ba 1.5 ×, trói 385112 250 ms, hồi 3% máu tối đa"
+  ]
+}

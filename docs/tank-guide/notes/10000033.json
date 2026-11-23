@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ năng lượng tầm xa bắn rất nhanh, gài bẫy định thân và tự hồi máu. Thắng nhờ Space súng máy: đứng yên một chỗ xả đạn với tốc đánh gấp 4 lần, xuyên vật cản.",
+  "strengths": [
+    "Chỉ số thân tank hạng 12/91: sát thương mỗi giây hơn 95% số tank, tầm bắn 552 hơn 87% số tank, mỗi phát chỉ 500 ms.",
+    "Nội tại tăng 50% sát thương đòn thường; mỗi phát trúng cộng thêm 5% sát thương đòn thường lên mục tiêu đó trong 2 giây, tối đa 10 tầng (+50%).",
+    "Space súng máy: tốc đánh +300% (500 ms còn 125 ms một phát), tầm 720, đạn xuyên vật cản, giảm 25% sát thương nhận vào. Mỗi phát tốn 10 năng lượng, trúng thì hồi 5.",
+    "E có 2 lượt tích: bẫy tàng hình tồn tại 45 giây, gây 157% công năng lượng, định thân 1,5 giây và làm lộ diện 2 giây.",
+    "Sát thương kỹ năng hút 50% thành máu; đứng yên 2,5 giây thì vào Quang Hợp: không thể bị chọn làm mục tiêu, mỗi giây hồi 5% máu tối đa và 10 năng lượng."
+  ],
+  "weaknesses": [
+    "Mỏng: máu hiệu dụng 5.076, chỉ hơn 20% số tank.",
+    "Bật súng máy là tự giam chân: buff 307301 khóa di chuyển cho tới khi tắt Space hoặc hết năng lượng, nên rất dễ bị lao vào hoặc dính chiêu vùng.",
+    "Súng máy chỉ kéo dài theo năng lượng (tối đa 200, hồi 5 mỗi giây): bắn trượt nhiều là tắt sớm.",
+    "Quang Hợp mất ngay khi di chuyển hoặc tấn công, và bị gỡ khi dính hiệu ứng lộ diện."
+  ],
+  "tips": [
+    "Gài 2 bẫy E ở lối địch hay đi vào trước khi giao tranh; bẫy trúng là có 1,5 giây định thân để bật súng máy.",
+    "Chỉ bật Space ở chỗ có vật cản che hoặc sau lưng đồng đội: đạn xuyên tường nhưng chính Pea Shooter không chạy được.",
+    "Dồn đạn vào một mục tiêu để chồng đủ 10 tầng +5% sát thương đòn thường.",
+    "Đặt Bom Anh Đào (R) lên người đồng đội đang lao vào: 2 giây sau nổ 278% công năng lượng bán kính 144 quanh người đó, hút 50% thành máu."
+  ],
+  "counters": [
+    "Lao vào ngay khi nó bật súng máy: nó không chạy được cho tới khi tự tắt Space.",
+    "Dùng chiêu lộ diện hoặc chiêu quét bẫy (như radar của Falcon) để gỡ bẫy tàng hình trước khi đi qua.",
+    "Ép nó di chuyển liên tục để không vào được Quang Hợp, cắt nguồn hồi máu và năng lượng.",
+    "Dùng chiêu miễn nhiễm rồi khóa chiêu (silence) để nó không bật được Space."
+  ],
+  "counter_why": "Phượng Hoàng Lửa dùng hiệu ứng bất tử của E Phụng Vũ Cửu Thiên để quét sạch bẫy của Pea Shooter, rồi tung Liệt Diễm Xung Kích gây sát thương kèm khóa chiêu, phối hợp đồng đội hạ gục nó.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank đã ở top 12/91, Space lại nhân tốc đánh lên 4 lần: mỗi phát 150% công năng lượng, 8 phát mỗi giây, cộng tới +50% từ tầng hạt đậu, kéo dài khoảng 40 phát trúng với 200 năng lượng. Cái giá duy nhất là đứng yên, trong khi vẫn được giảm 25% sát thương nhận vào.",
+    "suggestion": "Hạ tốc đánh của súng máy từ +300% xuống +200%, hoặc tăng tiêu hao từ 10 lên 15 năng lượng mỗi phát. Kiểm tra thêm: code giảm 25% sát thương theo mô tả, trong khi BuffTemplate 307303 ghi 0.5."
+  },
+  "evidence": [
+    "server/pea_actions.py:cast slot 0 — mỗi phát power × 1.5; súng máy trừ 10 năng lượng; on_bullet_hit +5 năng lượng và tầng 307121/307122",
+    "BuffTemplate 307302 fEffectValA 3 (tốc đánh +300%); 307301 nEffectType 36 'tự giam' (khóa di chuyển, battle_runtime.blocked)",
+    "battle_runtime.py — 307303 giảm 25% (comment: chọn theo mô tả thay vì 0.5 trong bảng)",
+    "server/pea_actions.py:_event trap_check — bẫy 1.57 × công, hút 0.5, định thân 1500 ms; photo_tick hồi 2.5% máu tối đa mỗi 500 ms",
+    "SkillTemplate 307321 iRange 720, iMpCost 10; facts stat_rank 12, pct atk_per_s 0.956"
+  ]
+}

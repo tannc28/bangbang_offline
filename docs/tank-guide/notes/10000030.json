@@ -1,0 +1,40 @@
+{
+  "summary": "Xạ thủ tầm xa bắn rất nhanh, mỗi phát đánh thường gây 150% công và tẩm độc theo % máu tối đa. Thắng nhờ áp sát trong tàng hình rồi xả đánh thường liên tục, Space vừa rải độc vừa trượt lùi ra xa.",
+  "strengths": [
+    "Đánh thường gây 150% công (khoảng 532 sát thương thô ở cấp 6) mỗi 0,5 giây, tầm 552 thuộc nhóm xa nhất (hơn 87% số tank).",
+    "Mỗi phát trúng chồng một tầng độc, tối đa 3 tầng: mỗi giây mất 1/2/3% máu tối đa trong 3 giây và bị giảm 30% hồi máu. Càng gặp tank trâu, độc càng có giá trị.",
+    "E cho tàng hình 5 giây, tăng 25% tốc chạy; phát bắn mở màn từ trong tàng hình xuyên 25% giáp vật lý.",
+    "R phóng 5 phi tiêu xuyên tường trong 1 giây, mỗi phi tiêu 100% công và cũng tẩm độc, trong lúc đó chạy nhanh hơn 50%.",
+    "Space gây 90% công mỗi giây trong 5 giây (tổng 450%) lên địch trong hình quạt bán kính 240, làm chậm 50% rồi trượt lùi 192."
+  ],
+  "weaknesses": [
+    "Thân rất mỏng: máu hiệu dụng 4.615, chỉ hơn khoảng 3% số tank; máu 3.115 thuộc nhóm thấp nhất.",
+    "Tàng hình vỡ ngay khi mất máu hoặc khi dùng bất kỳ đòn nào khác E, kể cả đánh thường.",
+    "Trong lúc tàng hình, địch trong bán kính 480 nhận cảnh báo mỗi giây, nên không thể áp sát hoàn toàn bất ngờ.",
+    "Hồi chiêu E chỉ bắt đầu tính sau khi tàng hình kết thúc, nên lần tàng hình kế tiếp đến chậm hơn con số 8 giây.",
+    "Bị khống chế loại choáng, câm lặng hay hất tung là R đang phóng dở bị hủy."
+  ],
+  "tips": [
+    "Dùng E để đi vòng ra góc an toàn rồi mới mở màn: phát đầu tiên được xuyên 25% giáp.",
+    "Giữ nhịp bắn liên tục lên một mục tiêu để độc luôn ở 3 tầng; độc hết sau 3 giây nếu không được làm mới.",
+    "Để dành Space làm chiêu thoát: chiêu rải độc ra trước mặt rồi đẩy Dark Knight lùi 192.",
+    "R xuyên tường, dùng để rỉa địch nấp sau vật cản."
+  ],
+  "counters": [
+    "Mang tank có chiêu phá tàng hình hoặc vùng phát hiện; tàng hình của Dark Knight vô dụng khi bị lộ.",
+    "Khi thấy cảnh báo, gây chút sát thương diện rộng quanh mình: chỉ cần Dark Knight mất máu là tàng hình vỡ.",
+    "Lao vào và khống chế: thân chỉ khoảng 4.600 máu hiệu dụng, không chịu nổi một chuỗi chiêu."
+  ],
+  "counter_why": "Ấn ký dẫn điện của Pikachu có tác dụng phá tàng hình, khiến Dark Knight ẩn thân cũng vô ích, không còn chỗ nấp.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương duy trì rất cao (đánh thường 150% công mỗi 0,5 giây cộng độc tới 3% máu tối đa mỗi giây) nhưng thân thuộc nhóm mỏng nhất game và tàng hình dễ vỡ. Chỉ số thân tank hạng 31/91, sức mạnh nằm hết ở việc giữ được khoảng cách.",
+    "suggestion": "Theo dõi hệ số 1,5 lần ở đánh thường: nó nằm ngoài chỉ số bảng nên cột công/giây (710) đang đánh giá thấp Dark Knight. Buff E 305201 trong bảng có tăng tốc đánh 50% (thuộc tính 33) nhưng code không đọc thuộc tính này, nên E thực tế không tăng tốc đánh."
+  },
+  "evidence": [
+    "server/darkknight_actions.py:cast slot 0 — đánh thường power × 1.5, speed_multiplier 1.5",
+    "server/darkknight_actions.py:_poison / dark_poison — tối đa 3 tầng, mỗi giây max_hp × 0.01 × số tầng, kéo dài 3000 ms; battle_runtime.py:restore_hp — giảm hồi máu chung 30%",
+    "server/darkknight_actions.py:on_damage / cast — tàng hình 305202 vỡ khi mất máu hoặc dùng chiêu khác E; hồi chiêu E 8000 ms tính từ lúc tàng hình kết thúc",
+    "BuffTemplate 305201 xuyên giáp 25% (thuộc tính 34), 305203 +25% tốc chạy; 305301 Space 90% công/giây 5000 ms, 305313 chậm 50%"
+  ]
+}

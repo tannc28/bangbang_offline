@@ -1,0 +1,40 @@
+{
+  "summary": "Tank hai dạng: dạng Punisher bắn xa 480 để đánh dấu và làm yếu địch, dạng Harvester cầm lưỡi liềm đánh cận chiến hút máu rất mạnh. Space dịch chuyển tới mục tiêu, nhốt nó trong lãnh địa 4 giây và đuổi những kẻ khác ra ngoài.",
+  "strengths": [
+    "Thân trâu: máu 4.480, máu hiệu dụng 7.668 (hơn khoảng 75% số tank), tốc chạy 175 thuộc nhóm nhanh.",
+    "Dạng Punisher: đánh thường trúng giảm 15% hồi chiêu R còn lại và khiến mục tiêu gây ít hơn 30% sát thương lên Hades trong 3 giây. E hình quạt dài 480 gây 132% công, làm chậm 50% và đánh dấu 5 giây để đánh thường dạng Harvester gây thêm 50%.",
+    "Dạng Harvester: đánh thường quét hình quạt bán kính 168, hút 30% máu, mỗi phát chồng chậm 10% (tối đa 5 tầng). E gây 167% công quanh mình; trúng thì 5 giây sau đó +150% tốc đánh và hút máu đánh thường lên 180%.",
+    "R đổi dạng, hồi 6 giây: 3 giây sau khi đổi được +100% tốc chạy (giảm dần), giảm 50% sát thương và giảm 50% hiệu quả khống chế nhận vào. Mỗi dạng tính hồi chiêu E riêng.",
+    "Space chọn mục tiêu trong 480: mục tiêu bị giam 1,5 giây, Hades biến mất 1 giây (không bị chọn, không nhận sát thương) rồi đáp xuống gây 223% trong bán kính 264. Lãnh địa 4 giây: mục tiêu cố chạy ra thì bị choáng liên tục, địch khác bước vào bị hoảng sợ chạy ra, Hades trong vùng miễn khống chế."
+  ],
+  "weaknesses": [
+    "Tốc bắn gốc 1.000 ms, thuộc nhóm chậm nhất: ngoài 5 giây cường hóa của E Harvester, sát thương đánh thường thấp.",
+    "Chỉ số thân tank hạng 58/91: công 320 thấp, sức mạnh nằm hết ở bộ chiêu.",
+    "Dạng Harvester chỉ đánh trong 168; bị thả diều thì phải đổi về Punisher mới đánh được.",
+    "Phần hút máu khổng lồ cần trúng E Harvester trước; né được E là Hades mất phần lớn khả năng trụ."
+  ],
+  "tips": [
+    "Mở bằng Punisher: bắn E đánh dấu, rồi R đổi sang Harvester (chạy nhanh gấp đôi và giảm 50% sát thương) để lao vào.",
+    "Vào cận chiến, dùng ngay E Harvester để có 5 giây +150% tốc đánh và hút máu 180%.",
+    "Dùng Space lên pháo xa: nó bị nhốt trong lãnh địa với Hades, đồng đội của nó vào cứu thì bị đuổi ra.",
+    "Ở dạng Punisher, bắn liên tục để R hồi nhanh (mỗi phát trúng giảm 15%)."
+  ],
+  "counters": [
+    "Né E Harvester bằng khoảng cách: không trúng E thì Hades không có 5 giây hút máu 180%.",
+    "Khi bị Space nhốt, đừng cố chạy ra ngoài lãnh địa (sẽ bị choáng liên tục); đánh trả hoặc chờ đồng đội khống chế từ ngoài.",
+    "Dồn khống chế vào lúc Hades vừa đổi dạng xong 3 giây, khi phần giảm 50% sát thương và khống chế đã hết.",
+    "Dùng hiệu ứng giảm hồi máu trước khi Hades vào cận chiến."
+  ],
+  "counter_why": "Sự bảo vệ của Athena khiến Hades khó gây sát thương, nên cũng khó hút máu để hồi phục.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank trung bình yếu (hạng 58/91) vì công và tốc bắn thấp, nhưng bộ chiêu cho khống chế mạnh (giam 1,5 giây, lãnh địa 4 giây) và hút máu rất lớn trong 5 giây sau E Harvester. Hút máu đó phải trả bằng việc trúng E và đứng cận chiến, nên tổng thể vẫn cân.",
+    "suggestion": "Theo dõi hút máu 180% trong 5 giây với E hồi 6 giây: nếu Hades đứng giữa giao tranh mà không chết, giảm xuống khoảng 120%. Code khác mô tả: chậm của E Punisher chỉ kéo dài 2 giây (mô tả và BuffTemplate 367202 ghi 5 giây), còn dấu cộng 50% sát thương vẫn giữ 5 giây."
+  },
+  "evidence": [
+    "server/hades_actions.py:cast slot 0 (Harvester) — nón 168/180°, lifesteal 1.8 khi có 367602, ngược lại 0.3; × 1.5 lên mục tiêu có dấu 367203–367206",
+    "server/hades_actions.py:cast slot 1 — Punisher 1.32 × nón 480/45°, 367202 duration 2000 ms; Harvester 1.67 × bán kính 192, trúng thì 367602/367603 (+150% tốc đánh, 5000 ms)",
+    "server/hades_actions.py:on_bullet_hit — hồi chiêu R còn lại × 0.85, buff 367102 (−30% sát thương lên Hades, 3000 ms, xử lý ở battle_runtime.py:damage)",
+    "server/hades_actions.py:hades_arrive/_domain — 2.23 × bán kính 264, lãnh địa 4000 ms; 367307 giam 1500 ms, 367321 choáng khi mục tiêu ra ngoài 264, 367308 hoảng sợ, 367310 miễn khống chế"
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư vật lý tầm trung chuyên dồn sát thương vùng bằng hộp quà nổ chậm. Mỗi chiêu trúng hồi 8% máu và rút 8% thời gian hồi chiêu, nên giao tranh càng đông, Joker càng xoay chiêu nhanh và càng khó chết.",
+  "strengths": [
+    "Chỉ số thân tank hạng 16/91: sát thương mỗi giây hơn 82% số tank, máu 3.780.",
+    "E ném hộp quà tầm 600, nổ sau 1 giây trong bán kính 144: 354% công vật lý và làm chậm 50% (giảm dần) trong 1,5 giây. Code cho 3 lượt tích, mỗi lần ném cách nhau 1 giây.",
+    "Nội tại: chiêu trúng là hồi 8% máu tối đa và rút 8% thời gian hồi còn lại của E, R, Space (tối đa một lần mỗi 0,25 giây). Phân thân mất 8% máu cũng kích hoạt hiệu ứng này.",
+    "Space: hạt giống bay xuyên tường, 412% công vật lý, sau 0,5 giây gắn Xé Rách Linh Hồn 3 giây: mỗi 24 đơn vị mục tiêu di chuyển là chịu 36% công sát thương thực, mỗi lần đều kích hoạt nội tại.",
+    "R: dịch chuyển tối đa 336, để lại phân thân cùng máu và chỉ số, bản thân không thể bị chọn trong 2 giây; phân thân chết hoặc hết 2 giây thì nổ 270% công bán kính 144."
+  ],
+  "weaknesses": [
+    "Chạy 155, chậm hơn gần như mọi tank (chỉ hơn khoảng 2%).",
+    "Hộp quà nổ sau 1 giây: mục tiêu nhanh nhẹn bước ra khỏi bán kính 144 là né trọn.",
+    "Tàng hình của R mất ngay khi Joker bắn hoặc dùng chiêu, và bị gỡ khi dính hiệu ứng lộ diện.",
+    "Hồi máu và giảm hồi chiêu chỉ đến khi chiêu trúng: bị né liên tục thì Joker vừa yếu vừa chậm chiêu."
+  ],
+  "tips": [
+    "Ném hộp quà vào chỗ địch buộc phải đứng hoặc ngay sau khi đồng đội khống chế: 1 giây chờ nổ là điểm yếu duy nhất của E.",
+    "Bắn Space vào mục tiêu đang phải chạy (đang rút lui hoặc đuổi theo): càng chạy càng mất máu, và mỗi nhịp đều hồi máu cho Joker.",
+    "Dùng R để thoát hoặc để mồi: để phân thân lại chỗ địch đang dồn, chúng đánh phân thân thì vừa rút hồi chiêu cho Joker vừa ăn cú nổ 270%.",
+    "Giao tranh đông người là lúc Joker mạnh nhất: mỗi mục tiêu trúng đều là thêm một lần hồi máu và rút hồi chiêu."
+  ],
+  "counters": [
+    "Né hộp quà bằng cách liên tục đổi vị trí; có 1 giây báo trước.",
+    "Khi dính Space, đứng yên hoặc chỉ di chuyển khi cần né: 3 giây đó mỗi bước đi đều mất máu thực.",
+    "Đừng dồn chiêu vào phân thân: mỗi 8% máu nó mất là Joker được hồi máu và rút hồi chiêu.",
+    "Dùng hiệu ứng lộ diện hoặc tàng hình áp sát (như Sát thủ) để bắt Joker lúc nó đứng một mình."
+  ],
+  "counter_why": "Sát thủ tận dụng tàng hình để lặng lẽ áp sát Joker, rồi dùng sát thương bùng nổ hạ gục nó trong chớp mắt.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank cao (hạng 16/91) và E rất mạnh (354% vùng, nhiều lượt tích), nhưng mọi sát thương đều có 1 giây báo trước hoặc là đạn bay, và Joker chạy gần chậm nhất game. Vòng hồi máu và hồi chiêu chỉ chạy khi chiêu trúng.",
+    "suggestion": "Giữ code ở 3 lượt tích E. SkillTemplate 451201 và mô tả ghi 5 lượt; nếu ai đó sửa code cho khớp bảng thì E (5 × 354%, mỗi lần trúng hồi 8% máu) sẽ quá mạnh. Nên sửa mô tả về 3 lượt thay vì sửa code."
+  },
+  "evidence": [
+    "server/joker_actions.py:__init__/update — e_count tối đa 3, mỗi lượt 8000 ms, cách nhau 1000 ms (SkillTemplate 451201 iStackCount 5)",
+    "server/joker_actions.py:_area — bán kính 144, 3.54 × công vật lý, BuffTemplate 451204 chậm 50% 1500 ms",
+    "server/joker_actions.py:_proc — hồi max_hp × 0.08, thời gian hồi còn lại × 0.92, giới hạn mỗi 250 ms",
+    "server/joker_actions.py:_event joker_tear — 0.36 × công sát thương thực mỗi 24 đơn vị di chuyển, 3000 ms",
+    "server/joker_actions.py:cast slot 10 / JokerClone — dịch chuyển 336, BuffTemplate 451403 tàng hình 2000 ms, phân thân nổ 2.7 × công bán kính 144"
+  ]
+}

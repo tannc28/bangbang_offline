@@ -1,0 +1,126 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Naruto · Cẩm nang tank</title><meta name="description" content="Sát thủ tầm xa dồn sát thương bằng chakra: R lao vào trói chân, Space nổ rồi để lại vòng xoáy, E biến bốn phát bắn thành đạn xuyên, càng xa càng đau. Hạ được một mạng là vào chế độ Cửu Vĩ để lăn cầu tuyết.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/3752f4c9e79aa32ec313fb39dc050b8d.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Naruto thôn Ninja kiệt xuất mở ước được làm một CEO thành công, giàu sang phú quý! Nếu không có ước mơ thì chẳng khác gì con cá mắc cạn?</div>
+<h2 class="page-title">Naruto</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Khống Chế Bạo Phát</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000049.html">← Transformer</a>
+<a class="btn" href="10000058.html">Medusa →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ tầm xa dồn sát thương bằng chakra: R lao vào trói chân, Space nổ rồi để lại vòng xoáy, E biến bốn phát bắn thành đạn xuyên, càng xa càng đau. Hạ được một mạng là vào chế độ Cửu Vĩ để lăn cầu tuyết.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 47/91, mỏng máu nhưng sát thương mỗi giây khá. Bộ chiêu cho nhiều khống chế và sát thương dồn, nhưng bị chakra và thời gian tụ lực của Space kìm lại, mạnh nhất chỉ khi đã có mạng đầu để vào Cửu Vĩ, đúng chất sát thủ.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên số. Code chưa cài phần nội tại theo mô tả (đánh thường thêm 5% năng lượng tối đa; Cửu Vĩ hồi 15% máu, kéo dài 10 giây); hiện chỉ có bản 5 giây của bị động R. Nếu bổ sung thì cần đo lại độ lăn cầu tuyết.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★☆☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3605</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">165 / 135</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">335 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">47</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">850 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#47/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5408</span></div><div class="progress progress-sm" title="Hơn 36% số tank"><div class="progress-bar bg-orange" style="width:36%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">394</span></div><div class="progress progress-sm" title="Hơn 66% số tank"><div class="progress-bar bg-lime" style="width:66%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/f505f2dcb8935a34ded33758fc64c1d7.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Đạn Tứ Phân Thân</span>
+<span class="badge bg-azure-lt">hồi 5s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Công Thường Loại ST: Vật Lý Thực 
+VP Bay: Có
+
+Sau khi thi triển trong 2.5s khiến ST bản thân phải nhận giảm 50%, đồng thời trong 5s khiến 4 lần công thường kế tiếp cường hóa thành 【Phân Thân Liên Đạn】, có thể xuyên thấu mục tiêu gây 75% ST Vật Lý rồi kèm thêm ST (ST kèm thêm được tính theo cực ly bản thân với mục tiêu, cự ly càng xa ST càng lớn)Đồng thời khiến mục tiêu giảm tốc 25% trong 1.5s, giảm tốc cộng dồn theo số lần đánh trúng, sau khi liên tục trúng mục tiêu 4 lần sẽ đánh bay mục tiêu 1s rồi gây thêm ST Thực bằng 10% giới hạn HP.
+
+ST gây lên kiến trúc giảm 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/1c590c0dde6ef9404623bac8bf6bb40f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Rasen</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill gồm hiệu quả chủ động và bị động.
+
+Bị Động: Naruto có Chakra, thi triển cần tiêu hao lượng Chakra nhất định, Naruto, Naruto có thể hấp thu năng lượng trong tự nhiên và chuyển hóa thành Chakra, cứ 3s hồi 10 Chakra, nếu Công Thường của nó đánh trúng mục tiêu sẽ cướp mục tiêu 5đ Năng Lượng và chuyển hóa thành Chakra bản thân, giảm 5% CD của tất cả skill.
+Mỗi khi Naruto diệt hoặc trợ công sẽ hồi ngay 50 Chakra và kích hoạt chế độ Cửu Vĩ Yêu Hồ-Jinchuriki của Naruto, khiến y trong 5s tăng 100% tốc độ tấn công, +100% tốc độ di chuyển, Công Thường sẽ nhận thêm 50% hiệu quả ST và hút máu, hiệu quả khống chế phải nhận giảm 25%.
+
+Chủ Động: Naruto thu thập Chakra hình thành Rasengan và tấn công đến mục tiêu chỉ định, hấp thu VP bay trên đường, nếu va chạm mục tiêu địch sẽ hấp thụ kẻ địch xung quanh gây 196 ST Vật Lý và khiến mục tiêu định thân 1s.
+Sau khi va chạm mục tiêu sẽ lùi sau 1 đoạn và hồi 25 Chakra, bản thân tăng 50% tốc độ di chuyển và tốc độ tấn công, kéo dài 3s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ceeb05063f93bdc1b9fb3b19a329e791.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Phong Độn·Rasengan</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 528</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý 
+VP Bay: Có
+
+Tụ lực 0.5s thi triển Rasengan, địch trong phạm vi chịu 350% ST Vật Lý rồi câm lặng mục tiêu 1s. Trong 4s tiếp theo, kẻ địch xung quanh mỗi 0.5s chịu 50% ST Vật Lý đồng thời tốc độ giảm 50%, hiệu quả giảm tốc cộng dồn theo lượt ST.
+Công Thường của Naruto gây ST lên mục tiêu bị Rasengan ảnh hưởng tăng 50%.
+
+ST lên kiến trúc giảm 50%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/e456bc798ac54679529341236c6ecc66.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Jinchuriki</span>
+
+
+</div>
+<div class="skill-desc">Naruto công thường trúng mục tiêu sẽ gây thêm ST bằng 5% Năng Lượng tối đa, [Phân Thân Liên Đạn] cũng được kích hoạt.
+Mỗi lần tiêu diệt tank địch hoặc trợ công đều vào chế độ Cửu Vĩ: Bản thân hồi 15% HP tối đa, tăng 125% công tốc, 35% tốc độ di chuyển và 25% Công Vật Lý, trong 10s.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>E cường hóa 4 phát bắn kế tiếp thành đạn xuyên thấu: sát thương từ 75% tới 175% tùy khoảng cách (xa 480 là tối đa), trúng liền 4 phát một mục tiêu thì thêm sát thương chuẩn 10% máu tối đa và hất tung 1 giây. E còn giảm 50% sát thương nhận vào trong 2,5 giây và chỉ hồi 5 giây.</li><li>Space nổ 350% công trong bán kính 144, khóa chiêu 1 giây, rồi để lại vòng xoáy 8 nhịp 50% công trong 4 giây, làm chậm cộng dồn và khiến đạn thường của Naruto đau thêm 50%.</li><li>R lao 480 đơn vị, chạm địch thì gây 196% công trong bán kính 144, kéo mọi kẻ địch quanh đó lại, trói chân 1 giây rồi nhảy lùi 240; sau đó được +50% tốc đánh và tốc chạy 3 giây.</li><li>Mỗi phát đánh thường trúng giảm 5% hồi chiêu của cả E, R, Space, hút 5 năng lượng của mục tiêu và cộng 5 chakra.</li><li>Hạ hoặc trợ công là được 50 chakra và 5 giây Cửu Vĩ: +100% tốc đánh và tốc chạy, đánh thường mạnh thêm 50% và hút máu 50%.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng: 3.605 máu, giáp 165/135, máu hiệu dụng 5.408 (chỉ hơn khoảng 36% số tank).</li><li>Mọi chiêu đều tốn chakra (E 25, R 25, Space 50), chakra tự hồi chỉ 10 mỗi 3 giây; dùng chiêu bừa là cạn.</li><li>Space phải tụ lực 0,5 giây; bị choáng, câm lặng hoặc khóa chiêu lúc đó là mất chiêu và chịu 5 giây hồi.</li><li>Đạn thường chỉ bay 408 đơn vị theo SkillTemplate, ngắn hơn tầm 480 ghi trên bảng chỉ số, nên phải đứng gần hơn tưởng.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Bật E rồi lùi ra xa: đạn cường hóa gây nhiều sát thương nhất ở khoảng cách 480, và 50% giảm sát thương giúp chịu được đòn trả.</li><li>R vào giữa đám đông để kéo cả nhóm lại, rồi Space ngay chỗ đó để vòng xoáy trúng tất cả.</li><li>Đánh thường liên tục giữa các chiêu: mỗi phát trúng vừa hồi chakra vừa rút ngắn hồi chiêu.</li><li>Tìm mạng đầu tiên trên mục tiêu mỏng máu; 5 giây Cửu Vĩ sau đó đủ để dọn thêm một người.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dính một phát đạn E thì đổi chỗ ngay, đừng để trúng đủ 4 phát liên tiếp.</li><li>Khống chế Naruto đúng lúc nó tụ lực Space để hủy chiêu.</li><li>Thấy vòng xoáy Space thì ra khỏi bán kính 144 ngay, đứng lại là bị chậm dần và ăn đạn đau gấp rưỡi.</li><li>Áp sát và dồn nhanh: Naruto mỏng, sau khi R đã dùng thì không còn chiêu thoát thân.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Bị [E-Đạn Tứ Phân Thân] Naruto bắn trúng, rời khỏi vị trí hiện tại ngay. Khi Naruto dùng [Space-Rasengan], mau chóng chạy đi xa.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000069.html">Bò Cạp Độc</a>. Chiêu của Bò Cạp Độc đi xuyên được chướng ngại vật. Nó phối hợp E Ô Nhiễm Chí Mạng với Space Nuốt Chửng Tử Thần để cộng độc lên nhiều tầng, rồi dùng R Bùng Phát Độc Tố kích nổ, Naruto không có chỗ nào để trốn.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/naruto_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/naruto_actions.py:_basic_hit — đạn E × (0.75 + min(1, khoảng cách/480)); trúng lần thứ 4 thì sát thương chuẩn 10% max_hp + BuffTemplate 318216 hất tung 1000 ms; mỗi phát trúng giảm hồi chiêu base/20</li><li>server/naruto_actions.py:_vortex + &#x27;naruto_vortex&#x27; — 350% công bán kính 144, 8 nhịp 50% mỗi 500 ms; BuffTemplate 318313 +50% sát thương đánh thường</li><li>server/naruto_actions.py:cast — chakra E 25, Space 50, R 25; &#x27;naruto_energy&#x27; +10 mỗi 3000 ms; on_target_death +50 và buff 318111–318117 (5000 ms)</li><li>BuffTemplate 318202 giảm 50% sát thương nhận 2500 ms; 318413 trói chân 1000 ms; SkillTemplate 318100 iFlyRange 408</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [36, 66, 17, 49, 38]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Naruto",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

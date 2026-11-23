@@ -1,0 +1,131 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Ichigo · Cẩm nang tank</title><meta name="description" content="Sát thủ vật lý cơ động, lướt bằng 3 lượt E rồi chém kiếm áp hồi máu. Thắng nhờ Bankai: làm mới R để hất tung, rồi Gai Hắc Lưu lao vào mục tiêu đang bay, chém 4 nhát trong lúc chính mình biến mất, không nhận sát thương.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/c65cae5ff2541646dc056f605cd2985e.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Sức mạnh thay đổi vận mệnh!</div>
+<h2 class="page-title">Ichigo</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Tích Lũy Bạo Phát</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000109.html">← Thạch Thần</a>
+<a class="btn" href="10000063.html">Thạch Sanh →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ vật lý cơ động, lướt bằng 3 lượt E rồi chém kiếm áp hồi máu. Thắng nhờ Bankai: làm mới R để hất tung, rồi Gai Hắc Lưu lao vào mục tiêu đang bay, chém 4 nhát trong lúc chính mình biến mất, không nhận sát thương.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank giữa bảng (hạng 34/91) và mỏng máu, đổi lại kit rất cơ động và có cửa sổ bất tử khi chém Gai Hắc Lưu. Năng lượng (E 40, R 30, hồi chậm) và điều kiện mục tiêu phải đang bay là cái phanh đủ chặt.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên, nhưng theo dõi tầng nội tại: 5 tầng × 15% nhân dồn với 25% của E khiến Ichigo chỉ còn chịu khoảng 19% sát thương kỹ năng. Nếu thấy quá trâu trước pháp sư thì giảm còn 10% mỗi tầng. Code tốn 40 năng lượng cho E và 30 cho R, mô tả không ghi.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3430</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">185 / 164</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">350 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">55</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#34/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5425</span></div><div class="progress progress-sm" title="Hơn 37% số tank"><div class="progress-bar bg-orange" style="width:37%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">389</span></div><div class="progress progress-sm" title="Hơn 62% số tank"><div class="progress-bar bg-lime" style="width:62%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">175</span></div><div class="progress progress-sm" title="Hơn 88% số tank"><div class="progress-bar bg-green" style="width:88%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">408</span></div><div class="progress progress-sm" title="Hơn 37% số tank"><div class="progress-bar bg-orange" style="width:37%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/03c0c92ec597c5cd8f43fc1f3986ad81.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Ma Ảnh</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 432</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Có
+
+Sau khi thi triển nhanh chóng đến cạnh địch, rồi trong 2s kết tiếp giảm 25% mọi ST phải nhận.
+
+Nếu mục tiêu là kẻ địch, thì tạo 125% ST Vật Lý rồi kèm theo Ký Hiệu Tử Thần 6s, skill này không thể dùng với địch đã có ấn ký.
+Nếu Kiếm Áp đánh trúng mục tiêu có Ký Hiệu Tử Thần thì xóa Ký Hiệu Tử Thần.
+
+Skill này được cộng dồn, tối đa 3 lần.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d3e3dc31670a72f2c9aaf8f944e6776d.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Nguyệt Nha Thiên Xung</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Kỹ năng: Kỹ năng Loại sát thương: Vật lý
+Vật thể bay: Có
+
+Kỹ năng gồm hiệu ứng bị động và chủ động.
+
+Bị động：Sau khi sử dụng kỹ năng, đòn đánh thường kế tiếp dùng Trảm Phách Đao phóng kiếm áp về phía trước, gây sát thương vật lý 100% lên mọi kẻ địch trong vùng hình chữ nhật. Gió kiếm ở cuối tầm gây thêm 50% sát thương và hất tung mục tiêu 0.25 giây. Nếu gây sát thương sẽ hồi 100% Máu và 15 Năng lượng. Năng lượng tối đa 150, mỗi 3 giây hồi 5 Năng lượng.
+Khi kỹ năng gây sát thương: tăng 10% Công Vật lý, 15% Xuyên thấu Vật lý và giảm 15% sát thương kỹ năng phải nhận trong 5 giây, cộng dồn tối đa 5 tầng.
+
+Chủ động：Chọn hướng, phóng toàn bộ Linh áp theo đường đi, gây 165% sát thương vật lý và giảm 50% tốc độ di chuyển của mục tiêu trong 1.5 giây. Nguyệt Nha Thiên Xung đầu tiên sau khi bật Bankai sẽ hất tung mục tiêu.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/1dff687acc3a8c851fae171a5651d7b0.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Bankai/Gai Hắc Lưu</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Bankai: Sau khi thi triển xóa hiệu quả xấu rồi hồi ngay 75đ Năng Lượng đồng trhowif trong 2s tăng tốc 100%, trong 10s tiếp theo công thường nhận hiệu quả bạo liệt.
+Khi Bankai sẽ làm mới CD của [Nguyệt Nha Thiên Xung] ngay rồi nhận skill space mới [Gai Hắc Lưu].
+
+Gai Hắc Lưu: Di chuyển nhanh đến vị trí địch bị đánh bay gần nhất, gây lên mục tiêu và tất cả địch gần đó 4 lần 75% ST Vật Lý rồi đánh bay 1.5s.Lúc này bản thân vào trạng thái biến mất, không nhận sát thương hoặc khống chế và nhận hiệu quả bạo kích 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/e4743dae17430cb5f5c7d9f03bdbfa2e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Trảm Phách Đao</span>
+
+
+</div>
+<div class="skill-desc">Kỹ năng: Không Loại sát thương: Vật lý
+Vật thể bay: Không
+
+Sau khi sử dụng kỹ năng, đòn đánh thường kế tiếp dùng Trảm Phách Đao phóng kiếm áp về phía trước, gây sát thương vật lý 100% lên mọi kẻ địch trong vùng hình chữ nhật. Gió kiếm ở cuối tầm gây thêm 50% sát thương và hất tung mục tiêu 0.25 giây. Nếu gây sát thương sẽ hồi 100% Máu và 15 Năng lượng. Năng lượng tối đa 150, mỗi 3 giây hồi 5 Năng lượng.
+Khi kỹ năng gây sát thương: tăng 10% Công Vật lý, 15% Xuyên thấu Vật lý và giảm 15% sát thương kỹ năng phải nhận trong 5 giây, cộng dồn tối đa 5 tầng.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>E có 3 lượt tích (tốn 40 năng lượng): lao tới mục tiêu trong tầm 432, gây 125% công vật lý, sau đó 2 giây giảm 25% sát thương nhận vào và tăng tốc chạy.</li><li>Sau mỗi chiêu, đòn thường kế tiếp thành kiếm áp: 100% công lên mọi địch trong dải dài 408, cuối dải gây 150% và hất tung 0,25 giây; trúng thì hồi máu bằng 100% công vật lý và 15 năng lượng.</li><li>Chiêu gây sát thương cộng tầng (tối đa 1 tầng mỗi 0,5 giây, giữ 5 giây, tối đa 5): mỗi tầng +10% công, +15% xuyên giáp và giảm 15% sát thương kỹ năng nhận vào. Đủ 5 tầng là chỉ còn chịu 25% sát thương kỹ năng.</li><li>Space Bankai: xóa hiệu ứng khống chế đang dính, +75 năng lượng, tốc chạy +100% trong 2 giây, làm mới R; R đầu tiên sau Bankai hất tung 1,5 giây.</li><li>Gai Hắc Lưu: lao tới mục tiêu đang bị hất tung trong tầm 600, chém 4 nhát, mỗi nhát 150% công vật lý (0,75 × chí mạng) lên mọi địch bán kính 96 và hất tung 1,5 giây; trong lúc chém Ichigo không thể bị chọn, không nhận sát thương và khống chế.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng: máu 3.430, máu hiệu dụng chỉ hơn khoảng 37% số tank.</li><li>Phụ thuộc năng lượng: E tốn 40, R tốn 30, tối đa 150 và chỉ hồi 5 mỗi 3 giây; nguồn hồi chính là kiếm áp trúng (+15) và Bankai (+75).</li><li>Không thể E lại vào cùng một địch trong 6 giây (dấu Tử Thần), trừ khi kiếm áp trúng và xóa dấu.</li><li>Gai Hắc Lưu chỉ dùng được khi có địch đang bị hất tung trong tầm 600; R hụt sau Bankai là mất cả chuỗi.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Nhịp cơ bản: E vào → đòn thường kiếm áp (hồi máu) → R → kiếm áp. Mỗi chiêu đều mở một kiếm áp mới.</li><li>Giữ năng lượng trên 70 trước khi lao vào để đủ một E và một R.</li><li>Bật Bankai, bắn R hất tung, rồi bấm Space lần nữa để Gai Hắc Lưu: cả chuỗi giữ mục tiêu trên không 3 giây và Ichigo không bị đánh lúc chém.</li><li>Đánh vào giữa giao tranh khi đã có 5 tầng: sát thương kỹ năng nhận vào chỉ còn 25%.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dùng đòn thường và sát thương vật lý thường: tầng giảm 75% chỉ chặn sát thương kỹ năng.</li><li>Cắt năng lượng: không có 40 năng lượng thì không E được.</li><li>Hất tung hoặc giữ chân nó trước khi nó vào được chuỗi chiêu (như Tre Trận của Thánh Gióng).</li><li>Né R sau Bankai: không có mục tiêu bị hất tung thì Gai Hắc Lưu không dùng được.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Ichigo dùng [Space-Bankai], giữ khoảng cách với đồng đội, tránh bị nhận sát thương phạm vi.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000043.html">Thánh Gióng</a>. E Tre Trận của Thánh Gióng hất tung được Ichigo, phá vỡ chuỗi chiêu của nó. Sức Mạnh Thánh Gióng lại vô hiệu khả năng cơ động để chạy thoát, khiến Ichigo không còn đường nào để trốn.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/ichigo_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/ichigo_actions.py:_start_step/_event ichigo_step — E tốn 40 năng lượng, 1.25 × công, BuffTemplate 339204 giảm 25% 2000 ms, 339210 khóa E cùng mục tiêu 6000 ms</li><li>server/ichigo_actions.py:_enhanced — dải 408 × 72, đầu mút 1.5 × công + BuffTemplate 339122 hất tung 250 ms, hồi máu = power, +15 năng lượng</li><li>server/ichigo_actions.py:_hit — tầng 339112/339113/339114 mỗi 500 ms; battle_runtime.py: 339113 giảm 0.15 × số tầng sát thương không phải đòn thường</li><li>server/ichigo_actions.py:_event ichigo_cut — 4 nhát × power × 1.5, bán kính 96, BuffTemplate 339306 hất tung 1500 ms; vanish đặt untargetable + damage_immune</li><li>server/ichigo_actions.py:_event ichigo_form — cleanse, +75 năng lượng, cooldowns[10] = 0</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [37, 62, 88, 37, 26]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Ichigo",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

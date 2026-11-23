@@ -1,0 +1,39 @@
+{
+  "summary": "Pháp sư tầm xa có sát thương dồn dập và nhiều đường thoát: ba lượt quạt Space bay đi bay về, mỗi quạt trúng lại rút ngắn hồi chiêu E và R. Thắng bằng cách quạt liên tục, mê hoặc kéo mục tiêu lại, và lướt E bất tử khi bị bắt.",
+  "strengths": [
+    "Chỉ số thân tank hạng 5/91: công năng lượng 383, máu 4.175, máu hiệu dụng 6.548 (hơn khoảng 62% số tank).",
+    "Space có 3 lượt, cách nhau 3 giây: ném 3 quạt lệch nhau 15°, mỗi quạt gây 60% công lúc bay đi và 180% lúc quay về. Mỗi quạt trúng giảm 30% hồi chiêu còn lại của E và R.",
+    "E lướt 360, bất tử 1 giây, tăng 25% tốc chạy, rồi gọi 4 cánh hoa tự bắn, mỗi cánh 50% công.",
+    "R bắn tim xuyên tường 152% công: mục tiêu bị mê hoặc 1 giây, tự đi về phía Điêu Thuyền, không đánh, không dùng chiêu được, rồi bị chậm 50% trong 1,5 giây.",
+    "Mọi chiêu hút 25% sát thương thành máu. Chiêu trúng 5 lần lên cùng mục tiêu thì nổ sát thương chuẩn 100% công trong bán kính 192 và trói chân 0,5 giây."
+  ],
+  "weaknesses": [
+    "Hầu hết sát thương cần chiêu chạm người: né được quạt là mất cả sát thương lẫn phần giảm hồi chiêu.",
+    "E, R, Space đều cần 0,1 giây đứng yên để ra chiêu; bị câm lặng đúng lúc đó là chiêu bị hủy.",
+    "Tầm 480 chỉ trung bình; tank có chiêu kéo hoặc lướt dài bắt được cô."
+  ],
+  "tips": [
+    "Ném quạt ở khoảng gần để cả 3 quạt cùng trúng một mục tiêu, rồi đứng yên chờ quạt quay về.",
+    "Mở bằng R mê hoặc để mục tiêu đi vào tầm quạt, sau đó xả Space.",
+    "Giữ E để né chiêu lớn: 1 giây bất tử đủ né phần lớn đòn bộc phát.",
+    "Đếm dấu: lần trúng thứ 5 cho sát thương chuẩn và trói 0,5 giây, dùng để nối combo."
+  ],
+  "counters": [
+    "Kéo hoặc lao vào sát Điêu Thuyền: cô mất lợi thế tầm xa và quạt khó trúng.",
+    "Di chuyển ngang khi thấy quạt bay ra, rồi tránh xa đường quạt quay về Điêu Thuyền.",
+    "Khống chế lúc cô vừa dùng E xong: 6 giây sau mới có lại bất tử, trừ khi quạt kịp trúng.",
+    "Dùng hiệu ứng giảm hồi máu để cắt 25% hút máu từ chiêu."
+  ],
+  "counter_why": "[E - Móng sắt] của Ghost Rider kéo Điêu Thuyền lại gần, khiến cô mất lợi thế tầm xa, không kịp tung mê hoặc và quạt.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank đã top 5, mà bộ chiêu còn cho bất tử 1 giây mỗi lần E, hút máu 25%, khống chế mê hoặc, và ba lượt quạt có thể gây tới 720% công lên một mục tiêu mỗi lượt. Mỗi quạt trúng giảm 30% hồi chiêu E và R, nên ba quạt trúng là E và R gần như hồi xong, tức bất tử lặp lại rất dày.",
+    "suggestion": "Giới hạn phần giảm hồi chiêu: chỉ tính một lần cho mỗi lượt Space thay vì mỗi quạt, hoặc giảm 30% xuống 10% mỗi quạt. Code khác mô tả: E bất tử 1 giây trong khi BuffTemplate 348202 ghi 0,5 giây; dấu nội tại trói 0,5 giây (mô tả Nội tại ghi 1 giây)."
+  },
+  "evidence": [
+    "server/diaochan_actions.py:diao_cast — 3 quạt lệch ±15°, tầm 480, 0.6 × công năng lượng; quạt quay về 1.8 ×",
+    "server/diaochan_actions.py:_impact — quạt trúng thì hồi chiêu E/R còn lại × 0.7; lifesteal 0.25; R mê hoặc 348402 1000 ms, chậm 348403 50% 1500 ms",
+    "server/diaochan_actions.py:_mark — 4 dấu rồi lần thứ 5 nổ sát thương chuẩn 1 × công bán kính 192, trói 348123 500 ms",
+    "server/diaochan_actions.py:diao_cast slot 1 — bất tử 348202 duration 1000 ms (bảng 500 ms), 4 cánh hoa 0.5 × mỗi 150 ms"
+  ]
+}

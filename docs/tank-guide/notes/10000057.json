@@ -1,0 +1,40 @@
+{
+  "summary": "Pháp sư hút máu tầm trung, càng thấp máu càng hút mạnh; chiêu quyết định là Space Nghi Lễ Máu: đổi tỉ lệ máu với kẻ địch, lúc mình gần chết mà đổi với một con đầy máu thì lật ngược cả pha giao tranh.",
+  "strengths": [
+    "Space đổi tỉ lệ máu với mục tiêu trong tầm 264 sau 1,5 giây: máu của Dracula chỉ tăng chứ không giảm, còn kẻ địch bị kéo xuống tỉ lệ máu cũ của Dracula rồi ăn thêm 358% công.",
+    "Hút máu từ kỹ năng bằng 25% cộng phần máu đã mất: còn 50% máu thì hút 75%, gần cạn máu thì hút gần 125%.",
+    "E hóa dơi 3 giây: miễn sát thương vật lý, 68% công khi biến, 6 đợt dơi tự tìm mục tiêu trong tầm 360 (mỗi đợt 66%), khi trở lại thêm 95%; tổng cộng tới 559% công.",
+    "R nối xích với một kẻ địch tối đa 5 giây: mỗi giây gây 100% công có hút máu và mượn 10% công, 10% giáp của mục tiêu.",
+    "Mỗi lần đánh thường hoặc kỹ năng gây sát thương, mục tiêu mất 1% máu tối đa mỗi giây (sát thương chuẩn) và Dracula hồi 1% máu tối đa mỗi giây, trong 3 giây."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.395 máu (chỉ hơn khoảng 21% số tank), máu hiệu dụng 5.302.",
+    "Space phải đứng yên 1,5 giây cùng mục tiêu; bị câm lặng hoặc khống chế là mất chiêu, hồi lại 6 giây. Chiêu hồi 30 giây.",
+    "Lúc dơi không đánh thường và không dùng chiêu khác được; chỉ miễn sát thương vật lý, vẫn ăn trọn sát thương năng lượng.",
+    "Trong lúc xích R đang nối thì không dùng được Space; xích đứt khi hai bên cách nhau quá 360."
+  ],
+  "tips": [
+    "Để dành Space cho lúc Dracula xuống thấp máu và có một kẻ địch còn nhiều máu trong tầm 264: đổi xong là gần như đầy máu trở lại.",
+    "Dùng E để tránh một đợt dồn sát thương vật lý, rồi bấm E lần nữa để hạ cánh đúng lúc gây 95% công.",
+    "Nối R lên mục tiêu chính rồi giữ trong tầm 360 đủ 5 giây để hút máu và mượn giáp.",
+    "Space còn đổi được với đồng đội: kéo một đồng đội sắp chết lên bằng tỉ lệ máu của mình khi cần."
+  ],
+  "counters": [
+    "Khi Dracula thấp máu, giữ khoảng cách hơn 264 hoặc khống chế nó ngay, đừng để nó kịp làm nghi lễ.",
+    "Giữ sẵn câm lặng hoặc choáng để ngắt 1,5 giây tụ lực của Space.",
+    "Dùng sát thương năng lượng khi nó đang ở dạng dơi, vì dơi chỉ miễn sát thương vật lý.",
+    "Chạy ra ngoài 360 để cắt xích R."
+  ],
+  "counter_why": "Space Lôi Thiết Chi Nhận của Kakashi giúp đồng đội ngắt nghi lễ đổi máu của Dracula, khiến khả năng sống sót của Dracula giảm hẳn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 49/91, mỏng máu nhưng hút máu tốt. Space có thể lật kèo mạnh, nhưng phải tụ lực 1,5 giây trong tầm 264, dễ bị ngắt và hồi 30 giây, nên có đủ đường phản công.",
+    "suggestion": "Giữ nguyên số. Theo dõi Space: code cho phép đổi máu với cả đồng đội trong khi mô tả nói nghi lễ chỉ dùng với người chơi; nếu bot hoặc người chơi lạm dụng việc đổi với đồng đội thì cần quyết định có giữ hay không."
+  },
+  "evidence": [
+    "server/dracula_actions.py:_event 'dracula_swap' — máu Dracula = max(ch, after), mục tiêu mất máu tới tỉ lệ cũ rồi nhận 3.58 × công; ngắt thì cooldown 6000 ms",
+    "server/dracula_actions.py:_hit — lifesteal kỹ năng = 0.25 + 1 − hp/max_hp",
+    "server/dracula_actions.py:cast slot 1 + 'dracula_bat' — 68% bán kính 120, 6 đợt 66% mỗi 500 ms tầm 360, kết thúc 95%; BuffTemplate 332205 miễn sát thương vật lý 3000 ms",
+    "BuffTemplate 332111 mất 1% máu/giây 3000 ms, 332112 hồi 1%/giây; 332413/332415 fFixParam 0.1 (mượn công, giáp)"
+  ]
+}

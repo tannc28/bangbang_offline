@@ -1,0 +1,40 @@
+{
+  "summary": "Sát thủ tầm xa dồn sát thương bằng chakra: R lao vào trói chân, Space nổ rồi để lại vòng xoáy, E biến bốn phát bắn thành đạn xuyên, càng xa càng đau. Hạ được một mạng là vào chế độ Cửu Vĩ để lăn cầu tuyết.",
+  "strengths": [
+    "E cường hóa 4 phát bắn kế tiếp thành đạn xuyên thấu: sát thương từ 75% tới 175% tùy khoảng cách (xa 480 là tối đa), trúng liền 4 phát một mục tiêu thì thêm sát thương chuẩn 10% máu tối đa và hất tung 1 giây. E còn giảm 50% sát thương nhận vào trong 2,5 giây và chỉ hồi 5 giây.",
+    "Space nổ 350% công trong bán kính 144, khóa chiêu 1 giây, rồi để lại vòng xoáy 8 nhịp 50% công trong 4 giây, làm chậm cộng dồn và khiến đạn thường của Naruto đau thêm 50%.",
+    "R lao 480 đơn vị, chạm địch thì gây 196% công trong bán kính 144, kéo mọi kẻ địch quanh đó lại, trói chân 1 giây rồi nhảy lùi 240; sau đó được +50% tốc đánh và tốc chạy 3 giây.",
+    "Mỗi phát đánh thường trúng giảm 5% hồi chiêu của cả E, R, Space, hút 5 năng lượng của mục tiêu và cộng 5 chakra.",
+    "Hạ hoặc trợ công là được 50 chakra và 5 giây Cửu Vĩ: +100% tốc đánh và tốc chạy, đánh thường mạnh thêm 50% và hút máu 50%."
+  ],
+  "weaknesses": [
+    "Mỏng: 3.605 máu, giáp 165/135, máu hiệu dụng 5.408 (chỉ hơn khoảng 36% số tank).",
+    "Mọi chiêu đều tốn chakra (E 25, R 25, Space 50), chakra tự hồi chỉ 10 mỗi 3 giây; dùng chiêu bừa là cạn.",
+    "Space phải tụ lực 0,5 giây; bị choáng, câm lặng hoặc khóa chiêu lúc đó là mất chiêu và chịu 5 giây hồi.",
+    "Đạn thường chỉ bay 408 đơn vị theo SkillTemplate, ngắn hơn tầm 480 ghi trên bảng chỉ số, nên phải đứng gần hơn tưởng."
+  ],
+  "tips": [
+    "Bật E rồi lùi ra xa: đạn cường hóa gây nhiều sát thương nhất ở khoảng cách 480, và 50% giảm sát thương giúp chịu được đòn trả.",
+    "R vào giữa đám đông để kéo cả nhóm lại, rồi Space ngay chỗ đó để vòng xoáy trúng tất cả.",
+    "Đánh thường liên tục giữa các chiêu: mỗi phát trúng vừa hồi chakra vừa rút ngắn hồi chiêu.",
+    "Tìm mạng đầu tiên trên mục tiêu mỏng máu; 5 giây Cửu Vĩ sau đó đủ để dọn thêm một người."
+  ],
+  "counters": [
+    "Dính một phát đạn E thì đổi chỗ ngay, đừng để trúng đủ 4 phát liên tiếp.",
+    "Khống chế Naruto đúng lúc nó tụ lực Space để hủy chiêu.",
+    "Thấy vòng xoáy Space thì ra khỏi bán kính 144 ngay, đứng lại là bị chậm dần và ăn đạn đau gấp rưỡi.",
+    "Áp sát và dồn nhanh: Naruto mỏng, sau khi R đã dùng thì không còn chiêu thoát thân."
+  ],
+  "counter_why": "Chiêu của Bò Cạp Độc đi xuyên được chướng ngại vật. Nó phối hợp E Ô Nhiễm Chí Mạng với Space Nuốt Chửng Tử Thần để cộng độc lên nhiều tầng, rồi dùng R Bùng Phát Độc Tố kích nổ, Naruto không có chỗ nào để trốn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 47/91, mỏng máu nhưng sát thương mỗi giây khá. Bộ chiêu cho nhiều khống chế và sát thương dồn, nhưng bị chakra và thời gian tụ lực của Space kìm lại, mạnh nhất chỉ khi đã có mạng đầu để vào Cửu Vĩ, đúng chất sát thủ.",
+    "suggestion": "Giữ nguyên số. Code chưa cài phần nội tại theo mô tả (đánh thường thêm 5% năng lượng tối đa; Cửu Vĩ hồi 15% máu, kéo dài 10 giây); hiện chỉ có bản 5 giây của bị động R. Nếu bổ sung thì cần đo lại độ lăn cầu tuyết."
+  },
+  "evidence": [
+    "server/naruto_actions.py:_basic_hit — đạn E × (0.75 + min(1, khoảng cách/480)); trúng lần thứ 4 thì sát thương chuẩn 10% max_hp + BuffTemplate 318216 hất tung 1000 ms; mỗi phát trúng giảm hồi chiêu base/20",
+    "server/naruto_actions.py:_vortex + 'naruto_vortex' — 350% công bán kính 144, 8 nhịp 50% mỗi 500 ms; BuffTemplate 318313 +50% sát thương đánh thường",
+    "server/naruto_actions.py:cast — chakra E 25, Space 50, R 25; 'naruto_energy' +10 mỗi 3000 ms; on_target_death +50 và buff 318111–318117 (5000 ms)",
+    "BuffTemplate 318202 giảm 50% sát thương nhận 2500 ms; 318413 trói chân 1000 ms; SkillTemplate 318100 iFlyRange 408"
+  ]
+}

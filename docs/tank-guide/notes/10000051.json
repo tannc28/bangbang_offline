@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ vật lý tầm xa bắn nhanh, đòn thường ăn theo máu đã mất của mục tiêu và hút máu. Thắng nhờ Space biến thành Thần Núi: 12 giây mang một thanh máu đầy mới, vỡ thì trở về đúng lượng máu cũ chứ không chết.",
+  "strengths": [
+    "Chỉ số thân tank hạng 11/91: sát thương mỗi giây hơn 88% số tank, tầm 552 hơn 87% số tank, 600 ms một phát.",
+    "Nội tại: đòn thường +50% sát thương, cộng thêm 3% máu đã mất của mục tiêu (bỏ qua giáp), hút 25%.",
+    "E Cuồng Nộ 4 giây: tốc đánh và tốc chạy +25%, đòn thường tỏa 3 tia (lệch 15°), hút máu tăng lên 50%.",
+    "Space: biến mất 1 giây (không thể bị chọn, không thể chết), đáp xuống gây 351% công vật lý bán kính 168 và choáng 1 giây. Thần Núi được nạp đầy máu, giảm 75% hiệu quả khống chế, đòn thường thành đá lớn 100% công bỏ qua giáp, lan bán kính 120 và làm chậm 50%.",
+    "Khi Thần Núi bị phá hoặc hết 12 giây, Sơn Tinh trở về lượng máu lúc bật Space: thực chất là thêm một thanh máu đầy mỗi lần dùng."
+  ],
+  "weaknesses": [
+    "Chạy 155, chậm hơn gần như mọi tank (chỉ hơn khoảng 2%); không có chiêu lướt ngoài cú đáp của Space.",
+    "Dạng Thần Núi bị giảm 25% tốc chạy và tốc đánh; đá lớn chỉ 100% công thay vì 150% của đòn thường.",
+    "Rời dạng Thần Núi là bị hóa đá 1 giây không làm gì được (giáp +150% trong lúc đó).",
+    "Space hồi 30 giây, chỉ bắt đầu đếm sau khi dạng Thần Núi kết thúc; bị ngắt lúc chuẩn bị vẫn mất 30 giây."
+  ],
+  "tips": [
+    "Bật E khi đã đứng ở tầm 552 và địch tụ lại: 3 tia mỗi phát, hút 50%, rất khó bị dồn chết.",
+    "Đánh lâu vào tank nhiều máu: phần cộng 3% máu đã mất càng lúc càng lớn khi mục tiêu tụt máu.",
+    "Dùng Space khi sắp chết: đáp vào giữa giao tranh, choáng 1 giây, và có thêm nguyên một thanh máu để tiếp tục bắn.",
+    "R vào chỗ địch đông: sau 1 giây trúng vùng 168, mục tiêu chậm dần, hóa đá ở giây 2,5 và ăn 223% công ở giây 3."
+  ],
+  "counters": [
+    "Áp sát và giữ chân nó: chạy chậm và không có chiêu lướt.",
+    "Đừng dồn chiêu vào Thần Núi lúc nó mới hiện ra; chờ dạng đó vỡ rồi bắt nó trong 1 giây hóa đá.",
+    "Kéo nó về phía đội mình (như Ghost Rider) để nó mất lợi thế tầm xa.",
+    "Bước ra khỏi vùng R trước giây 2,5 để không bị hóa đá."
+  ],
+  "counter_why": "Ghost Rider kéo được Sơn Tinh về giữa chỗ đồng đội đang đứng, khiến nó mất lợi thế đánh xa, rồi cả đội dồn hỏa lực hạ gục.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank đã ở top 11/91, và Space trên thực tế cho thêm một thanh máu đầy 12 giây (code nạp đầy máu cho Thần Núi rồi trả về máu cũ khi dạng đó vỡ, không tính chết). Cộng với hút máu 50% khi Cuồng Nộ, rất khó hạ gục Sơn Tinh trong một lượt giao tranh.",
+    "suggestion": "Cho Thần Núi dùng chung thanh máu (hoặc chỉ 50% máu tối đa) thay vì nạp đầy, hoặc giữ cơ chế nhưng tăng hồi chiêu Space từ 30 lên 40 giây. Nhiều chi tiết trong code khác mô tả: Thần Núi bị -25% tốc chạy/tốc đánh, hóa đá cuối chỉ 1 giây (mô tả 1,5 giây), giáp +150% chỉ 1 giây."
+  },
+  "evidence": [
+    "server/sontinh_actions.py:_event son_ready — form saved_hp, commit_hp(max_hp), death_floor 1 và untargetable lúc biến mất",
+    "server/sontinh_actions.py:commit_hp/_end_form — máu Thần Núi về 0 thì trả về saved_hp, không chết; Space cooldown 30000 tính từ lúc kết thúc",
+    "server/sontinh_actions.py:_hit — (max_hp - hp) × 0.03 bỏ qua giáp; _fire hút 0.5 khi Cuồng Nộ, 0.25 bình thường, 3 tia lệch 15°",
+    "BuffTemplate 326309/326310 fEffectValA -0.25 (Thần Núi chậm 25%), 326316 -0.75 khống chế, 326343 giáp +150% 1000 ms, 326344 choáng 1000 ms",
+    "server/sontinh_actions.py:_event son_land — 3.51 × công vật lý bán kính 168, BuffTemplate 326312 choáng 1000 ms"
+  ]
+}

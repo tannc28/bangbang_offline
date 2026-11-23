@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ tầm xa cơ động: đòn thường mạnh thêm 50% và nảy sang tối đa 3 địch gần nhau, E lướt hai lượt và đá ngược đạn của địch, R đá bóng đẩy lùi rồi bắt bóng về để lấy khiên, Space bay lên không bất tử rồi sút bóng lớn xuyên cả hàng.",
+  "strengths": [
+    "Sát thương duy trì hàng đầu: bắn 550 ms một phát, 698 sức công mỗi giây (trên 91% số tank), tầm 552; nội tại còn cộng 50% sát thương và 50% tốc độ đạn cho đòn thường.",
+    "Đòn thường trúng thì nảy sang địch khác trong bán kính 300, tối đa 3 lần, mỗi lần giảm một nửa sát thương; trúng là hồi 5 năng lượng.",
+    "E có 2 lượt (cách nhau 3 giây, nạp 6 giây): lướt 300, va vào bất kỳ tank nào thì lướt tiếp thêm 300 theo hướng chuột, địch bị va phải định thân 1 giây; tăng 50% tốc bắn trong 2 giây và chặn được một viên đạn bay để đá ngược lại.",
+    "R đá bóng xuyên tường tầm 552: 158% sức công, đẩy lùi và làm chậm 75% (giảm dần trong 1,5 giây), Tsubasa tăng 100% tốc chạy; bắt được bóng bay về thì rút 25% hồi R, nhận khiên 150% sức công và 50 năng lượng.",
+    "Space bất tử và không bị chọn trong 0,5 giây nhảy lên, rồi sút bóng xuyên tường gây 294% lên mọi địch trên đường, đẩy lùi 240 và hồi 25 năng lượng mỗi mục tiêu."
+  ],
+  "weaknesses": [
+    "Mỏng nhất nhóm: 3.197 máu (chỉ hơn 9% số tank), máu hiệu dụng 4.758.",
+    "Chiêu tốn năng lượng (E 50, Space 50, R 25, tối đa 150) mà chỉ hồi bằng đòn thường trúng, bắt bóng R và Space trúng.",
+    "Phần thưởng lớn nhất của R (khiên, giảm hồi chiêu, năng lượng) chỉ có khi tự bắt được bóng bay về.",
+    "Bị choáng trong lúc lướt E hoặc lúc nhảy Space là mất chiêu."
+  ],
+  "tips": [
+    "Đứng sau đồng đội và xả đòn thường vào cụm địch để tận dụng nảy đạn và hồi năng lượng.",
+    "Dùng E như chiêu thoát thân hai lượt; lướt vào đồng đội cũng được lướt tiếp lần hai.",
+    "Sau khi đá R, chạy tới đón bóng: vừa có khiên vừa được 50 năng lượng để dùng chiêu tiếp.",
+    "Bật Space để né đúng chiêu nguy hiểm nhất của địch (0,5 giây bất tử), rồi sút xuyên cả hàng để đẩy chúng ra xa."
+  ],
+  "counters": [
+    "Dồn khống chế và sát thương cùng lúc vào Tsubasa: máu hiệu dụng chỉ 4.758, một lượt dồn là đủ.",
+    "Đừng bắn đạn bay ngay sau khi nó lướt E hoặc bắt bóng R; đạn đầu tiên sẽ bị đá ngược lại.",
+    "Đứng chắn hoặc ép vị trí để Tsubasa không bắt được bóng R bay về.",
+    "Ép nó tiêu năng lượng vào E để chạy, rồi bắt khi không còn đủ 50 năng lượng."
+  ],
+  "counter_why": "Cú lao truy đuổi và trạng thái bá thể của Hoa Mộc Lan khắc chế hiệu quả Tsubasa, một tank cơ động cao lại có nhiều hiệu ứng đẩy lùi.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 18/91 nhờ sát thương, tầm và tốc chạy hàng đầu, nhưng máu thấp gần nhất game. Bộ chiêu cho nhiều cơ động và đẩy lùi, đổi lại phải quản lý năng lượng và tự bắt bóng mới có khiên, đúng kiểu xạ thủ giòn.",
+    "suggestion": "Giữ nguyên. Sửa mô tả: nội tại ghi mỗi lần nảy giảm 25% sát thương, code và mô tả R giảm 50%; mô tả không nhắc chi phí năng lượng của E, R, Space mà code đòi 50 / 25 / 50."
+  },
+  "evidence": [
+    "server/tsubasa_actions.py:cast — chi phí {E 50, Space 50, R 25}; đòn thường power × 1.5, speed_multiplier 1.5",
+    "server/tsubasa_actions.py:_hit — nảy trong 300, tối đa 3 lần, raw × 0.5; +5 năng lượng; Space +25 mỗi mục tiêu, đẩy 240",
+    "server/tsubasa_actions.py:_flight 386411 — bắt bóng: hồi R × 0.75, add_shield(power*1.5) (BuffTemplate 386413), +50 năng lượng, BuffTemplate 386111 phản đạn 1500 ms",
+    "server/tsubasa_actions.py:_event tsubasa_dash — va tank thì lướt thêm 300, địch định thân BuffTemplate 386211 1000 ms; BuffTemplate 386312 bất tử 500 ms khi nhảy Space",
+    "facts: atk_per_s 698 (pct 0.911), range 552, speed 175, hp 3197 (pct 0.089), stat_rank 18"
+  ]
+}

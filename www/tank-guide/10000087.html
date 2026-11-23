@@ -1,0 +1,126 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Dương Tiễn · Cẩm nang tank</title><meta name="description" content="Đấu sĩ cận chiến bào mòn: mỗi đòn trúng đều giảm 30% giáp và 30% hồi máu của địch, R hất tung rồi đánh dấu để mỗi đòn sau đánh thêm, E thả Hao Thiên Khuyển chạy trước rồi dịch chuyển tới chỗ nó, Space chém ba thức vừa gây sát thương vừa hồi máu.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/34687ca280257c9968fbb6fe29bf7bb5.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Ai có thể cản ta chứ?</div>
+<h2 class="page-title">Dương Tiễn</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Tiêu Hao Tiên Thủ</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000038.html">← Ghost Rider</a>
+<a class="btn" href="10000089.html">Star Lord →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Đấu sĩ cận chiến bào mòn: mỗi đòn trúng đều giảm 30% giáp và 30% hồi máu của địch, R hất tung rồi đánh dấu để mỗi đòn sau đánh thêm, E thả Hao Thiên Khuyển chạy trước rồi dịch chuyển tới chỗ nó, Space chém ba thức vừa gây sát thương vừa hồi máu.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank ở giữa (hạng 40/91), thân trâu nhưng tầm ngắn. Bộ chiêu cho khống chế 1 giây, giảm giáp và hồi máu đều, nhưng tất cả đòi áp sát trong bán kính 192, là đổi chác hợp lý cho một đấu sĩ.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Sửa mô tả R cho khớp code: code dùng dấu 5 giây, mỗi đòn thêm 45% sát thương, hồi 1,5% máu (đúng như mô tả nội tại), còn mô tả R ghi 3 giây, 100%, 6% máu và giảm 10% hồi E. BuffTemplate 361403 cũng ghi 3.000 ms nhưng code ép 5.000 ms.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4620</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">230 / 200</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">300 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">33</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">850 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#40/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7931</span></div><div class="progress progress-sm" title="Hơn 83% số tank"><div class="progress-bar bg-green" style="width:83%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">353</span></div><div class="progress progress-sm" title="Hơn 38% số tank"><div class="progress-bar bg-orange" style="width:38%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/73bc373aa6c693e298bf6728e22e27d4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Hao Thiên Xuất Kích</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Chỉ huy Hao Thiên Khuyển chạy đến hướng chỉ định, tất cả địch tiếp xúc sẽ 112% ST Vật Lý.
+
+Trước khi Hao Thiên Khuyển đến địa điểm chỉ định dùng lại skill này lần nữa, Dương Tiễn sẽ được di chuyển ngay đến vị trí Hao Thiên Khuyển và gây229% ST Vật Lý lên địch xung quanh.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9ed0e0351bfb2867311eb95d9d979c87.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Trảm Tiên Thần Quyết</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này gồm hiệu quả chủ động và bị động.
+
+Bị Động: Công Thường và skill trúng địch trong 2s sẽ kèm hiệu quả Giảm (Giáp và Trị Liệu 30%), đồng thời Thủ và tốc độ bản thân tăng 30% trong 2s.
+
+Chủ động: Gây sát thương cho tất cả địch xung quanh 136% ST Vật Lý, đánh bay mục tiêu1s.Mục tiêu bị bắn trúng trong 3s mỗi lần bị Dương Tiễn đánh trúng sẽ nhận thêm 100% ST Vật Lý, đồng thời Dương Tiễn sẽ hồi 6% HP rồi giảm CD [E Tiếu Thiên Xuất Kích] 10%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/43b56d88c60fbcb4d67c282a035c273e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Hoành Tảo Hủy Diệt/Tuyệt Sát Kích/Thông Thiên Pháp Nhãn</span>
+<span class="badge bg-azure-lt">hồi 15s</span>
+<span class="badge bg-teal-lt">tầm 192</span>
+</div>
+<div class="skill-desc">Space gồm ba thức, hồi chiêu 15 giây. Mỗi thức trúng một Tank hồi 15% HP đã mất; trúng đơn vị không phải người chơi hồi một nửa. Hiệu quả cộng dồn theo mục tiêu.
+Thức 1 và 2: Quét kích gây 200% sát thương vật lý, giảm 50% tốc chạy trong 1,5 giây. Sau 0,5 giây có thể dùng thức tiếp.
+Thức 3: Bắn ba thiên nhãn, mỗi viên gây 200% sát thương vật lý; nhiều viên trúng cùng mục tiêu bị giảm sát thương.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9ed0e0351bfb2867311eb95d9d979c87.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Trảm Tiên Thần Quyết</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Công Thường Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này gồm hiệu quả chủ động và bị động.
+
+Bị động：Công Thường và skill trúng địch khiến Giáp Vật Lý và Khiên Năng Lượng của địch giảm 30%, hiệu quả trị liệu và Khiên giảm 30%, duy trì 2s, đồng thời Thủ và tốc độ bản thân tăng 30% trong 2s.
+
+Chủ động： Gây sát thương cho tất cả địch xung quanh 136% ST vật Lý, đánh bay mục tiêu 1s. Mục tiêu bị bắn trúng trong 5s mỗi lần bị Dương Tiễn đánh trúng sẽ nhận thêm 45% ST Vật Lý, đồng thời Dương Tiễn sẽ hồi 1.5% HP.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Mọi đòn thường và chiêu trúng địch đều giảm 30% giáp và 30% hiệu quả hồi máu, khiên của mục tiêu trong 2 giây; Dương Tiễn được thêm 30% phòng thủ và 30% tốc chạy.</li><li>R hồi 6 giây: đánh mọi địch trong bán kính 192, gây 136% và hất tung 1 giây, rồi đánh dấu 5 giây; mỗi đòn sau lên mục tiêu có dấu gây thêm 45% sức công, hồi 1,5% máu tối đa và rút 10% thời gian hồi E còn lại.</li><li>E thả chó chạy 720 xuyên tường, gây 112% lên mọi địch va phải; bấm lại trước khi chó tới đích thì Dương Tiễn dịch chuyển tới chỗ chó, gây 229% trong bán kính 192.</li><li>Space ba thức trong 5 giây: hai nhát quét nửa vòng tròn 192, mỗi nhát 200% và làm chậm 50% trong 1,5 giây, rồi ba viên thiên nhãn tầm 600, mỗi viên 200%; mỗi tank trúng hồi 15% máu đã mất.</li><li>Thân khá trâu: 4.620 máu, máu hiệu dụng 7.931 (trên 83% số tank).</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm bắn thường 336 và tốc chạy 160; ngoài E ra không có cách áp sát mục tiêu chạy nhanh.</li><li>Phần lớn chiêu chỉ có bán kính 192 quanh mình, nên phải đứng sát mới phát huy.</li><li>Mỗi thức Space để lại 0,5 giây không dùng được chiêu; bị choáng hoặc câm lặng trong lúc tụ thức thì chuỗi Space bị cắt.</li><li>Mục tiêu linh hoạt dễ né cú dịch chuyển theo chó và hai nhát quét hình quạt.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở giao tranh bằng E, bấm lại để dịch chuyển vào giữa địch, rồi R ngay để hất tung và đánh dấu.</li><li>Trong 5 giây dấu R, dồn đòn thường và Space vào mục tiêu có dấu: mỗi đòn đánh thêm, hồi máu và rút ngắn hồi E.</li><li>Đánh liên tục để giữ hiệu ứng giảm giáp và giảm hồi máu; rất hiệu quả trước đội có tank hồi máu hoặc khiên.</li><li>Để dành thức 3 của Space (ba thiên nhãn tầm 600) cho kẻ đang chạy khỏi vùng quét.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Nhìn vị trí Hao Thiên Khuyển: Dương Tiễn có thể dịch chuyển tới chỗ chó bất cứ lúc nào trước khi nó tới đích.</li><li>Khống chế Dương Tiễn trong lúc tụ thức Space để cắt chuỗi ba thức.</li><li>Giữ khoảng cách ngoài 192 và thả diều khi E đang hồi.</li><li>Tank linh hoạt né được E và Space sẽ làm Dương Tiễn đánh vào khoảng không.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chú ý vị trí của Hao Thiên Khuyển, Dương Tiễn có thể tùy lúc di chuyển đến vị trí của Hao Thiên Khuyển.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000086.html">Cửu Vĩ Hồ</a>. Chiêu của Dương Tiễn rất khó trúng Cửu Vĩ Hồ vốn cực kỳ linh hoạt.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/erlang_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/erlang_actions.py:_hit — mục tiêu có dấu 361403 nhận thêm power*0.45, hồi max_hp*0.015, hồi E × 0.9; mọi đòn áp BuffTemplate 361111/361112 và 361113/361114 2000 ms</li><li>server/erlang_actions.py:cast slot 10 — bán kính 192, 1.36, hất tung BuffTemplate 361402 1000 ms, dấu 361403 duration=5000</li><li>server/erlang_actions.py:_event erlang_ready — dịch chuyển tới chó 2.29 bán kính 192; Space quét 192/180° × 2, hồi 15% máu đã mất (7.5% với NPC)</li><li>server/erlang_actions.py:cast slot 2 thức 3 — 3 viên ±15°, tầm 600, × 2, viên lặp trên cùng mục tiêu × 0.75^n</li><li>facts: ehp 7931 (pct 0.833), range 336, speed 160, stat_rank 40</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [83, 38, 17, 0, 81]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Dương Tiễn",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

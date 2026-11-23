@@ -1,0 +1,111 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Người Sói · Cẩm nang tank</title><meta name="description" content="Đấu sĩ hút máu: lao vào bằng E, khiêu khích cả cụm bằng Space, rồi sống nhờ hút máu và sát thương chuẩn theo máu đã mất. Càng thấp máu càng khó giết.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/a4ec03fd9096578e341532f6c04f13c3.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Chớ có dùng Móng Thép gãi ngứa!</div>
+<h2 class="page-title">Người Sói</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-azure-lt">Chống chịu</span></div>
+<div class="text-secondary mt-2">Chống Chịu Hút Máu Sinh Tồn</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000035.html">← Pegasus</a>
+<a class="btn" href="10000061.html">Thiên Thần →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Đấu sĩ hút máu: lao vào bằng E, khiêu khích cả cụm bằng Space, rồi sống nhờ hút máu và sát thương chuẩn theo máu đã mất. Càng thấp máu càng khó giết.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Lì và hút máu mạnh, Space khiêu khích 3 giây theo nhóm là khống chế cứng hiếm có. Đổi lại tầm đánh, tốc chạy và sát thương đều thấp (hạng chỉ số thân 70/91), Space hồi 30 giây và không có kết liễu.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Code đặt khiêu khích 3 giây theo mô tả, trong khi BuffTemplate 314303 ghi 2,5 giây. Nếu Người Sói thắng giao tranh tổng quá dễ thì đưa về 2,5 giây theo bảng.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★☆☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">5985</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">320 / 269</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">285 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">26</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#70/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">11860</span></div><div class="progress progress-sm" title="Hơn 92% số tank"><div class="progress-bar bg-green" style="width:92%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">300</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/84e5afde5a26a612589d0e8cd7ce4ac9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Khát Máu</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Người Sói xông lên hướng chỉ định, va chạm mục tiêu địch đầu tiên gây 167% ST Vật Lý rồi kèm ST Thực bằng 5% HP bản thân đã mất, đồng thời trong 1.5s kế tiếp khiến mục tiêu giảm tốc 75%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/77dd1926e368c85bb9c5abfc0ddb2ca8.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Lốc Xoáy Móng Vuốt</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Bị động: HP càng thấp, Người Sói càng tăng hút máu kỹ năng (tối đa thêm 25%) và giảm sát thương đánh thường nhận vào (tối đa 60%). Khi chịu sát thương đánh thường có 25% tỉ lệ tự tung chiêu này. Mọi sát thương gây ra hồi 25% thành HP; kỹ năng còn gây sát thương chuẩn bằng 5% HP hiện tại của mục tiêu và tăng 50% tốc chạy trong 1,5 giây. Chủ động: gây 100% sát thương vật lý quanh bản thân, cộng sát thương chuẩn bằng 5% HP bản thân đã mất. Tích trữ 2 lần, khoảng cách giữa hai lần dùng là 4 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ec0811ae6180196b63cba95bb822bd1b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Vuốt Giận Khiêu Khích</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+
+</div>
+<div class="skill-desc">Người Sói khiêu khích toàn bộ kẻ địch trong phạm vi, gây 268% sát thương vật lý, cộng sát thương chuẩn bằng 10% lượng HP bản thân đã mất và 5% HP hiện tại của mục tiêu. Kẻ bị khiêu khích không thể dùng kỹ năng, tự đi về phía Người Sói và đánh thường Người Sói trong 3 giây. Tổng sát thương gây ra được áp dụng hút máu kỹ năng.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Hút Máu Điên Cuồng</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Tấn công thường và skill trúng địch, bản thân sẽ hồi HP, hồi HP tương đương 25% ST tạo ra. Đồng thời tốc độ di chuyển tăng 15% trong 1s.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Mọi sát thương hút 25% thành máu. Với kỹ năng, mức hút tăng thêm tối đa 25% khi máu thấp.</li><li>Sát thương đánh thường nhận vào giảm theo máu đã mất, tối đa 60% khi gần cạn máu.</li><li>Space khiêu khích mọi kẻ địch trong bán kính 192 suốt 3 giây: chúng không dùng được kỹ năng, phải đi về phía Người Sói và đánh thường nó. Mỗi đòn đó bị nội tại giảm bớt và có 25% cơ hội kích hoạt R miễn phí.</li><li>R có 2 lượt tích, hồi 8 giây: 100% công quanh thân, cộng sát thương chuẩn bằng 5% máu đã mất của bản thân và 5% máu hiện tại của mục tiêu.</li><li>Máu hiệu dụng 11.860, thuộc nhóm cao nhất game.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm đánh 336 ở mức thấp nhất game, sát thương đánh thường mỗi giây 300 gần chót bảng.</li><li>Chạy chậm (160). E là chiêu áp sát duy nhất: lao cố định 360 và dừng ở mục tiêu đầu tiên.</li><li>Space hồi 30 giây; khiêu khích hụt là mất luôn cả pha giao tranh.</li><li>Giáp vật lý 320 lại thành điểm yếu trước Mikasa, người gây thêm sát thương theo giáp của mục tiêu.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở bằng E (làm chậm 75% trong 1,5 giây), tiến vào giữa cụm rồi bấm Space khi bắt được nhiều người.</li><li>Đừng ngại tụt máu: hút máu kỹ năng và giảm sát thương đánh thường đều mạnh dần khi máu thấp.</li><li>Đứng giữa địch thì dùng R ngay; hai lượt tích cách nhau 4 giây.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Đừng đứng trong bán kính 192 quanh Người Sói khi Space còn sẵn: dính khiêu khích là phải đứng đánh thường nó 3 giây.</li><li>Khi nó đã thấp máu, dùng kỹ năng thay vì đánh thường, vì đánh thường bị giảm tới 60%.</li><li>Thả diều từ xa và né cú lao E dài 360.</li><li>Chọn Mikasa: nội tại phá giáp gây sát thương rất lớn lên giáp vật lý 320.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Né tránh [E-Khát Máu] của Người Sói, tránh bị tiếp cận nhanh.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000078.html">Mikasa</a>. Người Sói có giáp vật lý cao, mà đặc tính kỹ năng của Mikasa lại gây sát thương lớn lên mục tiêu như vậy. Dùng combo [E-Mũi Lao Móc] và [Space-Lốc Kiếm] để dồn một lượng sát thương cực lớn lên Người Sói.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/wolf_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/wolf_actions.py:_hit — hút 0.25 + 0.25 × tỉ lệ máu đã mất (kỹ năng); sát thương chuẩn 5% máu hiện tại của mục tiêu, tối đa một lần mỗi 250 ms</li><li>server/wolf_actions.py:_taunt — duration=3000, trong khi BuffTemplate 314303 iPersistTime 2500</li><li>battle_runtime.py:damage — đánh thường lên mục tiêu có BuffTemplate 314101 bị giảm 0.6 × tỉ lệ máu đã mất</li><li>server/wolf_actions.py:on_basic_damage — 25% cơ hội kích hoạt R; cast Space 2.68 + 10% máu đã mất, bán kính 192</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [92, 2, 17, 0, 91]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Người Sói",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,117 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Songoku · Cẩm nang tank</title><meta name="description" content="Đấu sĩ cận chiến biến hình: Space cho 12 giây Super Saiyan nhân đôi đến hai lần rưỡi sát thương, kèm giảm sát thương nhận vào. Càng nhiều địch quanh mình lúc biến hình, dạng biến hình càng mạnh, nên Songoku thắng trong giao tranh đông người.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/58e8b1034851dcec8fb79d41334d8ac2.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Chiến sĩ siêu cấp Hành Tinh Saiya——Kakarot, ở trái đất hắn có tên giống Tôn Ngộ Không!</div>
+<h2 class="page-title">Songoku</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-red-lt">Mạnh</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Biến Hình Bạo Phát</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000002.html">← Groot</a>
+<a class="btn" href="10000003.html">Panda →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-red bg-red-lt mb-3"><b>Đấu sĩ cận chiến biến hình: Space cho 12 giây Super Saiyan nhân đôi đến hai lần rưỡi sát thương, kèm giảm sát thương nhận vào. Càng nhiều địch quanh mình lúc biến hình, dạng biến hình càng mạnh, nên Songoku thắng trong giao tranh đông người.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-red"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-red-lt">Mạnh</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank đã ở top 25 (hạng 23/91), cộng thêm 12 giây trong mỗi 20 giây được tăng 100–150% sát thương và giảm tới 60% sát thương nhận vào. Ở dạng 4, máu hiệu dụng 7.384 tương đương khoảng 18.000; trong giao tranh đông người đây là lợi thế vượt trội, chưa kể E choáng 1 giây mỗi 6 giây.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Cân nhắc giảm dạng 4 (ví dụ giảm sát thương nhận 60% xuống 45%) hoặc rút thời gian biến hình từ 12 xuống 10 giây. Ghi chú: code bỏ phần tăng tốc đánh của nội tại trong lúc biến hình; mô tả không nói điều này.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4484</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">194 / 194</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">345 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">38</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#23/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7384</span></div><div class="progress progress-sm" title="Hơn 71% số tank"><div class="progress-bar bg-lime" style="width:71%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">383</span></div><div class="progress progress-sm" title="Hơn 59% số tank"><div class="progress-bar bg-yellow" style="width:59%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9244b1bd005eff9bd046f8cd619f1ec5.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Dịch Chuyển Tức Thời</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 432</span>
+</div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Năng lượng
+Đạn bay: Không
+
+Sau 1 giây dịch chuyển đến vị trí mục tiêu. Nếu mục tiêu là địch, gây #EN_200%_ER# sát thương năng lượng và choáng 1 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b1a4f6eb05f4c30c7ac5d83cf00265f7.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Saiyan Thịnh Nộ</span>
+<span class="badge bg-azure-lt">hồi 20s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Năng lượng
+Đạn bay: Không
+
+Biến thành Super Saiyan, đẩy lùi địch xung quanh, gây #EN_200%_ER# sát thương năng lượng và giảm 30% tốc độ di chuyển trong 2 giây.
+
+Khi có 0/1/2/3 tầng Hồn Phẫn Nộ, lần lượt nhận trạng thái Super Saiyan một/hai/ba/bốn. Kéo dài 12 giây, hồi chiêu 20 giây.
+Tăng sát thương gây ra: 100%/110%/130%/150%
+Giảm sát thương nhận vào: 10%/20%/40%/60%
+Tăng tốc độ di chuyển: 10%/20%/40%/60%
+
+Sát thương gây lên kiến trúc giảm 25%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d22cfd68a514d1b5fde31d20c87bc23c.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Gene Saiyan</span>
+<span class="badge bg-azure-lt">hồi 1s</span>
+<span class="badge bg-teal-lt">tầm 432</span>
+</div>
+<div class="skill-desc">Tính chất: Kỹ năng Loại sát thương: Không
+Đạn bay: Không
+
+Mỗi kẻ địch thêm vào xung quanh kích hoạt 1 tầng Hồn Phẫn Nộ cho Saiyan. Mỗi tầng tăng 20% tốc độ đánh; tối đa 3 tầng.
+
+Quái vật không kích hoạt Hồn Phẫn Nộ.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Space biến hình 12 giây, hồi 20 giây (bật được 60% thời gian). Dạng 1 đến 4 tăng sát thương 100/110/130/150%, giảm sát thương nhận 10/20/40/60%, tăng tốc chạy 10/20/40/60%.</li><li>Dạng biến hình tính theo số tank địch trong bán kính 432 lúc bấm: 1 địch cho dạng 2, 3 địch trở lên cho dạng 4 (sát thương ×2,5, nhận sát thương giảm 60%).</li><li>E chọn một mục tiêu trong tầm 432, sau 1 giây dịch chuyển tới, gây 200% công và choáng 1 giây; đang biến hình thì cũng được nhân sát thương.</li><li>Thân trâu: máu 4.484 và máu hiệu dụng 7.384, hơn khoảng 71% số tank; chỉ số thân tank hạng 23/91.</li><li>Lúc bấm Space đẩy lùi địch trong bán kính 144 thêm 144, gây 200% công và làm chậm 30% trong 2 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm đánh 336, ngắn nhất game, và không có R: ngoài E và Space không có chiêu nào khác.</li><li>Đang biến hình thì mất các tầng Hồn Phẫn Nộ, tức mất phần tăng tốc đánh 20–60% từ nội tại.</li><li>E có 1 giây báo trước: mục tiêu được cảnh báo và có thời gian chuẩn bị.</li><li>8 giây giữa hai lần biến hình là lúc Songoku yếu hẳn, chỉ còn chỉ số gốc.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Đứng giữa đám địch rồi mới bấm Space để lên dạng 3 hoặc 4.</li><li>Dùng E để bám mục tiêu chạy trốn hoặc nhảy vào pháo xa đứng sau.</li><li>Trước khi biến hình, đứng gần địch để có 20–60% tốc đánh từ nội tại; khi biến hình thì phần này mất.</li><li>Ngoài 12 giây biến hình, chơi an toàn và chờ Space hồi.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Tản ra, đừng để 3 người đứng cùng trong bán kính 432 quanh Songoku lúc nó sắp biến hình.</li><li>Né 12 giây biến hình bằng cách kéo giãn khoảng cách, rồi đánh lại trong 8 giây nó chờ Space.</li><li>Dùng chiêu xóa trạng thái có lợi để gỡ dạng Super Saiyan.</li><li>Khi thấy dấu cảnh báo E trên người, chuẩn bị chiêu thoát hoặc khống chế ngay điểm nó đáp.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Songoku dùng [Space-Saiyan Thịnh Nộ] , đừng đến gần, nhanh chóng né xa!</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000032.html">Teddy Bear</a>. [Space - Năng lượng gỗ] của Teddy Bear xóa được trạng thái biến hình của Songoku, khiến nó mất cả sát thương bộc phát lẫn đường thoát.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/songoku_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/songoku_actions.py:_power — sức mạnh × (1 + 1.0/1.1/1.3/1.5) theo dạng 316311–316314</li><li>server/songoku_actions.py:_count — đếm tối đa 3 tank địch (không tính NPC) trong bán kính 432; _aura trả về 0 khi đang biến hình</li><li>BuffTemplate 316321–316324 giảm sát thương nhận 0.1/0.2/0.4/0.6, 316331–316334 tốc chạy, đều 12000 ms; Space hồi 20000 ms</li><li>server/songoku_actions.py:goku_teleport — E 2 × sức mạnh, choáng 316213 1000 ms sau 1000 ms báo trước</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [71, 59, 43, 0, 76]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Songoku",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

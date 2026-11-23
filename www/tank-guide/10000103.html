@@ -1,0 +1,123 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Ngưu Ma Vương · Cẩm nang tank</title><meta name="description" content="Tank vật lý tuyến đầu, cứng nhất nhóm và càng đánh lâu càng khó hạ bằng sát thương năng lượng: Tiếng Thét tự kích hoạt quanh mình liên tục, mỗi lần cộng giáp năng lượng. Thắng bằng cách húc vào, khống chế cả cụm và trụ lại giữa giao tranh.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/e1f74566e3664b76517ec7121d4dedb1.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Cắn nuốt thời không, tiến về phía trước.</div>
+<h2 class="page-title">Ngưu Ma Vương</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-azure-lt">Chống chịu</span></div>
+<div class="text-secondary mt-2">Chống Chịu Khiên Đánh Bay</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000089.html">← Star Lord</a>
+<a class="btn" href="10000097.html">Magneto →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Tank vật lý tuyến đầu, cứng nhất nhóm và càng đánh lâu càng khó hạ bằng sát thương năng lượng: Tiếng Thét tự kích hoạt quanh mình liên tục, mỗi lần cộng giáp năng lượng. Thắng bằng cách húc vào, khống chế cả cụm và trụ lại giữa giao tranh.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 42/91: rất dày nhưng tầm ngắn nhất và chạy gần chậm nhất. Bộ chiêu khống chế tốt, sát thương thấp, và điểm yếu trước sát thương vật lý vẫn rõ ràng.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi giáp năng lượng: code bỏ phần +5% giáp vật lý mỗi tầng của bảng gốc, thay bằng +10% giáp năng lượng mỗi tầng như mô tả, và Tiếng Thét mỗi 3 giây giữ tầng gần như vĩnh viễn. Nếu tank năng lượng không làm gì được Ngưu Ma Vương thì hạ xuống +5% mỗi tầng.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">6101</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">260 / 329</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">310 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">29</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#42/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">12090</span></div><div class="progress progress-sm" title="Hơn 96% số tank"><div class="progress-bar bg-green" style="width:96%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">344</span></div><div class="progress progress-sm" title="Hơn 29% số tank"><div class="progress-bar bg-orange" style="width:29%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">155</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/50a3aff5e41f72c62cbe9f3f20730ca1.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Cú Húc Điên Cuồng</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 408</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Sau khi tụ lực ngắn hạn xung kích về hướng chỉ định, mang theo mục tiêu địch trên đường gây 162% ST Vật Lý và trong 4s tiếp theo khiến mục tiêu giảm tốc 75%(Giảm dần theo thời gian), đồng thời bản nhận khiên bằng 25% giới hạn HP (Khiên sẽ chuyển hóa dần thành HP), khiên duy trì 4s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/04445c63184c6458aef7c5832c49bc3e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Trẻ Trâu Nổi Giận</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill này bao gồm chủ động và bị động.
+
+Bị động: Mỗi lần dùng skill và chịu 10% giới hạn HP đều tự động thi triển Tiếng Thét lên mục tiêu địch xung quanh gây 50% ST Vật Lý đồng thời bản thân và kẻ địch nhận 1 lần hệu quả Tiếng Thét kéo dài 5s , mỗi lần hiệu quả khiến mục tiêu giảm tốc 5% , đồng thời khiến họ nhận ST từ [Tiếng Thét] lần sau tăng 15% , mỗi lần hiệu quả giúp bản thân tăng 10% Khiên Năng Lượng kéo dài 5s , hiệu quả Tiếng Thét được cộng dồn tối đa 10 lần.
+Cứ 3s tự động thi triển 1 lần [Tiếng Thét].
+
+Chủ động: Sau khi tụ lực ngắn hạn đánh lui kẻ địch xung quanh và gây 100% ST Vật Lý và choáng 0.5s, sau khi kết thúc choáng trong 2s mục tiêu giảm 25% tốc độ và Công.
+Skill này được cộng dồn 2 lần, khoảng cách dùng 3s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/a7239ccc9ee4b9253d86b8164baf2e8b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Hơi Thở Tử Thần</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Sau khi tụ lực ngắn hạn sẽ gây 357% ST Vật Lý lên địch trong khu vực hình chữ nhật và đánh bay mục tiêu 1.5s, mục tiêu sau khi tiếp đất trong 2.5s giảm 50% ST Skill gây ra và Tốc Độ.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Mảnh Áo Sắt</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP bay: Không
+
+Bị động</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Thân tank thuộc hàng dày nhất: máu 6.101, giáp năng lượng 329, máu hiệu dụng 12.090, hơn khoảng 96% số tank.</li><li>Tiếng Thét tự kích hoạt mỗi 3 giây, mỗi lần dùng chiêu và mỗi lần mất 10% máu tối đa: gây 0,5 lần công trong bán kính 240, mỗi tầng trên địch tăng thêm 15% sát thương lần sau và làm chậm 5%, tối đa 10 tầng.</li><li>Mỗi Tiếng Thét cho bản thân thêm 10% giáp năng lượng trong 5 giây, cộng dồn 10 lần; vì Tiếng Thét lặp lại mỗi 3 giây nên trong giao tranh thường giữ được mức +100% (329 lên 658).</li><li>E húc 408 đơn vị, mang theo địch trên đường, gây 1,62 lần công và làm chậm 75% giảm dần trong 4 giây; bản thân nhận khiên 25% máu tối đa, khiên dần chuyển thành máu trong 4 giây.</li><li>Space quét dải dài 720: 3,57 lần công, hất tung 1,5 giây, sau đó địch giảm 50% sát thương kỹ năng và 50% tốc chạy trong 2,5 giây. R có 2 lượt: choáng 0,5 giây và đẩy lùi trong bán kính 240.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm bắn ngắn nhất game (336) và chạy gần chậm nhất (155).</li><li>Giáp vật lý chỉ 260 và không được cộng thêm như giáp năng lượng, nên tank sát thương vật lý đánh nó hiệu quả hơn hẳn.</li><li>Space phải tụ lực 1 giây đứng yên; bị cắt ngang thì vẫn mất 5 giây hồi chiêu.</li><li>Sát thương đạn thường thấp, khoảng 344 mỗi giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở bằng E húc mục tiêu vào phía đội mình, khiên 25% máu sẽ đỡ đòn phản công.</li><li>Đứng giữa địch để Tiếng Thét tích tầng lên nhiều người: tới 10 tầng, mỗi lần thét gây 1,25 lần công và làm chậm 50%.</li><li>Dùng R ngay khi địch định chạy: choáng 0,5 giây rồi giảm 25% tốc chạy và công trong 2 giây.</li><li>Tung Space khi địch đang bị chậm hoặc choáng, để 1 giây tụ lực không bị né.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dùng tank sát thương vật lý như Dương Tiễn: giáp vật lý của Ngưu Ma Vương thấp và không tăng theo Tiếng Thét.</li><li>Tank năng lượng đừng đấu tay đôi với nó; lùi ra ngoài bán kính 240 để Tiếng Thét không tích tầng.</li><li>Thả diều ngoài tầm 336, Ngưu Ma Vương không đuổi kịp.</li><li>Cắt ngang Space trong 1 giây tụ lực.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Skill [Tiếng Thét] của Ngưu Ma Vương sẽ cộng dồn ST và giảm tốc độ di chuyển của cùng 1 mục tiêu, hơn nữa có Giáp Năng Lượng khá cao, Tank hệ năng lượng nên tránh đấu đơn độc với Ngưu Ma Vương</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000087.html">Dương Tiễn</a>. Dương Tiễn khắc chế hiệu quả Ngưu Ma Vương, vốn có giáp năng lượng cao nhưng giáp vật lý thấp.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/ox_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/ox_actions.py:attr_bonus — trừ 0.05*tầng giáp vật lý (BuffTemplate 378131 nTypeParam 6, 0.05 + 0.05 mỗi tầng), cộng 0.1*tầng giáp năng lượng, tối đa 10 tầng, 5000 ms</li><li>server/ox_actions.py:_cry/on_damage/ox_periodic — mỗi 3000 ms, mỗi lần dùng chiêu, mỗi 10% máu tối đa mất; power*0.5*(1+0.15*tầng), bán kính 240; BuffTemplate 378505 -0.05 mỗi tầng</li><li>server/ox_actions.py:_shield — khiên 378202 = max_hp*0.25, 5 lần chuyển max_hp*0.05 thành máu mỗi 800 ms</li><li>server/ox_actions.py:_event ox_ready — Space power*3.57 dải 720, BuffTemplate 378304 hất tung 1500 ms rồi 378302/378303 -0.5 trong 2500 ms; R power*1 bán kính 240, 378402 choáng 500 ms</li><li>facts: stat_rank 42, ehp 12090 (pct 0.956), armor 260, egarmor 329, range 336 (pct 0.0), speed 155 (pct 0.022)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [96, 29, 2, 0, 93]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Ngưu Ma Vương",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,40 @@
+{
+  "summary": "Tank cận chiến đổi máu lấy sát thương: E và R tự trừ máu để đánh, càng mất máu càng đánh đau, trúng thì hồi lại 10% máu tối đa. Space là chiêu cứu mạng: 5 giây mỗi đòn chỉ lấy tối đa 5% máu và miễn khống chế.",
+  "strengths": [
+    "Trâu: 5.880 máu, giáp 266/344, máu hiệu dụng 11.858 (hơn khoảng 91% số tank).",
+    "Space dùng được cả khi đang bị choáng: trong 5 giây, mỗi đòn đánh chỉ lấy tối đa 5% máu tối đa (khoảng 294), miễn mọi khống chế và đẩy lùi, đồng thời mỗi 0,5 giây hồi 5% máu đã mất.",
+    "E bay xuyên tường 480: 147% công cộng 10% máu đã mất của Kaneki; trúng thì hồi 10% máu tối đa và E chỉ còn hồi 1,5 giây, nên có thể bắn liên tục.",
+    "R có 2 lượt dùng: quạt 60 độ tầm 408, 164% công cộng 10% máu đã mất; mỗi kẻ địch trong quạt hồi cho Kaneki 10% máu tối đa.",
+    "Làm chậm mạnh: E chậm 30%, cộng dồn tới 60%; R chậm 30% trong 2 giây; nội tại tăng tốc chạy và hiệu quả hồi máu mỗi tầng 10%, tối đa 5 tầng."
+  ],
+  "weaknesses": [
+    "Sát thương mỗi giây thấp (322, chỉ hơn khoảng 13% số tank); công thường 290 là thấp.",
+    "E và R tự trừ 15% và 20% máu hiện tại; đánh hụt là mất máu mà không hồi lại được gì.",
+    "Chạy chậm (155) và tầm đánh thường 336, dễ bị thả diều khi E bắn hụt.",
+    "Space chỉ có 5 giây mỗi 20 giây; ngoài khoảng đó Kaneki nhận trọn sát thương dồn."
+  ],
+  "tips": [
+    "Bắn E thật chuẩn: mỗi phát trúng vừa hồi 10% máu vừa đưa E về 1,5 giây, đó là nhịp chính của Kaneki.",
+    "Dùng R khi có nhiều kẻ địch trong quạt, mỗi người trúng là thêm 10% máu tối đa.",
+    "Để máu xuống thấp rồi mới dồn chiêu: phần sát thương cộng thêm tính theo máu đã mất.",
+    "Giữ Space cho lúc bị khống chế hoặc bị dồn sát thương lớn, bật lên là thoát khống chế ngay."
+  ],
+  "counters": [
+    "Né E: đạn hẹp, bay thẳng; Kaneki bắn hụt là tự mất 15% máu.",
+    "Đợi Space hết 5 giây rồi mới dồn sát thương; trong Space, đòn to cũng chỉ lấy 5% máu tối đa.",
+    "Dùng nhiều đòn nhỏ, đánh nhanh thay vì một đòn to khi Space đang bật.",
+    "Khống chế Kaneki trước khi nó kịp bật Space, hoặc giữ khoảng cách khi nó thấp máu để tránh bị phản đòn."
+  ],
+  "counter_why": "Thủy Tinh cộng dồn ấn ký để đóng băng Kaneki, khiến nó không dùng được chiêu cứu mạng Kagune Tiến Hóa.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 64/91 vì sát thương thấp, nhưng bù bằng độ trâu và khả năng tự hồi. Lượng hồi máu phụ thuộc vào việc E và R trúng, nên người chơi giỏi thì mạnh, người chơi bắn trượt thì tự hại mình; đó là đánh đổi hợp lý.",
+    "suggestion": "Giữ nguyên số. Theo dõi R: code hồi 10% máu tối đa cho mỗi kẻ địch trong quạt, kể cả khi đòn bị chặn và không gây sát thương. Nếu thấy Kaneki hồi quá nhiều trong giao tranh đông người thì chỉ hồi khi mục tiêu thật sự mất máu."
+  },
+  "evidence": [
+    "server/kaneki_actions.py:_e_hit — 1.47 × công + 10% máu đã mất, restore_hp 10% max_hp, cooldown E 1500 ms",
+    "server/kaneki_actions.py:cast slot 10 — commit_hp 80% máu hiện tại, quạt 60° tầm 408, 1.64 × công + 10% máu đã mất, restore_hp 10% max_hp mỗi mục tiêu; 2 lượt, 10000 ms mỗi lượt",
+    "server/kaneki_actions.py:limit_hit + BuffTemplate 350302 fFixParam 0.05 — mỗi đòn tối đa 5% max_hp trong 5000 ms; 350303 miễn khống chế và đẩy lùi",
+    "server/kaneki_actions.py:_event 'kaneki_regen' — 10 nhịp 500 ms, mỗi nhịp 5% máu đã mất; BuffTemplate 350215 −0.3, mỗi tầng −0.15, tối đa 3"
+  ]
+}

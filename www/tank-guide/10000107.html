@@ -1,0 +1,128 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Hikari · Cẩm nang tank</title><meta name="description" content="Hỗ trợ năng lượng tầm xa, mạnh ở giao tranh tổng: mỗi chiêu đều cho đồng đội quanh mình 0,5 giây chặn đạn bay, còn sát thương chủ yếu tính theo máu đã mất của địch và cắt hồi máu. Space kéo địch vào, giải hiệu ứng xấu và hồi máu cho đồng đội.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/e29100d02a41414b699c3fd23ed909c3.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Cắn nuốt thời không, tiến về phía trước.</div>
+<h2 class="page-title">Hikari</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span></div>
+<div class="text-secondary mt-2">Hỗ trợ Kéo Đỡ</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000110.html">← Aquaman</a>
+<a class="btn" href="10000091.html">Tào Tháo →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Hỗ trợ năng lượng tầm xa, mạnh ở giao tranh tổng: mỗi chiêu đều cho đồng đội quanh mình 0,5 giây chặn đạn bay, còn sát thương chủ yếu tính theo máu đã mất của địch và cắt hồi máu. Space kéo địch vào, giải hiệu ứng xấu và hồi máu cho đồng đội.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thấp (hạng 60/91) là bình thường cho một hỗ trợ; bù lại bằng chặn đạn cho cả đội, cắt hồi máu, giải khống chế và kéo địch. Sát thương thực theo máu đã mất chỉ mạnh khi giao tranh đã kéo dài.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Mô tả Space ghi &#x27;5% HP&#x27; mà không nói là máu đã mất; code dùng máu đã mất cho địch và 5% máu tối đa của Hikari cho phần hồi máu — nên ghi rõ trong mô tả. Nội tại 382101 có trong SkillTemplate nhưng mô tả trống.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3640</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">173 / 161</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">328 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">31</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#60/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5666</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">345</span></div><div class="progress progress-sm" title="Hơn 31% số tank"><div class="progress-bar bg-orange" style="width:31%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/3653a991213e186f988ee7e6c54bafb9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Wind Spear</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST:Năng lượng Thực
+VP bay: Có
+
+Ném lao gây #EN_100%_ER# ST Năng Lượng lên địch đầu tiên bị ném trúng và mục tiêu xung quanh, kèm 5% HP mục tiêu đã mất ST Thực, đồng thời trong 1.5s giảm mục tiêu 100% khiên và hiệu quả trị liệu nhận được và25% tốc độ di chuyển. 
+
+Skill này được cộng dồn, tối đa dồn 2 lần, khoảng cách dùng là 3s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/766f29c03dd7f50d0231692c2559c120.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Aeolus Eye</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng Thực
+VP Bay: Không
+
+Skill này bao gồm chủ động và bị động.
+
+Bị động: Khi skill gây ST sẽ khiến mục tiêu nhận [Wind Hug]: giảm 10% tốc độ di chuyển, lực tấn công và hiệu quả trị liệu nhận được trong 2s, hiệu quả được cộng dồn, tối đa dồn 3 lần.
+Mỗi lần dùng skill sẽ khiến bản thân và đồng đội xung quanh nhận [Wind Song]: Trong 0.5s đỡ vật phẩm bay từ địch. 
+Đồng thời bản thân tăng thêm 50% tốc độ di chuyển, trong 2s hồi dần về tốc độ bình thường.
+
+Chủ động: Sau khi trì hoãn ngắn hạn, gây #EN_100%_ER# ST Năng Lượng lên địch ở khu vực chỉ định, khiến địch trong 4.5s tiếp theo mỗi 1.5s chịu 5% HP ST Thực và tốc độ di chuyển giảm 75% trong 0.25s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/7064597dbeb0da994b67e8c98e9ad06f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Wind Storm</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng Thực
+VP bay: Không
+
+Khi thi triển câm lặng kẻ địch trong phạm vi 1s và vào trạng thái tụ lực, sau 1s thi triển ngay [Wind Storm] lên đồng đội và địch trong phạm vi : 
+
+Khi kích hoạt xóa mọi trạng thái xấu của đồng đội, khiến đồng đội nhận 1 lần[Wind Song] đồng thời hồi HP cho đồng đội, hiệu quả là 5% HP lớn nhất của [Hikari](Lần đầu kích hoạt hiệu quả X2).
+
+Khi kích hoạt sẽ kéo địch trong phạm vi về vị trí bản thân 1 đoạn nhỏ và khiến địch chịu 5% HP ST thực (Lần đầu kích hoạt X2 hiệu quả) và giảm 20% tốc độ công/tốc độ di chuyển/tốc độ đạn, tối đa dồn đến 50%, trong 1.75s, [Wind Storm] mỗi 1.5s kích hoạt 1 lần, tối đa kích hoạt 3 lần.
+
+Skill này sau khi thi triển xong mới CD</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/766f29c03dd7f50d0231692c2559c120.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Wind Dance</span>
+
+
+</div>
+<div class="skill-desc"></div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Mỗi lần dùng chiêu: Hikari và đồng đội trong bán kính 432 chặn mọi đạn bay của địch trong 0,5 giây; bản thân tăng 50% tốc chạy, giảm dần trong 2 giây.</li><li>Chiêu gây sát thương gắn Wind Hug 2 giây: mỗi tầng giảm 10% công, tốc chạy và hồi máu nhận vào của mục tiêu, tối đa 3 tầng.</li><li>E có 2 lượt tích (cách nhau 3 giây), bay xuyên tường: nổ bán kính 168, 100% công năng lượng cộng 5% máu đã mất sát thương thực; mục tiêu mất 100% hiệu quả hồi máu và khiên, chậm 25% trong 1,5 giây.</li><li>R: sau 0,75 giây nổ bán kính 168, 100% công năng lượng; trong 4,5 giây sau mỗi 1,5 giây mục tiêu chịu 5% máu đã mất sát thương thực và bị chậm 75% trong 0,25 giây.</li><li>Space: khóa chiêu địch trong bán kính 432 trong 1 giây, rồi 3 nhịp mỗi 1,5 giây: kéo địch lại gần 120, gây 5% máu đã mất sát thương thực (nhịp đầu 10%), làm chậm tốc đánh, tốc chạy, tốc đạn tới 50%; đồng đội được giải hiệu ứng xấu và hồi 5% máu tối đa của Hikari (nhịp đầu 10%).</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank hạng 60/91; sát thương mỗi giây từ đòn thường chỉ hơn khoảng 31% số tank.</li><li>Sát thương thực tính theo máu đã mất, nên gần như vô hại với mục tiêu còn đầy máu.</li><li>Chặn đạn chỉ kéo dài 0,5 giây mỗi lần dùng chiêu và không chặn chiêu vùng, chiêu cận chiến.</li><li>Space có 1 giây chuẩn bị; bị khóa chiêu lúc đó thì Space hỏng và hồi 8 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Canh dùng chiêu đúng lúc xạ thủ địch bắn tới để cả đội ăn trọn 0,5 giây chặn đạn.</li><li>Ném E vào mục tiêu đang được hồi máu hoặc có khiên: 1,5 giây mất sạch hồi máu và khiên.</li><li>Dùng Space ở giữa đội mình khi giao tranh đã nổ ra: địch đã mất máu thì phần 5–10% máu đã mất mới đáng kể, đồng đội cũng cần được giải khống chế.</li><li>Đặt R lên mục tiêu đang chạy trốn: 3 nhịp làm chậm 75% xen kẽ và sát thương theo máu đã mất.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Dùng tank có chiêu không phải đạn bay (chiêu vùng, lướt cận chiến): chặn đạn không có tác dụng.</li><li>Khóa chiêu hoặc ngắt Hikari trong 1 giây chuẩn bị Space.</li><li>Bắt Hikari trước giao tranh, khi mọi người còn đầy máu: sát thương của nó lúc đó rất thấp.</li><li>Bước ra khỏi bán kính 432 sau nhịp Space đầu để không bị kéo tiếp.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Skill Hikari có thể gây ST mất máu và giảm trị liệu, có thể ưu tiên Đấu Nhóm.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000097.html">Magneto</a>. Nội tại Wind Song của Hikari khắc chế mạnh các tank xạ thủ bắn đạn. Chọn tank có chiêu không phải đạn bay là cách khắc chế hiệu quả.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/hikari_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/hikari_actions.py:_inspire — BuffTemplate 382121 chặn đạn 500 ms cho đồng đội trong bán kính 432 (battle_runtime.projectile_blocked), 382123 +50% tốc chạy</li><li>server/hikari_actions.py:_impact/_mark — (max_hp - hp) × 0.05 sát thương thực; BuffTemplate 382111/382112/382113 -10% mỗi tầng, tối đa 3</li><li>BuffTemplate 382213 -100% hồi máu và khiên 1500 ms, 382214 chậm 25% (E)</li><li>server/hikari_actions.py:_pulse — bán kính 432, nhịp đầu 0.1 rồi 0.05 máu đã mất (địch) / max_hp Hikari (đồng đội), cleanse, kéo 120; BuffTemplate 382605–382607 -20% rồi -15% mỗi tầng</li><li>server/hikari_actions.py:interrupt — Space bị ngắt khi chuẩn bị: cooldown 8000 ms; facts stat_rank 60</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [49, 31, 64, 49, 43]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Hikari",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

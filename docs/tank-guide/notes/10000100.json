@@ -1,0 +1,41 @@
+{
+  "summary": "Sát thủ cận chiến nhanh nhẹn: chạy nhanh hơn 30% và đi xuyên thân xe, E lao hai nhịp cuốn địch theo, R trói rồi nhảy lùi ném bom, Space biến mất hơn 4 giây để chém liên tục 7 nhát.",
+  "strengths": [
+    "Chỉ số thân tank hạng 7/91: công 352, xuyên giáp 45, bắn 800 ms một phát, sát thương mỗi giây 440 (hơn khoảng 84% số tank).",
+    "Space biến mất, không thể bị chọn làm mục tiêu và miễn sát thương trong khoảng 4,4 giây: 6 nhát 222% công (bán kính 72) lên kẻ địch ngẫu nhiên trong 408, rồi nhát cuối 350% cộng 15% máu đã mất trong bán kính 144, đánh lùi và giảm 50% hồi máu, khiên. Một mục tiêu đứng một mình ăn đủ 1.682% công cộng phần máu đã mất.",
+    "Nội tại: +30% tốc chạy và luôn đi xuyên thân xe, nên rất khó bị chặn đường.",
+    "E lao 408, chạm người đầu tiên gây 125% công, rồi lao tiếp 240 cuốn theo mọi kẻ địch trên đường và gây 165%; mục tiêu đầu chết thì nhịp hai tự chuyển sang kẻ gần nhất.",
+    "R bay theo mục tiêu trong 408, gây 145% và trói 0,5 giây, rồi nhảy lùi 336 và ném 5 quả bom theo hướng con trỏ, mỗi quả 194% trong bán kính 96, làm chậm 50% trong 2 giây."
+  ],
+  "weaknesses": [
+    "Tầm bắn 336, thuộc nhóm ngắn nhất; phải dùng E hoặc R mới áp sát được.",
+    "Space nhắm mục tiêu ngẫu nhiên trong 408; đánh vào đám đông thì sát thương bị chia, khó hạ đúng người.",
+    "Trói của R chỉ 0,5 giây, khống chế cứng gần như không có.",
+    "Trong lúc lao, nhảy và Space, Black Panther không làm gì khác được; bị ngắt giữa E là mất nhịp lao thứ hai."
+  ],
+  "tips": [
+    "Dùng Space lên mục tiêu đứng tách đội: không có ai khác trong 408 thì cả 7 nhát dồn vào nó.",
+    "Space cũng là chiêu né: biến mất hơn 4 giây để tránh một đợt dồn chiêu của địch.",
+    "Mở bằng R để trói và nhảy ra an toàn, rồi E lao vào kết thúc khi mục tiêu đã bị bom làm chậm.",
+    "Tận dụng +30% tốc chạy và đi xuyên thân xe để vòng ra sau đội địch, bắt pháo xa."
+  ],
+  "counters": [
+    "Đi cùng đồng đội nhiều máu: Space bị chia ra nhiều mục tiêu thì không hạ được ai.",
+    "Dùng hồi máu liên tục, như Chopper, để Black Panther không dồn chết được một lần.",
+    "Giữ khống chế cho lúc nó vừa hiện ra sau Space hoặc sau khi nhảy lùi của R.",
+    "Né bom R bằng cách di chuyển ngang so với hướng nó nhảy lùi."
+  ],
+  "counter_why": "Khả năng hồi máu của Chopper khiến đòn dồn sát thương của Black Panther khó hạ gục kẻ địch ngay lập tức.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank tốt (hạng 7/91) và bộ chiêu cơ động, Space vừa dồn sát thương vừa cho hơn 4 giây miễn sát thương. Nhưng tầm ngắn, khống chế yếu, và Space nhắm ngẫu nhiên nên sát thương bị chia khi giao tranh đông người; đây là sát thủ mạnh nhưng có điểm yếu rõ.",
+    "suggestion": "Giữ nguyên số. Theo dõi Space trong đấu tay đôi: hơn 4 giây miễn sát thương cộng 1.682% công lên một mục tiêu là đủ hạ hầu hết pháo xa mỏng máu. Nếu thấy quá áp đảo trong chế độ ít người thì giảm số nhát hoặc rút ngắn thời gian miễn sát thương."
+  },
+  "evidence": [
+    "server/panther_actions.py:cast slot 2 + _space_hit — damage_immune và untargetable, 6 nhát mỗi 500 ms từ 600 ms, 2.22 × công bán kính 72, chọn ngẫu nhiên trong 408",
+    "server/panther_actions.py:_space_final — 3.5 × công + 15% máu đã mất bán kính 144, đánh lùi 144, lúc 4400 ms; BuffTemplate 375309 −50% hồi máu, khiên",
+    "server/panther_actions.py:_dash — E 1.25 × công rồi nhịp hai 240 với 1.65 × công",
+    "server/panther_actions.py:_r_hit + _bombs — 1.45 × công, BuffTemplate 375430 trói 500 ms, 5 bom 1.94 × công bán kính 96, 375421 chậm 50% 2000 ms",
+    "BuffTemplate 375101 +30% tốc chạy, 375102 bỏ qua va chạm"
+  ]
+}

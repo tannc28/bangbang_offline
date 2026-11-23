@@ -1,0 +1,125 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Doctor Strange · Cẩm nang tank</title><meta name="description" content="Pháp sư năng lượng tầm trung đánh kiểu ra vào: E dịch chuyển vào giữa địch rồi E2 quay về phân thân. Mỗi chiêu trúng cho một lớp khiên 10% máu, khiên vỡ thì nổ sát thương thực quanh người.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/ef5db5400fe43eb27cd4d870ff20ee9f.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Chọn đường cẩn thận, đừng để bị lạc hướng.</div>
+<h2 class="page-title">Doctor Strange</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Bạo Phát Dịch Chuyển</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000069.html">← Bò Cạp Độc</a>
+<a class="btn" href="10000106.html">Elsa →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư năng lượng tầm trung đánh kiểu ra vào: E dịch chuyển vào giữa địch rồi E2 quay về phân thân. Mỗi chiêu trúng cho một lớp khiên 10% máu, khiên vỡ thì nổ sát thương thực quanh người.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hơi dưới trung bình (hạng 55/91), bù lại bằng khiên theo mỗi chiêu, đường rút E2 và nhiều khống chế nhẹ (đày 1 giây, chậm, khóa chiêu 2 giây có điều kiện). Kit đòi hỏi kỹ năng và có điểm yếu rõ (phân thân bị phá, chịu khống chế lâu hơn).</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Sửa mô tả cho khớp code: nổ khiên trong code là 25% công sát thương thực (nội tại ghi 50% năng lượng), lộ diện 360 trong 2 giây (nội tại ghi 480 trong 1 giây).</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3930</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">152 / 179</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">355 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">30</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#55/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">6098</span></div><div class="progress progress-sm" title="Hơn 56% số tank"><div class="progress-bar bg-yellow" style="width:56%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">355</span></div><div class="progress progress-sm" title="Hơn 40% số tank"><div class="progress-bar bg-yellow" style="width:40%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/eb79cbb202463d900576eaa037d29a1b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Xoáy Không Gian/Dịch Chuyển Không Gian</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Dịch chuyển đến vị trí chỉ định, để lại phân thân và gây sát thương quanh điểm đến. Sau 1 giây có thể chủ động bấm E2 để quay về phân thân; nếu không bấm sẽ không tự quay về. Phân thân tồn tại tối đa 5 giây hoặc đến khi bị phá hủy.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9d16ff3f2117e7a28cdfcadbbb41a374.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Trục Xuất Không Gian</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Kỹ năng của Doctor Strange đánh trúng mục tiêu nhận Khiên có thể hấp thu 10% giới hạn HP, kéo dài 2s. Khiên biến mất hoặc làm mới sẽ nổ tung, gây lên địch trong phạm vi #EN_25%_ER# ST Thực và giảm mục tiêu 25% tốc độ di chuyển trong 1.5 giây, hiệu quả giảm tốc được cộng dồn đến 3 lần.
+Doctor Strange nhạy cảm với năng lượng phép thuật, mỗi lần thi triển skill có thể cảm nhận được đơn vị tàng hình quanh phạm vi 360 và khiến họ không thể ẩn thân, kéo dài 2s.
+Doctor Strange nhìn thấy huyền bí năng lượng ma pháp, miễn dịch mọi hiệu quả câm lặng, nhưng thời gian kéo dài hiệu quả khống chế khác phải nhận tăng 25%.
+
+Chủ động: Thi triển 1 bóng năng lượng lên hướng chỉ định, sau khi đánh trúng lập tức gây #EN_144%_ER# ST Năng Lượng và thả mục tiêu vào trong dị không gian trong 1 giây, sau khi mục tiêu bước ta từ dị không gian trong 2s giảm 50% tốc độ di chuyển, đồng thời Công Thường lần sau của Doctor Strange sẽ gây thêm lên mục tiêu 100% ST và hồi bản thân #EN_150%_ER# HP.
+
+Mục tiêu ở dị không gian sẽ không thể nhận thêm tác dụng từ bất kỳ kỹ năng nào.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/d0fedf4fdc2d19968ec01b3b21901be7.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Lĩnh Vực Phép Thuật</span>
+<span class="badge bg-azure-lt">hồi 20s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Kích hoạt Lĩnh Vực Phép Thuật chỉ định, 1s sau gây cho tất cả địch trong khu này #EN_203%_ER# ST Năng Lượng, và trong 2s giảm tốc 50%.
+Lĩnh Vực Phép Thuật kích hoạt sau 4s, nếu Doctor Strange vào khu này, thì có thể hấp thu năng lượng, gây thêm cho địch xung quanh #EN_167%_ER# ST Năng Lượng, khiến họ Câm Lặng 2s.
+
+Mục tiêu địch trong Lĩnh Vực Phép Thuật nhận ST từ [Xoáy Không Gian] tăng 100%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9d16ff3f2117e7a28cdfcadbbb41a374.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Khởi Động Phép Thuật</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Doctor Strange nhạy cảm với năng lượng phép thuật, mỗi lần thi triển skill có thể cảm nhận được đơn vị tàng hình quanh phạm vi 480 và khiến họ không thể ẩn thân, kéo dài 1s. Doctor Strange nhìn thấu bí pháp, miễn dịch mọi hiệu quả câm lặng, nhưng thời gian kéo dài hiệu quả khống chế khác phải nhận tăng 25%. Skill của Doctor Strange trúng mục tiêu nhận khiên có thể hút 10% giới hạn HP, kéo dài 2s. Khiên biến mất hoặc làm mới sẽ nổ tung, gây lên kẻ địch trong phạm vi (50%X Công Năng Lượng) ST Năng Lượng.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>E dịch chuyển tối đa 600, gây 163% công năng lượng bán kính 144 ở điểm đến, rồi 4 nhịp quanh người (mỗi 0,75 giây, 50% công mỗi nhịp, gấp đôi lên địch đang đứng trong Space). Sau 1 giây có thể bấm E2 quay về phân thân để rút lui.</li><li>Mỗi chiêu trúng cho khiên bằng 10% máu tối đa trong 2 giây; khiên vỡ, hết hạn hoặc được làm mới thì nổ: sát thương thực 25% công bán kính 144 và chậm 25% mỗi tầng (tối đa 3 tầng).</li><li>R bay xuyên tường: 144% công năng lượng, đày mục tiêu vào dị không gian 1 giây, ra khỏi đó bị chậm 50%; đòn thường kế tiếp gây gấp đôi lên nó và hồi máu bằng 150% công.</li><li>Space: sau 1 giây gây 203% công năng lượng bán kính 144 và chậm 50% trong 2 giây; trong 4 giây sau đó Strange bước vào vùng là gây thêm 167% và khóa chiêu (silence) 2 giây.</li><li>Miễn nhiễm hoàn toàn khóa chiêu; mỗi lần dùng chiêu làm lộ diện địch tàng hình trong bán kính 360 trong 2 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank hạng 55/91; đòn thường 1.000 ms một phát, chạy 160 (chỉ hơn khoảng 17% số tank).</li><li>Chịu khống chế lâu hơn 25% (cái giá của miễn khóa chiêu).</li><li>Phân thân chỉ tồn tại 5 giây và có thể bị phá; mất phân thân là mất đường rút lui.</li><li>Space có 1 giây chờ, và phần khóa chiêu chỉ xảy ra khi Strange tự bước vào vùng.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Nhịp ra vào: đặt Space trước, E vào giữa vùng Space (4 nhịp gây gấp đôi), rồi E2 về phân thân trước khi bị dồn.</li><li>R vào mục tiêu nguy hiểm nhất để loại nó khỏi giao tranh 1 giây, rồi bắn đòn thường gấp đôi để hồi máu.</li><li>Liên tục trúng chiêu để làm mới khiên: mỗi lần làm mới là một lần nổ sát thương thực và cộng tầng làm chậm.</li><li>Đi cùng đội khi đánh tank tàng hình: mỗi chiêu đều làm lộ diện trong bán kính 360.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Phá phân thân trước khi Strange bấm E2: nó sẽ kẹt lại giữa đội bạn.</li><li>Khống chế cứng (choáng, hất tung) thay vì khóa chiêu: Strange miễn khóa chiêu nhưng chịu khống chế lâu hơn 25%.</li><li>Ra khỏi vùng Space trước khi Strange bước vào để không bị khóa chiêu.</li><li>Giữ Strange lại khi nó định rút (như Space Lá Bài Phép Thuật của Joker): kit của nó sống nhờ ra vào liên tục.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chú ý xem có phải bị Ma Pháp khóa, sau khi bị khóa Sát Thương của Doctor Strange gây ra sẽ tăng rất nhiều.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000071.html">Joker</a>. Doctor Strange có thể ra vào chiến trường liên tục để gây sát thương, nhưng dễ bị Joker giữ chân lại bằng Space Lá Bài Phép Thuật.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/strange_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/strange_actions.py:_event strange_cast — E dịch chuyển 600, 1.63 × công bán kính 144, 4 nhịp strange_pulse mỗi 750 ms × 0.5 (×2 nếu có BuffTemplate 357312)</li><li>server/strange_actions.py:_grant_shield/remove_buff — khiên max_hp × 0.1; nổ power × 0.25 sát thương thực bán kính 144, BuffTemplate 357132 chậm 25% tối đa 3 tầng</li><li>server/strange_actions.py:_r_hit/_empowered_hit — 1.44 × công, BuffTemplate 357402 đày 1000 ms; đòn thường kế tiếp × 2 và hồi power × 1.5</li><li>server/strange_actions.py:_event strange_field — Space 2.03 × công sau 1000 ms, vào vùng thêm 1.67 × công và BuffTemplate 357322 khóa chiêu 2000 ms</li><li>server/strange_actions.py:reject_buff — chặn nEffectType 35/66 của địch; BuffTemplate 357103 +25% thời gian khống chế nhận vào</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [56, 40, 17, 49, 56]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Doctor Strange",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

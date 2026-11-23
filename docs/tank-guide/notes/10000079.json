@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư năng lượng tầm xa, sống bằng ký hiệu Thủy Tinh Thịnh Nộ: đủ 5 tầng là địch bị đóng băng 2 giây, R đánh vào mục tiêu đang đóng băng thì gây thêm sát thương và hồi chiêu ngay. Thêm nội tại thoát chết mỗi 15 giây nên rất khó hạ.",
+  "strengths": [
+    "Nội tại thoát chết: đòn chí mạng không giết được Thủy Tinh mà giữ lại 1 máu, đóng băng bản thân 2 giây miễn sát thương và khống chế, hồi tổng 15% máu tối đa; 15 giây lại có một lần.",
+    "Space tạo xoáy nước bán kính 288 trong 4 giây: cứ 0,5 giây gây 0,81 lần công, làm chậm 50% và gắn 1 tầng ký hiệu, nên ai đứng đủ 5 nhịp sẽ bị đóng băng 2 giây. Thủy Tinh đứng trong xoáy hồi 0,5 lần công mỗi nhịp.",
+    "R gây 1,75 lần công trong bán kính 192; mục tiêu đang đóng băng nhận thêm 2,25 lần công cộng 15% máu đã mất, và R hồi chiêu ngay (mỗi lần đóng băng một lần).",
+    "E dựng tường nước dài 648 trong 4 giây, chặn cả đạn lẫn đường đi; lúc dựng gây 2,21 lần công và gắn 2 tầng ký hiệu.",
+    "Chỉ số thân tank hạng 15/91; đạn thường 800 ms một phát, khoảng 435 sát thương mỗi giây, mỗi phát gắn 1 tầng ký hiệu và giảm tốc bắn của địch."
+  ],
+  "weaknesses": [
+    "Máu hiệu dụng ở mức trung bình (5.629) và chạy chậm (160), dễ bị sát thủ áp sát dồn khi nội tại đang hồi.",
+    "Sau mỗi lần đóng băng, mục tiêu miễn ký hiệu 4 giây, nên không thể khóa liên tục một người.",
+    "Đạn thường không nhận hiệu ứng Liên Xạ và Tản Xạ.",
+    "Tường nước cũng chặn đường của đồng đội, đặt sai chỗ là cản chính đội mình."
+  ],
+  "tips": [
+    "Thả Space lên cụm địch rồi bắn đạn thường vào người trong xoáy: đóng băng tới sớm hơn 5 nhịp.",
+    "Ngay khi có mục tiêu bị đóng băng, bấm R vào nó để ăn thêm sát thương và lấy lại R.",
+    "Dựng E ngang đường rút của địch, hoặc chắn giữa mình và pháo xa địch để chặn đạn.",
+    "Khi nội tại vừa kích hoạt, lùi về: 15 giây sau đó Thủy Tinh chết thật nếu bị dồn."
+  ],
+  "counters": [
+    "Dồn chết Thủy Tinh hai lần trong vòng 15 giây: lần đầu chỉ làm kích hoạt nội tại.",
+    "Rời khỏi xoáy nước của Space trước nhịp thứ năm để không bị đóng băng.",
+    "Giữ khoảng cách khi đã dính nhiều tầng ký hiệu, chờ ký hiệu hết 4 giây.",
+    "Dùng Teddy Bear: E của nó xóa ký hiệu nên Thủy Tinh không đóng băng được."
+  ],
+  "counter_why": "E Che Chở Sự Sống của Teddy Bear xóa được ký hiệu của Thủy Tinh, nên Thủy Tinh không đóng băng được nó và mất lợi thế lớn nhất của bộ kỹ năng.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank hạng 15/91, không có điểm yếu chỉ số nào bù lại. Bộ chiêu có đóng băng 2 giây gần như chắc chắn từ Space, R hồi chiêu ngay khi đánh vào mục tiêu đóng băng, và nội tại thoát chết kèm 2 giây miễn sát thương cứ 15 giây một lần.",
+    "suggestion": "Đưa thời gian hồi của nội tại về 25 giây như mô tả trong R (code đang dùng 15 giây theo mô tả nội tại, BuffTemplate 353124 gốc là 25000 ms). Nếu vẫn mạnh thì giảm số nhịp Space gắn ký hiệu, ví dụ mỗi 1 giây một tầng."
+  },
+  "evidence": [
+    "server/thuytinh_actions.py:commit_hp — máu về 0 thì giữ 1 máu, ice 2000 ms, hồi 4 lần max_hp*0.0375, passive_ready_at = now+15000; BuffTemplate 353124 bị ép 15000 (bảng gốc 25000)",
+    "server/thuytinh_actions.py:_event thuy_area — bán kính 288, 8 nhịp mỗi 500 ms, power*0.81, _mark mỗi nhịp, hồi power*0.5 cho bản thân",
+    "server/thuytinh_actions.py:cast slot 10 — bán kính 192, power*1.75; đang đóng băng thêm power*2.25 + 15% máu đã mất, cooldowns[10] = now",
+    "server/thuytinh_actions.py:_mark — tầng 5 gắn BuffTemplate 353205 đóng băng 2000 ms và 353403 miễn ký hiệu 4000 ms",
+    "facts: stat_rank 15, atk_per_s 435 (pct 0.822), ehp 5629 (pct 0.478)"
+  ]
+}

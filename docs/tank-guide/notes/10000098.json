@@ -1,0 +1,40 @@
+{
+  "summary": "Pháp sư tầm xa điều khiển Cầu Phép: E rải cầu ra trận, R đẩy cầu đâm vào địch để choáng, Space gọi tất cả cầu bắn dồn vào một mục tiêu với sát thương tăng dần. Hạ được một tank thì có ngay 3 cầu và Space hồi xong.",
+  "strengths": [
+    "Công năng lượng 410, thuộc nhóm cao nhất; chỉ số thân tank hạng 14/91.",
+    "E có 3 lượt (6 giây mỗi lượt, cách nhau 2 giây): sau 0,3 giây nổ 183% công trong bán kính 108 ở điểm xa tới 600, để lại một cầu tồn tại 8 giây; cầu hết hạn thì nổ thêm 183% trong bán kính 96.",
+    "R có 2 lượt (8 giây mỗi lượt): hình quạt dài 384 gây 183%, đẩy địch lùi 168, làm chậm 50% 2 giây, đồng thời đẩy cầu trong vùng bay thêm 480. Cầu đâm trúng địch gây 204%, choáng 1 giây, sinh cầu mới tại chỗ và giảm 10% mọi hồi chiêu.",
+    "Space chọn một tank trong 720: mọi cầu lần lượt lao vào, mỗi cầu trúng cùng mục tiêu mạnh hơn cầu trước 50% (tối đa 10 tầng) và hồi cho Tư Mã Ý 50% công.",
+    "Bị động tự sinh 1 cầu quanh người mỗi 5 giây (tối đa 3); hạ gục một tank thì có đủ 3 cầu và Space hồi xong ngay."
+  ],
+  "weaknesses": [
+    "Chạy chậm (160) và bắn chậm (1.000 ms).",
+    "Cầu bay vào mục tiêu có thể bị tank khác đứng chắn đường đỡ mất.",
+    "Space cần cầu: dùng khi chưa rải cầu thì gần như vô dụng, và hồi tới 20 giây.",
+    "Không có chiêu lướt; R đẩy lùi là cách tự vệ duy nhất."
+  ],
+  "tips": [
+    "Rải E quanh mục tiêu trước, rồi R đẩy cầu đâm vào nó để choáng 1 giây và có thêm cầu.",
+    "Gom cầu trước khi bấm Space: cầu càng nhiều, cầu cuối càng mạnh.",
+    "Kết liễu bằng Space rồi dùng ngay Space vừa hồi lên mục tiêu thứ hai.",
+    "Giữ một lượt R để đẩy kẻ lao vào ra xa."
+  ],
+  "counters": [
+    "Không lại gần Tư Mã Ý khi quanh nó có nhiều cầu.",
+    "Đứng sau đồng đội để chặn cầu bay tới; cầu trúng người đứng chắn trước.",
+    "Lao vào khi nó vừa dùng Space: hết cầu và 20 giây mới có lại.",
+    "Tank có chiêu phản đạn trả được đạn Space về phía nó."
+  ],
+  "counter_why": "[R - Tay không đỡ kiếm] của Zoro phản lại được đạn Space của Tư Mã Ý.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank tốt (hạng 14/91) và bộ chiêu dồn sát thương cao, có choáng 1 giây và hồi máu, nhưng chạy chậm, không có chiêu lướt và cần thời gian rải cầu trước khi bùng nổ. Phần làm mới Space khi hạ gục chỉ mạnh khi đã thắng thế.",
+    "suggestion": "Giữ nguyên. Code khác mô tả: bị động sinh cầu mỗi 5 giây chứ không phải 3 giây."
+  },
+  "evidence": [
+    "server/simayi_actions.py:sima_passive — +1 cầu mỗi 5000 ms, tối đa 3; _hit hạ gục tank thì _orbs(3) và cooldowns[2] = now",
+    "server/simayi_actions.py:cast slot 1/10 — E 1.83 × bán kính 108, cầu 8000 ms; R nón 384/45° 1.83 ×, đẩy 168, chậm 373404 50% 2000 ms",
+    "server/simayi_actions.py:SimaOrb sima_orb_push — cầu đâm 2.04 ×, choáng 373421 1000 ms, _reduce × 0.9 mọi hồi chiêu",
+    "server/simayi_actions.py:_flight — Space power × (1 + 0.5 × tầng), tối đa 10 tầng, hồi bản thân 0.5 × mỗi cầu trúng"
+  ]
+}

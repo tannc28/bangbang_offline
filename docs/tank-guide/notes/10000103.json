@@ -1,0 +1,41 @@
+{
+  "summary": "Tank vật lý tuyến đầu, cứng nhất nhóm và càng đánh lâu càng khó hạ bằng sát thương năng lượng: Tiếng Thét tự kích hoạt quanh mình liên tục, mỗi lần cộng giáp năng lượng. Thắng bằng cách húc vào, khống chế cả cụm và trụ lại giữa giao tranh.",
+  "strengths": [
+    "Thân tank thuộc hàng dày nhất: máu 6.101, giáp năng lượng 329, máu hiệu dụng 12.090, hơn khoảng 96% số tank.",
+    "Tiếng Thét tự kích hoạt mỗi 3 giây, mỗi lần dùng chiêu và mỗi lần mất 10% máu tối đa: gây 0,5 lần công trong bán kính 240, mỗi tầng trên địch tăng thêm 15% sát thương lần sau và làm chậm 5%, tối đa 10 tầng.",
+    "Mỗi Tiếng Thét cho bản thân thêm 10% giáp năng lượng trong 5 giây, cộng dồn 10 lần; vì Tiếng Thét lặp lại mỗi 3 giây nên trong giao tranh thường giữ được mức +100% (329 lên 658).",
+    "E húc 408 đơn vị, mang theo địch trên đường, gây 1,62 lần công và làm chậm 75% giảm dần trong 4 giây; bản thân nhận khiên 25% máu tối đa, khiên dần chuyển thành máu trong 4 giây.",
+    "Space quét dải dài 720: 3,57 lần công, hất tung 1,5 giây, sau đó địch giảm 50% sát thương kỹ năng và 50% tốc chạy trong 2,5 giây. R có 2 lượt: choáng 0,5 giây và đẩy lùi trong bán kính 240."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và chạy gần chậm nhất (155).",
+    "Giáp vật lý chỉ 260 và không được cộng thêm như giáp năng lượng, nên tank sát thương vật lý đánh nó hiệu quả hơn hẳn.",
+    "Space phải tụ lực 1 giây đứng yên; bị cắt ngang thì vẫn mất 5 giây hồi chiêu.",
+    "Sát thương đạn thường thấp, khoảng 344 mỗi giây."
+  ],
+  "tips": [
+    "Mở bằng E húc mục tiêu vào phía đội mình, khiên 25% máu sẽ đỡ đòn phản công.",
+    "Đứng giữa địch để Tiếng Thét tích tầng lên nhiều người: tới 10 tầng, mỗi lần thét gây 1,25 lần công và làm chậm 50%.",
+    "Dùng R ngay khi địch định chạy: choáng 0,5 giây rồi giảm 25% tốc chạy và công trong 2 giây.",
+    "Tung Space khi địch đang bị chậm hoặc choáng, để 1 giây tụ lực không bị né."
+  ],
+  "counters": [
+    "Dùng tank sát thương vật lý như Dương Tiễn: giáp vật lý của Ngưu Ma Vương thấp và không tăng theo Tiếng Thét.",
+    "Tank năng lượng đừng đấu tay đôi với nó; lùi ra ngoài bán kính 240 để Tiếng Thét không tích tầng.",
+    "Thả diều ngoài tầm 336, Ngưu Ma Vương không đuổi kịp.",
+    "Cắt ngang Space trong 1 giây tụ lực."
+  ],
+  "counter_why": "Dương Tiễn khắc chế hiệu quả Ngưu Ma Vương, vốn có giáp năng lượng cao nhưng giáp vật lý thấp.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 42/91: rất dày nhưng tầm ngắn nhất và chạy gần chậm nhất. Bộ chiêu khống chế tốt, sát thương thấp, và điểm yếu trước sát thương vật lý vẫn rõ ràng.",
+    "suggestion": "Theo dõi giáp năng lượng: code bỏ phần +5% giáp vật lý mỗi tầng của bảng gốc, thay bằng +10% giáp năng lượng mỗi tầng như mô tả, và Tiếng Thét mỗi 3 giây giữ tầng gần như vĩnh viễn. Nếu tank năng lượng không làm gì được Ngưu Ma Vương thì hạ xuống +5% mỗi tầng."
+  },
+  "evidence": [
+    "server/ox_actions.py:attr_bonus — trừ 0.05*tầng giáp vật lý (BuffTemplate 378131 nTypeParam 6, 0.05 + 0.05 mỗi tầng), cộng 0.1*tầng giáp năng lượng, tối đa 10 tầng, 5000 ms",
+    "server/ox_actions.py:_cry/on_damage/ox_periodic — mỗi 3000 ms, mỗi lần dùng chiêu, mỗi 10% máu tối đa mất; power*0.5*(1+0.15*tầng), bán kính 240; BuffTemplate 378505 -0.05 mỗi tầng",
+    "server/ox_actions.py:_shield — khiên 378202 = max_hp*0.25, 5 lần chuyển max_hp*0.05 thành máu mỗi 800 ms",
+    "server/ox_actions.py:_event ox_ready — Space power*3.57 dải 720, BuffTemplate 378304 hất tung 1500 ms rồi 378302/378303 -0.5 trong 2500 ms; R power*1 bán kính 240, 378402 choáng 500 ms",
+    "facts: stat_rank 42, ehp 12090 (pct 0.956), armor 260, egarmor 329, range 336 (pct 0.0), speed 155 (pct 0.022)"
+  ]
+}

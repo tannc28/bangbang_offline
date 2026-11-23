@@ -1,0 +1,41 @@
+{
+  "summary": "Tank vật lý cận chiến bám người: E kéo cụm địch lại gần, R là vòng sát thương quanh mình vừa đánh vừa hồi máu, Space lao tới bắt giữ một mục tiêu 3 giây và chia một nửa sát thương mình nhận sang nó. Thắng bằng cách khóa chặt một người và đứng lì trong giao tranh.",
+  "strengths": [
+    "Space lao tới một tank địch trong tầm 264 rồi bắt giữ 3 giây: cả hai đứng im, không dùng chiêu được; mục tiêu bị gỡ các buff miễn khống chế, còn Tào Tháo được miễn khống chế suốt lúc giữ.",
+    "Trong 3 giây giữ, cứ 0,25 giây gây 0,2 lần công (tổng 2,4 lần), và 50% sát thương Tào Tháo nhận vào được chuyển sang mục tiêu đang bị giữ.",
+    "R tạo vòng bán kính 240 trong 5 giây: cứ 0,5 giây gây 0,5 lần công lên địch quanh mình, mỗi người chơi trúng hồi cho Tào Tháo 2% máu tối đa, kèm tăng 50% tốc chạy. Space tự bật R, hạ được người chơi thì R được làm mới.",
+    "Thân tank dày: máu 5.670, giáp vật lý 318, máu hiệu dụng 11.113, hơn khoảng 88% số tank.",
+    "Nội tại: mất đủ 30% máu tối đa thì trong 3 giây mỗi đòn kỹ năng trúng người hồi 3% máu tối đa; 15 giây một lần."
+  ],
+  "weaknesses": [
+    "Tầm bắn ngắn nhất game (336) và sát thương đạn thường thấp: khoảng 314 mỗi giây, chỉ hơn khoảng 8% số tank.",
+    "Space hồi tới 30 giây, và lúc giữ thì Tào Tháo cũng đứng im, không dùng chiêu được.",
+    "Space bị khống chế cắt ngang nếu dính choáng hoặc câm lặng trong lúc đang lao tới.",
+    "Lượng hồi của R phụ thuộc vào số người chơi đứng trong bán kính 240; thả diều xa thì R gần như không hồi gì."
+  ],
+  "tips": [
+    "Mở bằng E (tầm 480, xuyên tường) để kéo và làm chậm 50% cụm địch, rồi bật R đứng giữa chúng.",
+    "Dùng Space lên pháo xa hoặc hỗ trợ của địch: 3 giây đứng im là đủ để đồng đội dồn chết nó.",
+    "Bắt giữ đúng lúc mình đang bị bắn nhiều: một nửa sát thương đó chuyển sang mục tiêu bị giữ.",
+    "Cố lấy điểm hạ gục để làm mới R, kéo dài thời gian hồi máu trong giao tranh."
+  ],
+  "counters": [
+    "Thả diều ngoài tầm 336 và ngoài bán kính 240 của R.",
+    "Đứng xa hơn 264 với Tào Tháo khi Space của nó còn, hoặc choáng nó lúc đang lao tới để cắt Space.",
+    "Khi đồng đội bị giữ, đừng dồn sát thương vào Tào Tháo: một nửa sẽ chuyển sang đồng đội mình.",
+    "Dùng Gia Cát Lượng để chống lại chiêu khống chế của Space."
+  ],
+  "counter_why": "Ngọa Long Thần Sách · Sương của Gia Cát Lượng miễn nhiễm hiệu ứng khống chế từ chiêu cuối của Tào Tháo, đồng thời đe dọa mạng sống của Tào Tháo.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 61/91: dày nhưng tầm ngắn nhất và sát thương thấp. Space là khống chế 3 giây mạnh nhưng hồi 30 giây và trói luôn cả Tào Tháo, nên sức mạnh cân với cái giá.",
+    "suggestion": "Giữ nguyên. Lưu ý: lúc bắt giữ, code gỡ mọi buff miễn khống chế (nEffectType 54) khỏi mục tiêu, nên lý do khắc chế gốc (Gia Cát Lượng miễn khống chế Space) cần thử trong trận mới biết còn đúng không."
+  },
+  "evidence": [
+    "server/caocao_actions.py:_hold — gỡ buff nEffectType 54 của mục tiêu, BuffTemplate 366804/366808 đứng im 3000 ms cho cả hai, 366811 miễn khống chế cho Tào Tháo; cao_hostage 12 nhịp power*0.2 mỗi 250 ms",
+    "server/caocao_actions.py:redirect_damage — chuyển một nửa sát thương sang mục tiêu bị giữ",
+    "server/caocao_actions.py:_event cao_aura — bán kính 240, power*0.5 mỗi 500 ms trong 5000 ms, hồi max_hp*0.02 mỗi người chơi trúng; BuffTemplate 366401 +50% tốc chạy",
+    "server/caocao_actions.py:on_damage/on_skill_damage — ngưỡng max_hp*0.3, hồi max_hp*0.03 mỗi đòn kỹ năng trong 3000 ms, 15000 ms hồi",
+    "facts: stat_rank 61, ehp 11113 (pct 0.878), range 336 (pct 0.0), atk_per_s 314 (pct 0.078)"
+  ]
+}

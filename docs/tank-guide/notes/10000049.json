@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư tầm xa sống nhờ phản ứng giữa hai chiêu: E và R dính vào cùng một mục tiêu thì choáng 1 giây và trừ 15% máu tối đa, rồi Space bắn từ tầm 960 gây thêm 50% sát thương lên mục tiêu đã dính phản ứng.",
+  "strengths": [
+    "Phản ứng E ↔ R: mục tiêu đang mang dấu của chiêu này mà trúng chiêu kia thì bị choáng 1 giây, mất thêm 15% máu tối đa dưới dạng sát thương năng lượng, và nhận thêm 50% sát thương từ Space trong 3 giây.",
+    "R có 2 lượt (cách nhau 3 giây), tia laser xuyên mọi địch trên đường, gây 192% và làm chậm 50% trong 2 giây; mỗi mục tiêu trúng giảm 1,2 giây hồi E và 0,9 giây hồi lượt R.",
+    "Tầm chiêu rất xa: E và R tới 720, Space tới 960. Space nổ bán kính 192 sau 1 giây, gây 250% sức công cộng 15% máu tối đa và choáng 0,5 giây.",
+    "Phần sát thương theo máu tối đa khiến Transformer đánh tank chịu đòn vẫn đau; nội tại còn cho bỏ qua 10% khiên năng lượng và thêm 10% tốc chạy mỗi tầng, tối đa 3 tầng.",
+    "Chạy khá nhanh (170) và bắn thường tầm 480, đủ để giữ khoảng cách."
+  ],
+  "weaknesses": [
+    "Thân mỏng: 3.640 máu, máu hiệu dụng 5.569, không có chiêu lướt hay chiêu tự bảo vệ.",
+    "Bắn thường chậm (1.000 ms một phát, thuộc nhóm chậm nhất game); hết chiêu thì sát thương tụt hẳn.",
+    "Mỗi lần dùng chiêu phải đứng yên tụ lực 100 ms, và Space phải chờ thêm 1 giây mới nổ, địch nhanh chân né được.",
+    "Phản ứng cần trúng đúng thứ tự trong cửa sổ ngắn: dấu của R chỉ giữ 1 giây, dấu của E giữ 2 giây."
+  ],
+  "tips": [
+    "Combo chuẩn: R trúng trước rồi E ngay trong 1 giây, hoặc E trước rồi R trong 2 giây, để kích phản ứng choáng 1 giây.",
+    "Thả Space ngay sau khi phản ứng nổ: mục tiêu đang choáng nên không né được, và nhận thêm 50% sát thương.",
+    "Bắn R xuyên qua cả hàng địch để mỗi người trúng đều rút ngắn hồi chiêu E và R.",
+    "Ưu tiên nhắm tank nhiều máu bằng phản ứng; phần 15% máu tối đa giúp Transformer không bất lực trước tank chịu đòn."
+  ],
+  "counters": [
+    "Di chuyển không theo quy luật để R và E khó trúng liên tiếp; né một chiêu là phản ứng không kích được.",
+    "Khi thấy vòng Space xuất hiện dưới chân, rời khỏi bán kính 192 trong 1 giây trước khi nó nổ.",
+    "Lao vào áp sát: Transformer không có chiêu thoát thân và bắn thường rất chậm.",
+    "Dùng chiêu chặn đạn hoặc khiên để đỡ chiêu đầu tiên, phá nhịp combo."
+  ],
+  "counter_why": "So với Transformer, Sơn Tinh có tầm bắn xa hơn, có thể dùng E Khát Máu và Space Sơn Thần Giáng Thế để khống chế rồi hạ gục Transformer.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank ở giữa (hạng 46/91) và thân mỏng; sức mạnh nằm ở combo phản ứng cần trúng hai chiêu liên tiếp, có cửa sổ ngắn và để lại đúng 1,5 giây khống chế. Phần trừ theo máu tối đa mạnh nhưng phải đánh đúng mới có.",
+    "suggestion": "Theo dõi phần sát thương theo máu tối đa: code cộng 15% máu tối đa ở phản ứng và ở Space mà không có trần, trong khi EffectTemplate 324412 có fEffectUpperRate 0.2 (iEffectUpperType 2) chưa được áp dụng. Mô tả nội tại (6%, 5 tầng) cũng khác code và mô tả R (10%, 3 tầng, BuffTemplate 324111)."
+  },
+  "evidence": [
+    "server/transformer_actions.py:_reaction — đòi dấu 324402/324203 của chiêu kia, choáng BuffTemplate 324411 1000 ms, damage(max_hp*0.15), buff 324413 3000 ms",
+    "server/transformer_actions.py:_hit — E 2.12, R 1.92 (EffectTemplate 324201/324401); R trúng trừ 1200 ms hồi E và 900 ms hồi lượt R",
+    "server/transformer_actions.py:_event transformer_beam — bán kính 192, power*2.5 + max_hp*0.15, × 1.5 nếu có 324413, choáng 324313 500 ms",
+    "EffectTemplate 324412 fAddValB 0.15 fEffectUpperRate 0.2 — trần chưa dùng trong code",
+    "facts: ehp 5569, fire_ms 1000 (pct 0.033), speed 170, stat_rank 46"
+  ]
+}

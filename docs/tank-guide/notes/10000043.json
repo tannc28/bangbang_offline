@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ tầm xa bắn nhanh: đòn thường mạnh thêm 50% và cứ phát thứ ba lại nổ lan, E choáng cả hàng, R giải hiệu ứng xấu để chạy, Space phóng cây tre khổng lồ đuổi theo mục tiêu từ tầm 960 và trừ thêm máu theo lượng máu đã mất.",
+  "strengths": [
+    "Sát thương duy trì hàng đầu: bắn 500 ms một phát, 730 sức công mỗi giây (trên 93% số tank), cộng nội tại tăng 50% sát thương và 50% tốc độ đạn của đòn thường.",
+    "Cứ phát thường thứ ba lại nổ trong bán kính 144: 250% sức công ở tâm, giảm dần còn 125% ở rìa, trúng được nhiều mục tiêu đứng gần nhau.",
+    "Tầm bắn 552 (trên 87% số tank); E bay xuyên tường, xuyên qua mọi địch trên đường, gây 215% và choáng 1 giây.",
+    "R hồi 6 giây: xóa mọi hiệu ứng xấu, tăng 50% tốc chạy 2 giây, 3 phát thường tiếp theo được thêm 25% tầm và tốc bắn, đồng thời bắn luôn một phát tre nổ.",
+    "Space khóa mục tiêu trong tầm 960, cây tre bay xuyên tường đuổi theo: gây 300% sức công lên mục tiêu bị khóa, 200% lên địch xung quanh trong bán kính 168, cộng sát thương thực bằng 20% máu đã mất."
+  ],
+  "weaknesses": [
+    "Rất mỏng: 3.395 máu, máu hiệu dụng 5.019 (chỉ hơn 19% số tank).",
+    "Chạy chậm nhất nhóm (155); ngoài R ra không có chiêu lướt, nên bị sát thủ áp sát là khó thoát.",
+    "Space phải ngắm 1 giây; mục tiêu chết hoặc Thánh Gióng bị khống chế trong lúc ngắm là mất chiêu (hồi lại 6 giây). Địch khác đứng chắn đường thì cây tre nổ vào kẻ chắn.",
+    "Sức mạnh dồn vào đòn thường: bị câm lặng hay choáng là sát thương tụt hẳn."
+  ],
+  "tips": [
+    "Đứng ở rìa tầm 552 và bắn liên tục; đếm nhịp để phát thứ ba rơi vào chỗ địch đứng đông.",
+    "Giữ R để thoát thân: nó vừa xóa khống chế, làm chậm vừa tăng tốc chạy, rồi tranh thủ 3 phát thường tầm xa hơn.",
+    "Dùng Space để kết liễu con đang thấp máu và chạy trốn: tầm 960, xuyên tường, và càng mất nhiều máu thì sát thương thực càng cao.",
+    "Bắn E dọc theo hàng địch để choáng nhiều người cùng lúc, mở đường cho đồng đội lao vào."
+  ],
+  "counters": [
+    "Lao vào áp sát khi R đang hồi: tốc chạy 155 không thoát được ai.",
+    "Khi Space đang nhắm bạn, để đồng đội đứng chắn đường bay; cây tre sẽ nổ vào người chắn.",
+    "Giữ chiêu bất tử hoặc chiêu chặn đạn cho đúng khoảnh khắc cây tre Space chạm tới.",
+    "Dùng khống chế để ngắt cú ngắm 1 giây của Space, khiến chiêu phải hồi lại."
+  ],
+  "counter_why": "Space Sức Mạnh Thánh Gióng chắc chắn trúng, nhưng E Ma Trơi Bí Ngô của Bí Ngô Vương cho 1 giây bất tử, đủ để né cú truy kích chí mạng đó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương duy trì và tầm bắn thuộc nhóm đầu (hạng 30/91 về chỉ số), nhưng đổi lại thân rất mỏng (máu hiệu dụng 5.019) và chạy chậm nhất game. Kiểu đánh 'pháo xa giòn' này cân bằng hợp lý.",
+    "suggestion": "Theo dõi Space: code cộng 20% máu đã mất dưới dạng sát thương thực mà không có trần, trong khi EffectTemplate 317302 có fEffectUpperRate 0.4 (iEffectUpperType 2) chưa rõ ý nghĩa nên chưa áp dụng. Nếu Space quá mạnh với tank nhiều máu thì xác minh trần này rồi đưa vào."
+  },
+  "evidence": [
+    "server/giong_actions.py:cast slot 0 — đòn thường power*1.5, speed_multiplier 1.5; phát thứ 3 đổi sang 317102",
+    "server/giong_actions.py:_bamboo — bán kính 144, hệ số 2.5 − 1.25 × khoảng cách/144",
+    "server/giong_actions.py:_space_blast — bán kính 168, power × 3 (bị khóa) / × 2, cộng missing*0.2 true; ghi chú bỏ trần Effect317302",
+    "EffectTemplate 317201 fAddVal 2.15, BuffTemplate 317211 choáng 1000 ms; EffectTemplate 317302 fEffectVal 0.2 fEffectUpperRate 0.4",
+    "facts: atk_per_s 730 (pct 0.933), range 552, ehp 5019 (pct 0.189), speed 155, stat_rank 30"
+  ]
+}

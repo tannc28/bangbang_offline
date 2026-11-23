@@ -1,0 +1,39 @@
+{
+  "summary": "Tank hai dạng: dạng Thiên Thần hồi máu và bảo kê đồng đội, dạng Sa Ngã kéo và choáng địch. R đổi dạng, lướt đi và làm mới E, nên Thiên Thần thắng bằng cách đổi dạng đúng lúc.",
+  "strengths": [
+    "Dạng Thiên Thần giảm 25% sát thương nhận. E hồi bản thân 223% công năng lượng, rồi tia sáng nảy 4 lần sang người ngẫu nhiên trong bán kính 336: hồi cho đồng đội hoặc gây sát thương cho địch, bắt đầu 178% và giảm 20% mỗi lần nảy.",
+    "Space dạng Thiên Thần: niệm 1 giây (bản thân miễn sát thương), rồi đồng đội trong bán kính 240 được miễn sát thương 2 giây, xóa hiệu ứng xấu và hồi 296%; địch trong vùng bị đẩy ra 240.",
+    "Dạng Sa Ngã tăng 25% sát thương. E tụ 0,5 giây rồi kéo địch trong hình quạt dài 408 về sát mình, gây 195% công. Space gây 455% công trong bán kính 216 và choáng 2 giây.",
+    "R lướt 360, tăng 50% tốc chạy 3 giây và làm mới hồi chiêu E ngay lập tức."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 71/91: chạy chậm (155), dạng Thiên Thần tầm đánh 336, ngắn nhất game.",
+    "Hai dạng dùng chung hồi chiêu Space (25 giây): dùng Thanh Tẩy rồi thì không còn chiêu choáng 2 giây, và ngược lại.",
+    "E dạng Sa Ngã là hình quạt rất hẹp (20°) và cần tụ 0,5 giây; bị choáng hoặc câm lặng lúc tụ là mất chiêu.",
+    "Tia sáng E nảy ngẫu nhiên: trong giao tranh lộn xộn nó có thể dồn vào địch thay vì đồng đội đang cần máu."
+  ],
+  "tips": [
+    "Combo Sa Ngã: E kéo địch về sát → Space choáng 2 giây và gây 455% → R đổi dạng để có E mới.",
+    "Giữ Space dạng Thiên Thần cho lúc đồng đội sắp chết: 2 giây miễn sát thương cộng hồi 296% thường lật được giao tranh.",
+    "Dùng R vừa làm chiêu thoát vừa reset E: đổi dạng xong luôn có E sẵn.",
+    "Ở dạng Sa Ngã, nhắm E thật chính xác vì vùng kéo rất hẹp."
+  ],
+  "counters": [
+    "Khống chế Thiên Thần lúc đang tụ E Sa Ngã hoặc niệm Space: chiêu bị hủy.",
+    "Khi thấy nó ở dạng Sa Ngã, đừng đứng thẳng hàng trước mặt (E kéo) và đừng lại gần (Space choáng 2 giây).",
+    "Ép nó dùng Space trước, sau đó còn 25 giây không có cả miễn sát thương lẫn choáng.",
+    "Thả diều khi nó ở dạng Thiên Thần: tầm 336 và chạy chậm."
+  ],
+  "counter_why": "Điêu Thuyền dùng [Khuynh Quốc Khuynh Thành] khống chế Thiên Thần, khiến nó không ra được combo và không kịp hồi máu.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank yếu (hạng 71/91) nhưng hai dạng cho đủ cả hồi máu, miễn sát thương cho đội và choáng 2 giây. Hai Space dùng chung hồi chiêu nên không thể vừa bảo kê vừa khống chế trong cùng một giao tranh, đó là cái giá hợp lý.",
+    "suggestion": "Giữ nguyên. Code khác mô tả: dạng Sa Ngã có tầm 432 (BuffTemplate 336101) chứ không phải 480; Thanh Tẩy chỉ tác dụng lên đồng đội trong bán kính 240, không phải toàn đội; R làm mới E nhưng mô tả không nhắc."
+  },
+  "evidence": [
+    "server/angel_actions.py:_switch — lướt 360, cooldowns[1] = 0, buff 336109 +50% tốc chạy 3000 ms",
+    "server/angel_actions.py:_next_bounce — tối đa 4 lần nảy, 1.78 × 0.8^n, bán kính 336; cast slot 1 hồi 2.23 × công năng lượng",
+    "server/angel_actions.py:angel_sanctuary — bán kính 240: miễn sát thương 336311 2000 ms, hồi 2.96 ×, cleanse; địch bị đẩy 240",
+    "server/angel_actions.py:cast/angel_pull — Sa Ngã sức mạnh × 1.25; E nón 408 góc 20° gây 1.95 ×; Space 4.55 × bán kính 216, choáng 336702 2000 ms"
+  ]
+}

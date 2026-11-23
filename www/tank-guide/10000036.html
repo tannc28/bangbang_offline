@@ -1,0 +1,125 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Ngộ Không · Cẩm nang tank</title><meta name="description" content="Đấu sĩ cận chiến trâu và nhiều khống chế: mỗi lần dùng chiêu thì đòn đánh thường kế tiếp thành một nhát càn quét chí mạng có hút máu. Thắng bằng nhịp chiêu → càn quét → chiêu, xen giữa hất tung và choáng.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/684ba7837020253800bf052b3df9061c.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Nón và gậy, nhảy điệu nhảy đồng quê</div>
+<h2 class="page-title">Ngộ Không</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Đột Tiến Bạo Phát</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000001.html">← Iron Man</a>
+<a class="btn" href="10000050.html">Thợ Săn Thời Gian →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Đấu sĩ cận chiến trâu và nhiều khống chế: mỗi lần dùng chiêu thì đòn đánh thường kế tiếp thành một nhát càn quét chí mạng có hút máu. Thắng bằng nhịp chiêu → càn quét → chiêu, xen giữa hất tung và choáng.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 74/91 vì chậm và tầm ngắn, nhưng bộ chiêu bù đủ: hất tung 1 giây, choáng 0,5 giây, khiên 25% máu, giảm 50% sát thương và hút máu ở nhát càn quét. Điểm yếu bị thả diều là hợp lý cho một đấu sĩ cận chiến.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Mô tả Nội tại ghi càn quét làm chậm 40%, mô tả R và code dùng 50%. Buff 310204 trong bảng ghi giảm 50% hồi chiêu, code và mô tả tiếng Việt dùng 25%. Nên thống nhất mô tả.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★☆☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4340</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">230 / 197</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">348 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">35</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1050 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#74/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7429</span></div><div class="progress progress-sm" title="Hơn 72% số tank"><div class="progress-bar bg-lime" style="width:72%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">331</span></div><div class="progress progress-sm" title="Hơn 19% số tank"><div class="progress-bar bg-red" style="width:19%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">155</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/47e597014a67a764868d5b0e75d2c2e4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Cân Đẩu Vân</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 384</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Xông về hướng chỉ định 1 khoảng, trong 2s tăng tốc 50% và giảm 50% ST.
+1s sau khi thi triển Đột Kích Đằng Vân nếu nhận ST Skill, sẽ giảm 25% CD [Skill R-Đại Náo Thiên Cung] và [Skill E-Đột Kích Đằng Vân] đồng thời nhận khiên có thể hút 25% giới hạn HP, trong 2s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/c78dc9ba65d1fc87f970556298306d61.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Đại Náo Thiên Cung</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill gồm hiệu quả chủ động và bị động.
+
+Bị động: 
+Xông Thiên Nộ Hỏa: Mỗi lần thi triển skill trong 3s, Công Thường tiếp theo sẽ càn quét gây lên mục tiêu trong khu hình quạt hiệu quả bạo kích và chuyển 25% ST gây ra thành HP bản thân, đồng thời khiến mục tiêu giảm tốc 50% trong 1s.
+
+Chủ động: Vung Kim Cô Bổng, gây cho địch xung quanh 177% ST Vật Lý và đánh bay 1s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/0d5bb00482adddfcfb206286e75c3859.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Gậy Như Ý</span>
+<span class="badge bg-azure-lt">hồi 20s</span>
+<span class="badge bg-teal-lt">tầm 264</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Ném gậy tấn công địch tạo 487% ST Vật Lý lên địch xung quanh và gây choáng 0.5s.
+
+Giảm 50% ST gây lên kiến trúc.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/1ec303920d30b97d5c00acd052dfd872.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Xông Thiên Nộ Hỏa</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Mỗi lần thi triển skill 3s, Công Thường tiếp theo sẽ càn quét gây ST bạo vật lý, địch bị đánh trúng trong 1s giảm tốc 40%.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Thân trâu: máu hiệu dụng 7.429, hơn khoảng 72% số tank, nhờ giáp vật lý 230 và năng lượng 197.</li><li>Sau mỗi chiêu, đòn đánh thường kế tiếp thành nhát càn quét hình quạt bán kính 192: 200% công, chí mạng, hút 25% sát thương thành máu, làm chậm 50% trong 1 giây; tốc đánh tăng 300% trong 3 giây để ra đòn ngay.</li><li>E lướt 384, tăng 50% tốc chạy và giảm 50% sát thương nhận vào trong 2 giây. Trúng sát thương kỹ năng trong 1 giây đầu thì được khiên 25% máu tối đa (khoảng 1.085 máu) và hồi chiêu E, R còn lại giảm 25%.</li><li>R gây 177% công quanh mình (bán kính 216) và hất tung 1 giây.</li><li>Space biến mất 0,7 giây (không bị chọn, không nhận sát thương, không nhận hiệu ứng từ địch), đáp xuống cách 264 gây 487% công trong bán kính 192 và choáng 0,5 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chậm toàn diện: tốc chạy 155 và tốc bắn 1.050 ms đều thuộc nhóm chậm nhất game.</li><li>Tầm đánh 336, ngắn nhất game; không có chiêu thì gần như không chạm được ai.</li><li>Chỉ số thân tank hạng 74/91: ngoài máu và giáp, mọi chỉ số đều thấp.</li><li>Phản ứng của E chỉ kích hoạt khi nhận sát thương kỹ năng trong 1 giây đầu; địch đánh thường thì không được khiên.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Luôn chen một nhát càn quét giữa hai chiêu: E → càn quét → R → càn quét → Space → càn quét.</li><li>Dùng E lao vào đúng lúc địch sắp tung chiêu để ăn khiên và giảm hồi chiêu.</li><li>Space để né chiêu lớn của địch: trong 0,7 giây biến mất, Ngộ Không không nhận sát thương.</li><li>Mở bằng R để hất tung 1 giây, rồi càn quét ngay khi mục tiêu chạm đất.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Thả diều bằng tầm xa: Ngộ Không chậm và tầm ngắn, hết E là khó đuổi.</li><li>Đừng ném chiêu vào Ngộ Không trong 1 giây đầu sau khi nó lướt E; chờ hết cửa sổ rồi mới dùng.</li><li>Dùng chiêu xóa trạng thái có lợi để gỡ phần giảm 50% sát thương của E.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Lợi dụng khống chế và di chuyển vị trí, giữ khoảng cách với Tôn Ngộ Không, chú ý đừng để Tôn Ngộ Không lại gần.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000032.html">Teddy Bear</a>. [Space - Năng lượng gỗ] của Teddy Bear xóa được hiệu ứng giảm sát thương &quot;mình đồng da sắt&quot; của Ngộ Không, khiến nó mất khả năng phòng thủ.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/wukong_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/wukong_actions.py:_event wukong_hit — càn quét 2.0 × công, nón bán kính 192 góc 180°, lifesteal 0.25; R 1.77 × công bán kính 216</li><li>server/wukong_actions.py:on_skill_damage — hồi chiêu E/R còn lại × 0.75, khiên 310223 = 25% máu tối đa</li><li>server/wukong_actions.py:wukong_land — Space 4.87 × công bán kính 192, choáng 310312 500 ms; biến mất 310302 700 ms</li><li>BuffTemplate 310112 +300% tốc đánh 3000 ms, 310122 chậm 50% 1000 ms, 310202/310203 +50% tốc chạy và giảm 50% sát thương 2000 ms, 310402 hất tung 1000 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [72, 19, 2, 0, 69]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Ngộ Không",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,124 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Night Wing · Cẩm nang tank</title><meta name="description" content="Sát thủ đánh sát người: đánh thường và kỹ năng càng gần càng đau (tối đa gấp đôi), tàng hình để áp sát, và Space liên tục bắn Dead Shadow vào một mục tiêu trong 3 giây.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/7fad87e568bf109c96eae38d0f87cb7d.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Cắn nuốt thời không, tiến về phía trước.</div>
+<h2 class="page-title">Night Wing</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Trọng Thương Ẩn Thân</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000057.html">← Dracula</a>
+<a class="btn" href="10000077.html">Zoro →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ đánh sát người: đánh thường và kỹ năng càng gần càng đau (tối đa gấp đôi), tàng hình để áp sát, và Space liên tục bắn Dead Shadow vào một mục tiêu trong 3 giây.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Bùng nổ cao khi đánh sát, nhưng thân thuộc loại mỏng nhất game, tàng hình dễ vỡ và năng lượng hạn chế (hạng chỉ số thân 50/91).</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Theo dõi Space: 12 phát × 50% công × hệ số cự ly tối đa 2 là tới 1.200% công trong 3 giây lên một mục tiêu. Mô tả ghi mỗi phát hồi 25% HP, nhưng code hồi 25% công; cần sửa văn bản cho khớp.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3161</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">153 / 158</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">343 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">47</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">800 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#50/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">4799</span></div><div class="progress progress-sm" title="Hơn 11% số tank"><div class="progress-bar bg-red" style="width:11%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">429</span></div><div class="progress progress-sm" title="Hơn 80% số tank"><div class="progress-bar bg-green" style="width:80%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">408</span></div><div class="progress progress-sm" title="Hơn 37% số tank"><div class="progress-bar bg-orange" style="width:37%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/c9f73dd772371f18ddea78e15256cb0b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Ám Ảnh Đột Kích</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Công Thường Loại ST: Vật Lý 
+VP Bay: Có
+
+Night Wing vào trạng thái tàng hình trong 6s, ở trạng thái này tốc độ di chuyển tăng 50%, ST mà Công Thường lần sau gây ra tăng 50%, cường hóa Công Thường trúng mục tiêu sẽ khiến họ giảm tốc 50% rồi câm lặng 1.5s, đồng thời hồi phục 25đ Năng Lượng.
+
+Ở trạng thái tàng hình, khi Night Wing di chuyển sẽ sản sinh năng lượng dao động mà địch nhìn thấy được.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/2cebef8d2c0a222e617bf06ece385dbd.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Night Wing</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 408</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST:Vật Lý
+VP Bay:Có
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Night Wing có hệ năng lượng, thi triển skill cần tiêu hao năng lượng, giới hạn năng lượng là 100, mỗi 3s hồi 10 Năng Lượng, Công Thường và skill của nó đánh trúng mục tiêu sẽ hồi 5 Năng Lượng.
+Công thưởng của Night Wing giảm 50%, nhưng Công Thường và skill sẽ thay đổi căn cứ theo khoảng cách của mục tiêu và Night Wing, khoảng cách càng gần, ST càng cao, tối đa tăng 100%, sau khi đánh trúng mục tiêu nhận 1 tầng ấn ký Night Wing duy trì 3s, khi ấn ký Night Wing cộng dồn đến 5 tầng, mục tiêu sẽ nhận hiệu quả Trọng Thương trong 3s, thời gian đó mục tiêu mỗi giây chịu 50% ST Vật Lý，ở trạng thái trọng thương, nếu mục tiêu di chuyển sẽ xé nát vết thương, mỗi di chuyển 100 khoảng cách sẽ chịu 50% ST Thực.
+Né hoàn mỹ: 25% hoàn mỹ Né ST trực tiếp của địch, rồi khi di chuyển sẽ bỏ qua va chạm thể tích.
+
+Chủ động: Thi triển lên hướng chỉ định 3 Phi Tiêu Night Wing, gây cho địch trên đường 15% ST Vật Lý, Phi Tiêu bay đến chỗ xa nhất sẽ trở về vị trí Night Wing và gây thêm lần nữa 30%ST Vật Lý lên địch trên đường, mỗi lần gây ST sẽ giảm 10% CD [Skill E-Ám Ảnh Đột Kích].
+Skill này được tích lũy 2 lần, khoảng cách dùng 4s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/2f549ae521be7787732db299a13ad290.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Dead Shadow</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý 
+VP Bay: Có
+
+Night Wing đánh dấu 1 mục tiêu địch, đồng thời bản thân vào trạng thái ẩn thân trong 3s, ở trạng thái ẩn thân, tốc độ di chuyển tăng 100%, trong thời gian đó Night Wing sẽ không ngừng thi triển Dead Shadow tấn công mục tiêu bị đánh dấu, gây 50%ST Vật Lý và bản thân hồi 25% HP.
+Dead Shadow có thể bị mục tiêu khác của địch ngăn cản, đánh trúng mục tiêu không có đánh dấu sẽ giảm 50% ST gây ra.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Trọng Thương</span>
+
+
+</div>
+<div class="skill-desc"></div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Mọi đòn tăng sát thương theo độ gần, tối đa ×2 khi bắn sát người, giảm dần về ×1 ở cự ly 408.</li><li>Trúng một mục tiêu 5 lần trong 3 giây gây Trọng Thương 3 giây: mất 50% công mỗi giây, và cứ di chuyển 100 lại mất thêm 50% công sát thương chuẩn.</li><li>Space: tàng hình 3 giây, tăng 100% tốc chạy, bắn 12 Dead Shadow vào mục tiêu đánh dấu, mỗi phát 50% công nhân hệ số cự ly. Mỗi phát trúng hồi lượng máu bằng 25% công.</li><li>E: tàng hình 6 giây, tăng 50% tốc chạy; phát đánh thường kế tiếp gây 75% công, làm chậm 50%, câm lặng 1,5 giây và hồi 25 năng lượng.</li><li>Né Hoàn Mỹ: 25% cơ hội né hẳn một đòn trực tiếp, tối đa một lần mỗi 0,5 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Thân mỏng hàng đầu: 3.161 máu, máu hiệu dụng 4.799.</li><li>Đánh thường gốc chỉ còn 50% công; đứng xa thì sát thương rất thấp.</li><li>Tàng hình vỡ ngay khi nhận sát thương hoặc ra bất kỳ đòn nào, và khi di chuyển vẫn để lại dấu vết địch nhìn thấy.</li><li>Năng lượng 100: E tốn 15, R 25, Space 60, chỉ hồi 10 mỗi 3 giây.</li><li>Dead Shadow trúng kẻ khác đứng chắn giữa thì chỉ gây một nửa.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Áp sát bằng E rồi mở bằng phát đánh thường cường hóa để câm lặng mục tiêu.</li><li>Bám sát mục tiêu trong Space để Dead Shadow ăn hệ số ×2.</li><li>Dùng R (3 phi tiêu bay đi rồi quay về) để gắn ấn nhanh; mỗi lần trúng rút 10% hồi chiêu E.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Đẩy lùi hoặc giữ khoảng cách: mọi sát thương của nó đều cần đến gần.</li><li>Đánh trúng một đòn để phá tàng hình.</li><li>Đứng chắn trước đồng đội bị đánh dấu Space để Dead Shadow chỉ còn một nửa.</li><li>Dính Trọng Thương thì đứng yên để không mất thêm sát thương chuẩn.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Mọi ST của Night Wing đều phải đến gần mới phát huy được, có thể dùng đánh lui hoặc di chuyển để kéo khoảng cách</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000031.html">Captain</a>. Chiêu R và nội tại của Captain chặn hiệu quả sát thương từ đạn bay của Night Wing.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/nightwing_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/nightwing_actions.py:_hit — factor = 1 + max(0, 1 − khoảng cách/408); Dead Shadow trúng kẻ không bị đánh dấu × 0.5; restore_hp(power × 0.25)</li><li>server/nightwing_actions.py:_mark/_event night_wound — 5 tầng thì Trọng Thương 3000 ms: 0.5 × công mỗi giây, 0.5 × công sát thương chuẩn mỗi 100 di chuyển</li><li>server/nightwing_actions.py:block_hit — 25% né, cách nhau ít nhất 500 ms</li><li>server/nightwing_actions.py:_event night_cast — Dead Shadow mỗi 250 ms trong 3000 ms (12 phát); BuffTemplate 390303 +1.0 tốc chạy, 390222 câm lặng 1500 ms</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [11, 80, 64, 37, 6]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Night Wing",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

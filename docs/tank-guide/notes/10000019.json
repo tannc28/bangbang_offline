@@ -1,0 +1,39 @@
+{
+  "summary": "Pháo xa đơn mục tiêu có sát thương đánh thường mỗi giây cao nhất game, giữ khoảng cách nhờ tầm bắn 552 và cú lùi của R. Cái giá là thân máu thuộc loại mỏng nhất trong 91 tank.",
+  "strengths": [
+    "Sát thương đánh thường mỗi giây 833, đứng đầu 91 tank: mỗi phát gây 150% công năng lượng, 450 ms một phát, đạn bay nhanh gấp đôi.",
+    "Phát trúng thứ 3 liên tiếp vào cùng một mục tiêu (mỗi phát cách nhau không quá 1 giây) gây thêm 150% công. Mỗi phát trúng còn có 25% cơ hội bắn kèm một hỏa tiễn 90% công.",
+    "E khóa mục tiêu trong tầm 600, bắn 4 hỏa tiễn 90% công trong 2 giây. Code tính các hỏa tiễn này như đánh thường, nên chúng góp luôn vào nhịp phát thứ 3 và tỉ lệ bắn kèm.",
+    "R vừa gây 122% công và làm chậm 50% trong 2 giây, vừa đẩy Gundam lùi 300: một chiêu vừa thả diều vừa thoát thân.",
+    "Space bắn tia laser dài 528, rộng 72, gây 445% công lên mọi kẻ địch nằm trên đường thẳng."
+  ],
+  "weaknesses": [
+    "Máu hiệu dụng chỉ 4.461 (3.080 máu, giáp 128/141), gần thấp nhất game: bị sát thủ áp sát là chết rất nhanh.",
+    "Space phải đứng yên tụ lực 0,5 giây và tia chỉ rộng 72, dễ bị né. Bị ngắt giữa chừng thì Space vẫn phải hồi 10 giây.",
+    "Ngoài R không có chiêu thoát thân nào khác, cũng không có khống chế cứng.",
+    "Sát thương dồn vào một mục tiêu: đổi mục tiêu liên tục hay để địch núp sau vật cản là mất nhịp phát thứ 3."
+  ],
+  "tips": [
+    "Bám một mục tiêu mà bắn để phát thứ 3 nổ đều. E cũng tính vào nhịp này, nên mở đầu bằng E rồi nối đánh thường.",
+    "Giữ R để thoát thân: sát thủ lao vào thì bấm R về phía nó, vừa làm chậm vừa lùi ra.",
+    "Tung Space khi địch đang bị khống chế hoặc đi thành hàng dọc; đừng tụ lực khi địch có chiêu ngắt ở gần.",
+    "Đứng sau tiền tuyến và tận dụng tầm 552, thuộc nhóm xa nhất game."
+  ],
+  "counters": [
+    "Áp sát bằng dịch chuyển hoặc chiêu lướt (như Ichigo): Gundam chỉ có R để chạy.",
+    "Thấy Gundam đứng tụ lực thì đổi hướng ngay; tia laser chỉ rộng 72.",
+    "Dùng khống chế ngắt Space trong 0,5 giây tụ lực."
+  ],
+  "counter_why": "Gundam là tank tầm xa công cao máu mỏng. Ichigo có chiêu dịch chuyển tức thời, áp sát Gundam rất nhanh khiến nó mất lợi thế tầm bắn. Chuỗi chiêu bùng nổ của Ichigo làm Gundam không kịp trở tay.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương cao nhất game đi kèm thân mỏng gần nhất game, đúng kiểu đánh đổi của xạ thủ. Hạng chỉ số thân 26/91, bộ chiêu không có khống chế cứng hay hồi máu, nên không vượt trội.",
+    "suggestion": "Giữ nguyên. Theo dõi hai quyết định trong code: hỏa tiễn E được tính như đánh thường (góp vào phát thứ 3 và bắn kèm), và tỉ lệ bắn kèm 25% theo mô tả thay cho 40% ghi trong EffectTemplate 302600. Nếu Gundam dọn tank quá nhanh thì bỏ E ra khỏi nhịp phát thứ 3 trước."
+  },
+  "evidence": [
+    "server/gundam_actions.py:on_bullet_hit — phát thứ 3 liên tiếp +150% (EffectTemplate 302611 fAddVal 1.5, cửa sổ BuffTemplate 302601 iPersistTime 1000), EXTRA_MISSILE_CHANCE = .25",
+    "EffectTemplate 302600 fAddVal 1.5 nNextRate 40 (đánh thường); 302701 fAddVal 0.90 (hỏa tiễn); 302911 fAddVal 1.22 (R); 302801 fAddVal 4.45 iRange1 528 iRange2 72 (Space)",
+    "SkillTemplate 302801 iReadyTime 500, iSkillBreakCoolTime 10000; SkillTemplate 302701 iCount 4 iInterval 500",
+    "BuffTemplate 302912 fEffectValA -0.5 iPersistTime 2000 (R làm chậm); EffectTemplate 302902 nEffectValB 300 (khoảng lùi)"
+  ]
+}

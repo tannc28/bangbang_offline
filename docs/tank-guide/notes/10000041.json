@@ -1,0 +1,41 @@
+{
+  "summary": "Xạ thủ vật lý bắn nhanh, tầm xa, đạn thường xuyên tường: cứ bắn trúng là tích Ấn Ký lên mục tiêu, rồi dùng chiêu để kích nổ. Thắng bằng sát thương liên tục từ khoảng cách an toàn, vì thân tank mỏng nhất game.",
+  "strengths": [
+    "Đạn thường gây 1,5 lần công (khoảng 560 mỗi phát ở cấp 6), 500 ms một phát, tầm 552, bay nhanh hơn 50% và xuyên vật cản; số 746 sát thương mỗi giây trong bảng chỉ số còn chưa tính hệ số 1,5 này.",
+    "Mỗi phát đạn thường tích thêm một Ấn Ký (tối đa 3, giữ 6 giây) và cho Legolas tăng 30% tốc chạy trong 1,5 giây.",
+    "Chiêu trúng mục tiêu có Ấn Ký thì nổ thêm: 0,5 lần công ở mức 1, 1 lần ở mức 2, mức 3 thành vụ nổ 2 lần công bán kính 144; sát thương từ Ấn Ký hút máu 50%.",
+    "E có 3 lượt, mỗi lượt cách nhau 1 giây: tên xuyên thấu 2,01 lần công, trúng cùng mục tiêu lần thứ hai trong 5 giây thì đẩy lùi nó.",
+    "Space gây 4,37 lần công cho địch đầu tiên trúng tên và trói chân mọi địch trong bán kính 144 suốt 2 giây."
+  ],
+  "weaknesses": [
+    "Thân tank mỏng nhất trong 91 tank: máu 3.185, máu hiệu dụng 4.459, giáp năng lượng chỉ 108.",
+    "Không có chiêu thoát thân thật sự: chỉ có 30% tốc chạy ngắn từ đạn thường và cú đẩy lùi nhẹ của E.",
+    "R phải chờ 0,2 giây đứng yên rồi mới rơi, và mưa tên kéo dài 3 giây trong bán kính 144: địch đi ra là tránh được phần lớn.",
+    "Toàn bộ sát thương là đạn bay, nên tank có chiêu chặn đạn (như Zoro) vô hiệu được gần hết."
+  ],
+  "tips": [
+    "Bắn đạn thường đủ 3 Ấn Ký rồi mới tung E hoặc Space để kích nổ mức 3: nổ lan và hồi máu nhiều nhất.",
+    "Đứng sau tường mà bắn: đạn thường và E đều xuyên vật cản, địch khó áp sát để đánh trả.",
+    "Giữ Space cho sát thủ lao vào: trói chân 2 giây là đủ để lùi ra và bắn tiếp.",
+    "Thả R lên chỗ địch vừa bị Space trói, để cả 4 nhịp mưa tên đều trúng."
+  ],
+  "counters": [
+    "Áp sát bằng sát thủ có khống chế: máu hiệu dụng 4.459 là thấp nhất game.",
+    "Dùng Zoro hoặc tank có chiêu chặn đạn bay, vì mọi đòn của Legolas đều là đạn.",
+    "Khi đã dính Ấn Ký thì lùi ra khỏi tầm 552 cho tới khi Ấn Ký hết 6 giây.",
+    "Lao vào khi Space vừa dùng: Legolas mất chiêu tự vệ chính trong 25 giây."
+  ],
+  "counter_why": "Legolas bắn nhanh, cả đạn thường lẫn kỹ năng đều là đạn bay, nên đều bị R Tay Không Bắt Kiếm của Zoro chặn hiệu quả.",
+  "balance": {
+    "status": "ok",
+    "reason": "Sát thương thuộc hàng cao nhất (đạn thường 1,5 lần công, 2 phát mỗi giây, xuyên tường) nhưng thân tank mỏng nhất game và không có chiêu thoát. Đúng kiểu pháo kính 5 sao sát thương, 2 sao sinh tồn.",
+    "suggestion": "Theo dõi đạn thường xuyên tường: kết hợp tầm 552 và hệ số 1,5 khiến Legolas gây áp lực mà địch khó đánh trả. Nếu quá mạnh, hạ hệ số đạn thường trước khi đụng tới E và Space. Mô tả nói hút máu 50% chỉ ở mức Ấn Ký 3, còn code hút máu ở cả ba mức."
+  },
+  "evidence": [
+    "server/legolas_actions.py:cast — đạn thường power*1.5 (EffectTemplate 315100 fAddVal 1.5), speed_multiplier 1.5, through_walls=True; E 2.01, Space 4.37",
+    "server/legolas_actions.py:_detonate — mức 1 power*0.5, mức 2 power*1, mức 3 nổ 2×power bán kính 144, lifesteal 0.5 ở mọi mức",
+    "server/legolas_actions.py:_event root_tick — BuffTemplate 315305 trói chân, lặp tới hết 2000 ms, bán kính 144",
+    "BuffTemplate 315121 fEffectValA 0.3, 1500 ms (tăng tốc); 315405 -0.5 (mưa tên làm chậm)",
+    "facts: ehp 4459 (pct 0.0, thấp nhất), atk_per_s 746 (pct 0.956), range 552"
+  ]
+}

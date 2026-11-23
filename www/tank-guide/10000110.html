@@ -1,0 +1,130 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Aquaman · Cẩm nang tank</title><meta name="description" content="Đấu sĩ cận chiến rất trâu dùng năng lượng: E lướt tạo lốc xoáy hút địch rồi choáng, R ba đoạn vừa đánh vừa hồi máu, Space tụ lực sau một tấm khiên bằng 100% máu rồi hất tung cả vùng. Thắng bằng cách lao vào, chịu đòn và trụ lâu hơn đối thủ.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/170c7f9edf253495959f62b0e1436ba3.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Thất hải vương giả!</div>
+<h2 class="page-title">Aquaman</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Khống Chế Nhóm Bạo Phát</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000092.html">← Hades</a>
+<a class="btn" href="10000107.html">Hikari →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Đấu sĩ cận chiến rất trâu dùng năng lượng: E lướt tạo lốc xoáy hút địch rồi choáng, R ba đoạn vừa đánh vừa hồi máu, Space tụ lực sau một tấm khiên bằng 100% máu rồi hất tung cả vùng. Thắng bằng cách lao vào, chịu đòn và trụ lâu hơn đối thủ.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank hạng 59/91: rất trâu nhưng gây sát thương và bắn chậm. Bộ chiêu cho khống chế tốt (choáng 1 giây, hất tung 1,5 giây) và hồi máu, nhưng bị năng lượng giới hạn số lần dùng chiêu. Vai trò tank chịu đòn được cân đúng.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Code khác mô tả R: năng lượng tự hồi 5 điểm mỗi 3 giây (mô tả R ghi 10), và đinh ba hồi 3% máu tối đa theo mô tả Nội tại chứ không phải 5% máu đã mất cộng 10 năng lượng như mô tả R.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4631</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">224 / 203</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">326 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">33</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#59/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7927</span></div><div class="progress progress-sm" title="Hơn 82% số tank"><div class="progress-bar bg-green" style="width:82%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">326</span></div><div class="progress progress-sm" title="Hơn 16% số tank"><div class="progress-bar bg-red" style="width:16%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">165</span></div><div class="progress progress-sm" title="Hơn 43% số tank"><div class="progress-bar bg-yellow" style="width:43%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ecb4c2f7e6c5cc7db22332e858d5fe9c.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Sink Tide</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Aquaman theo dòng hải triều xông đến khoảng cách cố định, gây lên địch trong phạm vi 135% ST Vật Lý, đồng thời khi tiếp đất sẽ triệu hồi lốc xoáy, sau khi trì hoãn 1s sẽ hút địch trong phạm vi về giữa lốc xoáy, gây 187% ST Vật Lý và gây choáng 1s.
+Sink Tide sẽ hút tất cả VP bay trên dọc đường.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/3368d3875b40a9a8fa3b4fbaee8404ee.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Hồng Lưu Kích</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 144</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý 
+VP Bay: Không
+
+Skill này bao gồm chủ động và bị động.
+
+Bị động: Aquaman có hệ năng lượng, thi triển skill cần tiêu hao năng lượng, giới hạn năng lượng là 100 điểm, mỗi 3s hồi 10 Năng Lượng.
+Aquaman mỗi 3s tự động nhận hiệu quả sức mạnh Atlantis, khiến công thường tiếp theo trong 3s thi triển Kích Xuyên Thấu, gây lên địch dọc đường 150% ST Vật Lý và khiến mục tiêu định thân 0.25s, mỗi đánh trúng 1 mục tiêu sẽ hồi 5% HP đã mất và hồi 10 Năng Lượng, sau mỗi lần thi triển skill sẽ có thể kích hoạt hiệu quả sức mạnh Atlantis.
+
+Chủ động: Aquaman vung cây đinh ba gây lên mục tiêu khu vực hình quạt 101% ST Vật Lý，đánh trúng 1 mục tiêu sẽ hồi 5% HP đã mất, nếu gây ST sẽ giảm 10% CD của skill E và Space, hồi 10 Năng Lượng.
+Skill này là skill 3 giai đoạn , khi skill giai đoạn trước gây ST mới được kích hoạt giai đoạn sau, ST của mỗi giai đoạn so với giai đoạn trước tăng 25%, giai đoạn cuối cùng nếu gây ST sẽ đánh bay mục tiêu 0.5s, hồi gấp đôi năng lượng và HP.
+
+Skill này khi thi triển xong mới CD.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/14ef23c3a0376602acd8172455f82555.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Nộ Tiếu Thất Hải</span>
+<span class="badge bg-azure-lt">hồi 15s</span>
+<span class="badge bg-teal-lt">tầm 240</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Sau khi thi triển sẽ vào trạng thái tụ lực và nhận ngay hiệu quả bá thể, nhận 1 khiên hấp thu ST bằng 100% giới hạn HP bản thân (Hiệu quả khiên giảm dần theo thời gian), trong thời gian đó Aquaman không thể chịu bất kỳ khống chế và di chuyển vị trí nào, đồng thời cũng không thể dùng skill nào bao gồm Công Thường, hiệu quả Khiên tối đa duy trì 5s, sau khi tụ lực kết thúc gây cho tất cả địch xung quanh 229% ST Vật Lý và đánh bay mục tiêu 1.5s. Thời gian tụ lực tối đa duy trì 3s, ST gây ra và phạm vi sẽ tăng dần theo thời gian tụ lực
+Trong khi tụ lực không thể di chuyển và tấn công, trong quá trình tụ lực có thể thi triển skill này lần nữa.
+
+
+Không gây ST lên kiến trúc._</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/3368d3875b40a9a8fa3b4fbaee8404ee.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Sức Mạnh Atlantis</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Giới hạn năng lượng là 100 điểm, mỗi 3s hồi 5 Năng Lượng. Tấn công thường đánh trúng địch hồi 5 Năng Lượng. Mỗi 3 lần tấn công thường sẽ thi triển 1 dòng hải lưu gây ST lên địch trên dọc đường và khiến mục tiêu định thân 0.25s, mỗi đánh trúng 1 mục tiêu sẽ hồi 3% giới hạn HP.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Thân trâu nhất nhóm: máu 4.631 và máu hiệu dụng 7.927, hơn khoảng 82% số tank.</li><li>E lướt 480, hút đạn bay trên đường lướt; đáp xuống gây 135% công trong bán kính 168, 1 giây sau lốc xoáy hút địch về tâm, gây 187% và choáng 1 giây.</li><li>R ba đoạn, đoạn sau mạnh hơn đoạn trước 25% (101%, khoảng 126%, khoảng 158% công). Mỗi đoạn trúng hồi 5% máu đã mất (đoạn 3 là 10%), giảm 10% hồi chiêu E và Space; đoạn 3 hất tung 0,5 giây.</li><li>Space nhận ngay khiên bằng 100% máu tối đa (khoảng 4.631) và miễn khống chế 3 giây; tụ càng lâu càng mạnh, tối đa gây 229% công trong bán kính 360 và hất tung 1,5 giây.</li><li>Cứ 3 phát đánh thường thì phát thứ 3 là đinh ba xuyên tường gây 150% công, trói chân 0,25 giây và hồi 3% máu tối đa mỗi mục tiêu trúng.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Bắn chậm (1.000 ms) và tầm 336, ngắn nhất game; sát thương đánh thường thấp.</li><li>Chiêu tốn năng lượng (E 20, R 30, Space 60) mà năng lượng tự hồi chậm: 5 điểm mỗi 3 giây, cộng 5 mỗi phát đánh thường trúng.</li><li>Khiên Space giảm 5% máu tối đa mỗi 0,25 giây nên hết sạch sau 5 giây; lúc tụ lực không di chuyển, không đánh được.</li><li>Bị choáng, câm lặng hay hất tung lúc đang lướt E là lướt dừng ngay.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>E vào giữa đám địch, rồi R đủ ba đoạn trong lúc lốc xoáy giữ chúng lại.</li><li>Bấm Space khi bị dồn: khiên 100% máu và miễn khống chế giúp sống sót, nhả sớm (sau 0,75 giây) nếu cần hất tung ngay.</li><li>Để dành 60 năng lượng cho Space; đừng xả hết vào E và R.</li><li>Đếm phát đánh thường: phát thứ 3 xuyên tường và trói chân, dùng để kéo dài khống chế.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Né điểm Aquaman đáp E: lốc xoáy hút sau 1 giây, đủ thời gian bước ra.</li><li>Thấy Aquaman tụ Space thì lùi ra ngoài 360 thay vì đánh vào khiên 100% máu.</li><li>Ép nó tiêu năng lượng rồi đánh lúc cạn: thiếu năng lượng thì không có E, R hay Space.</li><li>Khống chế cứng ngay giữa các đợt chiêu để cắt phần hồi máu của R.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chú ý né lốc xoáy phía dưới và tuyệt chiêu tụ lực của Aquaman!</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000079.html">Thủy Tinh</a>. Khống chế mạnh của Thủy Tinh dễ bắt Aquaman đúng lúc nó vừa hết chiêu, cắt đứt khả năng trụ lâu. Nhân lúc đó dồn hỏa lực hạ nó.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/aquaman_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/aquaman_actions.py:aqua_land / aqua_whirl — 1.35 × công bán kính 168, sau 1000 ms 1.87 ×, kéo về tâm, choáng 385223 1000 ms</li><li>server/aquaman_actions.py:cast slot 10 — 1.01 × 1.25^đoạn, hồi 5%/10% máu đã mất, hồi chiêu E/Space × 0.9, đoạn 3 hất tung 385423 500 ms</li><li>server/aquaman_actions.py:cast slot 2 / _release — khiên 385315 = máu tối đa, giảm 5% máu tối đa mỗi 250 ms; 1.145 × (1 + tỉ lệ tụ) bán kính 120 + 240 × tỉ lệ; hất tung 385302 1500 ms</li><li>server/aquaman_actions.py:aqua_energy / _basic_hit — +5 năng lượng mỗi 3000 ms và mỗi phát trúng; đinh ba 1.5 ×, trói 385112 250 ms, hồi 3% máu tối đa</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [82, 16, 43, 0, 82]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Aquaman",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư tầm xa khống chế, sống nhờ nội tại: dính đòn chí mạng thì hóa Sứ Giả Địa Ngục thay vì chết, đốt quanh mình rồi hồi sinh ngay tại chỗ.",
+  "strengths": [
+    "Nội tại gần như cho thêm một mạng: dính đòn chí mạng thì hóa Sứ Giả Địa Ngục với 150% máu gốc (5.880), miễn mọi khống chế, chạy nhanh hơn 50%; nội tại chỉ hồi 10 giây.",
+    "Ở dạng Sứ Giả, cứ 0,3 giây đốt 75% công lên địch trong bán kính 168 và làm chậm 50%; đủ 10 lần đốt trúng là hồi sinh tại chỗ với máu còn lại cộng 50% máu gốc. Đứng cạnh một kẻ địch thì chỉ mất khoảng 3 giây.",
+    "Space giam mục tiêu 2,5 giây (không di chuyển, không tấn công, câm lặng), 5 nhịp 150% công, trong lúc đó Ghost Rider được +200% hai loại giáp và miễn khống chế.",
+    "E bay 720, gây 235% công, kéo mục tiêu về sát Ghost Rider và khóa tấn công 0,5 giây.",
+    "R gây 221% công cộng sát thương chuẩn bằng 15% máu đã mất của mục tiêu, làm chậm 50% trong 2 giây; trúng thì giảm 2 giây hồi chiêu, nên thực tế hồi 4 giây."
+  ],
+  "weaknesses": [
+    "Ở dạng Sứ Giả không thể tấn công, không dùng được chiêu và không nhận được hồi máu.",
+    "Space là chiêu duy trì: Ghost Rider đứng yên suốt 2,5 giây và chiêu bị ngắt nếu mục tiêu ra khỏi tầm 264.",
+    "Chỉ số thân tank trung bình (hạng 39/91), tốc chạy 160 ở nhóm chậm.",
+    "Không có chiêu di chuyển chủ động; ngoài dạng Sứ Giả thì phải dựa vào E kéo để giữ khoảng cách."
+  ],
+  "tips": [
+    "Mở giao tranh bằng E kéo mục tiêu lại gần, rồi Space giam nó và R để dọn máu.",
+    "Khi sắp chết, chủ động lao vào giữa địch: dạng Sứ Giả càng đốt trúng nhiều người thì càng nhanh hồi sinh.",
+    "Dùng R lên mục tiêu đã mất nhiều máu, phần sát thương chuẩn theo máu đã mất mới phát huy.",
+    "Đừng dùng Space khi mục tiêu đứng sát rìa tầm 264, nó bước ra là chiêu bị ngắt."
+  ],
+  "counters": [
+    "Khi Ghost Rider hóa Sứ Giả, tản ra khỏi bán kính 168 thay vì đứng đánh, để nó không gom đủ 10 lần đốt.",
+    "Hạ nó lần thứ hai trong vòng 10 giây sau lần hóa Sứ Giả đầu tiên, lúc nội tại còn đang hồi.",
+    "Dùng khống chế ngắt Space trước khi nó kịp gây đủ 5 nhịp sát thương.",
+    "Né E (đạn hẹp, bay chậm 1,25 giây tới hết tầm) để không bị kéo vào tầm Space."
+  ],
+  "counter_why": "Phượng Hoàng Lửa dùng E Phượng Vũ Cửu Thiên áp sát Ghost Rider thật nhanh, rồi Space Liệt Diễm Xung Kích gây sát thương và câm lặng để hạ nó. Space của Phượng Hoàng Lửa còn giúp đồng đội ngắt hiệu ứng giam giữ của Trói Hồn.",
+  "balance": {
+    "status": "strong",
+    "reason": "Nội tại trong code mạnh hơn mô tả: dạng Sứ Giả có 150% máu (mô tả 100%), chạy nhanh hơn 50% nên đuổi kịp gần như mọi tank, và mỗi kẻ địch trúng một nhịp đốt đều tính một lần, nên chỉ 3 giây đứng cạnh một kẻ địch là hồi sinh. Với nội tại hồi 10 giây, Ghost Rider thường cần bị hạ hai lần mỗi pha giao tranh, trong khi chỉ số thân tank không hề yếu.",
+    "suggestion": "Đưa máu dạng Sứ Giả về 100% như mô tả, và chỉ tính một lần Tro Tàn cho mỗi nhịp đốt dù trúng bao nhiêu kẻ địch. Mô tả còn ghi Tro Tàn kéo dài 6 giây trong khi code đặt 4 giây; nên thống nhất một con số."
+  },
+  "evidence": [
+    "server/ghost_actions.py:commit_hp — max_hp = iHp × 1.5 khi hóa Sứ Giả, passive_ready_at = now + 10000",
+    "server/ghost_actions.py:_event 'hellfire' — mỗi 300 ms 75% công bán kính 168, mỗi mục tiêu mất máu gọi _ember một lần",
+    "server/ghost_actions.py:_ember — 9 mốc Tro Tàn (duration 4000), mốc thứ 10 hồi sinh với hp + 50% iHp",
+    "BuffTemplate 312121 +50% tốc chạy, 312116 miễn khống chế; 312331/312341 fEffectValA 2 (Space +200% giáp)",
+    "server/ghost_actions.py:_flight 312201 — E kéo mục tiêu về cách 72, mô tả E chỉ nói câm lặng 0,5 giây"
+  ]
+}

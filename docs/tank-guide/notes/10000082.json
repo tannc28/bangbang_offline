@@ -1,0 +1,41 @@
+{
+  "summary": "Đấu sĩ cơ động, chỉ số thân tank thuộc hàng đầu: E ném vòng rồi lướt theo, R trói chân lan sang người đứng gần, Space hóa Ba Đầu Sáu Tay 12 giây, mọi chiêu nhân ba và bắn tỏa bốn phía.",
+  "strengths": [
+    "Chỉ số thân tank hạng 3/91: tốc chạy 175 (nhanh hơn khoảng 88% số tank), tầm 480, máu hiệu dụng 7.152.",
+    "Sau mỗi chiêu, Na Tra giảm 50% sát thương kỹ năng và 50% hiệu ứng khống chế nhận vào trong 1,5 giây.",
+    "Mỗi lần mất máu, Na Tra được một tầng +10% tốc chạy và +10% sát thương gây ra trong 3 giây, tối đa 5 tầng (+50%). Bị khống chế thì hồi 10% máu đã mất, E và R bớt 0,8 giây hồi, Space bớt 3 giây (tối đa một lần mỗi 3 giây).",
+    "E ném vòng xuyên tường 480, gây 212% công và làm chậm 50% trong 2 giây; trong 3 giây sau có thể bấm lại để lướt 240; bắt được vòng bay về thì E chỉ còn hồi 1,5 giây. R gây 169% và trói chân 1 giây, 1 giây sau lan trói sang kẻ địch trong bán kính 144.",
+    "Space nhảy tới điểm xa tới 720 (1 giây không thể bị chọn làm mục tiêu và miễn sát thương), hồi 40% máu đã mất, đáp xuống gây 210% trong bán kính 216 và giảm 50% hồi máu, khiên của địch 3 giây. Mỗi tank địch trúng cho +15% máu tối đa và +15% công (tối đa 3); trong 12 giây hình thái đó E và R bắn ba hướng, đánh thường tỏa 9 tia."
+  ],
+  "weaknesses": [
+    "Hầu hết chiêu là đạn bay, nên bị các tank chặn hoặc phản đạn khắc chế.",
+    "Mô tả hứa giảm 100% sát thương kỹ năng sau mỗi chiêu, nhưng code và BuffTemplate chỉ giảm 50%; người chơi tin mô tả sẽ lao vào quá sâu.",
+    "Space hồi 30 giây; ngoài hình thái Ba Đầu Sáu Tay, sát thương chỉ ở mức khá.",
+    "Space đáp xuống mà không trúng tank địch nào thì không được cộng máu và công."
+  ],
+  "tips": [
+    "Ném E rồi lướt về phía vòng bay về để bắt lại, giữ nhịp E 1,5 giây.",
+    "Dùng R lên kẻ địch đứng gần đồng đội của nó để trói lan sang cả nhóm.",
+    "Nhảy Space vào giữa ít nhất hai, ba tank địch để có +30–45% máu và công trong hình thái.",
+    "Dùng chiêu ngay trước khi ăn đòn: 1,5 giây giảm sát thương kỹ năng giúp đứng vững khi giao tranh."
+  ],
+  "counters": [
+    "Dùng chiêu chặn hoặc phản đạn: vòng E, dải lụa R và đạn thường đều là đạn bay.",
+    "Không đánh gần Na Tra khi nó đã chồng nhiều tầng nội tại, mỗi đòn nhận vào làm nó đánh đau thêm.",
+    "Thấy vùng cảnh báo Space thì tản ra khỏi bán kính 216 để nó không được cộng máu và công.",
+    "Né vòng E để nó không bắt lại được vòng và mất 8 giây hồi chiêu."
+  ],
+  "counter_why": "Phần lớn chiêu của Na Tra là đạn bay, nên dễ bị R Không Thủ Bạch Nhận của Zoro khắc chế.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank cao nhất nhóm này (hạng 3/91) và bộ chiêu nhiều công cụ, nhưng không có chiêu nào vượt trội: khống chế chỉ là trói 1 giây, giảm sát thương chỉ 50% trong 1,5 giây, Space hồi 30 giây. Có kẻ khắc chế rõ ràng (chặn đạn).",
+    "suggestion": "Giữ nguyên số, nhưng cần sửa mô tả cho khớp code: bảo vệ sau chiêu là 50% chứ không phải 100%, và Hồng Liên Hóa Sinh giảm hồi chiêu theo số cố định (0,8 giây cho E, R; 3 giây cho Space) chứ không phải 10%. Theo dõi phần +10% sát thương mỗi tầng nội tại, vì code kích hoạt với mọi đòn gây mất máu."
+  },
+  "evidence": [
+    "server/nezha_actions.py:_protection — BuffTemplate 356111/356112 fEffectValA −0.5, iPersistTime 1500",
+    "server/nezha_actions.py:damage + on_damage — sát thương gây ra × (1 + 0.1 × tầng 356121), tối đa 5 tầng",
+    "server/nezha_actions.py:on_control — hồi 10% máu đã mất, E/R −800 ms, Space −3000 ms, mỗi 3000 ms một lần",
+    "server/nezha_actions.py:_event 'nezha_land' — 2.1 × công bán kính 216, +15% max_hp và công mỗi tank trúng (tối đa 3), hình thái 12000 ms; BuffTemplate 356322 −50% hồi máu 3000 ms",
+    "server/nezha_actions.py:_root — BuffTemplate 356402 trói 1000 ms, lan trong bán kính 144; 356403 miễn trói lại 5000 ms"
+  ]
+}

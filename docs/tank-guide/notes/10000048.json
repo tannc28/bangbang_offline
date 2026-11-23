@@ -1,0 +1,40 @@
+{
+  "summary": "Sát thủ tàng hình đi một mình: rình trong tàng hình, bắn nỏ đánh dấu, lăn Space rồi đâm vào mục tiêu ít máu. Hạ được một con thì E và R làm mới ngay để săn con kế tiếp.",
+  "strengths": [
+    "E tàng hình 12 giây, tăng 25% tốc chạy; ra khỏi tàng hình được 3 giây tăng 50% tốc đánh, đánh thường chí mạng 1,5 lần và giảm 25% sát thương nhận.",
+    "Không có đồng đội trong bán kính 300 thì mọi sát thương tăng 25%.",
+    "R bắn nỏ xuyên tường 125% công, đánh dấu 3 giây: chậm 50%, giảm 50% hồi máu, nhận thêm 25% sát thương đánh thường. Đòn đánh thường đầu tiên trúng dấu thì choáng 1 giây và hồi 150% công thành máu; dấu hết hạn thì nổ sát thương chuẩn bằng 20% máu đã mất.",
+    "Space có 3 lượt: lăn 240, tàng hình 0,5 giây, giảm 50% sát thương kỹ năng 1 giây. Bấm lần 2 trong 3 giây để đâm 180% công vào tank địch trong tầm 300, ưu tiên con ít % máu nhất; mỗi lần đâm tăng 25% cho lần sau, tối đa 50%.",
+    "Hạ gục một tank thì E, R làm mới ngay và tăng 200% tốc chạy trong 2 giây."
+  ],
+  "weaknesses": [
+    "Thân mỏng nhất nhóm: máu 3.045 thấp nhất trong 91 tank, máu hiệu dụng 4.679; chỉ số thân tank hạng 80/91.",
+    "Đánh thường hoặc dùng R là tàng hình vỡ; địch trong bán kính 600 nhận cảnh báo mỗi giây khi Sát thủ đang tàng hình.",
+    "0,75 giây đầu của E vẫn bị nhìn thấy, nên bật E ngay trước mặt địch là vô ích.",
+    "Sức mạnh phụ thuộc vào việc đi một mình: có đồng đội trong bán kính 300 là mất 25% sát thương."
+  ],
+  "tips": [
+    "Bật E từ xa, vòng ra sau hàng pháo rồi mở bằng R để có dấu, tiếp theo đánh thường để ăn choáng 1 giây và hồi máu.",
+    "Lăn Space vào rồi bấm lần 2 đâm; đâm 2 lần liên tiếp cùng mục tiêu để có thêm 50%.",
+    "Nhắm con ít máu nhất: hạ được là E và R làm mới, chạy nhanh gấp 3 trong 2 giây để thoát hoặc săn tiếp.",
+    "Đừng đứng chung với đồng đội khi tung combo: mất 25% sát thương."
+  ],
+  "counters": [
+    "Thấy cảnh báo tàng hình thì đứng gần đồng đội; Sát thủ cần mục tiêu lẻ.",
+    "Dùng chiêu phá tàng hình hoặc vùng phát hiện; lộ ra rồi thì Sát thủ chỉ còn khoảng 4.700 máu hiệu dụng.",
+    "Bị dính dấu nỏ thì giữ khoảng cách 3 giây, đừng để trúng đòn đánh thường đầu tiên (choáng 1 giây).",
+    "Khống chế ngay sau khi nó đâm Space: lúc đó đã hết lượt lăn và đang ở sát mặt."
+  ],
+  "counter_why": "Khiên của [E - Khiên nước gai] của Hồ Lô có tác dụng phá tàng hình, khiến Sát thủ ẩn thân cũng vô ích và lộ hoàn toàn.",
+  "balance": {
+    "status": "ok",
+    "reason": "Thân thuộc nhóm yếu nhất (hạng 80/91, máu thấp nhất game) nhưng bộ chiêu bù đủ: tàng hình dài, 3 lượt lăn, choáng 1 giây và làm mới chiêu khi hạ gục. Điểm yếu là chết rất nhanh khi bị lộ, hợp lý cho một sát thủ.",
+    "suggestion": "Theo dõi vòng lặp tàng hình: E kéo dài 12 giây còn hồi chiêu 10 giây tính từ lúc bấm, nên chưa đánh thì có thể tàng hình gần như liên tục. Code khác mô tả ở vài chỗ: nội tại tính bán kính 300 (mô tả Nội tại ghi 360), tốc chạy sau khi hạ gục là +200% (mô tả ghi 100%)."
+  },
+  "evidence": [
+    "server/assassin_actions.py:_deal / _isolated — × 1.25 khi không có đồng đội trong 300; hạ gục thì cooldowns E, R = 0 và buff 322113 (+200% tốc chạy 2000 ms)",
+    "server/assassin_actions.py:_basic_hit — đâm 1.8 × công, +0.25 mỗi tầng 322322 (tối đa 2), dấu nỏ +25%, lần trúng đầu hồi 1.5 × công và choáng 322431 1000 ms",
+    "server/assassin_actions.py:assassin_mark_end — sát thương chuẩn 20% máu đã mất; BuffTemplate 322402 chậm 50%, 322409 giảm 50% hồi máu, 3000 ms",
+    "server/assassin_actions.py:cast slot 1 — E hồi 10000 ms, tàng hình 322201 12000 ms; cảnh báo 305221 cho địch trong 600"
+  ]
+}

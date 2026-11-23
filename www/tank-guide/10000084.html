@@ -1,0 +1,143 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Gia Cát Lượng · Cẩm nang tank</title><meta name="description" content="Pháp sư đổi thời tiết: R xoay vòng Cuồng Phong, Lôi Minh, Sương Mù mỗi giây, và mỗi lần đổi làm mới E lẫn Space. Giới hạn thật sự chỉ còn là thanh năng lượng 100.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/micro/8ec33a5a296153a123f395acfcf50024.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Mưu đồ thiên hạ.</div>
+<h2 class="page-title">Gia Cát Lượng</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-blue-lt">Cần theo dõi</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Tiêu Hao Khống Chế</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000097.html">← Magneto</a>
+<a class="btn" href="10000056.html">Quan Công →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-blue bg-blue-lt mb-3"><b>Pháp sư đổi thời tiết: R xoay vòng Cuồng Phong, Lôi Minh, Sương Mù mỗi giây, và mỗi lần đổi làm mới E lẫn Space. Giới hạn thật sự chỉ còn là thanh năng lượng 100.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-blue"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-blue-lt">Cần theo dõi</span></div></div>
+<div class="card-body"><p>Space Cuồng Phong trong code gây 250% công ở mỗi lần trong 3 lần, tổng 750% nếu mục tiêu đứng hết vùng. Mô tả ghi 250% một lần, còn EffectTemplate 358605 ghi 150% mỗi lần. Chênh lệch đủ lớn để làm lệch mọi đánh giá, nên cần chốt con số trước.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Chọn một: 250% chia đều cho 3 lần theo mô tả, hoặc 150% mỗi lần theo bảng. Sau đó theo dõi vòng đổi thời tiết: R hồi 1 giây làm mới E và Space, nên chỉ có năng lượng giới hạn tần suất ra chiêu.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3500</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">153 / 185</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">395 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">34</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#44/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5472</span></div><div class="progress progress-sm" title="Hơn 39% số tank"><div class="progress-bar bg-orange" style="width:39%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">395</span></div><div class="progress progress-sm" title="Hơn 67% số tank"><div class="progress-bar bg-lime" style="width:67%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/7290e9f5ed0ffc10dde5d57ccfb1d3fb.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Ngọa Long Sách-Phong</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 600</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Thời tiết: Cuồng Phong, sau khi Cầu Trời sẽ đổi thành Lôi Minh.
+
+Gia Cát Lượng ra skill dựa trên thời tiết.
+
+Cuồng Phong: Tiêu hao 20đ Năng Lượng, tạo một cơn gió thổi hướng chỉ định, Đánh Bay địch trên đường trong vòng 1s. Khi tiếp đất nhận ngay #EN_173%_ER# ST Năng Lượng, trong 2s giảm tốc 50%(Giảm theo thời gian), ST phải nhận tăng 15%.
+
+Lôi Minh: Tiêu hao 20đ Năng Lượng, dẫn lực thiên lôi, gây lên kẻ địch trong phạm vi chỉ định #EN_181%_ER# ST Năng Lượng, lần đầu địch trúng Thiên Lôi trong 1s bị giảm tốc 60%, cùng một mục tiêu trong 6s chỉ có tác dụng 1 lần. Khi gây sát thương, Gia Cát Lượng được tăng 5% Công, trong 5s, cộng dồn tối đa 5 lần.
+
+Sương Mù: Tiêu hao 20đ Năng Lượng. Trong 2s sau khi thi triển nhận hiệu quả Liệu Địch Tiên Cơ, lúc này bị skill địch đánh trúng Gia Cát Lượng sẽ cản hiệu quả skill lần này và hồi 30đ Năng Lượng rồi nhận khiên có thể hấp thu ST bằng 30% giới hạn HP bản thân kéo dài 2s, lúc này mỗi giây Gia Cát Lượng hồi 5% HP và 5đ Năng Lượng, gây lên người đánh skill #EN_117%_ER# ST Năng Lượng, khiến họ câm lặng và ST họ gây ra giảm 30% trong 1s, nếu mục tiêu có trạng thái Bất Bại sẽ xóa trạng thái này.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ef218eae273ee3a8477e2f640c86b0db.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Thiên Quyết-Phong</span>
+<span class="badge bg-azure-lt">hồi 1s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Không
+VP Bay: Không
+
+Thời tiết: Cuồng Phong, sau khi sử dụng đổi sang Lôi Minh.
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Gia Cát Lượng ở trạng thái thời tiết khác nhau sẽ nhận được hiệu quả buff khác nhau: 
+Cuồng Phong: Tăng 15% tốc độ di chuyển.
+Lôi Minh: Khi gây ST bỏ qua mục tiêu 15% Khiên Năng Lượng.
+Sương Mù: ST nhận từ Công Thường giảm 15%.
+
+Gia Cát Lượng có hệ thống Năng Lượng, giới hạn Năng Lượng là 100đ, mỗi giây hồi phục 5 Năng Lượng, diệt hoặc trợ công sẽ hồi 30đ Năng Lượng.
+
+Chủ động: Sau khi thi triển mở Nghi Thức Cầu Trời và đổi tình trạng thời tiết, có thể thay đổi thời tiết qua lại giữa Cuồng Phong, Lôi Minh, Sương Mù, sau khi đổi thì hiệu quả skill [E Ngọa Long Sách] và [Space-Bát Quái] cũng thay đổi theo, CD skill sẽ bị reset.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/0c9bd67a68e84f4e87054f96b207bf8f.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Bát Quái·Phong</span>
+<span class="badge bg-azure-lt">hồi 10s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Thời tiết: Cuồng Phong, sau khi Cầu Trời sẽ đổi thành Lôi Minh.
+
+Bố Trận Bát Quái, thời tiết khác nhau, hiệu quả Bát Quái trận khác nhau.
+
+Cuồng Phong: Tiêu hao 50 Năng Lượng bố trận, 0.5s sau hình thành khu Cuồng Phong tại vị trí chỉ định kéo dài 3s. Tất cả địch trong khu vực này nhận #EN_250%_ER# ST Năng Lượng rồi khiến mục tiêu giảm 50% tốc độ và công tốc (Tăng dần hiệu quả theo thời gian), 3s sau kẻ địch vẫn ở khu này sẽ bị kéo vào trung tâm khu vực.
+
+Lôi Minh: Tiêu hao 50 Năng Lượng bố trận, 1.25s sau sấm chớp đánh xuống gây cho toàn địch trong khu vực #EN_462%_ER# ST Năng Lượng, trong 2s kế tiếp, kẻ địch trong trận pháp cứ mỗi 1 giây sẽ nhận #EN_90%_ER# ST Năng Lượng.
+
+Sương Mù: Tiêu hao 50 Năng Lượng bố trận, 1s sau hình thành sương mù trong khu vực bố trận. Đồng đội trong khu vực nhận hiệu quả tàng hình trong 3s và tăng tốc 50%.
+
+Bát Quái giảm 50% Sát Thương lên kiến trúc_.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/offline_empty_skill.png)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Vào trận nhận Phong</span>
+
+
+</div>
+<div class="skill-desc">Vào trận nhận Phong</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>R hồi 1 giây, mỗi lần đổi thời tiết đặt lại hồi chiêu E và Space. E tốn 20, Space tốn 50 năng lượng; năng lượng hồi 5 mỗi giây, diệt hoặc trợ công hồi 30.</li><li>Lôi Minh: E gây 181% công bán kính 120, hồi 2 giây. Space hồi 4 giây, nổ 462% công sau 1,25 giây rồi thêm 2 lần 90%.</li><li>Cuồng Phong: E hất tung 1 giây, tiếp đất nhận 173% công, bị chậm 50% và nhận thêm 15% sát thương trong 2 giây. Space tạo vùng gió 3 giây bán kính 196, hết giờ hút mục tiêu về tâm.</li><li>Sương Mù: E chặn kỹ năng kế tiếp trong 2 giây, phản 117% công, câm lặng kẻ ra chiêu 1 giây, nhận khiên 30% máu tối đa và hồi 5% máu mỗi giây. Space cho đồng đội tàng hình 3 giây và tăng 50% tốc chạy.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng (3.500 máu, máu hiệu dụng 5.472), bắn chậm (1.000 ms một phát), chạy chậm (160).</li><li>Thanh năng lượng 100 chỉ đủ hai lần Space liên tiếp; xả hết là phải chờ.</li><li>Sương Mù không chặn đánh thường, nên xạ thủ đánh thường như Thạch Sanh không bị phản đòn.</li><li>Space Lôi Minh nổ sau 1,25 giây trong bán kính chỉ 96, rất dễ né.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Xoay thời tiết để có đúng chiêu cần dùng: Cuồng Phong để mở giao tranh, Lôi Minh để dồn sát thương, Sương Mù để chống khống chế.</li><li>Ném E Cuồng Phong trước để mục tiêu nhận thêm 15% sát thương, rồi đổi sang Lôi Minh nối tiếp.</li><li>Bật E Sương Mù khi thấy địch sắp tung kỹ năng khống chế lên mình.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Áp sát và đánh thường: Sương Mù không chặn được đánh thường.</li><li>Ép nó xả năng lượng, rồi tấn công lúc thanh năng lượng cạn.</li><li>Thấy cảnh báo Lôi Minh thì bước ra ngay, còn 1,25 giây.</li><li>Nhử bằng một chiêu rẻ khi nó vừa bật Sương Mù.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chú ý Thiên Quyết - trạng thái Phong của Gia Cát Lượng, bạn nên tránh skill Ngọa Long Sách - Phong.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000063.html">Thạch Sanh</a>. Sát thương của Thạch Sanh dựa vào đánh thường, mà Ngọa Long Sách·Sương Mù của Gia Cát Lượng không phản được đánh thường. Thạch Sanh lại đứng khá xa phía sau nên Gia Cát Lượng khó áp sát.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/zhuge_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/zhuge_actions.py:_event zhuge_wind_tick — power × 2.5 ở mỗi lần index 1–3; EffectTemplate 358605 fAddVal 1.5</li><li>server/zhuge_actions.py:cast slot 10 — cooldowns[1] = cooldowns[2] = 0 khi đổi thời tiết; SkillTemplate 358401/358101/358701 iCoolTime 1000</li><li>SkillTemplate 358301 iCoolTime 4000 iMpCost 50 (Space Lôi Minh), 358201 iCoolTime 2000 iMpCost 20 (E Lôi Minh); EffectTemplate 358302 fAddVal 4.62, 358304 fAddVal 0.9</li><li>server/zhuge_actions.py:_guard — chỉ chặn đòn không phải đánh thường; zhuge_counter 1.17 × công, khiên 0.3 × máu tối đa (BuffTemplate 358924)</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [39, 67, 17, 49, 31]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Gia Cát Lượng",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

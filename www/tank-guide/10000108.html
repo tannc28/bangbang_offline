@@ -1,0 +1,129 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Shadowblade · Cẩm nang tank</title><meta name="description" content="Sát thủ năng lượng cơ động: năng lượng càng đầy thì càng nhanh và càng đau, nên phải ra đòn liên tục. Space hóa bóng lao xa 720 và tạo trận câm lặng 3 giây.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/8d1ef95a392a4b731611560a1df2361a.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Ninja là phải kiên nhẫn!</div>
+<h2 class="page-title">Shadowblade</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-yellow-lt">Tầm trung</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-red-lt">Sát thủ</span></div>
+<div class="text-secondary mt-2">Sát Thủ Im Lặng Kéo</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000101.html">← Sniper</a>
+<a class="btn" href="10000047.html">Pikachu →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Sát thủ năng lượng cơ động: năng lượng càng đầy thì càng nhanh và càng đau, nên phải ra đòn liên tục. Space hóa bóng lao xa 720 và tạo trận câm lặng 3 giây.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Cơ động và có khống chế diện rộng, nhưng mỏng và phải ra đòn liên tục để giữ năng lượng. Hạng chỉ số thân 28/91 chủ yếu nhờ tốc chạy và xuyên giáp.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên. Mô tả R và mô tả nội tại mâu thuẫn về phần thưởng diệt mạng (15% so với 25%); code dùng 15%. Khiên của R kéo dài 2 giây theo BuffTemplate 383402, mô tả ghi 1,5 giây.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3491</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">132 / 143</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">389 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">59</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">900 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#28/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5091</span></div><div class="progress progress-sm" title="Hơn 22% số tank"><div class="progress-bar bg-orange" style="width:22%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">432</span></div><div class="progress progress-sm" title="Hơn 81% số tank"><div class="progress-bar bg-green" style="width:81%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">180</span></div><div class="progress progress-sm" title="Hơn 99% số tank"><div class="progress-bar bg-green" style="width:99%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">408</span></div><div class="progress progress-sm" title="Hơn 37% số tank"><div class="progress-bar bg-orange" style="width:37%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/8c75c18a10dffec61e0c96caa2c1ce8e.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Ảnh·Thuấn</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 240</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Công Thường Loại ST:Năng lượng
+VP Bay: Có
+
+Dịch chuyển đến địa điểm chỉ định, lần Công Thường sau chuyển thành Lốc Đao. Lốc Đao đánh trúng mục tiêu sẽ gây #EN_197%_ER# ST Năng Lượng và giảm 75% tốc độ di chuyển của mục tiêu trong 1.5s (Giảm theo thời gian). 
+Lốc Đao bắn mục tiêu gây ST phạm vi, cứ mỗi lần bắn sẽ hồi 10 Năng Lượng và giảm 25% ST, tối đa bắn 3 lần, chuyển 25% ST gây ra thành HP cho Shadowblade.
+
+Skill này được cộng dồn, tối đa dồn 2 lần, khoảng cách dùng là 3s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/2e687ce1abf59922e072ab9501a710ba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Ảnh·Liệm</span>
+<span class="badge bg-azure-lt">hồi 10s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng 
+VP Bay: Không
+
+Hiệu quả này bao gồm bị động và chủ động.
+
+Bị động: Cứ mỗi 10 Năng Lượng sẽ tăng 5% tốc độ di chuyển và xuyên thấu năng lượng cho Shadowblade, giới hạn năng lượng là 100 điểm, Công Thường đánh trúng mục tiêu sẽ hồi 5 Năng Lượng.
+Diệt mục tiêu sẽ giảm 15% CD của mọi skill, hồi 15% HP và Năng Lượng.
+Trợ Công giảm 5% CD mọi skill, hồi 5% HP và Năng Lượng.
+
+Chủ động: Gây #EN_150%_ER# ST Năng Lượng lên địch trong phạm vi bản thân, khiến địch trong 3s tiếp theo hình thành kết nối với bản thân, mục tiêu bị kết nối mỗi giây chịu #EN_50%_ER# ST Năng Lượng và ST gây ra cho Shadowblade giảm 25%, khoảng cách kết nối dài nhất là 300, quá khoảng cách này kết nối sẽ bị nứt, đồng thời kéo mục tiêu về phía bản thân 1 đoạn nhỏ, giảm 50% tốc độ di chuyển của mục tiêu, duy trì 2s.
+Nếu gây ST, sẽ khiến bản thân trong 1.5s nhận Khiên có thể hấp thu mọi Công Thường và chuyển hóa thành HP.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9779be62de4436bbb32319670bc0c27a.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Ảnh·Trận</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng 
+VP Bay: Không
+
+Shadowblade hóa hắc ảnh xông đến vị trí chỉ định, gây #EN_319%_ER# ST Năng Lượng lên địch trong phạm vi và tạo Ảnh·Trận im lặng tất cả địch trong khu vực và mỗi giây chịu #EN_72%_ER# ST Năng Lượng, đồng thời giảm 50% hiệu quả trị liệu nhận được, pháp trận tối đa tồn tại 3s. Cứ mỗi gây ST lên 1 mục tiêu, ST bản thân nhận được giảm 10% duy trì 3s.
+
+Shadowblade ở trong Ảnh·Trận nhận được hiệu quả hồi năng lượng và giúp bản thân nhận khiên có thể hút tất cả công thường rồi chuyển thành HP.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/2e687ce1abf59922e072ab9501a710ba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Ảnh·Lực</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay: Không
+
+Năng lượng giảm dần theo thời gian, năng lượng càng cao ST gây ra càng cao, mỗi 10 Năng Lượng sẽ tăng 5% ST và tốc độ di chuyển, tối đa tăng 50%, diệt mục tiêu sẽ giảm 25% CD của mọi skill, hồi 25% HP và năng lượng, trợ công sẽ giảm 5% CD skill, hồi 5% HP và năng lượng.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Ảnh·Lực: mỗi 10 năng lượng tăng 5% sát thương và tốc chạy, tối đa +50%. Tốc chạy gốc 180 đã thuộc nhóm nhanh nhất game, xuyên giáp năng lượng 59.</li><li>Space: 0,5 giây chuẩn bị không thể bị chọn và miễn sát thương, rồi lao 720, gây 319% công bán kính 216. Trận tồn tại 3 giây, câm lặng và giảm 50% hồi máu mọi kẻ bên trong, 72% công mỗi giây. Mỗi kẻ trúng giúp Shadowblade giảm thêm 10% sát thương nhận vào (tối đa 50%) trong 3 giây.</li><li>E có 2 lượt tích: dịch chuyển 240, phát đánh thường kế tiếp thành Lốc Đao 197% công, nảy tối đa 4 lần (mỗi lần giảm 25%), hút 25% và làm chậm 75%.</li><li>R gây 150% công bán kính 216 và nối dây 3 giây (50% công mỗi giây, mục tiêu gây ít hơn 25% sát thương lên Shadowblade). Gây sát thương thì nhận khiên biến đánh thường thành máu.</li><li>Diệt mục tiêu: hồi 15% máu và năng lượng, giảm 15% thời gian hồi chiêu còn lại; trợ công được 5%.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng: 3.491 máu, máu hiệu dụng 5.091.</li><li>Năng lượng tự tụt 5 mỗi giây; đứng ngoài giao tranh là mất hết phần thưởng sát thương và tốc chạy.</li><li>Bị khống chế cứng (như Space của Tào Tháo) lúc lao vào là gần như chết.</li><li>Dây nối R đứt khi hai bên cách nhau quá 300.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Giữ năng lượng cao bằng đánh thường (+5), Lốc Đao (+10 mỗi lần nảy) và đứng trong trận Space (+5 mỗi 0,25 giây).</li><li>Dùng Space để vào giữa cụm: 0,5 giây chuẩn bị miễn sát thương giúp né chiêu lớn.</li><li>Mở bằng E và Lốc Đao, rồi R để nối dây và có khiên chống đánh thường.</li><li>Ưu tiên kết liễu: mỗi mạng hạ giảm 15% hồi chiêu.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Để dành khống chế cứng cho lúc nó lao vào (như Tào Tháo).</li><li>Thấy cảnh báo Space thì rời vùng ngay; ở trong trận là bị câm lặng.</li><li>Kéo dài giao tranh để năng lượng của nó tụt.</li><li>Dùng kỹ năng thay vì đánh thường khi khiên của R hoặc của trận Space đang bật.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: [Skill Sapce-Ảnh·Trận] của Shadowblade sẽ có cảnh báo, chú ú tránh bị im lặng.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000091.html">Tào Tháo</a>. Chiêu Space [Ép Thiên Tử Lệnh Chư Hầu] của Tào Tháo khống chế cực mạnh, là ác mộng của Shadowblade. Khi lao vào, Shadowblade phải canh đúng thời điểm để không dính khống chế.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/shadowblade_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/shadowblade_actions.py:_factor/_speed — +5% sát thương và tốc chạy mỗi 10 năng lượng; _event shadow_energy −5 mỗi 1000 ms</li><li>server/shadowblade_actions.py:_arrive/_field — 3.19 khi đáp, 0.18 mỗi 250 ms trong 3000 ms; BuffTemplate 383342 câm lặng, 383343 -0.5 hồi máu, 383323 +0.1 mỗi tầng tối đa 5</li><li>server/shadowblade_actions.py:on_target_death — ratio 0.15 (diệt) / 0.05 (trợ công)</li><li>server/shadowblade_actions.py:_bounce_hit — 1.97 × 0.75^n, tối đa 4 lần trúng, hút 0.25</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [22, 81, 99, 37, 30]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Shadowblade",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

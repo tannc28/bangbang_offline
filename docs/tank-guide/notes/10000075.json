@@ -1,0 +1,41 @@
+{
+  "summary": "Đấu sĩ cận chiến dồn sát thương bằng chuỗi khống chế: E lao vào hất tung, R ném kích định thân, Space nhảy xa 720 hất tung cả nhóm; mỗi chiêu còn cho khiên 15% máu và một đòn thường cường hóa gấp đôi sát thương.",
+  "strengths": [
+    "Chuỗi khống chế dày: E hất tung 0,5 giây, R định thân 1 giây mọi địch trên đường bay (xuyên tường), Space hất tung 1 giây trong bán kính 192; cả E và Space còn làm chậm 50% sau đó.",
+    "Mỗi lần dùng chiêu được khiên 15% máu tối đa (khoảng 698 ở cấp 6) trong 1,5 giây, và đòn thường kế tiếp gây gấp đôi sát thương, tầm 480, nổ lan bán kính 120; trúng thì giảm 1 giây hồi mọi chiêu.",
+    "E trúng địch thì được dùng lại miễn phí trong 3 giây: nhát chém nửa vòng tròn 168 gây 158%, mỗi địch trúng hồi 15% máu đã mất, kèm thêm một lần khiên và đòn cường hóa.",
+    "Space gây 388% sức công; trong 1 giây tụ lực Lữ Bố biến mất, không bị nhắm, miễn sát thương và miễn khống chế.",
+    "Chỉ số thân tank hạng 20/91: 4.655 máu, máu hiệu dụng 8.014 (trên 84% số tank), đòn thường cũng nổ lan bán kính 96."
+  ],
+  "weaknesses": [
+    "Cần năng lượng: E 30, R 20, Space 50, tối đa đúng 100; hồi chỉ 10 mỗi 5 giây cộng 5 mỗi đòn thường trúng, nên hụt chiêu là hụt cả chuỗi.",
+    "Tầm bắn thường 336 và tốc chạy 160; E chỉ lướt 240, nên dễ bị thả diều khi Space đang hồi 25 giây.",
+    "Khiên chỉ giữ 1,5 giây; nếu không đánh đổi liên tục thì Lữ Bố mất lớp phòng thủ rất nhanh.",
+    "Space cần 1 giây tụ lực và để lại vùng báo trước chỗ đáp, địch tinh ý sẽ chạy khỏi bán kính 192."
+  ],
+  "tips": [
+    "Combo chuẩn: Space nhảy vào hất tung, R định thân con muốn giết, E lao tới rồi bấm E lần hai để chém nửa vòng và hồi máu.",
+    "Xen một đòn thường cường hóa giữa các chiêu: gấp đôi sát thương và giảm 1 giây hồi mọi chiêu.",
+    "Giữ đủ 100 năng lượng trước giao tranh lớn; chỉ dùng R lẻ để rỉa máu khi năng lượng còn dư.",
+    "Dùng Space để né một chiêu nguy hiểm: trong 1 giây tụ lực Lữ Bố miễn sát thương và không bị nhắm."
+  ],
+  "counters": [
+    "Né đòn thường cường hóa ngay sau mỗi chiêu của Lữ Bố; đó là nguồn sát thương và giảm hồi chiêu chính của nó.",
+    "Chạy khỏi vùng đáp của Space trong 1 giây tụ lực.",
+    "Khống chế Lữ Bố sau khi nó đáp xuống: lúc đó nó không còn miễn khống chế và thường đã cạn năng lượng.",
+    "Thả diều từ ngoài tầm 336 khi Space và E đang hồi."
+  ],
+  "counter_why": "Mê hoặc của Điêu Thuyền bỏ qua trạng thái không thể cản phá mà Lữ Bố có được khi dùng Space Quỷ Thần Giáng Thế, phá vỡ chuỗi chiêu của nó.",
+  "balance": {
+    "status": "ok",
+    "reason": "Mạnh nhưng chưa vượt khung: chỉ số tốt (hạng 20/91) và chuỗi khống chế dài khoảng 2,5 giây, nhưng toàn bộ chuỗi tốn đúng 100 năng lượng và hồi rất chậm, nên mỗi lượt giao tranh chỉ có một chuỗi đầy đủ.",
+    "suggestion": "Theo dõi Lữ Bố cùng với Quan Vũ vì cùng kiểu chuỗi khống chế. Code cho Space không bị nhắm và miễn sát thương trong 1 giây tụ lực, mô tả chỉ nói miễn khống chế; nên sửa mô tả hoặc bỏ phần miễn sát thương. Lần dùng E thứ hai miễn phí còn cho thêm một khiên và một đòn cường hóa, nếu thấy quá trâu thì bỏ _empower ở lần thứ hai."
+  },
+  "evidence": [
+    "server/lubu_actions.py:_empower — add_shield(max_hp*0.15) 1500 ms (BuffTemplate 349112); đòn cường hóa power × 2, nổ 120, trúng thì −1000 ms mọi chiêu",
+    "server/lubu_actions.py:cast — chi phí E 30 / Space 50 / R 20; lần E thứ hai bỏ qua chi phí và hồi chiêu, hình quạt 168/180° × 1.58, hồi 15% máu đã mất mỗi mục tiêu",
+    "server/lubu_actions.py:cast slot 2 — info untargetable + damage_immune trong 1000 ms; _event lubu_arrive 3.88 bán kính 192, BuffTemplate 349322 hất tung 1000 ms",
+    "EffectTemplate 349401 fAddVal 1.84, BuffTemplate 349402 định thân 1000 ms; 349205 hất tung 500 ms",
+    "combat_data.tank_stats(10000075, 6): iMp 100; facts: ehp 8014 (pct 0.844), stat_rank 20"
+  ]
+}

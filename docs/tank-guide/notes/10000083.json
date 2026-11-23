@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư năng lượng tầm trung đánh kiểu ra vào: E dịch chuyển vào giữa địch rồi E2 quay về phân thân. Mỗi chiêu trúng cho một lớp khiên 10% máu, khiên vỡ thì nổ sát thương thực quanh người.",
+  "strengths": [
+    "E dịch chuyển tối đa 600, gây 163% công năng lượng bán kính 144 ở điểm đến, rồi 4 nhịp quanh người (mỗi 0,75 giây, 50% công mỗi nhịp, gấp đôi lên địch đang đứng trong Space). Sau 1 giây có thể bấm E2 quay về phân thân để rút lui.",
+    "Mỗi chiêu trúng cho khiên bằng 10% máu tối đa trong 2 giây; khiên vỡ, hết hạn hoặc được làm mới thì nổ: sát thương thực 25% công bán kính 144 và chậm 25% mỗi tầng (tối đa 3 tầng).",
+    "R bay xuyên tường: 144% công năng lượng, đày mục tiêu vào dị không gian 1 giây, ra khỏi đó bị chậm 50%; đòn thường kế tiếp gây gấp đôi lên nó và hồi máu bằng 150% công.",
+    "Space: sau 1 giây gây 203% công năng lượng bán kính 144 và chậm 50% trong 2 giây; trong 4 giây sau đó Strange bước vào vùng là gây thêm 167% và khóa chiêu (silence) 2 giây.",
+    "Miễn nhiễm hoàn toàn khóa chiêu; mỗi lần dùng chiêu làm lộ diện địch tàng hình trong bán kính 360 trong 2 giây."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 55/91; đòn thường 1.000 ms một phát, chạy 160 (chỉ hơn khoảng 17% số tank).",
+    "Chịu khống chế lâu hơn 25% (cái giá của miễn khóa chiêu).",
+    "Phân thân chỉ tồn tại 5 giây và có thể bị phá; mất phân thân là mất đường rút lui.",
+    "Space có 1 giây chờ, và phần khóa chiêu chỉ xảy ra khi Strange tự bước vào vùng."
+  ],
+  "tips": [
+    "Nhịp ra vào: đặt Space trước, E vào giữa vùng Space (4 nhịp gây gấp đôi), rồi E2 về phân thân trước khi bị dồn.",
+    "R vào mục tiêu nguy hiểm nhất để loại nó khỏi giao tranh 1 giây, rồi bắn đòn thường gấp đôi để hồi máu.",
+    "Liên tục trúng chiêu để làm mới khiên: mỗi lần làm mới là một lần nổ sát thương thực và cộng tầng làm chậm.",
+    "Đi cùng đội khi đánh tank tàng hình: mỗi chiêu đều làm lộ diện trong bán kính 360."
+  ],
+  "counters": [
+    "Phá phân thân trước khi Strange bấm E2: nó sẽ kẹt lại giữa đội bạn.",
+    "Khống chế cứng (choáng, hất tung) thay vì khóa chiêu: Strange miễn khóa chiêu nhưng chịu khống chế lâu hơn 25%.",
+    "Ra khỏi vùng Space trước khi Strange bước vào để không bị khóa chiêu.",
+    "Giữ Strange lại khi nó định rút (như Space Lá Bài Phép Thuật của Joker): kit của nó sống nhờ ra vào liên tục."
+  ],
+  "counter_why": "Doctor Strange có thể ra vào chiến trường liên tục để gây sát thương, nhưng dễ bị Joker giữ chân lại bằng Space Lá Bài Phép Thuật.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hơi dưới trung bình (hạng 55/91), bù lại bằng khiên theo mỗi chiêu, đường rút E2 và nhiều khống chế nhẹ (đày 1 giây, chậm, khóa chiêu 2 giây có điều kiện). Kit đòi hỏi kỹ năng và có điểm yếu rõ (phân thân bị phá, chịu khống chế lâu hơn).",
+    "suggestion": "Giữ nguyên. Sửa mô tả cho khớp code: nổ khiên trong code là 25% công sát thương thực (nội tại ghi 50% năng lượng), lộ diện 360 trong 2 giây (nội tại ghi 480 trong 1 giây)."
+  },
+  "evidence": [
+    "server/strange_actions.py:_event strange_cast — E dịch chuyển 600, 1.63 × công bán kính 144, 4 nhịp strange_pulse mỗi 750 ms × 0.5 (×2 nếu có BuffTemplate 357312)",
+    "server/strange_actions.py:_grant_shield/remove_buff — khiên max_hp × 0.1; nổ power × 0.25 sát thương thực bán kính 144, BuffTemplate 357132 chậm 25% tối đa 3 tầng",
+    "server/strange_actions.py:_r_hit/_empowered_hit — 1.44 × công, BuffTemplate 357402 đày 1000 ms; đòn thường kế tiếp × 2 và hồi power × 1.5",
+    "server/strange_actions.py:_event strange_field — Space 2.03 × công sau 1000 ms, vào vùng thêm 1.67 × công và BuffTemplate 357322 khóa chiêu 2000 ms",
+    "server/strange_actions.py:reject_buff — chặn nEffectType 35/66 của địch; BuffTemplate 357103 +25% thời gian khống chế nhận vào"
+  ]
+}

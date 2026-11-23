@@ -1,0 +1,120 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Triệu Vân · Cẩm nang tank</title><meta name="description" content="Đấu sĩ cận chiến càng bị đánh càng trâu và càng hút máu: mỗi lần mất máu cộng một tầng, tối đa 10 tầng. Thắng bằng cách lao vào bằng E, giữ chân cả nhóm bằng Space, rồi đứng giữa xả R mà hút máu.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/85a6b51890d380915928b31c0fd51249.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Ai cản được ta?</div>
+<h2 class="page-title">Triệu Vân</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-red-lt">Mạnh</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Linh Động Hút Máu</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000060.html">← Minion</a>
+<a class="btn" href="10000046.html">Luffy →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-red bg-red-lt mb-3"><b>Đấu sĩ cận chiến càng bị đánh càng trâu và càng hút máu: mỗi lần mất máu cộng một tầng, tối đa 10 tầng. Thắng bằng cách lao vào bằng E, giữ chân cả nhóm bằng Space, rồi đứng giữa xả R mà hút máu.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-red"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-red-lt">Mạnh</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank tốt nhất game (hạng 1/91) mà bộ chiêu còn cộng thêm: 10 tầng cho +150% giáp và hút máu chiêu tới 200%, gần như không có trần hồi máu khi đứng giữa giao tranh, cộng khống chế 2 giây diện rộng. Khó tìm điểm yếu ngoài tầm đánh ngắn.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Đưa mỗi tầng về như mô tả R: giáp +10% mỗi tầng và hút máu thêm 5–10% mỗi tầng thay vì 15% (comment trong code ghi &quot;Source 10%, user chose 15%&quot;). Nếu vẫn mạnh, giảm hút máu gốc của chiêu từ 50% xuống 25% như đánh thường.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★☆☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★★☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4445</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">243 / 204</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">345 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">31</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">700 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#1/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7757</span></div><div class="progress progress-sm" title="Hơn 80% số tank"><div class="progress-bar bg-green" style="width:80%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">493</span></div><div class="progress progress-sm" title="Hơn 86% số tank"><div class="progress-bar bg-green" style="width:86%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">175</span></div><div class="progress progress-sm" title="Hơn 88% số tank"><div class="progress-bar bg-green" style="width:88%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9e821a5e9354621654fe0cdb33bad975.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Đột Kích Thần Tốc</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 360</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Xông đến hướng chỉ định, địch bị va chạm, tạo 206% ST Vật Lý và trong 1.5s giảm tốc 50% và ST nhận từ [R Liên Hoàn Kích] tăng 25%.
+
+Cứ mỗi va chạm 1 địch, trong 3s bản thân tăng 5% lực tấn công, tối đa tăng 5 lần.
+
+Skill này được cộng dồn 2 lần. Khoảng cách dùng 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/304d9808ff24498ba4bf29751051a9e4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Liên Hoàn Kích</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 240</span>
+<span class="badge bg-purple-lt">2 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị Động: Chuyển 25% ST do Triệu Vân gây ra thành HP bản thân (Nếu là skill thì hiệu quả gấp đôi);Mỗi lần Triệu Vân nhận ST bằng 5% giới hạn HP bản thân, CD [E Đột Kích Thần Tốc] và [R Liên Hoàn Kích] giảm 0.5s, đồng thời trong 3s tăng 10% Giáp Vật Lý, Khiên Năng Lượng và hiệu quả hút máu skill, tối đa cộng dồn đến 100%.
+
+Chủ Động: Gây 5 lần ST liên tiếp lên địch trong khu vực hình quạt, mỗi lần gây 50% ST Vật Lý, khi thi triển bản thân vào trạng thái Bá Thể và giảm 50% ST skill phải nhận.
+Skill này được cộng dồn, tối đa 2 lần. Khoảng cách dùng là 1.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/20ba984da270086fac969c5b6314ee26.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Long Kích</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Định thân toàn bộ kẻ địch trong phạm vi 1 giây; sau đó kéo chúng về tâm kỹ năng và định thân thêm 1 giây.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/b948b35e278099b5ff8f654c488f4696.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Huyết Chiến Thiên Hạ</span>
+
+
+</div>
+<div class="skill-desc">Mỗi lần nhận sát thương, Triệu Vân tăng 15% Giáp Vật lý, Khiên Năng lượng và Hút máu trong 3 giây, tối đa 10 tầng.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Chỉ số thân tank hạng 1/91: máu hiệu dụng 7.757, tốc chạy 175, tốc bắn 700 ms, đều trong nhóm đầu.</li><li>Hút máu sẵn 25% với đánh thường và 50% với chiêu; mỗi tầng Huyết Chiến cộng thêm 15%, nên 10 tầng đưa hút máu chiêu lên 200% và đánh thường lên 175%.</li><li>Mỗi tầng còn tăng 15% giáp vật lý và năng lượng (10 tầng là +150%). Tầng cộng mỗi lần mất máu, kéo dài 3 giây.</li><li>E và R mỗi chiêu 2 lượt, cách nhau 1,5 giây. E lướt 360, gây 206% công, kéo địch theo, làm chậm 50% và tăng 25% sát thương R lên mục tiêu; R xả 5 nhát 50% công trong 1 giây, lúc đó miễn khống chế và giảm 50% sát thương kỹ năng.</li><li>Space trói chân mọi địch trong dải dài 480, rộng 192 trong 1 giây, rồi kéo cả nhóm về giữa và trói thêm 1 giây. Cứ mất 5% máu tối đa thì lượt E, R hồi nhanh thêm 0,5 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Tầm đánh 336, ngắn nhất game: bị thả diều thì không đánh được ai.</li><li>Space không gây sát thương; nó chỉ giữ chân để đồng đội và R làm việc.</li><li>Tầng Huyết Chiến chỉ giữ 3 giây: đứng ngoài giao tranh một lúc là mất hết phần trâu và hút máu.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Lao vào bằng E, Space giữ chân cả nhóm, rồi xả hai lượt R lên mục tiêu vừa trúng E (+25% sát thương).</li><li>Đừng ngại ăn đòn: mỗi lần mất máu là thêm một tầng giáp và hút máu, và lượt E, R hồi nhanh hơn.</li><li>Giữ một lượt E để rút lui hoặc đuổi theo mục tiêu chạy trốn.</li><li>Dùng R lúc địch tung khống chế: trong 1 giây xả R, Triệu Vân miễn khống chế.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Thả diều bằng tầm xa: đứng ngoài 360 của E, rỉa máu từ xa.</li><li>Đừng đứng cụm thành dải khi Triệu Vân còn Space.</li><li>Dồn sát thương lớn một lần thay vì đánh rỉa: nhiều đòn nhỏ chỉ làm nó lên tầng nhanh hơn.</li><li>Dùng hiệu ứng giảm hồi máu trước khi giao tranh để cắt phần hút máu.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Triệu Vân có tính cơ động cao, chú ý quan sát vị trí và né tránh tấn công của Triệu Vân.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000063.html">Thạch Sanh</a>. Thạch Sanh có lợi thế tầm bắn xa, né được khống chế của Triệu Vân và rỉa máu nó từ ngoài tầm chiêu.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/zhaoyun_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/zhaoyun_actions.py:damage — lifesteal = 0.25 (đánh thường) hoặc 0.5 (chiêu) + 0.15 × số tầng 342103</li><li>server/zhaoyun_actions.py:attr_bonus — giáp + 0.05 × tầng, cộng với BuffTemplate 342102 (0.1 mỗi tầng, iStackAdd 0.1, tối đa 10) = 15% mỗi tầng</li><li>server/zhaoyun_actions.py:on_damage — mỗi 5% máu tối đa mất đi thì lượt E/R − 500 ms</li><li>server/zhaoyun_actions.py:zhao_field/zhao_pull — dải 480 × 192, định thân 342304 1000 ms rồi kéo về giữa và định thân lần nữa; R 342402/342403 miễn khống chế, giảm 50% sát thương kỹ năng</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [80, 86, 88, 0, 72]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Triệu Vân",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

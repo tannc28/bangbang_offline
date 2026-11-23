@@ -1,0 +1,38 @@
+{
+  "summary": "Đấu sĩ cận chiến tích tầng Nghiêm Túc: gây hoặc nhận đủ sát thương thì vào 3 giây bá thể, giảm 50% sát thương nhận vào và xuyên thêm 50% giáp. Space tụ lực đẩy địch vào tường để lấy thêm 50% máu đã mất.",
+  "strengths": [
+    "Chế độ Nghiêm Túc 3 giây: miễn khống chế, giảm 50% sát thương nhận vào, xuyên thêm 50% giáp vật lý, hồi 5% máu đã mất mỗi 0,5 giây.",
+    "Space tụ lực tối đa 3 giây: sát thương từ 158% đến 316% công, tầm từ 240 đến 600. Trong lúc tụ được miễn khống chế và giảm 50% sát thương nhận vào. Địch bị đẩy vào tường nhận thêm sát thương bằng 50% máu đã mất và choáng 1 giây.",
+    "E lướt 480, đâm trúng thì gây 225% công quanh điểm va (bán kính 144) và choáng 1 giây.",
+    "R quét hình quạt 175% công, kéo địch về tâm và làm chậm 75%; mỗi mục tiêu thêm cộng một tầng Nghiêm Túc.",
+    "Xuyên giáp 36, máu hiệu dụng 7.744."
+  ],
+  "weaknesses": [
+    "Chạy chậm (160), tầm đánh 336, sát thương đánh thường mỗi giây 319.",
+    "Năng lượng 100: E tốn 15, R tốn 25, Space tốn 60; chỉ hồi 10 mỗi 3 giây và 5 mỗi phát đánh trúng.",
+    "Tụ Space là đứng yên, không đánh được gì; địch thấy trước nên dễ né.",
+    "Cú đẩy vào tường chỉ đến từ Space."
+  ],
+  "tips": [
+    "Tụ Space khi địch đứng sát tường, hoặc dùng R kéo chúng về phía tường trước.",
+    "Bấm Space lần nữa để tung sớm khi mục tiêu sắp ra khỏi tầm.",
+    "Tích tầng bằng đánh thường và R trúng nhiều người để vào Nghiêm Túc ngay trước giao tranh lớn."
+  ],
+  "counters": [
+    "Tránh xa tường khi Saitama đang tụ Space.",
+    "Lùi ra khi nó vào Nghiêm Túc; chế độ này chỉ kéo dài 3 giây.",
+    "Thả diều và ép nó tiêu hết năng lượng."
+  ],
+  "counter_why": "Chiêu Space của Magneto phá được trạng thái tàng hình của U Ảnh.",
+  "balance": {
+    "status": "ok",
+    "reason": "Nghiêm Túc và cú đẩy tường cho Saitama khả năng lật kèo, nhưng nó chậm, tầm ngắn, bị năng lượng giới hạn và Space phải đứng tụ lực lộ liễu (hạng chỉ số thân 72/91).",
+    "suggestion": "Theo dõi cú đẩy tường: 50% máu đã mất là sát thương vật lý vẫn đi qua giáp, nhưng ghép với Nghiêm Túc (xuyên thêm 50% giáp) có thể xóa sổ mục tiêu đã thấp máu. Mô tả Space không nhắc chi phí 60 năng lượng mà code yêu cầu."
+  },
+  "evidence": [
+    "server/saitama_actions.py:_release — 1.58 × (1 + tỉ lệ tụ), bán kính 240 + 360 × tỉ lệ, tụ tối đa 3000 ms; BuffTemplate 377325 giảm 50% sát thương khi tụ",
+    "server/saitama_actions.py:_event saitama_wall — 0.5 × máu đã mất, BuffTemplate 377332 choáng 1000 ms",
+    "server/saitama_actions.py:_stack — 10 tầng thì Nghiêm Túc 3000 ms; battle_runtime.py:damage — BuffTemplate 377122 giảm 50%, 377121 +50% xuyên giáp vật lý",
+    "server/saitama_actions.py:cast — chi phí năng lượng E 15, R 25, Space 60; iMp 100"
+  ]
+}

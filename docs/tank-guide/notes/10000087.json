@@ -1,0 +1,41 @@
+{
+  "summary": "Đấu sĩ cận chiến bào mòn: mỗi đòn trúng đều giảm 30% giáp và 30% hồi máu của địch, R hất tung rồi đánh dấu để mỗi đòn sau đánh thêm, E thả Hao Thiên Khuyển chạy trước rồi dịch chuyển tới chỗ nó, Space chém ba thức vừa gây sát thương vừa hồi máu.",
+  "strengths": [
+    "Mọi đòn thường và chiêu trúng địch đều giảm 30% giáp và 30% hiệu quả hồi máu, khiên của mục tiêu trong 2 giây; Dương Tiễn được thêm 30% phòng thủ và 30% tốc chạy.",
+    "R hồi 6 giây: đánh mọi địch trong bán kính 192, gây 136% và hất tung 1 giây, rồi đánh dấu 5 giây; mỗi đòn sau lên mục tiêu có dấu gây thêm 45% sức công, hồi 1,5% máu tối đa và rút 10% thời gian hồi E còn lại.",
+    "E thả chó chạy 720 xuyên tường, gây 112% lên mọi địch va phải; bấm lại trước khi chó tới đích thì Dương Tiễn dịch chuyển tới chỗ chó, gây 229% trong bán kính 192.",
+    "Space ba thức trong 5 giây: hai nhát quét nửa vòng tròn 192, mỗi nhát 200% và làm chậm 50% trong 1,5 giây, rồi ba viên thiên nhãn tầm 600, mỗi viên 200%; mỗi tank trúng hồi 15% máu đã mất.",
+    "Thân khá trâu: 4.620 máu, máu hiệu dụng 7.931 (trên 83% số tank)."
+  ],
+  "weaknesses": [
+    "Tầm bắn thường 336 và tốc chạy 160; ngoài E ra không có cách áp sát mục tiêu chạy nhanh.",
+    "Phần lớn chiêu chỉ có bán kính 192 quanh mình, nên phải đứng sát mới phát huy.",
+    "Mỗi thức Space để lại 0,5 giây không dùng được chiêu; bị choáng hoặc câm lặng trong lúc tụ thức thì chuỗi Space bị cắt.",
+    "Mục tiêu linh hoạt dễ né cú dịch chuyển theo chó và hai nhát quét hình quạt."
+  ],
+  "tips": [
+    "Mở giao tranh bằng E, bấm lại để dịch chuyển vào giữa địch, rồi R ngay để hất tung và đánh dấu.",
+    "Trong 5 giây dấu R, dồn đòn thường và Space vào mục tiêu có dấu: mỗi đòn đánh thêm, hồi máu và rút ngắn hồi E.",
+    "Đánh liên tục để giữ hiệu ứng giảm giáp và giảm hồi máu; rất hiệu quả trước đội có tank hồi máu hoặc khiên.",
+    "Để dành thức 3 của Space (ba thiên nhãn tầm 600) cho kẻ đang chạy khỏi vùng quét."
+  ],
+  "counters": [
+    "Nhìn vị trí Hao Thiên Khuyển: Dương Tiễn có thể dịch chuyển tới chỗ chó bất cứ lúc nào trước khi nó tới đích.",
+    "Khống chế Dương Tiễn trong lúc tụ thức Space để cắt chuỗi ba thức.",
+    "Giữ khoảng cách ngoài 192 và thả diều khi E đang hồi.",
+    "Tank linh hoạt né được E và Space sẽ làm Dương Tiễn đánh vào khoảng không."
+  ],
+  "counter_why": "Chiêu của Dương Tiễn rất khó trúng Cửu Vĩ Hồ vốn cực kỳ linh hoạt.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank ở giữa (hạng 40/91), thân trâu nhưng tầm ngắn. Bộ chiêu cho khống chế 1 giây, giảm giáp và hồi máu đều, nhưng tất cả đòi áp sát trong bán kính 192, là đổi chác hợp lý cho một đấu sĩ.",
+    "suggestion": "Sửa mô tả R cho khớp code: code dùng dấu 5 giây, mỗi đòn thêm 45% sát thương, hồi 1,5% máu (đúng như mô tả nội tại), còn mô tả R ghi 3 giây, 100%, 6% máu và giảm 10% hồi E. BuffTemplate 361403 cũng ghi 3.000 ms nhưng code ép 5.000 ms."
+  },
+  "evidence": [
+    "server/erlang_actions.py:_hit — mục tiêu có dấu 361403 nhận thêm power*0.45, hồi max_hp*0.015, hồi E × 0.9; mọi đòn áp BuffTemplate 361111/361112 và 361113/361114 2000 ms",
+    "server/erlang_actions.py:cast slot 10 — bán kính 192, 1.36, hất tung BuffTemplate 361402 1000 ms, dấu 361403 duration=5000",
+    "server/erlang_actions.py:_event erlang_ready — dịch chuyển tới chó 2.29 bán kính 192; Space quét 192/180° × 2, hồi 15% máu đã mất (7.5% với NPC)",
+    "server/erlang_actions.py:cast slot 2 thức 3 — 3 viên ±15°, tầm 600, × 2, viên lặp trên cùng mục tiêu × 0.75^n",
+    "facts: ehp 7931 (pct 0.833), range 336, speed 160, stat_rank 40"
+  ]
+}

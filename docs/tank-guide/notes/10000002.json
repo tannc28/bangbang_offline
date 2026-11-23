@@ -1,0 +1,41 @@
+{
+  "summary": "Cây đại thụ chịu đòn của đội: máu hiệu dụng thuộc hàng cao nhất game, tự hồi máu và giải khống chế bằng nội tại, đứng giữa đám đông hút máu bằng R, rồi dùng vùng Space để phạt kẻ địch nào cố chạy hoặc lướt.",
+  "strengths": [
+    "Trâu bậc nhất: 6.314 máu, giáp vật lý 254, khiên năng lượng 327, máu hiệu dụng 12.428 (trên 97% số tank).",
+    "Nội tại tự kích hoạt khi bị đánh xuống dưới 80% máu: hồi ngay 5% máu tối đa, xóa mọi trạng thái xấu, rồi hồi thêm 2% mỗi giây trong 3 giây kèm tăng tốc; hồi lại sau 10 giây.",
+    "R hút máu 5 giây: mỗi 0,5 giây gây 42% sức công năng lượng lên mọi địch trong bán kính 192 và tự hồi 26% sức công cho mỗi lần trúng; mỗi lần trúng lấy 5% giáp và công của mục tiêu sang cho mình, cộng dồn tối đa 10 lần.",
+    "E khống chế từ xa 480: hạt giống nổ bán kính 168, gây 189% sức công, câm lặng 1 giây và làm chậm 50% trong 1,5 giây, hồi chiêu chỉ 6 giây.",
+    "Space là vùng bán kính 264 trong 4 giây: hồi 195% sức công cho đồng đội, gây 247% cho địch, xóa giáp tạm thời của địch; địch trong vùng mà di chuyển đủ 360 trong 2 giây thì mất 25% máu dưới dạng sát thương thực, bị câm lặng và đứng yên 2 giây."
+  ],
+  "weaknesses": [
+    "Chậm nhất nhóm: tốc chạy 155 và tầm bắn 336 đều thuộc hàng thấp nhất game, nên rất dễ bị thả diều.",
+    "Sát thương thường chỉ trung bình (358 mỗi giây); muốn gây sát thương thật thì phải áp sát để R có mục tiêu trong bán kính 192.",
+    "Space có độ trễ 1 giây trước khi mở vùng và hồi chiêu 30 giây; đặt hụt là đội mất chiêu hỗ trợ chính trong một khoảng dài.",
+    "Nội tại chỉ kích hoạt khi máu dưới 80% và 10 giây mới một lần, nên bị dồn sát thương lớn liên tục thì vẫn gục."
+  ],
+  "tips": [
+    "Mở giao tranh bằng E vào cụm địch (câm lặng 1 giây), rồi bật R và lao vào giữa để hút máu nhiều mục tiêu cùng lúc.",
+    "Đặt Space lên chỗ địch buộc phải đi qua hoặc ngay trên con đang định rút: đứng yên thì ăn đòn của đội mình, chạy thì bị phạt 25% máu và đứng hình 2 giây.",
+    "Đứng tuyến đầu che cho pháo xa: vùng Space còn tăng 25% tốc độ bắn và tốc độ đạn cho đồng đội đứng trong đó.",
+    "Đừng đuổi theo con mồi chạy nhanh; tốc chạy 155 không bắt được ai, hãy để địch phải tiến vào tầm của mình."
+  ],
+  "counters": [
+    "Thả diều từ ngoài tầm 336: Groot không có chiêu lướt nào để áp sát.",
+    "Khi đứng trong vùng Space, đừng dùng chiêu lướt hay chạy dài; đợi vùng tan (4 giây) rồi mới di chuyển.",
+    "Dùng sát thương xuyên giáp hoặc sát thương thực để vượt qua lớp giáp dày; đánh dồn một lượt để nội tại không kịp hồi.",
+    "Tránh đứng sát Groot khi R đang bật: mỗi lần trúng nó lấy đi 5% giáp và công của bạn, tối đa 10 lần."
+  ],
+  "counter_why": "Chiêu E dịch chuyển truy hồn của Deadpool bỏ qua giáp vật lý của Groot để gây sát thương; Groot lại kém cơ động, nên Deadpool dễ dùng hiệu ứng đẩy lùi đưa nó vào giữa đội mình để dồn hỏa lực hạ gục.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank hạng 22/91 nhờ máu và giáp khổng lồ, bù cho tốc chạy và tầm bắn thấp nhất game. Hồi máu của nội tại và R đều có giới hạn rõ (10 giây một lần, R 5 giây rồi hồi 8 giây), nên đây là tank chịu đòn đúng vai, không phải bất tử.",
+    "suggestion": "Giữ nguyên. Cần sửa một chỗ lệch mô tả: code phạt 25% máu HIỆN TẠI khi di chuyển trong vùng Space (target.hp), còn mô tả ghi 25% giới hạn máu. Mô tả R cũng ghi nội tại kích hoạt mỗi 8 giây và kéo dài 5 giây, trong khi code là 10 giây, 3 giây và chỉ khi máu dưới 80%."
+  },
+  "evidence": [
+    "server/groot_actions.py:on_damage — kích hoạt khi máu < 80%, hồi 5% + 2%/giây × 3, hồi lại 10.000 ms",
+    "server/groot_actions.py:_event drain_tick — bán kính 192, 42% sức công, hồi 26%; _borrow 5% × tối đa 10 lần (EffectTemplate 416411 fAddVal 0.42)",
+    "server/groot_actions.py:_event movement_mark — đi ≥ 360 thì damage(target.hp*0.25, school='true') + BuffTemplate 416351/416352 2000 ms",
+    "EffectTemplate 416201 fAddVal 1.89 iRange1 168; BuffTemplate 416202 1000 ms câm lặng, 416203 1500 ms làm chậm",
+    "facts: ehp 12428 (pct 0.978), speed 155 (pct 0.022), range 336 (pct 0.0), stat_rank 22"
+  ]
+}

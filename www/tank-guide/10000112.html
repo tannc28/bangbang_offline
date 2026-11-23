@@ -1,0 +1,135 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Chu Du · Cẩm nang tank</title><meta name="description" content="Pháp sư lửa tiêu hao và khống chế nhóm: E rải cầu lửa có ba lượt, R phun lửa liên tục trong lúc miễn khống chế, Space thả trận lửa lên mọi kẻ địch đang thấy được trên bản đồ, nổ ra gây choáng 1 giây.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/60426f8364dd1118ca33990fba7a9ec3.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Chu Lang Cố!</div>
+<h2 class="page-title">Chu Du</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Khống Chế Nhóm Tiêu hao</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000104.html">← Falcon</a>
+<a class="btn" href="10000051.html">Sơn Tinh →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Pháp sư lửa tiêu hao và khống chế nhóm: E rải cầu lửa có ba lượt, R phun lửa liên tục trong lúc miễn khống chế, Space thả trận lửa lên mọi kẻ địch đang thấy được trên bản đồ, nổ ra gây choáng 1 giây.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank tốt (hạng 10/91) và bộ chiêu mạnh về khống chế nhóm, nhưng mọi khống chế đều có thời gian báo trước (1,1 giây cho Space, cầu lửa nằm sẵn trên sân) và R bị năng lượng, câm lặng kìm lại. Mạnh trong tay người biết phối hợp, chưa tới mức áp đảo.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên số. Code chưa cài phần tăng tốc chạy (tới 100%) khi phun lửa như mô tả. Choáng của E, Space và làm chậm của E có iAspect 1 (đánh dấu là hiệu ứng tốt), nên các chiêu giải hiệu ứng xấu như E của Panda, Teddy không gỡ được; cần kiểm tra lại.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="text-secondary">—</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3749</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">167 / 177</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">404 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">34</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">1000 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#10/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">5898</span></div><div class="progress progress-sm" title="Hơn 50% số tank"><div class="progress-bar bg-yellow" style="width:50%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">404</span></div><div class="progress progress-sm" title="Hơn 71% số tank"><div class="progress-bar bg-lime" style="width:71%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">170</span></div><div class="progress progress-sm" title="Hơn 64% số tank"><div class="progress-bar bg-lime" style="width:64%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/6b0630790004f87ba89bc5d7ad175380.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Đạn Hủy Diệt</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+<span class="badge bg-purple-lt">3 lần tích</span></div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Ném 1 Đạn Hủy Diệt về khu vực chỉ định, khi đến vị trí chỉ định lập tức nổ gây #EN_147%_ER# ST Năng Lượng và giảm 50% tốc độ duy chuyển của mục tiêu trong 1s，đồng thời ở vị trí nổ tạo 1 Cầu Lửa Hủy Diệt, tối đa tồn tại 8s (Khi Cầu Lửa Hủy Diệt chịu ảnh hưởng của Hơi Thở Địa Ngục sẽ nổ ngay sau 1s), khi Cầu Lửa Hủy Diệt biến mất sẽ nổ gây #EN_126%_ER# ST Năng Lượng và gây choáng mục tiêu 0.5s, đồng thời gây nổ khu vực khiến địch trong khu vực mỗi giây chịu #EN_30%_ER# ST Năng Lượng, duy trì 3s.
+Khi Đạn Hủy Diệt nổ nếu bản thân ở khu vực nổ sẽ đánh lùi bản thân theo hướng ngược lại, nếu gây ST Chu Du sẽ hồi 25 Năng Lượng.
+Khi Cầu Lửa Hủy diệt nổ gây ST sẽ giảm 25% CD của skill này.
+
+Skill này được cộng dồn, tối đa dồn 3 lần, khoảng cách dùng là 2s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9c5ae515c2b829fe6da259809fe059ba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Hơi Thở Địa Ngục</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 456</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Skill này bao gồm hiệu quả chủ động và bị động.
+
+Bị động: Chu Du có hệ năng lượng, giới hạn 100 năng lượng, mỗi 3s hồi 10 Năng Lượng.
+Skill đánh trúng mục tiêu khiến tốc độ di chuyển, ST Vật Lý gây ra và hiệu quả trị liệu nhận được của mục tiêu giảm 5%, tối đa giảm đến 25% trong 3s.
+Mục tiêu bị đốt mỗi giây sẽ mất ST Năng Lượng bằng 2.5% HP đã mất, hiệu quả đốt sẽ truyền nhiễm cho địch trong phạm vi gần, đốt gây ST chỉ có hiệu lực với người chơi.
+Mỗi lần diệt hoặc trợ công sẽ giảm 5% CD của tất cả skill và hồi 25 Năng Lượng, đồng thời khiến Chu Du gây ST sẽ bỏ qua 5% Thủ của mục tiêu, bỏ qua Thủ được cộng dồn, tối đa dồn 5 lần, sau khi tử vong sẽ biến mất.
+
+Chủ động: Phun lửa về nơi chỉ định, mỗi giây gây #EN_125%_ER# ST Năng Lượng lên mục tiêu khu vực hình quạt (Gây thêm 50% ST lên mục tiêu chưa kết thúc), trong thời gian này tốc độ di chuyển sẽ tăng dần, tối đa tăng đến 100% và nhận hiệu quả Bất Bại, có thể dùng chuột điều chỉnh phương hướng phun lửa, mỗi giây tiêu hao 25 Năng Lượng.
+Mục tiêu bị lửa phun trong 3s giảm 25% ST gây ra cho Chu Du, 25% ST mà phun lửa gây ra sẽ chuyển hóa thành HP của Chu Du.
+
+Có thể dùng skill này lần nữa bất cứ lúc nào để hủy trạng thái phun lửa, nếu bị câm lặng sẽ gián đoạn skill, sau khi thi triển xong mới CD.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/f5997d7423bd36c803a94667239a459a.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Fire Burn</span>
+<span class="badge bg-azure-lt">hồi 30s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Sau khi trì hoãn ngắn hạn, ở tất cả vị trí địch triệu hồi 1 Trận Lửa Hủy Diệt, sau khi kéo dài 1s sẽ nổ gây #EN_323%_ER# ST Năng Lượng lên tất cả địch và gây choáng mục tiêu 1s.
+Nếu trong phạm vi tồn tại Cầu Lửa Hủy Diệt, sẽ lập tức gây nổ tất cả Cầu Lửa Dủy Diệt trong phạm vi.
+
+Skill này bị giới hạn khi vi phạm cấm luật, sau khi hồi sinh trong 10s không thể thi triển skill, khi Công Thường của Chu Du gây ST sẽ xóa giới hạn này.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/9c5ae515c2b829fe6da259809fe059ba.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Gió Đông Lồng Lộng</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Không
+VP Bay:Không
+
+Skill bị động: Skill đánh trúng mục tiêu khiến tốc độ di chuyển và ST Vật Lý gây ra của mục tiêu giảm dần và hiệu quả trị liệu nhận được giảm 5%, tối đa giảm đến 25%, duy trì 2s.
+Mục tiêu bị đốt mỗi giây sẽ mất ST Năng Lượng bằng 2.5% HP đã mất, hiệu quả đốt sẽ truyền nhiễm cho địch trong phạm vi gần. Mỗi lần diệt hoặc trợ công, ST sẽ bỏ qua 5% Thủ của mục tiêu và hồi 15 Năng Lượng.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Chỉ số thân tank hạng 10/91: công năng lượng 404 (sát thương mỗi giây hơn khoảng 71% số tank), tốc chạy 170.</li><li>Space không cần nhắm: đặt một trận lửa dưới chân mọi kẻ địch đang thấy được, 1,1 giây sau nổ 323% công trong bán kính 120 và choáng 1 giây; cầu lửa của E trong vùng nổ cũng nổ theo ngay.</li><li>R phun lửa hình quạt hẹp tầm 456: mỗi 0,3 giây 37,5% công (125% mỗi giây), mục tiêu ở xa hơn 408 ăn thêm 50%; trong lúc phun Chu Du miễn mọi khống chế, hút máu 25% sát thương phun lửa, và kẻ trúng lửa gây ít hơn 25% sát thương lên Chu Du trong 3 giây.</li><li>E có 3 lượt (8 giây mỗi lượt, cách nhau 2 giây): nổ 147% công bán kính 168 và làm chậm 50%, để lại cầu lửa 8 giây; cầu nổ thêm 126% và choáng 0,5 giây, rồi cháy đất 3 giây (30% công mỗi giây). Lửa R chạm cầu thì cầu nổ sau 1 giây.</li><li>Chiêu trúng là đốt: mục tiêu mất 2,5% máu đã mất mỗi giây, lửa lan sang kẻ địch trong bán kính 120, và bị giảm dần tốc chạy, sát thương vật lý, hiệu quả hồi máu (tối đa 25%).</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Mỏng: 3.749 máu, máu hiệu dụng 5.898; bắn chậm 1.000 ms một phát.</li><li>R tốn 10 năng lượng mỗi 0,4 giây trên tổng 100, năng lượng chỉ hồi 10 mỗi 3 giây; phun một lần dài là cạn, và bị câm lặng là đứt ngay.</li><li>Trong lúc phun lửa không đánh thường được.</li><li>E nổ gần chân (trong 168) thì chính Chu Du bị đẩy lùi 240.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Rải 2–3 quả E quanh địch trước, rồi phun R qua các cầu lửa để kích nổ, choáng 0,5 giây và cháy đất.</li><li>Giữ Space cho lúc nhiều kẻ địch đang bị chậm hoặc đứng yên, để trận lửa 1,1 giây không bị né.</li><li>Phun R ở rìa tầm (xa hơn 408) để có thêm 50% sát thương, và dùng R như chiêu miễn khống chế khi bị lao vào.</li><li>Ném E trúng để hồi năng lượng (thêm 25 sau mỗi lần nổ trúng), đủ cho lượt phun lửa tiếp theo.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Thấy trận lửa Space xuất hiện dưới chân thì bước ra khỏi bán kính 120 ngay.</li><li>Câm lặng Chu Du khi nó đang phun lửa: chiêu đứt ngay và R vào hồi 6 giây.</li><li>Đừng đứng gần đồng đội khi đang bị đốt, lửa lan sang người trong bán kính 120.</li><li>Tránh xa các cầu lửa còn trên sân, nhất là khi Chu Du chuẩn bị phun lửa.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Chú ý khống chế khoảng cách với Chu Du, sát thương Chu Du chủ yếu đến từ [Hơi Thở Địa Ngục], mục tiêu chưa kết thúc sẽ chịu ST nhiều hơn, ngoài ra, chú ý né [Space-Fire Burn] của Chu Du, tránh lại gần đồng đội</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000084.html">Gia Cát Lượng</a>. Khi phun lửa, Chu Du không bị khống chế. Nhưng E Sương Mù của Gia Cát Lượng câm lặng được và xóa luôn trạng thái miễn khống chế đó.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/chudu_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/chudu_actions.py:_event &#x27;chu_ready&#x27; + &#x27;chu_space&#x27; — mọi kẻ địch team_visible trong bán kính 10000, 3.23 × công bán kính 120, BuffTemplate 388322 choáng 1000 ms (iAspect 1)</li><li>server/chudu_actions.py:_event &#x27;chu_beam&#x27;/&#x27;chu_cost&#x27; — 0.375 × công mỗi 300 ms, ×1.5 khi xa hơn 408, lifesteal 0.25; −10 năng lượng mỗi 400 ms; BuffTemplate 388402 miễn khống chế, 388411 −25% sát thương lên Chu Du</li><li>server/chudu_actions.py:_flight + _explode_orb — E 1.47 × công bán kính 168, cầu 1.26 × công + BuffTemplate 388212 choáng 500 ms, cháy đất 3 × 0.3; 3 lượt, 8000 ms mỗi lượt</li><li>server/chudu_actions.py:_event &#x27;chu_dot&#x27;/&#x27;chu_spread&#x27; — 2.5% máu đã mất mỗi giây, lan trong bán kính 120; tank_stats(10000112, 6) iMp = 100</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [50, 71, 64, 49, 50]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Chu Du",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

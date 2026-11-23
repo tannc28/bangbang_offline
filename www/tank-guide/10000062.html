@@ -1,0 +1,126 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Optimus Prime · Cẩm nang tank</title><meta name="description" content="Đấu sĩ cận chiến chạy bằng Nộ: càng nhiều Nộ càng nhanh và càng giảm sát thương nhận vào. Ném kiếm R làm vùng giảm sát thương, E lao tới kiếm để hất tung, Space hóa Kỵ Sĩ Công Lý chém hình quạt bằng sát thương thực trong 8 giây.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/6bab2253c22ffa57e4158b00c7a06925.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Tự do là quyền chung của muôn loài</div>
+<h2 class="page-title">Optimus Prime</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-green-lt">Cân bằng</span> <span class="badge bg-orange-lt">Cận chiến</span> <span class="badge bg-orange-lt">Vật lý</span> <span class="badge bg-orange-lt">Chiến sĩ</span></div>
+<div class="text-secondary mt-2">Chiến Sĩ Tăng Ích Khống Chế</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000031.html">← Captain</a>
+<a class="btn" href="10000039.html">Thor →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-green bg-green-lt mb-3"><b>Đấu sĩ cận chiến chạy bằng Nộ: càng nhiều Nộ càng nhanh và càng giảm sát thương nhận vào. Ném kiếm R làm vùng giảm sát thương, E lao tới kiếm để hất tung, Space hóa Kỵ Sĩ Công Lý chém hình quạt bằng sát thương thực trong 8 giây.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-green"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-green-lt">Cân bằng</span></div></div>
+<div class="card-body"><p>Chỉ số thân tank thấp (hạng 78/91) nhưng Nộ cho tới 50% giảm sát thương và 50% tốc bắn, cộng sát thương thực từ đòn thường và Space, đủ bù cho một đấu sĩ cần áp sát. Mọi lợi thế đều phải tích Nộ mới có, nên khó lạm dụng.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Giữ nguyên số liệu, sửa mô tả cho khớp code: Space cần và tiêu 100 Nộ (mô tả không nhắc); E làm chậm theo BuffTemplate 8190214 ghi 35% trong 1,5 giây (mô tả ghi 50%); vùng kiếm chỉ còn 2 giây sau khi chạm đất (mô tả ghi 3 giây).</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★★</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">4570</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">206 / 206</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">296 vật lý</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">28</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#78/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">7708</span></div><div class="progress progress-sm" title="Hơn 77% số tank"><div class="progress-bar bg-lime" style="width:77%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">312</span></div><div class="progress progress-sm" title="Hơn 7% số tank"><div class="progress-bar bg-red" style="width:7%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">155</span></div><div class="progress progress-sm" title="Hơn 2% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">336</span></div><div class="progress progress-sm" title="Hơn 0% số tank"><div class="progress-bar bg-red" style="width:4%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/0babd1d5002e9fb3e181750b40efb189.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Bảo Vệ Tự Do</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Đặc tính: Skill Loại ST: Vật Lý
+VP Bay: Không
+
+Tạo cho địch trong hình chữ nhật 146% ST Vật Lý_END và giảm 50% tốc độ di chuyển. Nếu có Kiếm Optimus Prime sẽ lao đến vị trí thanh gươm tạo 196% ST Vật Lý rồi đánh bay địch 1s.
+
+Trong quá trinh xung kích sẽ ở trạng thái không thể cản phá, có thể xuyên mọi chướng ngại.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/1a7aa59f5e4fa7e15e2d3f8a415961b0.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Kiếm Optimus</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 480</span>
+</div>
+<div class="skill-desc">Đặc tính: Skill Loại ST: Vật Lý Thật
+VP Bay：Không
+
+Skill này bao gồm hiệu quả bị động và chủ động.
+
+Bị động: Optimus Prime có hệ Nộ, Nộ sẽ giảm dần theo thời gian, giới hạn Nộ là 200, Nộ càng cao, tốc độ tấn công và di chuyển của nó càng cao, ST phải chịu càng thấp.
+Khi Công Thường đánh trúng mục tiêu hoặc khi chịu ST sẽ hồi 5 Nộ, skill đánh trúng mục tiêu sẽ hồi 25 Nộ.
+Khi Công Thường của Optimus đánh trúng mục tiêu, gây thêm 10%HP hiện tại ST Thực, cùng 1 mục tiêu trong 6s chỉ kích hoạt 1 lần HQ này.
+Chủ động: 
+Ném Kiếm Optimus đến vị trí chỉ định, tạo 188% Sát Thương vật lý.
+Thanh gươm tồn tại 3s, bản thân nhận hiệu quả giảm 50% sát thương trong phạm vi thanh gươm và đồng đội nhận hiệu quả giảm 25% sát thương trong phạm vi, mục tiêu địch ở trong phạm vi Kiếm Optimus sẽ giảm 50% tốc độ di chuyển.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/c6dd36612bb4187a90bae9c944c74d8d.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Judge Knight</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST:Thực
+VP Bay: Không
+
+Hóa thân thành Kỵ Sĩ Công Lý, gây 337% ST Vật Lý(Càng gần địch, ST càng cao), khiến địch trong 3s giảm 50% tốc độ di chuyển và Công Năng Lượng. Đồng thời bản thân chuyển thành trạng thái Kỵ Sĩ Công Lý.
+
+Trạng thái này duy trì 8s, Công Thường của Optimus sẽ sử dụng Kiếm Optimus tấn công địch, gây 100% ST Thực lên địch trong phạm vi hình quạt, đồng thời bản thân tăng 25% tốc độ Công và di chuyển.
+Skill này sau khi trạng thái Kỵ Sĩ Công Lý kết thúc mới CD.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/dc010c8e8bb16327058c9f8fe85567a6.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Bom Hạt Nhân</span>
+
+
+</div>
+<div class="skill-desc">Khi đánh trúng mục tiêu gây thêm ST bằng 10% HP hiện tại lên địch. Cùng 1 đơn vị địch trong 6s chỉ kích hoạt 1 lần HQ này.</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Nộ tối đa 200: ở mức đầy, Optimus được thêm 50% tốc bắn, 50% tốc chạy và giảm 50% sát thương nhận vào (tăng dần theo lượng Nộ).</li><li>Đòn thường trúng mục tiêu thì trừ thêm 10% máu hiện tại dưới dạng sát thương thực, mỗi mục tiêu 6 giây một lần; rất đau với tank đầy máu.</li><li>R ném kiếm xa 480, chạm đất gây 188% trong bán kính 192; vùng kiếm giữ thêm 2 giây: Optimus đứng trong vùng giảm 50% sát thương, đồng đội giảm 25%, địch bị chậm 50%.</li><li>E đánh theo đường thẳng 480 gây 146% và làm chậm, cho Optimus 2 giây miễn khống chế; nếu có kiếm trên đường thì lao tới kiếm, gây 196% và hất tung 1 giây mọi địch va phải.</li><li>Space ở chế độ Kỵ Sĩ 8 giây: đòn thường thành nhát chém hình quạt 180°, bán kính 216, gây 100% sức công sát thương thực, kèm thêm 25% tốc bắn và tốc chạy.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Chỉ số thân tank hạng 78/91: sát thương thường 312 mỗi giây (gần thấp nhất), tốc chạy 155 và tầm 336 thuộc nhóm thấp nhất.</li><li>Nộ bắt đầu từ 0 và tự giảm 5 mỗi 0,6 giây; không giao tranh liên tục thì mất hết lợi thế tốc độ và giảm sát thương.</li><li>Space cần ít nhất 100 Nộ mới dùng được và tiêu luôn 100 Nộ; thời gian hồi 25 giây chỉ tính sau khi hết 8 giây biến hình.</li><li>Muốn hất tung thì phải ném kiếm trước rồi E qua đúng chỗ kiếm; địch rời khỏi đường thẳng là chuỗi chiêu hụt.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Tích Nộ trước khi lao vào: mỗi chiêu trúng một mục tiêu cho 25 Nộ, mỗi đòn thường trúng hoặc mỗi lần bị đánh cho 5 Nộ.</li><li>Combo chuẩn: R ném kiếm vào giữa địch, rồi E theo hướng kiếm để lao tới và hất tung cả hàng.</li><li>Đánh nhau ngay trong vùng kiếm để được giảm 50% sát thương; kéo đồng đội vào vùng để họ giảm 25%.</li><li>Bật Space khi đã áp sát và Nộ trên 100: nhát chém đầu gây tới 337% ở cự ly gần, sau đó chém hình quạt sát thương thực trong 8 giây.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Đứng tránh xa vị trí thanh kiếm, nhất là đường thẳng từ Optimus tới kiếm.</li><li>Thả diều để Nộ tự cạn: Optimus chạy 155 và tầm 336, không đuổi được nếu không có Nộ.</li><li>Dùng sát thương theo % máu tối đa hoặc sát thương thực để vượt qua phần giảm sát thương từ Nộ và vùng kiếm.</li><li>Kéo Optimus ra khỏi vùng kiếm trước khi dồn sát thương.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Né xa Kiếm Optimus từ skill E của Optimus Prime.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000040.html">Người Sói</a>. Optimus là tank chịu đòn nhiều máu, còn chiêu của Người Sói bỏ qua hiệu ứng giảm sát thương của Optimus và gây sát thương theo phần trăm máu tối đa, nên hiệu quả rất cao.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/optimus_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/optimus_actions.py:attr_bonus / _speed — +0.5 × mp/200 tốc bắn và tốc chạy; battle_runtime.py giảm sát thương 0.5 × mp/200 khi có BuffTemplate 8190103</li><li>server/optimus_actions.py:_hit — đòn thường trừ before*0.1 (school=&#x27;true&#x27;), khóa 6000 ms mỗi mục tiêu; +5 Nộ đòn thường, +25 Nộ chiêu</li><li>server/optimus_actions.py:cast slot 2 — đòi mp ≥ 100, _resource(-100); 3.37 − 1.685 × khoảng cách/216; hình quạt 216/180° true</li><li>server/optimus_actions.py:_event optimus_sword_land — 1.88 bán kính 192, end = now+2000; BuffTemplate 8190421 −50%, 8190422 −25%</li><li>facts: atk_per_s 312 (pct 0.067), speed 155, range 336, ehp 7708, stat_rank 78</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [77, 7, 2, 0, 80]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Optimus Prime",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

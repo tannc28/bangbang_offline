@@ -1,0 +1,127 @@
+<!doctype html><html lang="vi" data-bs-theme="light"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1"><meta http-equiv="Cache-Control" content="no-store">
+<title>Ghost Rider · Cẩm nang tank</title><meta name="description" content="Pháp sư tầm xa khống chế, sống nhờ nội tại: dính đòn chí mạng thì hóa Sứ Giả Địa Ngục thay vì chết, đốt quanh mình rồi hồi sinh ngay tại chỗ.">
+<link rel="stylesheet" href="/tank-guide/vendor/tabler-1.7.3/tabler.min.css"><style>
+.avatar-tank{background-size:contain;background-repeat:no-repeat;background-color:var(--tblr-bg-surface-secondary)}
+.stars{color:var(--tblr-yellow);letter-spacing:1px;white-space:nowrap}
+.skill-desc{white-space:pre-line;color:var(--tblr-secondary);font-size:.8125rem}
+.pill-group .form-selectgroup-label{padding:.2rem .65rem;font-size:.75rem}
+.pill-group .form-selectgroup-item{margin:0 .25rem .35rem 0}
+.filter-label{width:92px;flex:none;font-size:.75rem;font-weight:600;color:var(--tblr-secondary);padding-top:.25rem}
+.stat-cell{min-width:130px}.stat-cell .progress{height:.4rem}
+.table-tank td{vertical-align:middle}.summary{max-width:420px;white-space:normal}
+.tank-card .progress{height:.35rem}.note-list li{margin-bottom:.4rem}
+.dot-list{list-style:none;padding-left:0}.dot-list li{position:relative;padding-left:1.1rem;margin-bottom:.45rem}
+.dot-list li::before{content:"";position:absolute;left:0;top:.55em;width:.5rem;height:.5rem;border-radius:50%;background:var(--dot)}
+#scatter{height:340px}#radar{max-height:300px}
+</style></head><body>
+<div class="page">
+<header class="navbar navbar-expand-md d-print-none"><div class="container-fluid">
+<a class="navbar-brand fw-bold" href="/tank-guide/">🛡️ Cẩm nang tank</a>
+<div class="navbar-nav flex-row gap-1">
+<a class="nav-link" href="/">Trang chủ</a><a class="nav-link" href="/html5/">Vào game</a>
+<a class="nav-link" href="/tank-guide/balance.html">Nhật ký cân bằng</a>
+<button class="btn btn-ghost-secondary btn-sm ms-2" data-theme-toggle type="button" title="Đổi giao diện sáng/tối">Sáng / Tối</button>
+</div></div></header>
+<div class="page-wrapper">
+<div class="page-header d-print-none"><div class="container-fluid"><div class="row align-items-center g-3">
+<div class="col-auto"><span class="avatar avatar-tank avatar-xl rounded " style="background-image:url(/rez/zh_CN/avatar/9cbe8c682fd3b86b03e38bd40089ec1e.png)"></span></div>
+<div class="col"><div class="page-pretitle"><a href="/tank-guide/">Cẩm nang tank</a> · Sứ giả địa ngục, khắc tinh của Thiên Thần</div>
+<h2 class="page-title">Ghost Rider</h2>
+<div class="mt-2 d-flex flex-wrap gap-1"><span class="badge bg-red-lt">Mạnh</span> <span class="badge bg-cyan-lt">Tầm xa</span> <span class="badge bg-purple-lt">Năng lượng</span> <span class="badge bg-purple-lt">Pháp sư</span></div>
+<div class="text-secondary mt-2">Pháp Sư Tiên Thủ Khống Chế</div></div>
+<div class="col-auto d-flex gap-2"><a class="btn" href="10000105.html">← Hỏa Thần</a>
+<a class="btn" href="10000087.html">Dương Tiễn →</a></div></div></div></div>
+<div class="page-body"><div class="container-fluid">
+<div class="alert alert-red bg-red-lt mb-3"><b>Pháp sư tầm xa khống chế, sống nhờ nội tại: dính đòn chí mạng thì hóa Sứ Giả Địa Ngục thay vì chết, đốt quanh mình rồi hồi sinh ngay tại chỗ.</b></div>
+<div class="row row-cards mb-3">
+<div class="col-lg-4"><div class="card h-100"><div class="card-status-top bg-red"></div>
+<div class="card-header"><h3 class="card-title">Đánh giá cân bằng</h3><div class="card-actions"><span class="badge bg-red-lt">Mạnh</span></div></div>
+<div class="card-body"><p>Nội tại trong code mạnh hơn mô tả: dạng Sứ Giả có 150% máu (mô tả 100%), chạy nhanh hơn 50% nên đuổi kịp gần như mọi tank, và mỗi kẻ địch trúng một nhịp đốt đều tính một lần, nên chỉ 3 giây đứng cạnh một kẻ địch là hồi sinh. Với nội tại hồi 10 giây, Ghost Rider thường cần bị hạ hai lần mỗi pha giao tranh, trong khi chỉ số thân tank không hề yếu.</p>
+<div class="alert alert-info mb-0"><div class="fw-bold mb-1">Đề xuất</div>Đưa máu dạng Sứ Giả về 100% như mô tả, và chỉ tính một lần Tro Tàn cho mỗi nhịp đốt dù trúng bao nhiêu kẻ địch. Mô tả còn ghi Tro Tàn kéo dài 6 giây trong khi code đặt 4 giây; nên thống nhất một con số.</div></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Hồ sơ chỉ số</h3>
+<div class="card-actions small text-secondary">so với cả game</div></div><div class="card-body"><canvas id="radar"></canvas></div></div></div>
+<div class="col-lg-4"><div class="card h-100"><div class="card-header"><h3 class="card-title">Nhà làm game chấm</h3></div>
+<div class="card-body"><div class="row g-2 mb-3">
+<div class="col-6"><div class="small text-secondary">Sát thương</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Sống sót</div><span class="stars">★★★☆☆</span></div>
+<div class="col-6"><div class="small text-secondary">Hỗ trợ</div><span class="stars">★★★★☆</span></div>
+<div class="col-6"><div class="small text-secondary">Độ khó</div><span class="stars">★★☆☆☆</span></div></div>
+<div class="datagrid"><div class="datagrid-item"><div class="datagrid-title">Máu (HP)</div><div class="datagrid-content">3920</div></div><div class="datagrid-item"><div class="datagrid-title">Giáp vật lý / năng lượng</div><div class="datagrid-content">171 / 171</div></div><div class="datagrid-item"><div class="datagrid-title">Công</div><div class="datagrid-content">355 năng lượng</div></div><div class="datagrid-item"><div class="datagrid-title">Xuyên giáp</div><div class="datagrid-content">34</div></div><div class="datagrid-item"><div class="datagrid-title">Tốc bắn</div><div class="datagrid-content">950 ms/phát</div></div><div class="datagrid-item"><div class="datagrid-title">Hạng chỉ số</div><div class="datagrid-content">#39/91</div></div></div></div></div></div></div>
+<div class="row row-cards mb-3"><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Máu hiệu dụng</span><span class="ms-auto small fw-bold">6154</span></div><div class="progress progress-sm" title="Hơn 58% số tank"><div class="progress-bar bg-yellow" style="width:58%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Công / giây</span><span class="ms-auto small fw-bold">374</span></div><div class="progress progress-sm" title="Hơn 51% số tank"><div class="progress-bar bg-yellow" style="width:51%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tốc độ</span><span class="ms-auto small fw-bold">160</span></div><div class="progress progress-sm" title="Hơn 17% số tank"><div class="progress-bar bg-red" style="width:17%"></div></div></div><div class="col-sm-6 col-lg-3"><div class="d-flex mb-1"><span class="small text-secondary">Tầm bắn</span><span class="ms-auto small fw-bold">480</span></div><div class="progress progress-sm" title="Hơn 49% số tank"><div class="progress-bar bg-yellow" style="width:49%"></div></div></div></div>
+<div class="card mb-3"><div class="card-header"><h3 class="card-title">Kỹ năng</h3></div><div class="list-group list-group-flush"><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/05e928008d5f66cc5c9b137cb02660c4.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>E</kbd><span class="fw-bold">Xích Địa Ngục</span>
+<span class="badge bg-azure-lt">hồi 8s</span>
+<span class="badge bg-teal-lt">tầm 720</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Có
+
+Sử dụng Xích Địa Ngục, tạo #EN_235%_ER# ST Năng Lượng cho kẻ địch, đồng thời Câm Lặng 0.5s.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ccb6b4310d0cdc5f08b1c10149988e4b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>R</kbd><span class="fw-bold">Lửa Địa Ngục</span>
+<span class="badge bg-azure-lt">hồi 6s</span>
+
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng Thực
+VP Bay: Không
+
+Skill bao gồm hiệu quả chủ động và bị động.
+
+Bị động：
+[Sứ Giả Địa Ngục]: Khi Ghost Rider chịu ST chí mạng sẽ hóa thân thành Sứ Giả Địa Ngục (ở trạng thái này miễn dịch mọi khống chế và không thể nhận bất kỳ trị liệu cho đến khi tử vong), Sứ Giả Địa Ngục có 100% HP của Ghost Rider, khi tử vong sẽ tự động thi triển [R Lửa Địa Ngục].
+Sứ Giả Địa Ngục ở trạng thái này không thể chủ động tấn công nhưng tốc độ di chuyển tăng 50% đồng thời thi triển Hỏa Ngục thiêu đốt mục tiêu địch xung quanh, cứ 0.3s gây #EN_75%_ER# ST Năng Lượng đồng thời mục tiêu giảm tốc 50%, mỗi lần Hỏa Ngục thiêu đốt gây ST đều khiến mục tiêu nhận ST từ [R Lửa Địa Ngục] tăng thêm 10%, tối đa tăng 100% ST thêm.
+Mỗi lần Hỏa Ngục gây ST, Sứ Giả Địa Ngục sẽ nhận 1 lần[Tro Tàn Địa Ngục], [Tro Tàn Địa Ngục] kéo dài 6s, khi tích lũy 10 lần, Ghost Rider tại chỗ kế thừa HP hiện tại của [Sứ Giả Địa Ngục] hồi sinh rồi hồi phục 50% HP tối đa.
+
+Chủ động: Thi triển Lửa Địa Ngục gây cho địch xung quanh bản thân #EN_221%_ER# ST Năng Lượng rồi kèm ST Thực bằng 15% HP mục tiêu đã mất, giảm tốc địch 50% trong 2s.
+Nếu tạo ST sẽ giảm 2s CD của skill này.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/c7fdd3dcc2f95be1e85a9bb138f3e6a9.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Space</kbd><span class="fw-bold">Trói Hồn</span>
+<span class="badge bg-azure-lt">hồi 25s</span>
+<span class="badge bg-teal-lt">tầm 264</span>
+</div>
+<div class="skill-desc">Tính chất: Skill Loại ST: Năng Lượng
+VP Bay: Không
+
+Khiến địch bị Giam Giữ Linh Hồn trong 2.5s, địch không thể di chuyển hay tấn công, mỗi 0.5s nhận #EN_150%_ER# ST Năng Lượng. 
+
+Khi kẻ địch bị giam giữ linh hồn, giáp vật lý và khiên năng lượng của Ghost Rider tăng 200%.</div></div></div></div><div class="list-group-item"><div class="row align-items-start g-3">
+<div class="col-auto"><span class="avatar avatar-md" style="background-image:url(/rez/zh_CN/icon/skills/ccb6b4310d0cdc5f08b1c10149988e4b.jpg)"></span></div>
+<div class="col"><div class="d-flex flex-wrap align-items-center gap-2 mb-1"><kbd>Nội tại</kbd><span class="fw-bold">Lửa Địa Ngục</span>
+
+
+</div>
+<div class="skill-desc">Tính chất: Không Loại ST: Năng Lượng
+VP Bay: Không
+
+Khi Ghost Rider chịu ST chí mạng sẽ không tử vong ngay, sẽ hóa thân thành sứ giả địa ngục, ở trạng thái này không thể chủ động tấn công nhưng có thể di chuyển, đồng thời thi triển Hỏa Ngục thiêu đốt mục tiêu trong phạm vi, mỗi giây gây #EN_100%_ER# ST Năng Lượng, đồng thời địch giảm tốc 30%, Sứ Giả Địa Ngục có 100%_END HP của Ghost Rider, khi tử vong sẽ tự động thi triển [Lửa Địa Ngục].</div></div></div></div></div></div>
+<div class="row row-cards mb-3">
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-green"></div><div class="card-header"><h3 class="card-title text-green">Điểm mạnh</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-green)"><li>Nội tại gần như cho thêm một mạng: dính đòn chí mạng thì hóa Sứ Giả Địa Ngục với 150% máu gốc (5.880), miễn mọi khống chế, chạy nhanh hơn 50%; nội tại chỉ hồi 10 giây.</li><li>Ở dạng Sứ Giả, cứ 0,3 giây đốt 75% công lên địch trong bán kính 168 và làm chậm 50%; đủ 10 lần đốt trúng là hồi sinh tại chỗ với máu còn lại cộng 50% máu gốc. Đứng cạnh một kẻ địch thì chỉ mất khoảng 3 giây.</li><li>Space giam mục tiêu 2,5 giây (không di chuyển, không tấn công, câm lặng), 5 nhịp 150% công, trong lúc đó Ghost Rider được +200% hai loại giáp và miễn khống chế.</li><li>E bay 720, gây 235% công, kéo mục tiêu về sát Ghost Rider và khóa tấn công 0,5 giây.</li><li>R gây 221% công cộng sát thương chuẩn bằng 15% máu đã mất của mục tiêu, làm chậm 50% trong 2 giây; trúng thì giảm 2 giây hồi chiêu, nên thực tế hồi 4 giây.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-red"></div><div class="card-header"><h3 class="card-title text-red">Điểm yếu</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-red)"><li>Ở dạng Sứ Giả không thể tấn công, không dùng được chiêu và không nhận được hồi máu.</li><li>Space là chiêu duy trì: Ghost Rider đứng yên suốt 2,5 giây và chiêu bị ngắt nếu mục tiêu ra khỏi tầm 264.</li><li>Chỉ số thân tank trung bình (hạng 39/91), tốc chạy 160 ở nhóm chậm.</li><li>Không có chiêu di chuyển chủ động; ngoài dạng Sứ Giả thì phải dựa vào E kéo để giữ khoảng cách.</li></ul></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-blue"></div><div class="card-header"><h3 class="card-title text-blue">Cách chơi</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-blue)"><li>Mở giao tranh bằng E kéo mục tiêu lại gần, rồi Space giam nó và R để dọn máu.</li><li>Khi sắp chết, chủ động lao vào giữa địch: dạng Sứ Giả càng đốt trúng nhiều người thì càng nhanh hồi sinh.</li><li>Dùng R lên mục tiêu đã mất nhiều máu, phần sát thương chuẩn theo máu đã mất mới phát huy.</li><li>Đừng dùng Space khi mục tiêu đứng sát rìa tầm 264, nó bước ra là chiêu bị ngắt.</li></ul>
+<div class="small text-secondary">Mẹo gốc: Mẹo chiến đấu</div></div></div></div>
+<div class="col-md-6 col-xl-3"><div class="card h-100"><div class="card-status-start bg-orange"></div><div class="card-header"><h3 class="card-title text-orange">Gặp nó thì làm gì</h3></div><div class="card-body"><ul class="dot-list" style="--dot:var(--tblr-orange)"><li>Khi Ghost Rider hóa Sứ Giả, tản ra khỏi bán kính 168 thay vì đứng đánh, để nó không gom đủ 10 lần đốt.</li><li>Hạ nó lần thứ hai trong vòng 10 giây sau lần hóa Sứ Giả đầu tiên, lúc nội tại còn đang hồi.</li><li>Dùng khống chế ngắt Space trước khi nó kịp gây đủ 5 nhịp sát thương.</li><li>Né E (đạn hẹp, bay chậm 1,25 giây tới hết tầm) để không bị kéo vào tầm Space.</li></ul>
+<div class="small text-secondary mb-2">Gợi ý gốc: Cố gắng tránh bị [E-Xích Địa Ngục] Ghost Rider bắn trúng! [Space-Trói Hồn] có thể dùng skill khống chế gián đoạn.</div>
+<div class="small"><b>Khắc chế theo game gốc:</b> <a href="10000059.html">Phượng Hoàng Lửa</a>. Phượng Hoàng Lửa dùng E Phượng Vũ Cửu Thiên áp sát Ghost Rider thật nhanh, rồi Space Liệt Diễm Xung Kích gây sát thương và câm lặng để hạ nó. Space của Phượng Hoàng Lửa còn giúp đồng đội ngắt hiệu ứng giam giữ của Trói Hồn.</div></div></div></div></div>
+<div class="row row-cards">
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Lịch sử điều chỉnh</h3></div><div class="list-group list-group-flush"><div class="list-group-item text-secondary">Chưa có thay đổi nào so với bản gốc.</div></div></div></div>
+<div class="col-lg-6"><div class="card"><div class="card-header"><h3 class="card-title">Căn cứ</h3><div class="card-actions small text-secondary">server/ghost_actions.py</div></div>
+<div class="card-body small text-secondary"><ul class="mb-2"><li>server/ghost_actions.py:commit_hp — max_hp = iHp × 1.5 khi hóa Sứ Giả, passive_ready_at = now + 10000</li><li>server/ghost_actions.py:_event &#x27;hellfire&#x27; — mỗi 300 ms 75% công bán kính 168, mỗi mục tiêu mất máu gọi _ember một lần</li><li>server/ghost_actions.py:_ember — 9 mốc Tro Tàn (duration 4000), mốc thứ 10 hồi sinh với hp + 50% iHp</li><li>BuffTemplate 312121 +50% tốc chạy, 312116 miễn khống chế; 312331/312341 fEffectValA 2 (Space +200% giáp)</li><li>server/ghost_actions.py:_flight 312201 — E kéo mục tiêu về cách 72, mô tả E chỉ nói câm lặng 0,5 giây</li></ul>
+Máu hiệu dụng = HP × (300 + giáp) / 300, trung bình giáp vật lý và năng lượng (server/combat_math.py).</div></div></div></div></div></div>
+<footer class="footer footer-transparent d-print-none"><div class="container-fluid text-secondary small">
+Dữ liệu đọc trực tiếp từ bảng của game. Cập nhật 2026-11-23.
+Giao diện: Tabler, List.js, Chart.js (MIT).</div></footer>
+</div></div><script>
+(()=>{const k='tank-guide-theme',r=document.documentElement;
+try{const t=localStorage.getItem(k);if(t)r.dataset.bsTheme=t}catch(e){}
+document.querySelectorAll('[data-theme-toggle]').forEach(b=>b.onclick=()=>{
+const t=r.dataset.bsTheme==='dark'?'light':'dark';r.dataset.bsTheme=t;try{localStorage.setItem(k,t)}catch(e){}})})();
+</script><script src="/tank-guide/vendor/chartjs-4.6.1/chart.umd.min.js"></script><script>
+(()=>{const R={"labels": ["Máu hiệu dụng", "Công / giây", "Tốc độ", "Tầm bắn", "Máu gốc"], "tank": [58, 51, 17, 49, 53]},css=getComputedStyle(document.body),ink=css.getPropertyValue('--tblr-secondary').trim()||'#888';
+new Chart(document.getElementById('radar'),{type:'radar',data:{labels:R.labels,datasets:[
+{label:"Ghost Rider",data:R.tank,fill:true,backgroundColor:'rgba(247,103,7,.25)',borderColor:'#f76707',pointBackgroundColor:'#f76707'},
+{label:'Trung bình game',data:R.labels.map(()=>50),fill:false,borderColor:'rgba(150,150,150,.8)',borderDash:[4,4],pointRadius:0}]},
+options:{plugins:{legend:{labels:{color:ink}},tooltip:{callbacks:{label:c=>`${c.dataset.label}: hơn ${c.raw}% số tank`}}},
+scales:{r:{min:0,max:100,ticks:{display:false,stepSize:25},grid:{color:'#8884'},angleLines:{color:'#8884'},pointLabels:{color:ink,font:{size:12}}}}}});})();
+</script></body></html>

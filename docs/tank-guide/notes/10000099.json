@@ -1,0 +1,41 @@
+{
+  "summary": "Đấu sĩ cận chiến gần như không thể bị khống chế: chiêu nào cũng cho giảm 75% sát thương nhận vào và miễn khống chế, còn mỗi chuỗi 5 đòn trúng lại trừ 8% máu tối đa và câm lặng mục tiêu.",
+  "strengths": [
+    "Chỉ số thân tank hạng 6/91: máu hiệu dụng 7.478, bắn 800 ms một phát, 411 sát thương mỗi giây (trên 75% số tank).",
+    "Cân Quắc Anh Hùng: trong E (1,5–2 giây), lúc lao của R lần hai (2 giây), lúc tụ lực Space (tối đa 3 giây) và 1,25 giây sau mỗi lần nội tại kích hoạt, Hoa Mộc Lan giảm 75% sát thương nhận vào và miễn mọi khống chế, kéo đẩy.",
+    "Nội tại: cứ 5 lần gây sát thương liên tiếp lên một mục tiêu thì trừ thêm 8% máu tối đa, câm lặng 1 giây và làm chậm 75% tốc chạy, tốc bắn trong 2 giây. Vùng kiếm của R gây sát thương mỗi giây nên đếm rất nhanh.",
+    "E lao 360 trong 1,5 giây, kéo địch theo và chém 3 nhát 127% / 159% / 198%; nhát cuối thêm 3% máu tối đa sát thương thực.",
+    "R thả đại kiếm bán kính 144: 134% và làm chậm 50%, vùng kiếm giữ 4 giây gây 67% mỗi giây; trúng địch thì trong 2 giây được lao miễn phí tới mục tiêu có dấu ít máu nhất trong 600, gây 162% và đẩy lùi. Space tụ tới 3 giây, chém hình chữ nhật dài tới 480 gây 223% đến 446%."
+  ],
+  "weaknesses": [
+    "Tầm bắn thường 336; mọi chiêu đều đòi áp sát.",
+    "Trong E và lúc tụ Space không đánh thường được, và lúc tụ Space phải đứng yên, nên mục tiêu nhanh chân dễ né.",
+    "Lần lao thứ hai của R cần R đầu trúng ít nhất một địch và chỉ chọn mục tiêu đồng đội đang nhìn thấy.",
+    "Ngoài các khoảnh khắc dùng chiêu, Hoa Mộc Lan không có giảm sát thương; bị bắt đúng lúc mọi chiêu đang hồi thì vẫn ngã."
+  ],
+  "tips": [
+    "Mở bằng R vào cụm địch, rồi lao lần hai lên con ít máu nhất có dấu.",
+    "Nối E ngay sau R để vừa miễn khống chế vừa kéo mục tiêu vào vùng kiếm, đếm nhanh 5 đòn cho nội tại.",
+    "Tụ Space khi địch đang bị chậm hoặc câm lặng; tụ càng lâu thì chém càng xa và càng đau, tối đa 446%.",
+    "Xếp các chiêu nối tiếp nhau để luôn có một lớp giảm 75% sát thương khi đứng giữa đội địch."
+  ],
+  "counters": [
+    "Đừng tung khống chế vào lúc Hoa Mộc Lan đang dùng chiêu; đợi khoảng trống giữa các chiêu rồi mới khống chế và dồn sát thương.",
+    "Tránh vùng đại kiếm R để không bị đánh dấu, nhờ đó nó không có lần lao thứ hai.",
+    "Dùng chiêu lướt hoặc dịch chuyển để né đường chém của Space; lúc tụ lực nó đứng yên và báo trước hướng chém.",
+    "Thả diều từ ngoài tầm 336 khi E và R đang hồi."
+  ],
+  "counter_why": "Cửu Vĩ Hồ cơ động rất cao nên dễ né E Lạc Anh Tam Thức và Space Liên Thành Trảm của Hoa Mộc Lan.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank hạng 6/91 nên không có điểm yếu về chỉ số, trong khi gần như mọi chiêu đều cho giảm 75% sát thương và miễn khống chế (E 1,5–2 giây, R lần hai 2 giây, Space tới 3 giây, nội tại 1,25 giây). Cộng thêm câm lặng 1 giây và 8% máu tối đa mỗi 5 đòn, tank này khó bị bắt và khó bị khắc chế bằng khống chế.",
+    "suggestion": "Hạ lớp giảm sát thương khi dùng chiêu từ 75% xuống 50% (BuffTemplate 374207, 374126, 374315, 374412), hoặc bỏ phần miễn khống chế 1,25 giây sau khi nội tại kích hoạt. Mô tả R ghi hiệu ứng làm chậm của nội tại kéo dài 3 giây, code ép 2 giây."
+  },
+  "evidence": [
+    "server/mulan_actions.py:_mark — tầng thứ 5 gây max_hp*0.08, câm lặng BuffTemplate 374122 1000 ms, chậm 374123/374124 duration=2000, tự nhận 374125/374126 (−75%, miễn khống chế, 1250 ms)",
+    "server/mulan_actions.py:cc_immune — miễn khống chế khi ready/dash hoặc có 374125/374414",
+    "server/mulan_actions.py:_swing — 1.27 / 1.59 / 1.98, nhát 3 thêm max_hp*0.03 true; E_BUFFS 374205 miễn khống chế 2000 ms, 374207 −75% 1500 ms",
+    "server/mulan_actions.py:_release — dài 120 + 360 × tỉ lệ tụ, power × 2.23 × (1 + tỉ lệ); _event mulan_sword_land 1.34 bán kính 144, vùng 4000 ms × 0.67",
+    "facts: stat_rank 6, ehp 7478, fire_ms 800, atk_per_s 411 (pct 0.756)"
+  ]
+}

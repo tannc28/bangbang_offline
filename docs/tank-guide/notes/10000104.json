@@ -1,0 +1,40 @@
+{
+  "summary": "Xạ thủ tầm xa bắn rất nhanh bằng băng đạn 10 viên. Bắn trúng liên tục thì vào trạng thái Chính Xác, khi đó giáp của mục tiêu càng dày, nó càng chịu nhiều sát thương. Thắng bằng cách đứng xa 552 xả đạn không ngừng, E lướt để nạp đạn tức thì.",
+  "strengths": [
+    "Chỉ số thân tank hạng 9/91: tầm 552 và tốc bắn 500 ms đều hơn khoảng 88% số tank; bị động còn cộng 50% tốc đánh và 50% tốc độ đạn.",
+    "Trúng 4 phát liên tiếp thì có Chính Xác 2 giây: giáp của mục tiêu không giảm sát thương nữa mà còn tăng thêm. Ví dụ giáp 200: bình thường chỉ nhận 60% sát thương, khi Chính Xác thì nhận 140%. Mỗi 4 phát lại làm mới, nên bắn đều tay thì gần như lúc nào cũng có.",
+    "E lướt 336, bất tử trong lúc lướt, rồi nạp đầy đạn ngay; 5 phát kế tiếp có +100% tốc đánh, +50% hút máu và 25% cơ hội choáng 0,5 giây.",
+    "Space bắn tên 157% công, làm chậm 60% trong 4 giây và đánh dấu: 4 phát đánh thường kế tiếp lên mục tiêu mỗi phát nổ thêm 75/100/125/150% công trong bán kính 192.",
+    "Máu càng thấp, công năng lượng và hút máu đánh thường càng cao, tối đa +50% khi gần cạn máu. R soi vùng 192 trong 5 giây: lộ mục tiêu tàng hình, phá bẫy ẩn, mục tiêu nhận thêm 25% sát thương đánh thường."
+  ],
+  "weaknesses": [
+    "Thân mỏng: máu hiệu dụng 5.145, chỉ hơn khoảng 24% số tank.",
+    "Hết 10 viên đạn thì mất 1 giây nạp, không thể đánh thường; đây là lúc dễ bị lao vào nhất.",
+    "Chính Xác vô dụng với mục tiêu giáp thấp: giáp 0 thì sát thương không đổi.",
+    "Không có khống chế cứng chắc chắn; choáng của E chỉ có 25% cơ hội mỗi phát."
+  ],
+  "tips": [
+    "Mở bằng Space để đánh dấu và làm chậm, rồi xả 4 phát để nổ cả 4 lần lên mục tiêu.",
+    "Ưu tiên bắn tank giáp dày: khi Chính Xác bật, giáp càng cao càng có lợi cho Falcon.",
+    "Dùng E thay cho 1 giây nạp đạn: vừa né đòn vừa có ngay 10 viên.",
+    "Đặt R lên bụi hoặc chỗ nghi có tank tàng hình trước khi giao tranh."
+  ],
+  "counters": [
+    "Lao vào đúng lúc Falcon đang nạp đạn 1 giây, nhất là khi E còn hồi.",
+    "Dùng tank có chiêu lướt kèm sát thương bộc phát để hạ nó nhanh; thân chỉ khoảng 5.100 máu hiệu dụng.",
+    "Ngắt chuỗi 4 phát trúng liên tiếp bằng cách nấp sau vật cản hoặc đổi hướng chạy liên tục.",
+    "Trong giao tranh, đừng để tank giáp dày đứng chịu đạn quá lâu."
+  ],
+  "counter_why": "Falcon máu thấp; khi giao tranh tổng, hãy cho tank vừa có chiêu lướt vừa có sát thương bộc phát lao vào hạ nó trước.",
+  "balance": {
+    "status": "strong",
+    "reason": "Chỉ số thân tank top 10 (hạng 9/91), tầm 552 và bắn nhanh, mà Chính Xác còn gần như luôn bật khi bắn đều, biến giáp của mục tiêu thành điểm yếu: tank giáp 200 nhận gấp khoảng 2,3 lần sát thương. Kèm thêm E bất tử, nạp đạn tức thì và hút máu, cái giá duy nhất là thân mỏng.",
+    "suggestion": "Không cho Chính Xác tự làm mới trong lúc đang bật (chỉ đếm lại 4 phát sau khi hết 2 giây), hoặc giới hạn hệ số giáp ngược ở mức tối đa 1,2. Code khác mô tả: R soi vùng 5 giây (mô tả ghi 3 giây)."
+  },
+  "evidence": [
+    "server/falcon_actions.py:_precision — mỗi 4 phát trúng bật 379113 (2000 ms), bộ đếm vẫn chạy trong lúc đang bật; damage() thêm inverse_armor cho đánh thường",
+    "server/combat_math.py — inverse_armor: hệ số giáp = 1 + a/(300 + a) thay cho 300/(300 + a)",
+    "server/falcon_actions.py:falcon_dash / cast slot 0 — nạp đầy 100 năng lượng, 5 phát cường hóa, lifesteal + 0.5, 25% choáng 379212 500 ms; mỗi phát tốn 10, hết thì nạp 1000 ms",
+    "server/falcon_actions.py:falcon_explosion — (0.75 + 0.25 × lần) × công bán kính 192; BuffTemplate 379104 +50% tốc đánh, 379302 chậm 60% 4000 ms, 379412 +25% sát thương đánh thường"
+  ]
+}

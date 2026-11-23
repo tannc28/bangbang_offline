@@ -1,0 +1,41 @@
+{
+  "summary": "Pháp sư năng lượng tầm xa mỏng máu, chuyên dồn sát thương lan và choáng nối choáng. Thắng nhờ mọi chiêu trúng đều cộng 3% máu tối đa sát thương thực và tích dấu điện, đủ 3 dấu là choáng 1,5 giây.",
+  "strengths": [
+    "Nội tại: mỗi lần chiêu trúng gây thêm sát thương thực bằng 3% máu tối đa của mục tiêu và tích 1 dấu điện; đủ 3 dấu trong 4 giây là choáng 1,5 giây.",
+    "E có 2 lượt tích (cách nhau 3 giây): bóng điện 193% công năng lượng, nảy sang tối đa 5 mục tiêu trong bán kính 336, mỗi lần nảy giảm 25%.",
+    "R gọi sét sau 0,6 giây: 229% công năng lượng trong bán kính 120 và choáng 1 giây. Chuỗi E → R → E đủ 3 dấu, cho tổng cộng 2,5 giây choáng.",
+    "Space để lại vùng sét 4 giây bán kính 192: 4 nhịp, mỗi nhịp 85% công năng lượng, chậm 50% trong 2 giây; mỗi nhịp cũng cộng 3% máu tối đa và tích dấu.",
+    "Tầm E và R là 600, Space bay tới 720: xa hơn tầm bắn thường 480 của chính Thor."
+  ],
+  "weaknesses": [
+    "Chỉ số thân tank hạng 79/91: máu 3.325, máu hiệu dụng chỉ hơn khoảng 27% số tank.",
+    "Đòn thường rất chậm (1.000 ms một phát, chỉ hơn 3% số tank), sát thương mỗi giây từ đòn thường thấp; hết chiêu là gần như vô hại.",
+    "Space có 0,15 giây chuẩn bị; bị ngắt lúc đó thì Space vẫn mất 10 giây hồi chiêu.",
+    "Sau khi bị choáng vì dấu điện, mục tiêu miễn dấu mới trong 3 giây, nên không thể khóa một con mãi."
+  ],
+  "tips": [
+    "Mở bằng E vào đám đông để tích dấu cho nhiều con cùng lúc, rồi R vào chỗ đông nhất để choáng và đẩy dấu lên 2.",
+    "Giữ lượt E thứ hai để chốt dấu thứ 3, lấy 1,5 giây choáng cho đồng đội dồn sát thương.",
+    "Ném Space vào chỗ địch buộc phải đứng (cửa hẹp, quanh trụ): mỗi nhịp đều cộng 3% máu tối đa, càng hiệu quả với tank nhiều máu.",
+    "Đứng sau đồng đội ở tầm 600: Thor không có chiêu thoát thân nào."
+  ],
+  "counters": [
+    "Áp sát nhanh bằng chiêu lướt: Thor không có cách tạo khoảng cách và bắn thường rất chậm.",
+    "Đứng tản ra, cách nhau hơn 336 để E không nảy được.",
+    "Có chiêu khống chế thì ngắt lúc Thor chuẩn bị Space để nó mất 10 giây hồi chiêu.",
+    "Ngay sau khi bị choáng vì dấu điện, bạn có 3 giây không bị tích dấu: đó là lúc lao vào."
+  ],
+  "counter_why": "Thor công cao nhưng máu mỏng. Ichigo dùng E Ma Ảnh áp sát thật nhanh, đánh thường để tích Hồn Lực, rồi bùng nổ bằng Space Bankai để hạ gục Thor.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank thuộc nhóm cuối (hạng 79/91, đòn thường gần chậm nhất game), nhưng bộ chiêu bù đủ: sát thương lan, choáng nối choáng 2,5 giây và 3% máu tối đa sát thương thực mỗi lần trúng. Điểm yếu là không có chiêu thoát thân, hợp lý cho một pháp sư.",
+    "suggestion": "Giữ nguyên chỉ số. Cần quyết định một điểm: Space trong code và EffectTemplate 313301 gây 170% công năng lượng, trong khi mô tả ghi 255%."
+  },
+  "evidence": [
+    "server/thor_actions.py:_hit — thêm target.max_hp × 0.03 sát thương thực; 3 dấu → BuffTemplate 313133 choáng 1500 ms, 313121 miễn dấu 3000 ms",
+    "server/thor_actions.py:_flight — E nảy tối đa 5 mục tiêu, bán kính 336, raw × 0.75 mỗi lần nảy",
+    "server/thor_actions.py:_event hammer_cast — power × 1.7; EffectTemplate 313301 fAddVal 1.7 (mô tả ghi 255%)",
+    "server/thor_actions.py:_event thunder_strike — 2.29 × công, bán kính 120, BuffTemplate 313412 choáng 1000 ms; thunder_field 0.85 × công mỗi 900 ms, bán kính 192",
+    "SkillTemplate 313301 iSkillBreakCoolTime 10000 (bị ngắt lúc chuẩn bị); facts stat_rank 79, pct fire_ms 0.033"
+  ]
+}

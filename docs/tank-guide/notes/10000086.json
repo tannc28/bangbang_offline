@@ -1,0 +1,40 @@
+{
+  "summary": "Pháp sư tầm xa nhiều lượt chiêu: E bắn ba sóng xuyên thấu, Space lướt chớp nhoáng, mỗi chiêu trúng tích một Lửa Yêu; đủ 5 lửa thì lửa tự bay đi đánh tank địch gần nhất và hồi máu cho Cửu Vĩ Hồ. Thắng bằng cách xả liên tục để lửa không bao giờ tắt.",
+  "strengths": [
+    "Công năng lượng 405 và xuyên giáp 53, thuộc nhóm cao; chỉ số thân tank hạng 13/91.",
+    "E có 3 lượt (6 giây mỗi lượt, cách nhau 1,5 giây): 3 sóng lệch 15°, dài 600, mỗi sóng 165% công và xuyên qua mọi địch. Một mục tiêu trúng cả 3 sóng nhận khoảng 382% công; mỗi lần trúng lượt E hồi nhanh thêm 0,3 giây.",
+    "Space cũng 3 lượt: lướt 336, gây 100% công quanh điểm đi và điểm đến (bán kính 168). Trúng cả hai lần thì mục tiêu bị chậm 100% trong 1,5 giây (giảm dần), gần như trói chân.",
+    "R chỉ định một mục tiêu trong 480: gây 156% công, làm chậm 60% trong 3 giây và mục tiêu gây ít hơn 30% sát thương lên Cửu Vĩ Hồ.",
+    "5 Lửa Yêu bay lần lượt mỗi 0,4 giây, mỗi viên 100% công (giảm 20% mỗi lần trúng cùng mục tiêu); mỗi viên trúng tank địch hồi cho Cửu Vĩ Hồ 50% công."
+  ],
+  "weaknesses": [
+    "Chạy chậm (160) và bắn chậm (1.000 ms): giữa hai đợt chiêu, sát thương đánh thường rất thấp.",
+    "Không có khống chế cứng; chậm 100% của Space giảm dần theo thời gian.",
+    "Lửa Yêu chỉ nhắm tank trong 480 và tắt sau 10 giây; xả chiêu vào NPC vẫn tích lửa nhưng lửa không đánh NPC.",
+    "Khi đã xả hết 3 lượt E và 3 lượt Space, có một khoảng trống dài để địch bắt."
+  ],
+  "tips": [
+    "Ném E ở khoảng gần để cả 3 sóng cùng trúng một mục tiêu; lần trúng đầu tiên mạnh nhất.",
+    "Dùng Space hai lần liên tiếp quanh cùng mục tiêu để có chậm 100%.",
+    "Mở bằng R lên tank lao vào mình: nó gây ít hơn 30% sát thương lên Cửu Vĩ Hồ trong 3 giây.",
+    "Đếm Lửa Yêu: đủ 5 thì đứng trong 480 quanh tank địch để lửa có mục tiêu và hồi máu."
+  ],
+  "counters": [
+    "Chờ Cửu Vĩ Hồ xả hết lượt E và Space rồi mới lao vào: lúc đó nó chỉ còn đánh thường chậm.",
+    "Khống chế cứng ngay khi nó vừa lướt Space xong.",
+    "Di chuyển ngang hướng sóng E; sóng thứ hai, thứ ba lên cùng mục tiêu yếu dần.",
+    "Tránh đứng gần khi nó đang có 5 Lửa Yêu."
+  ],
+  "counter_why": "Khống chế mạnh của Thủy Tinh dễ bắt Cửu Vĩ Hồ đúng lúc nó vừa hết chiêu, khiến nó khó thoát.",
+  "balance": {
+    "status": "ok",
+    "reason": "Chỉ số thân tank tốt (hạng 13/91) và 6 lượt chiêu cho sát thương dồn rất cao, nhưng không có khống chế cứng hay bất tử, chạy và bắn đều chậm, và có khoảng trống rõ sau khi xả hết lượt. Mạnh nhưng có cửa để bắt.",
+    "suggestion": "Theo dõi sát thương 3 lượt E liền nhau (khoảng 382% công mỗi lượt lên một mục tiêu). Code khác mô tả: Lửa Yêu hồi cho Cửu Vĩ Hồ 50% công mỗi lần trúng tank (mô tả không nhắc), và lửa chỉ nhắm tank chứ không đánh NPC với 50% sát thương như mô tả."
+  },
+  "evidence": [
+    "server/fox_actions.py:_flight 360401 — 3 sóng ±15°, 1.65 × công năng lượng, giảm × 0.75 mỗi mục tiêu đã trúng/lần trúng trước; e_next_charge − 300 ms",
+    "server/fox_actions.py:on_bullet_hit 360601 — Lửa Yêu power × 0.8^n, hồi bản thân 0.5 × công; fox_fire chỉ chọn tank (không NPC) trong 480",
+    "server/fox_actions.py:_blink_hit — bán kính 168, trúng lần 2 thì 360311 chậm 100% 1500 ms",
+    "battle_runtime.py:damage — mục tiêu mang 360203 của Cửu Vĩ Hồ gây ít hơn 30% lên nó; BuffTemplate 360202 chậm 60% 3000 ms"
+  ]
+}
