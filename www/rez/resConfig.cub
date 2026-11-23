@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<config>
+  <localDatas>
+    <localData>
+      <!-- moVersion: version của file .mo (gettext/i18n), loader dùng để cache bust -->
+      <moVersion>180302</moVersion>
+      <!-- xmlPack: tên file .dat chứa packed XML data (ov=0 normal) -->
+      <xmlPack>4ab4c0daa389fb4ccfb8071949ea0ced.dat</xmlPack>
+      <!-- xmlPackOverlay: dùng khi ov=1 (overlay mode) -->
+      <xmlPackOverlay>96756c210e01d784e680d092ea89b91d.dat</xmlPackOverlay>
+      <!-- Module versions - loader dùng để tạo tên file khi load module SWF -->
+      <createCharVersion>1.0.19</createCharVersion>
+      <selectServerVersion>1.0.79</selectServerVersion>
+      <loaderLoginVersion>1.0.1</loaderLoginVersion>
+      <rankVersion>1.0.90</rankVersion>
+      <shopVersion>1.1.3</shopVersion>
+      <tankVersion>1.1.37</tankVersion>
+      <clanVersion>1.1.52</clanVersion>
+      <friendVersion>1.0.55</friendVersion>
+      <mailVersion>1.0.50</mailVersion>
+      <charVersion>1.1.28</charVersion>
+      <uiLayerVersion>1.0.22</uiLayerVersion>
+      <moVersion>1.0.0</moVersion>
+      <!-- Locale settings cho vi_VN -->
+      <localeSetting>
+        <zh_CN>
+          <isUseMicro>0</isUseMicro>
+          <charALine>35</charALine>
+          <nameLength>20</nameLength>
+          <chatLength>60</chatLength>
+          <isShowBattleCursor>0</isShowBattleCursor>
+          <isShowService>0</isShowService>
+          <isAutoLoginChar>1</isAutoLoginChar>
+          <isAutoEnterServer>1</isAutoEnterServer>
+          <typewriteSpeed>4</typewriteSpeed>
+          <isAutoName>0</isAutoName>
+          <isShowBuyLifeAskInDefault>1</isShowBuyLifeAskInDefault>
+          <isClientChatFilterOpen>0</isClientChatFilterOpen>
+          <isFiltrateAllChannel>0</isFiltrateAllChannel>
+          <chatLimitLevel>0</chatLimitLevel>
+          <worldChatLevel>0</worldChatLevel>
+          <payRate>1</payRate>
+          <regionHead>299000</regionHead>
+          <isLoadDirtyWords>0</isLoadDirtyWords>
+          <showTryTankList>1</showTryTankList>
+          <showTankUpNextOutlook>0</showTankUpNextOutlook>
+          <tankMasterLevel>6</tankMasterLevel>
+          <showTankOutlook>1</showTankOutlook>
+          <showJewConvert>1</showJewConvert>
+          <replaceSensitiveWord>0</replaceSensitiveWord>
+          <showHelperLabelInShop>1</showHelperLabelInShop>
+          <useOneClickUpgrade>0</useOneClickUpgrade>
+          <playChineseSound>0</playChineseSound>
+          <firstPayTankId>0</firstPayTankId>
+        </zh_CN>
+        <vi_VN>
+          <isUseMicro>0</isUseMicro>
+          <charALine>35</charALine>
+          <nameLength>20</nameLength>
+          <chatLength>60</chatLength>
+          <isShowBattleCursor>0</isShowBattleCursor>
+          <isShowService>0</isShowService>
+          <!-- isAutoLoginChar=1: tự chọn nhân vật gần nhất theo login history -->
+          <isAutoLoginChar>1</isAutoLoginChar>
+          <!-- isAutoEnterServer=1: tự vào default/last server theo flow platform -->
+          <isAutoEnterServer>1</isAutoEnterServer>
+          <typewriteSpeed>4</typewriteSpeed>
+          <isAutoName>0</isAutoName>
+          <isShowBuyLifeAskInDefault>1</isShowBuyLifeAskInDefault>
+          <isClientChatFilterOpen>0</isClientChatFilterOpen>
+          <isFiltrateAllChannel>0</isFiltrateAllChannel>
+          <chatLimitLevel>0</chatLimitLevel>
+          <worldChatLevel>0</worldChatLevel>
+          <payRate>1</payRate>
+          <regionHead>299000</regionHead>
+          <isLoadDirtyWords>0</isLoadDirtyWords>
+          <showTryTankList>1</showTryTankList>
+          <showTankUpNextOutlook>0</showTankUpNextOutlook>
+          <tankMasterLevel>6</tankMasterLevel>
+          <showTankOutlook>1</showTankOutlook>
+          <showJewConvert>1</showJewConvert>
+          <replaceSensitiveWord>0</replaceSensitiveWord>
+          <showHelperLabelInShop>1</showHelperLabelInShop>
+          <useOneClickUpgrade>0</useOneClickUpgrade>
+          <playChineseSound>0</playChineseSound>
+          <firstPayTankId>0</firstPayTankId>
+        </vi_VN>
+      </localeSetting>
+    </localData>
+  </localDatas>
+</config>

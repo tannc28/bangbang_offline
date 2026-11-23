@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<config><localDatas><localData>
+<serverIp>127.0.0.1</serverIp><port>49119</port><loginType>1</loginType>
+<localeDefine>vi_VN</localeDefine><redirectUrl>http://127.0.0.1:18083/offline.html</redirectUrl>
+<homeUrl>http://127.0.0.1:18083/offline.html</homeUrl><sourceRootPath></sourceRootPath>
+<templetLoadType>0</templetLoadType><serverListPath>rez/serverList.cub</serverListPath>
+<loginFailUrl>http://127.0.0.1:18083/offline.html</loginFailUrl><regionUrl>http://127.0.0.1:18083/capi</regionUrl>
+<chargeUrl>http://127.0.0.1:18083/offline.html</chargeUrl><bulletinUrl>http://127.0.0.1:18083/offline.html</bulletinUrl>
+<multiClient>1</multiClient><isNeedCheckActive>0</isNeedCheckActive><datadiff>8</datadiff>
+<regionHead>299000</regionHead>
+</localData></localDatas></config>
