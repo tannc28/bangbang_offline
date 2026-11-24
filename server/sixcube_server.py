@@ -43,6 +43,7 @@ import military_rank
 import prebattle_selection
 import characters
 import guilds
+import bot_loadouts
 import guild_protocol
 import guild_combat
 import queue
@@ -797,6 +798,7 @@ def _client_handler(conn: socket.socket, addr) -> None:
         if not resuming:
             ranked_matches.register_selection(session_state,world_db)
         session_state['guild_build'] = guilds.battle_build(world_db)
+        bot_loadouts.apply_player_full_kit(session_state,world_db)
         selection_deadline = time.monotonic() + session_state['tank_selection']['remaining']
         cbs, _ = get_room_char_briefs(session_state)
         checkpoint()
@@ -880,6 +882,7 @@ def _client_handler(conn: socket.socket, addr) -> None:
         if not resuming:
             session_state['guild_build']=guilds.battle_build(world_db)
             session_state['booster_build']=boosters.battle_build(world_db,r)
+            bot_loadouts.apply_player_full_kit(session_state,world_db)
             session_state["battle"] = {"scene_id": r["room_id"], "loaded": 0, "entered": False}
             from bot_policy import prepare_match
             prepare_match(session_state)
@@ -1162,6 +1165,7 @@ def _client_handler(conn: socket.socket, addr) -> None:
                             _dump(addr, 'S->C', data, tag='GUILD')
                         if not error and session_state.get('tank_selection'):
                             session_state['guild_build'] = guilds.battle_build(world_db)
+                            bot_loadouts.apply_player_full_kit(session_state,world_db)
                             notify_selection()
                         log.log(logging.WARNING if error else logging.INFO, f'[sixcube] Guild C{mid}: {error or "saved"}')
 
@@ -1695,6 +1699,7 @@ def _client_handler(conn: socket.socket, addr) -> None:
                                 session_state['crystal_build']=crystals.battle_build(world_db,tank_uuid)
                                 session_state['military_star']=military_rank.stars(world_db)
                                 session_state['military_build']=military_rank.build(session_state['military_star'])
+                                bot_loadouts.apply_player_full_kit(session_state,world_db)
                                 # Guild/booster builds were frozen before S1705.
                             actions = restore_arena(session_state,saved_arena) if saved_arena else BattleArena(session_state,bot_attacks=True)
                             if actions.geometry.id==world_boss_store.MAP:
@@ -1767,6 +1772,11 @@ def _client_handler(conn: socket.socket, addr) -> None:
                         packets = bot_chat.on_human_signal(actions, actions.player, kind, (sx, sy), target_id, actions.clock())
                         send_actions(packets)
                         battle_checkpoint(packets)
+                        continue
+
+                    elif mid == 597:
+                        # Pause exists for hub rooms with one human only (multiplayer_gate).
+                        conn.sendall(_frame(1599, struct.pack('<BB', 0, 0)))
                         continue
 
                     elif mid in (509, 512, 613):

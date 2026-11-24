@@ -5,9 +5,10 @@ AI already uses (decision interval, aim spread, retreat thresholds, focus
 weight, dodge window) and reuses the same RNG draws, so legacy/PRO perception
 rules and the 180 ms minimum reaction stay intact.
 
-Ranked bots keep one archetype for life (derived from owner + rank identity),
-at full strength, so a name always plays the same way. Casual rooms roll a new
-archetype per match with some jitter.
+Every match rolls a fresh archetype with some jitter, ranked and casual alike,
+so the same name can play recklessly one match and carefully the next. Within
+one ranked room the roll is fixed (seeded by the room), so a lobby refresh does
+not reshuffle it.
 """
 from __future__ import annotations
 
@@ -27,10 +28,15 @@ ARCHETYPES = {
     'rookie':        dict(label='Tân binh',  reaction=1.3, aim=1.5,  caution=.8,  team=.8,   dodge=.65, chat=.55, tone='rookie'),
     'veteran':       dict(label='Cao thủ',   reaction=.9,  aim=.8,   caution=1.0, team=1.2,  dodge=1.25, chat=.3, tone='calm'),
     'clown':         dict(label='Lầy',       reaction=1.05, aim=1.15, caution=.9, team=.9,   dodge=.95, chat=.9,  tone='funny'),
+    'berserker':     dict(label='Cuồng chiến', reaction=.82, aim=1.3, caution=.45, team=.55, dodge=.75, chat=.8,  tone='trash'),
+    'guardian':      dict(label='Hộ vệ',     reaction=1.05, aim=.95,  caution=1.4, team=1.8,  dodge=1.1, chat=.4,  tone='team'),
+    'trickster':     dict(label='Láu cá',    reaction=.92, aim=1.1,  caution=1.1, team=.7,   dodge=1.6, chat=.7,  tone='funny'),
+    'ice':           dict(label='Lạnh lùng', reaction=.88, aim=.85,  caution=1.15, team=1.0, dodge=1.2, chat=.15, tone='calm'),
 }
 # Rare archetypes appear less often so a lobby of five still feels plausible.
 WEIGHTS = {'reckless': 3, 'sharpshooter': 2, 'team_player': 3, 'slippery': 2,
-           'rookie': 3, 'veteran': 1, 'clown': 2}
+           'rookie': 3, 'veteran': 1, 'clown': 2, 'berserker': 2, 'guardian': 2,
+           'trickster': 2, 'ice': 1}
 NUMERIC = ('reaction', 'aim', 'caution', 'team', 'dodge', 'chat')
 NEUTRAL = dict(reaction=1.0, aim=1.0, caution=1.0, team=1.0, dodge=1.0, chat=0.0, tone='calm', kind=None)
 
@@ -55,11 +61,11 @@ def roll_casual(rng):
     return _profile(_pick(rng), .12, rng)
 
 
-def ranked(owner, rank_bot_id):
-    """Stable for life: the same ranked identity always gets the same style."""
-    seed = hashlib.sha256(f'rank-personality:{int(owner)}:{int(rank_bot_id)}'.encode()).digest()
+def ranked(owner, rank_bot_id, room_seed):
+    """A new style per ranked room; the same room always yields the same roll."""
+    seed = hashlib.sha256(f'rank-personality:{int(owner)}:{int(rank_bot_id)}:{int(room_seed)}'.encode()).digest()
     rng = random.Random(int.from_bytes(seed[:8], 'big'))
-    return _profile(_pick(rng), 0, rng)
+    return _profile(_pick(rng), .12, rng)
 
 
 def of(actor):

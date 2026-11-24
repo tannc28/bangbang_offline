@@ -38,6 +38,8 @@ import {drawWorldBossHud} from './m81330_worldboss_hud.js';
 import {nativeSequenceAdditive} from './m81332_visual_fixes.js';
 
 const $ = id => document.getElementById(id);
+// The final kill (an execution, a banner) keeps playing this long before the results open.
+const RESULT_HOLD_MS = 2500;
 const clamp = (value, low, high) => Math.max(low, Math.min(high, value));
 const radians = degrees => degrees * Math.PI / 180;
 const bodyAngle = direction => direction === 8 ? 0 : ((direction + 7) % 8) * Math.PI / 4;
@@ -137,6 +139,7 @@ export class BattleView {
       onPingSkill: row => this.pingSkillStatus(row),
       onSound: () => $('robo-sound').click(),
       onFullscreen: () => run(() => this.toggleFullscreen()),
+      onPause: () => { this.input.releaseAll(); client.toggleBattlePause?.(); },
       onSkillHover: slot => this.input.hoverSkill(slot),
       castAvailability: (slot, now) => this.input.castAvailability(slot, now),
       onPortraitHover: accountId => this.input.hoverPortrait(accountId),
@@ -305,7 +308,7 @@ export class BattleView {
       this.lastFrameAt = null;
       this.effects.reset(); this.sceneItems.reset();
       this.surface.clear(); this.context.clearRect(0, 0, this.width || 1, this.height || 1);
-      $('battle-result').hidden = true; this.resultSeen = null; this.resultViewport = null;
+      $('battle-result').hidden = true; this.resultSeen = null; this.resultViewport = null; this.resultArrival = null;
       this.postmatch.reset();
       this.audio.stopAll(); this.shake.reset(); this.shakeOffset = {x: 0, y: 0};
       this.linkFrames.clear(); this.linkDiagnostics = []; this.mapNpcDiagnostics.clear();
@@ -375,7 +378,7 @@ export class BattleView {
       this.nativeBodies.clear(); this.companionClocks.clear(); this.skillNames?.reset();
       this.pveBossHud.reset();
       this.nativeStatuses.clear(); this.nativeSpeedTrails.clear(); this.nativeCannons.clear();
-      this.error = null; this.resultSeen = null; this.animationStart = now;
+      this.error = null; this.resultSeen = null; this.resultArrival = null; this.animationStart = now;
       this.postmatch.reset(); this.resultViewport = null;
       this.spectator.reset(); this.teamHud.clear();
       this.roboCamera.reset(); this.roboWorld.clear(); this.roboHud.clear(); this.roboInputLife = null;
@@ -1238,7 +1241,7 @@ export class BattleView {
       this.roboHud.score.hidden=isWorldBossScene(state);
       $('battle-paused').hidden = input.active || self.dead || !!state.result || !this.client.canControl()
         || !$('robo-settings').hidden || !!document.querySelector('.m85-settings-surface');
-      if (state.result && this.resultSeen !== state.result) this.drawResult(state);
+      if (this.resultDue(state, now)) this.drawResult(state);
       return;
     }
     const input = this.input.snapshot(), controls = nativeControlFlags(self, this.prepared.catalog.buffs, now, this.prepared.catalog.skills);
@@ -1300,7 +1303,15 @@ export class BattleView {
     $('battle-asset-status').textContent = `${this.surface.backend} · ${assets.loadedImages} ảnh đã tải`
       + (assets.missing.length ? ` · ${assets.missing.length} tài nguyên hoặc cách hiển thị chưa được hỗ trợ trong bản này.` : '');
     $('battle-asset-status').title = assets.missing.slice(0, 20).map(item => `${item.logical}: ${item.reason}`).join('\n');
-    if (state.result && this.resultSeen !== state.result) this.drawResult(state);
+    if (this.resultDue(state, now)) this.drawResult(state);
+  }
+
+  /** True once the results should open: right away for a refreshed result, after the hold for a new one. */
+  resultDue(state, now) {
+    if (!state.result || this.resultSeen === state.result) return false;
+    if (this.resultSeen) return true;
+    if (this.resultArrival?.result !== state.result) this.resultArrival = {result: state.result, at: now};
+    return now - this.resultArrival.at >= RESULT_HOLD_MS;
   }
 
   drawResult(state) {

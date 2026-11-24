@@ -40,6 +40,11 @@ export function encodeBattleSignal(sceneId, kind, x, y, targetId = 0) {
   return frame(599, new Writer().u32(sceneId).u8(kind).i16(Math.trunc(x)).i16(Math.trunc(y)).u32(targetId >>> 0));
 }
 
+/** Pause request (C597; C599 is the team signal): scene, 1 pause / 0 resume. Only a room with one human may pause. */
+export function encodeBattlePause(sceneId, paused) {
+  return frame(597, new Writer().u32(sceneId).u8(paused ? 1 : 0));
+}
+
 /** Native settlement exit; server accepts only after its match has finished. */
 export function encodeExitBattleEnd() { return encodeFrame(613); }
 
@@ -90,7 +95,7 @@ function readKillInfo(r) {
 }
 
 const HANDLED = new Set([1553, 1556, 1558, 1559, 1560, 1561, 1562, 1565, 1566,
-  1572, 1578, 1579, 1581, 1583, 1585, 1589, 1590, 1595, 1596, 1597, 1598, 1603, 1605, 1708, 1710,1731,1732,1733,1734,1735,1736]);
+  1572, 1578, 1579, 1581, 1583, 1585, 1589, 1590, 1595, 1596, 1597, 1598, 1599, 1603, 1605, 1708, 1710,1731,1732,1733,1734,1735,1736]);
 
 /** Return null for schemas owned by M2/M3 or not yet verified from source.
  * Message order and trailing bytes are preserved for the session reducer/guard.
@@ -131,6 +136,10 @@ export function decodeCombatPacket(msgId, payload) {
     case 1596:
       // Local end-of-match story lines.
       result = { type: 'matchStory', lines: r.vector(2, p => p.string()) };
+      break;
+    case 1599:
+      // Pause state: paused u8, allowed u8 (0 = this room cannot pause).
+      result = { type: 'pauseState', paused: r.u8() === 1, allowed: r.u8() === 1 };
       break;
     case 1597:
       // Local bot chat: speaker, camp, channel (0 all, 1 team), name, text.

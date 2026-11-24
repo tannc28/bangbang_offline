@@ -73,6 +73,18 @@
   text-align:center; font:bold 12px Arial,sans-serif; }
 .m7-system .m7-exit,.m7-system .m7-settings { position:absolute; top:4px; width:22px; height:22px; }
 .m7-exit { left:71px; }.m7-settings { left:93px; }
+.m7-robo-hud .m7-pause { position:absolute; top:44px; left:50%; transform:translateX(-50%); width:26px; height:20px; padding:0; border:0; border-radius:4px;
+  background:rgba(16,20,21,.75); color:#ffe39b; font:bold 11px/22px Tahoma, Arial, sans-serif; cursor:pointer; }
+.m7-robo-hud .m7-pause:not(:disabled):hover { background:rgba(40,60,66,.9); }
+.m7-robo-hud .m7-pause[aria-pressed="true"] { background:#ffc95f; color:#172832; }
+.m7-pause-cover { position:absolute; inset:0; z-index:40; display:flex; align-items:center; justify-content:center;
+  background:rgba(4,10,14,.55); pointer-events:auto; }
+.m7-pause-cover[hidden] { display:none; }
+.m7-pause-card { display:flex; flex-direction:column; align-items:center; gap:10px; padding:22px 34px; border-radius:12px;
+  background:rgba(16,32,40,.95); border:2px solid #ffc95f; color:#e5eef4; font:14px Tahoma, Arial, sans-serif; }
+.m7-pause-card strong { font-size:26px; color:#ffe39b; letter-spacing:1px; }
+.m7-robo-hud .m7-pause-resume { margin-top:6px; padding:8px 18px; border:0; border-radius:8px; background:#ffc95f; color:#172832;
+  font:bold 15px Tahoma, Arial, sans-serif; cursor:pointer; }
 .m7-settings-menu { position:absolute; right:4px; top:32px; padding:6px; background:rgba(16,20,21,.94);
   border:1px solid #9e9a7e; pointer-events:auto; }
 .m7-settings-menu button { padding:5px 10px; width:125px; text-align:left; }

@@ -12,7 +12,7 @@ export function buildRankedPanel(ui,{button,art}){
   const rankName=element('h3',''),rating=element('p',''),record=element('p',''),progress=element('progress');
   progress.max=50;progress.setAttribute('aria-label','Tiến độ hạng');summary.append(rankName,rating,progress,record);card.append(badge,summary);
   const description=element('p','Ghép 2 người ở hai phe · Bot bổ sung đủ 5v5 · Bản đồ ngẫu nhiên','m813-rank-description');
-  const rule=element('p','Thắng +150 · Thua −15 · Hòa 0 · Khởi đầu 1.000 điểm. Rời trận rank được tính là thua.','m813-rank-rule');
+  const rule=element('p','Thắng +25 · Thua −15 · Hòa 0 · Khởi đầu 1.000 điểm. Rời trận rank được tính là thua.','m813-rank-rule');
   const rules2=element('p','Chờ tối đa 5 giây; người lẻ đấu với bot. Loại bot tự chọn theo rank. Mỗi mùa 14 ngày.','m813-rank-rule');
   const actions=element('div',null,'m813-rank-actions'),history=element('div',null,'m813-rank-history');history.hidden=true;
   const ranking=actionButton('Bảng xếp hạng',async()=>{

@@ -92,5 +92,5 @@ export function renderLeaderboard(ui,body){
  ui.accountPagerRoots.push(pager);body.append(at(pager,ACCOUNT_PAGER_GEOMETRY.rank.x,ACCOUNT_PAGER_GEOMETRY.rank.y));
  const mine=ui.cache.ownRank,own=at(element('div',null,'m8134-rank-own'),518,481,180,30);
  own.append(element('span','Hạng của tôi:'),element('strong',mine?.total_rank?numberText(mine.total_rank):'—'));body.append(own);
- body.append(at(note(ranked?`Mùa ${data?.season_id||'—'} · 14 ngày · Thắng +150 điểm`:'Quân hàm · Tổng sao tank vĩnh viễn.'),38,487,465,24));
+ body.append(at(note(ranked?`Mùa ${data?.season_id||'—'} · 14 ngày · Thắng +25 điểm`:'Quân hàm · Tổng sao tank vĩnh viễn.'),38,487,465,24));
 }

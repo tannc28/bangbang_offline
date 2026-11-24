@@ -270,11 +270,11 @@ function element(document, tag, className, parent = null) {
 export class RoboHud {
   constructor({host, onCast, onSkillHover = null, castAvailability, onExit, onSettings, onSound, onFullscreen,
     onSelectAccount, onPortraitHover = null, portraitCopyAvailability = null,
-    onChat, onSignal, onPingSkill = null, onInteraction = null, resolveFrameAsset = () => true} = {}) {
+    onChat, onSignal, onPingSkill = null, onPause = null, onInteraction = null, resolveFrameAsset = () => true} = {}) {
     if (!host?.ownerDocument) throw new TypeError('RoboHud needs an overlay host');
     this.document = host.ownerDocument; this.host = host;
     Object.assign(this, {onCast, onSkillHover, castAvailability, onExit, onSettings, onSound, onFullscreen,
-      onSelectAccount, onPortraitHover, portraitCopyAvailability, onChat, onSignal, onPingSkill, onInteraction, resolveFrameAsset});
+      onSelectAccount, onPortraitHover, portraitCopyAvailability, onChat, onSignal, onPingSkill, onPause, onInteraction, resolveFrameAsset});
     this.root = element(this.document, 'div', 'm7-robo-hud', host);
     this.root.setAttribute('aria-label', 'Giao diện trận đấu');
     this.addNativeHighlightFilters();
@@ -319,6 +319,14 @@ export class RoboHud {
       if (this.onSettings) this.onSettings(); else this.settingsMenu.hidden = !this.settingsMenu.hidden;
     });
     this.settingsImage = this.image('', this.settings);
+    this.pause = this.button('m7-pause', 'Tạm dừng (P)', this.root, () => this.onPause?.());
+    text(this.pause, '❚❚');
+    this.pauseCover = this.make('div', 'm7-pause-cover'); this.pauseCover.hidden = true;
+    const pauseCard = this.make('div', 'm7-pause-card', this.pauseCover);
+    text(this.make('strong', '', pauseCard), 'Tạm dừng');
+    text(this.make('span', '', pauseCard), 'Trận đấu và bot đang đứng yên.');
+    this.resume = this.button('m7-pause-resume', 'Chơi tiếp (P)', pauseCard, () => this.onPause?.());
+    text(this.resume, '▶ Chơi tiếp (P)');
     this.settingsMenu = this.make('div', 'm7-settings-menu'); this.settingsMenu.hidden = true;
     this.soundButton = this.button('', 'Âm thanh', this.settingsMenu, () => this.onSound?.());
     text(this.soundButton, 'Âm thanh');
@@ -423,6 +431,8 @@ export class RoboHud {
     this.listen(this.document, 'keyup', event => {
       if (this.root.hidden || event.isComposing || event.ctrlKey || event.altKey || event.metaKey) return;
       if (event.key === 'Escape') { this.clearSkillHover(); this.chatForm.hidden = true; this.settingsMenu.hidden = true; this.scoreboardPinned = false; this.scoreboard.hidden = true; return; }
+      if ((event.key === 'p' || event.key === 'P') && this.onPause && !event.defaultPrevented
+          && !/^(INPUT|TEXTAREA|SELECT)$/.test(event.target?.tagName || '')) { this.onPause(); return; }
       if (event.key !== 'Enter' || event.defaultPrevented
           || /^(INPUT|TEXTAREA|SELECT|BUTTON|A)$/.test(event.target?.tagName || '')) return;
       this.onInteraction?.(); this.chatForm.hidden = false;
@@ -720,6 +730,12 @@ export class RoboHud {
     text(this.ping, finite(pingMs) ? `${Math.round(pingMs)}ms` : '');
     this.exit.disabled = !this.onExit || !connected; this.exit.title = this.onExit ? 'Rời trận' : 'Rời trận chưa khả dụng';
     this.exit.hidden = !nativeBattleExitVisible(state);
+    const paused = !!state.paused;
+    this.pause.hidden = !this.onPause || !!state.result; this.pause.disabled = !connected;
+    this.pause.setAttribute('aria-pressed', String(paused));
+    this.pauseCover.hidden = !paused;
+    if (state.pauseDeniedAt != null && now - state.pauseDeniedAt < 3000 && !options.message)
+      options = {...options, message: 'Chỉ tạm dừng được khi bạn là người chơi duy nhất, còn lại là bot.'};
     this.settings.disabled = !(this.onSettings || this.onSound || this.onFullscreen);
     this.soundButton.disabled = !this.onSound; this.fullscreenButton.disabled = !this.onFullscreen;
     if (typeof options.soundEnabled === 'boolean') text(this.soundButton, options.soundEnabled ? 'Tắt âm thanh' : 'Bật âm thanh');

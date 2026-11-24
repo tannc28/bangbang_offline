@@ -28,6 +28,7 @@
       <section class="team enemy"><h2>Đội đối thủ</h2><label>Số bot địch <select id="enemyCount" aria-label="Số bot địch"></select></label><div id="enemies"></div></section>
     </div>
     <label><span>Gợi ý trảm Quan Vũ</span><input id="quanvuHint" type="checkbox"></label>
+    <label><span>Full kỹ năng cho tôi<small style="margin-top:2px;font-size:13px">Kỹ năng Guild (chủ động + bị động), 30 ngọc và quân hàm tối đa, giống bot rank</small></span><input id="fullKit" type="checkbox"></label>
     <p>Khi bật, thanh máu tank địch đỏ sáng hơn nếu Quan Vũ của bạn có thể dùng Space trảm ngay: địch còn tối đa 30% HP, trong tầm và không có cơ chế cứu mạng. Áp dụng từ phòng mới.</p>
     <p id="pool"></p><button id="save" class="save" disabled>Lưu cho trận kế tiếp</button>
     <p id="status" role="status">Đang tải thiết lập…</p>
@@ -45,7 +46,7 @@
   $('allyCount').onchange=function(){change('allies','allyCount');};$('enemyCount').onchange=function(){change('enemies','enemyCount');};
   $('mode').onchange=function(){var fixed=this.value==='test_desert';$('teams').style.display=fixed||this.value==='test'?'none':'';$('testDesert').hidden=!fixed;$('pool').hidden=fixed;};
   function request(url,data){return fetch(url,{method:'POST',credentials:'same-origin',headers:{'Content-Type':'application/json'},body:JSON.stringify(data||{})}).then(function(r){return r.json();}).then(function(v){if(!v.success)throw Error(v.message||'Không lưu được.');return v;});}
-  request('/api/bots/get').then(function(v){levels=v.setup;$('quanvuHint').checked=v.setup.quanvu_execute_hint===true;$('mode').value=v.setup.mode;$('mode').onchange();$('allyCount').value=levels.allies.length;$('enemyCount').value=levels.enemies.length;render('allies',levels.allies.length);render('enemies',levels.enemies.length);$('pool').textContent='Nhóm tank AI: '+v.tanks.join(', ')+'.';$('status').textContent='Thiết lập đã lưu hiện tại.';$('save').disabled=false;}).catch(function(e){$('status').textContent=e.message;});
-  $('setup').onsubmit=function(e){e.preventDefault();$('save').disabled=true;request('/api/bots/save',{mode:$('mode').value,allies:read('allies'),enemies:read('enemies'),quanvu_execute_hint:$('quanvuHint').checked}).then(function(){$('status').textContent='Đã lưu. Thiết lập sẽ áp dụng khi bạn tạo hoặc vào phòng mới.';}).catch(function(e){$('status').textContent=e.message;}).then(function(){$('save').disabled=false;});};
+  request('/api/bots/get').then(function(v){levels=v.setup;$('quanvuHint').checked=v.setup.quanvu_execute_hint===true;$('fullKit').checked=v.setup.player_full_kit===true;$('mode').value=v.setup.mode;$('mode').onchange();$('allyCount').value=levels.allies.length;$('enemyCount').value=levels.enemies.length;render('allies',levels.allies.length);render('enemies',levels.enemies.length);$('pool').textContent='Nhóm tank AI: '+v.tanks.join(', ')+'.';$('status').textContent='Thiết lập đã lưu hiện tại.';$('save').disabled=false;}).catch(function(e){$('status').textContent=e.message;});
+  $('setup').onsubmit=function(e){e.preventDefault();$('save').disabled=true;request('/api/bots/save',{mode:$('mode').value,allies:read('allies'),enemies:read('enemies'),quanvu_execute_hint:$('quanvuHint').checked,player_full_kit:$('fullKit').checked}).then(function(){$('status').textContent='Đã lưu. Thiết lập sẽ áp dụng khi bạn tạo hoặc vào phòng mới.';}).catch(function(e){$('status').textContent=e.message;}).then(function(){$('save').disabled=false;});};
 })();
 </script></body></html>

@@ -15,7 +15,7 @@ CHAT_MSG = 1597
 ALL, TEAM = 0, 1
 GLOBAL_GAP_MS = 4000
 BOT_GAP_MS = 12000
-MAX_LINES = 20
+MAX_LINES = 28
 STALE_MS = 8000
 PRIORITY_EXTRA = 8
 LOW_HP = .25
@@ -23,21 +23,25 @@ LOW_HP = .25
 _rng = random.SystemRandom()
 
 # Chance multiplier per event, times the bot's own chattiness.
-WEIGHT = dict(start=.35, first_blood=.8, kill=.25, kill_human=.45, streak=.8, multi=.9,
-              shutdown=.8, killed=.3, killed_by_human=.5, ally_down=.15, low_hp=.3,
-              grudge=1.0, revenge=1.0, punish=.2, rival_win=1.0, rival_lose=1.0, reply=.8)
+# Every player is treated alike: a bot victim or killer is named as often as the human.
+WEIGHT = dict(start=.35, first_blood=.8, kill=.3, kill_named=.35, streak=.8, multi=.9,
+              shutdown=.8, killed=.3, killed_by=.35, ally_down=.15, low_hp=.3,
+              grudge=1.0, revenge=1.0, punish=.2, rival_win=1.0, rival_lose=1.0, reply=.8,
+              retort=.75, cheer=.35, hunt=.7)
+NAMED_SHARE = .5          # share of kill / death lines that address the other player by name
+MAX_THREAD = 2            # a taunt can get a retort, and that retort one answer back
 
 LINES = {
     'trash': dict(
         start=['vào đi, đánh nhanh còn đi ngủ', 'team bên kia trông yếu thế', 'ai cản được tôi thì cản'],
         first_blood=['first blood, quá dễ', 'mở hàng rồi nhé', 'xin cái đầu đầu tiên'],
         kill=['ez', 'về nhà tập thêm đi {name}', 'tiếp theo là ai đây'],
-        kill_human=['{name} ơi bắn thế thôi à', 'ez {name}', 'gặp tôi là toang {name} ạ'],
+        kill_named=['{name} ơi bắn thế thôi à', 'ez {name}', 'gặp tôi là toang {name} ạ'],
         streak=['không ai cản nổi à', '{n} mạng rồi, ai nữa', 'cả team bên kia đâu hết rồi'],
         multi=['ăn {n} một lúc, ngon', 'combo đẹp chưa'],
         shutdown=['hết bá đạo nhé {name}', 'chuỗi của {name} dừng ở đây'],
         killed=['hên thôi', 'lag thế', 'chờ đấy, hồi sinh là xong mày'],
-        killed_by_human=['{name} ăn may thôi', 'đợi đấy {name}', 'lag chứ không phải tôi kém'],
+        killed_by=['{name} ăn may thôi', 'đợi đấy {name}', 'lag chứ không phải tôi kém'],
         ally_down=['đánh kiểu gì vậy', 'thôi để tôi gánh'],
         low_hp=['máu thấp nhưng vẫn cân được', 'chưa chết đâu'],
         end_win=['gg ez', 'quá dễ, trận sau đi', 'gg, về tập thêm nhé'],
@@ -47,12 +51,12 @@ LINES = {
         start=['gl hf', 'chúc may mắn', 'bắt đầu thôi'],
         first_blood=['mở được mạng đầu', 'ok, lên đi'],
         kill=['ok', 'xong một'],
-        kill_human=['{name} chơi được đấy', 'gg {name}'],
+        kill_named=['{name} chơi được đấy', 'gg {name}'],
         streak=['giữ nhịp nhé', '{n} mạng, ổn'],
         multi=['được {n}'],
         shutdown=['chặn được {name} rồi'],
         killed=['sơ suất', 'chuẩn đấy'],
-        killed_by_human=['nice shot {name}', '{name} bắn chuẩn'],
+        killed_by=['nice shot {name}', '{name} bắn chuẩn'],
         ally_down=['bình tĩnh, đánh chậm lại', 'gom lại đánh cùng nhau'],
         low_hp=['máu thấp, lùi một chút', 'đi hồi máu đây'],
         end_win=['gg wp', 'gg mọi người'],
@@ -62,12 +66,12 @@ LINES = {
         start=['bám nhau đánh nhé', 'đi cùng nhau, đừng lẻ', 'tập trung mục tiêu nha'],
         first_blood=['đẹp, cả team lên', 'mở đầu tốt lắm'],
         kill=['dồn tiếp thằng máu thấp', 'xong, tiến lên'],
-        kill_human=['hạ được {name} rồi, lên', 'bắt được {name}'],
+        kill_named=['hạ được {name} rồi, lên', 'bắt được {name}'],
         streak=['cứ thế giữ đội hình', 'team đang ổn, đừng tham'],
         multi=['dọn được {n}, đẩy lên'],
         shutdown=['chặn được {name} rồi anh em'],
         killed=['sorry, tôi lên sớm quá', 'cẩn thận bên đó'],
-        killed_by_human=['coi chừng {name}, bắn đau lắm', '{name} đang mạnh, đánh hội đồng nó'],
+        killed_by=['coi chừng {name}, bắn đau lắm', '{name} đang mạnh, đánh hội đồng nó'],
         ally_down=['đợi tôi, đang tới', 'đừng đánh lẻ', 'lùi về gom lại'],
         low_hp=['máu thấp, ai yểm trợ với', 'tôi lùi đây, che giúp'],
         end_win=['gg cả team', 'phối hợp tốt lắm', 'gg, team chơi hay'],
@@ -77,12 +81,12 @@ LINES = {
         start=['ai mang bánh mì không', 'đánh xong đi ăn phở', 'xe tăng của tôi mới rửa đấy'],
         first_blood=['hihi', 'xin lỗi nhé, tay tôi tự bắn'],
         kill=['hihi', 'ối, trúng à', 'xin lỗi nha'],
-        kill_human=['{name} ơi xin lỗi nha', 'bắn bừa mà trúng {name}'],
+        kill_named=['{name} ơi xin lỗi nha', 'bắn bừa mà trúng {name}'],
         streak=['tôi cũng không hiểu sao mình mạnh thế', '{n} mạng mà không biết bắn'],
         multi=['{n} mạng, mẹ ơi con giỏi chưa'],
         shutdown=['{name} bị cụt hứng rồi'],
         killed=['toang', 'ơ kìa', 'tôi đi đâu đây'],
-        killed_by_human=['{name} ác thế', 'thôi {name} tha cho tôi'],
+        killed_by=['{name} ác thế', 'thôi {name} tha cho tôi'],
         ally_down=['ơ đồng đội đâu rồi', 'một người ngã xuống'],
         low_hp=['máu đỏ lòm rồi', 'cứu với, sắp toang'],
         end_win=['gg, khao trà đá', 'thắng rồi đi ăn thôi'],
@@ -92,12 +96,12 @@ LINES = {
         start=['mới chơi, nhẹ tay nha', 'nút bắn là nút nào nhỉ', 'hello mọi người'],
         first_blood=['ơ tôi giết được à', 'wow'],
         kill=['ơ được rồi', 'may quá'],
-        kill_human=['xin lỗi {name}', 'trúng {name} thật à'],
+        kill_named=['xin lỗi {name}', 'trúng {name} thật à'],
         streak=['tôi đang bá à', '{n} mạng rồi kìa'],
         multi=['ơ {n} mạng luôn'],
         shutdown=['tôi chặn được {name} á'],
         killed=['lại chết', 'khó quá', 'sao chết nhanh vậy'],
-        killed_by_human=['{name} chỉ tôi với', '{name} giỏi quá'],
+        killed_by=['{name} chỉ tôi với', '{name} giỏi quá'],
         ally_down=['phải làm gì giờ', 'ơ'],
         low_hp=['máu thấp phải làm sao', 'sắp chết rồi'],
         end_win=['thắng rồi, gg', 'cảm ơn team gánh'],
@@ -142,7 +146,7 @@ def _line(tone, event, **fields):
         return None
 
 
-def _say(arena, actor, event, now, *, channel=ALL, force=False, priority=False, **fields):
+def _say(arena, actor, event, now, *, channel=ALL, force=False, priority=False, target=None, depth=0, **fields):
     import bot_personality
     if not _speaker(actor):
         return False
@@ -163,8 +167,11 @@ def _say(arena, actor, event, now, *, channel=ALL, force=False, priority=False, 
     if not text:
         return False
     typing = _rng.randint(700, 1800) + min(2000, 45 * len(text))
-    chat['queue'].append(dict(id=actor.id, camp=actor.camp, channel=channel,
-                              name=_name(actor), text=text, due=now + typing, priority=priority))
+    item = dict(id=actor.id, camp=actor.camp, channel=channel,
+                name=_name(actor), text=text, due=now + typing, priority=priority)
+    if target is not None and fields.get('name') and fields['name'] in text:
+        item.update(target=target.id, depth=depth)   # the line addressed this player by name
+    chat['queue'].append(item)
     chat['said'][key] = now
     return True
 
@@ -196,14 +203,22 @@ def on_kill(arena, killer, victim, *, multi, streak, first, dead_streak, now):
             _say(arena, killer, 'multi', now, n=multi)
         elif streak >= 3:
             _say(arena, killer, 'streak', now, n=n)
-        elif human(victim):
-            _say(arena, killer, 'kill_human', now, name=_name(victim))
+        elif _rng.random() < NAMED_SHARE:
+            _say(arena, killer, 'kill_named', now, target=victim, name=_name(victim))
         else:
             _say(arena, killer, 'kill', now, name=_name(victim))
-        if human(killer):
-            _say(arena, victim, 'killed_by_human', now, name=_name(killer))
+        if _rng.random() < NAMED_SHARE:
+            _say(arena, victim, 'killed_by', now, target=killer, name=_name(killer))
         else:
             _say(arena, victim, 'killed', now, name=_name(killer))
+        if multi >= 2 or streak >= 3:
+            mates = [a for a in _bots(arena) if a.camp == killer.camp and a is not killer and a.alive]
+            if mates:
+                _say(arena, _rng.choice(mates), 'cheer', now, channel=TEAM, name=_name(killer))
+        if streak == 5:
+            hunters = [a for a in _bots(arena) if a.camp == victim.camp and a.alive]
+            if hunters:
+                _say(arena, _rng.choice(hunters), 'hunt', now, channel=TEAM, priority=True, name=_name(killer))
     allies = [a for a in _bots(arena) if a.camp == victim.camp and a is not victim and a.alive]
     if allies:
         _say(arena, _rng.choice(allies), 'ally_down', now, channel=TEAM)
@@ -240,7 +255,18 @@ def tick(arena, now):
     chat['queue'].remove(item)
     chat['last_at'] = now
     chat['count'] += 1
+    _thread(arena, item, now)
     return [_packet(item)]
+
+
+def _thread(arena, item, now):
+    """A bot that was just addressed by name may answer, and the first speaker answer back."""
+    target = arena.actors.get(item.get('target'))
+    speaker = arena.actors.get(item['id'])
+    depth = item.get('depth', 0) + 1
+    if target is None or speaker is None or depth > MAX_THREAD or not _speaker(target):
+        return
+    _say(arena, target, 'retort', now, target=speaker, depth=depth, name=item['name'])
 
 
 def finish_lines(arena, winner, now):
@@ -284,6 +310,17 @@ EXTRA = {
              'team': ['tôi mở đường, theo sau nhé']},
     'chase': {'*': ['{name} chạy đâu cho thoát', 'kệ cờ, tao phải hạ {name}', 'đứng lại {name}!'],
               'calm': ['để tôi xử {name}'], 'rookie': ['{name} ơi đứng yên cho em bắn']},
+    'retort': {'*': ['{name} nói ít thôi', 'để xem ai cười cuối, {name}', 'ừ, lát gặp lại {name}', '{name} chờ đấy'],
+               'trash': ['{name} gà mà nói to', 'im đi {name}', 'lần sau {name} khóc nhé'],
+               'calm': ['bình tĩnh {name}, còn dài', 'ok {name}'],
+               'team': ['{name} tập trung đánh đi', 'đừng cãi nhau, đánh tiếp'],
+               'funny': ['{name} dỗi à', 'hihi {name} cay rồi', '{name} ơi đừng giận'],
+               'rookie': ['{name} nhẹ tay thôi mà', 'em mới chơi mà {name}']},
+    'cheer': {'*': ['{name} gánh team', 'đỉnh quá {name}', 'cứ thế {name}', '{name} bá đạo'],
+              'calm': ['tốt lắm {name}'], 'rookie': ['{name} giỏi quá', 'theo {name} học hỏi'],
+              'funny': ['{name} ăn gì mà khỏe thế']},
+    'hunt': {'*': ['{name} đang ăn chuỗi, dồn nó!', 'cả team chặn {name}', 'không để {name} ăn thêm'],
+             'calm': ['ưu tiên hạ {name}'], 'rookie': ['{name} mạnh quá, ai giúp với']},
     'peak': {'*': ['{name} đang ăn chuỗi, dồn nó lại!', 'cả đội chặn {name} ngay', 'không để {name} ăn tiếp']},
     'rival_lose': {'*':['{name}, lần này không thua nữa đâu', 'phục thù {name} hôm nay'],
                    'rookie': ['{name} nhẹ tay nhé, lần trước đau lắm'], 'funny': ['{name} lại đến bắt nạt à']},
@@ -309,14 +346,14 @@ def _force(arena, actor, event, now, **fields):
     return _say(arena, actor, event, now, force=True, priority=True, **fields)
 
 
-def react_grudge(arena, bot, human_actor, level, now):
+def react_grudge(arena, bot, other, level, now):
     if enabled(arena):
-        _force(arena, bot, 'grudge', now, name=_name(human_actor))
+        _say(arena, bot, 'grudge', now, target=other, name=_name(other))
 
 
-def react_revenge(arena, bot, human_actor, now):
+def react_revenge(arena, bot, other, now):
     if enabled(arena):
-        _force(arena, bot, 'revenge', now, name=_name(human_actor))
+        _say(arena, bot, 'revenge', now, target=other, name=_name(other))
 
 
 def react_punish(arena, caster, now):

@@ -52,7 +52,7 @@ TEST_DESERT_POSITIONS=((1380,636),(1560,636),(1380,816),(1560,816),(1470,996))
 
 
 def default_setup():
-    return dict(mode='pk_robo',allies=[5]*4,enemies=[5]*5,quanvu_execute_hint=True,bot_guild=False,bot_crystals=False,bot_military=False,bot_ai='legacy',bot_ai_allies='legacy',bot_ai_enemies='legacy')
+    return dict(mode='pk_robo',allies=[5]*4,enemies=[5]*5,quanvu_execute_hint=True,bot_guild=False,bot_crystals=False,bot_military=False,player_full_kit=False,bot_ai='legacy',bot_ai_allies='legacy',bot_ai_enemies='legacy')
 
 
 def validate_setup(value):
@@ -73,7 +73,7 @@ def validate_setup(value):
     out['bot_ai']=validate_policy(value.get('bot_ai','legacy'))
     for side in ('allies','enemies'):
         out['bot_ai_'+side]=validate_policy(value.get('bot_ai_'+side,out['bot_ai']))
-    for flag in ('bot_guild','bot_crystals','bot_military'):
+    for flag in ('bot_guild','bot_crystals','bot_military','player_full_kit'):
         value_flag=value.get(flag,False)
         if type(value_flag) is not bool:raise ValueError('Trang bị bot cần chọn bật hoặc tắt.')
         out[flag]=value_flag
@@ -100,8 +100,11 @@ def load_setup(db=None):
 
 
 def save_setup(value):
-    value = validate_setup(value)
+    """Fields a page does not send keep their saved value (each page edits only its own)."""
     with connection(write=True) as db:
+        if isinstance(value, dict):
+            value = {**load_setup(db), **value}
+        value = validate_setup(value)
         db.execute('INSERT INTO settings(name,value) VALUES (?,?) '
                    'ON CONFLICT(name) DO UPDATE SET value=excluded.value',
                    (setting_key(SETTING),json.dumps(value)))
