@@ -20,7 +20,7 @@ const BODY_COMMAND_HISTORY_LIMIT = 64;
 const BUFF_PRESENTATION_HISTORY_LIMIT = 128;
 const PACKET_TYPES = new Set(['tick', 'sceneEntered', 'sceneSelf', 'sceneOthers', 'sceneAdd',
   'sceneStop', 'sceneUpdate', 'tankRelive', 'sceneObjectAdd', 'buffAdd', 'buffRemove',
-  'tankAttr', 'sceneStats', 'killInfo', 'botChat', 'matchStory', 'skillCooldown', 'skillChanged', 'buffTime',
+  'tankAttr', 'sceneStats', 'killInfo', 'botChat', 'matchStory', 'pauseState', 'skillCooldown', 'skillChanged', 'buffTime',
   'skillStopped', 'campScore', 'battleEnd', 'bulletOrbit', 'objectThrow', 'skillDest',
   'battleExp', 'battleLevel', 'autoBulletRequest', 'hpChange', 'portalStates', 'systemError','occupyState','occupyAddScore',
   'roundScore','roundStart','roundResult','roundAlive']);
@@ -50,7 +50,7 @@ export function createCombatState(scene, accountId, now) {
     characters: (scene.characters ?? []).map(normalizeCharacter),
     actors: {}, objects: {}, actorOrder: [], objectOrder: [],
     objectsReady: false, accountObjects: {}, projectiles: {}, effects: [],
-    portals: {}, flags:{}, mapNotice: null, deathRound:null, chat: [], story: [],
+    portals: {}, flags:{}, mapNotice: null, deathRound:null, chat: [], story: [], paused: null, pauseDeniedAt: null,
     effectSequence: 0, skills: {}, respawns: {}, stats: {}, scores: {camp1: null, camp2: null},
     result: null, finishedAt: null, startedAt: scene.startedAt ?? null,
     selfSpeed: null, selfFireRate: null, fireReadyAt: null, selfSnapshotReceived: false,
@@ -887,6 +887,15 @@ export function applyCombatPacket(state, packet, now) {
       // ordered marker prevents map-catalog NPCs resurrecting after reconnect.
       state.objectsReady = true;
       for (const actor of packet.actors) state.stats[key(actor.accountId)] = clone(actor); break;
+    case 'pauseState':
+      if (!packet.allowed) { state.pauseDeniedAt = now; state.paused = null; break; }
+      if (packet.paused && !state.paused) state.paused = {at: now, serverTimeMs: serverTimeAt(state, now)};
+      if (!packet.paused && state.paused) {
+        // The server clock stood still too; continue counting from the frozen value.
+        if (state.paused.serverTimeMs != null) state.clock = {serverTimeMs: state.paused.serverTimeMs, receivedAt: now};
+        state.paused = null;
+      }
+      break;
     case 'matchStory':
       state.story = packet.lines.slice(0, 8);
       break;
@@ -966,6 +975,7 @@ export function applyCombatPacket(state, packet, now) {
 /** Epoch milliseconds as an exact decimal string, anchored only to S1003. */
 export function serverTimeAt(state, now) {
   requireTime(now);
+  if (state.paused) return state.paused.serverTimeMs;
   if (state.clock.serverTimeMs == null || state.clock.receivedAt == null) return null;
   return (BigInt(state.clock.serverTimeMs) + BigInt(Math.floor(Math.max(0,
     now - state.clock.receivedAt)))).toString();

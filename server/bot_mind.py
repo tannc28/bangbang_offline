@@ -19,6 +19,7 @@ _rng = random.SystemRandom()
 MAJOR_COOLDOWN_MS = 8000
 SIGHT = 960
 GRUDGE_STEPS = (2, 4)          # deaths to one human that raise grudge to 1, then 2
+BOT_GRUDGE_STEPS = (3, 5)      # the same between two bots, so not every bot ends up chasing
 GRUDGE_BIAS = 150              # target-score points per grudge level
 PUNISH_BIAS = 90               # target with a major skill on cooldown
 PK_TARGET = 25
@@ -280,7 +281,7 @@ def saw_cooldown(caster, duration, slot):
 # ---------------------------------------------------------------- grudges
 
 def on_kill(arena, killer, victim, now):
-    """Grudges form when a bot keeps dying to the same human; revenge eases them."""
+    """Grudges form when a bot keeps dying to the same player; revenge eases them."""
     from battle_participants import human
     if not active(arena) or killer is None or victim is None:
         return
@@ -288,21 +289,23 @@ def on_kill(arena, killer, victim, now):
     _pace_kill(arena, killer, victim, now)
     mind.get('told', {}).pop(str(victim.id), None)
     import bot_chat
-    if _is_bot(victim) and human(killer):
-        key = f'{victim.id}:{killer.id}'
-        count = mind['deaths'][key] = mind['deaths'].get(key, 0) + 1
-        grudge = mind['grudge'].setdefault(str(victim.id), dict(target=killer.id, level=0))
-        if grudge['target'] != killer.id and count < GRUDGE_STEPS[0]:
-            return
-        level = sum(count >= step for step in GRUDGE_STEPS)
-        if level > grudge['level'] or grudge['target'] != killer.id:
-            grudge.update(target=killer.id, level=max(level, 1))
-            bot_chat.react_grudge(arena, victim, killer, grudge['level'], now)
-    elif _is_bot(killer) and human(victim):
+    # Grudges and revenge work between any two players; the human is one of them.
+    if _is_bot(killer):
         grudge = mind['grudge'].get(str(killer.id))
         if grudge and grudge.get('target') == victim.id and grudge.get('level', 0) > 0:
             grudge['level'] -= 1
             bot_chat.react_revenge(arena, killer, victim, now)
+    if _is_bot(victim) and (_is_bot(killer) or human(killer)):
+        key = f'{victim.id}:{killer.id}'
+        count = mind['deaths'][key] = mind['deaths'].get(key, 0) + 1
+        steps = GRUDGE_STEPS if human(killer) else BOT_GRUDGE_STEPS
+        if count < steps[0]:
+            return
+        grudge = mind['grudge'].setdefault(str(victim.id), dict(target=killer.id, level=0))
+        level = sum(count >= step for step in steps)
+        if level > grudge['level'] or grudge['target'] != killer.id:
+            grudge.update(target=killer.id, level=max(level, 1))
+            bot_chat.react_grudge(arena, victim, killer, grudge['level'], now)
 
 
 # ---------------------------------------------------------------- per tick

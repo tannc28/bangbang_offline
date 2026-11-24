@@ -14,6 +14,7 @@ import uuid
 import storage
 import bot_setup
 import boosters
+import bot_loadouts
 import crystals
 import cosmetic_shop
 import guilds
@@ -27,6 +28,8 @@ from multiplayer_battle import service
 
 log = logging.getLogger(__name__)
 INPUT_MESSAGES = frozenset((501, 503, 510, 514, 598))
+PAUSE_REQUEST = 599     # C599: scene u32, paused u8
+PAUSE_STATE = 1598      # S1598: paused u8, allowed u8
 ROOM_MESSAGES = frozenset((200, 203, 204, 207, 210, 215, 304, 350, 509, 512, 552,
                            600, 601, 602, 603, 605, 607, 610, 611, 613, 614))
 
@@ -135,6 +138,7 @@ class MultiplayerGate:
         s['crystal_build'] = crystals.battle_build(self.db, tank_uuid)
         s['military_star'] = military_rank.stars(self.db)
         s['military_build'] = military_rank.build(s['military_star'])
+        bot_loadouts.apply_player_full_kit(s, self.db)
 
     def _restore_primary(self):
         prebattle_selection.restore_primary(self.state, storage.garage())
@@ -554,6 +558,20 @@ class MultiplayerGate:
                 self._tip(REQUEST, exc)
             return True
         if not self.enabled:
+            return False
+        if mid == PAUSE_REQUEST:
+            if self.started_room:
+                paused, allowed = self.battles.set_pause(self.profile, len(payload) == 5 and payload[4] == 1)
+                self._send([(PAUSE_STATE, struct.pack('<BB', paused, allowed))])
+                return True
+            return False
+        if mid == 61 and self.started_room:
+            # The match clock stops while paused; report it instead of wall time
+            # so cooldowns and the match deadline keep counting from the same point.
+            ms = self.battles.clock_for(self.profile)
+            if ms is not None:
+                self._send([(1003, struct.pack('<QI', ms, ms // 1000))])
+                return True
             return False
         if mid in INPUT_MESSAGES:
             if self.started_room:

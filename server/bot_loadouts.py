@@ -95,8 +95,30 @@ def catalog():
     return _catalog(str(storage.database_path()))
 
 
+def apply_player_full_kit(state, db):
+    """With the 'full kit for me' option on, give the human the ranked bots' maximum build.
+
+    Guild (active + passive skills), crystals and military rank are the same
+    per-tank maxima that ranked bots receive, so both sides play on equal terms.
+    Called right after every point that freezes the player's own build.
+    """
+    from bot_setup import load_setup
+    if not load_setup(db).get('player_full_kit'):
+        return
+    build = catalog()[0].get(int(state.get('tank_id', 0)))
+    if build is None:
+        return
+    from military_rank import maximum_build
+    military = maximum_build()
+    state.update(guild_build=deepcopy(build['guild']), crystal_build=deepcopy(build['crystals']),
+                 military_build=military, military_star=military['stars'])
+
+
 def apply(bot, setup):
-    """Freeze optional gear; a ranked bot's own Gold+ rating enables all three.
+    """Freeze optional gear; in ranked, the human owner's Gold+ rating enables all three.
+
+    Both teams read the same owner rating, so allies and enemies are equipped
+    alike; a bot's own rating would let the winning side's bots snowball gear.
 
     Rank is authoritative at selection / new battle entry. No combat tick,
     respawn or checkpoint restore calls this function to re-evaluate gear.
@@ -104,7 +126,8 @@ def apply(bot, setup):
     for key in BUILD_KEYS:
         bot.pop(key, None)
     from ranked_matches import section
-    ranked_full = bool(setup.get('ranked') and section(bot.get('elo', 1000))['type'] >= 3)
+    rating = setup.get('rank_owner_elo', bot.get('elo', 1000))
+    ranked_full = bool(setup.get('ranked') and section(rating)['type'] >= 3)
     guild_on = ranked_full or setup.get('bot_guild', False)
     crystals_on = ranked_full or setup.get('bot_crystals', False)
     military_on = ranked_full or setup.get('bot_military', False)

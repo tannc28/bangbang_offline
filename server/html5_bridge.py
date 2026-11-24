@@ -45,7 +45,7 @@ M8_MESSAGES = frozenset((60000, 60002, 60004, 60006, 60008, 350, 556, 557, 68, 6
 ALLOWED_MESSAGES = {
     "AUTH": frozenset((51, 52)),
     "GATE": frozenset((52, 54, 56, 61, 72, 165, 215, 501, 503, 509, 510, 512, 514, 552,
-                       598, 600, 601, 602, 605, 607, 610, 611, 613, 614)) | M8_MESSAGES,
+                       598, 599, 600, 601, 602, 605, 607, 610, 611, 613, 614)) | M8_MESSAGES,
     "CHAT": frozenset((54, 60)),
 }
 
@@ -299,6 +299,10 @@ class NativeGuard:
                     self._validate_m4(mid, body)
                 elif mid == 598:
                     self._validate_battle_chat(body)
+                elif mid == 599:
+                    scene, paused = struct.unpack("<IB", body)
+                    if not scene or paused not in (0, 1):
+                        raise ValueError("C599 shape")
                 else:
                     self._validate_m3(mid, body)
 

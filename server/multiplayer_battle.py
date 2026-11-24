@@ -149,6 +149,7 @@ class Match:
     inputs: deque = field(default_factory=deque)
     world_json: dict = field(default_factory=dict)
     clock_remainder: float = 0.0
+    paused: bool = False
 
     @property
     def queue_bytes(self):
@@ -388,7 +389,8 @@ class BattleService:
             # Template reads / equipment assembly are outside the rank writer.
             for bot,fields in zip(bots,bot_ranks):
                 bot.update(fields)
-                bot_loadouts.apply(bot,room)
+                bot_owner=int(bot.get('rank_owner_id',owner))
+                bot_loadouts.apply(bot,dict(room,rank_owner_elo=states[bot_owner].get('elo',1000)))
         host_camp=states[owner]['room']['camp']
         accounts=set(states)
         for bot in bots:
@@ -616,6 +618,35 @@ class BattleService:
     def handle(self,profile,mid,payload):
         return self._call('handle',int(profile),int(mid),bytes(payload))
 
+    def set_pause(self,profile,paused):
+        return self._call('set_pause',int(profile),bool(paused))
+
+    def _set_pause(self,profile,paused):
+        """(paused, allowed). Only a room whose one human is this player can pause.
+
+        The match clock stops with the simulation, and S1003 reports that clock
+        (clock_for), so every native deadline the client already holds stays valid.
+        """
+        match=self._match(profile)
+        if (match is None or match.phase!='battle' or match.arena.pk['finished'] or match.error
+                or len(match.states)!=1 or profile not in match.entered):
+            return False,False
+        if paused!=match.paused:
+            self._advance_clock(match,time.monotonic())
+            match.paused=paused
+        return match.paused,True
+
+    def clock_for(self,profile):
+        return self._call('clock_for',int(profile))
+
+    def _clock_for(self,profile):
+        """The match clock in native UTC milliseconds, or None outside a running match."""
+        match=self._match(profile)
+        if match is None or match.phase!='battle':
+            return None
+        self._advance_clock(match,time.monotonic())
+        return match.clock_ms
+
     def _handle(self,profile,mid,payload):
         match=self._match(profile)
         if (match is None or match.phase!='battle' or profile not in match.connected
@@ -635,7 +666,7 @@ class BattleService:
     def _advance_clock(self,match,now):
         elapsed=max(0,now-match.last_real)
         match.last_real=now
-        if match.phase=='battle' and match.active():
+        if match.phase=='battle' and match.active() and not match.paused:
             precise=elapsed*1000+match.clock_remainder
             whole=int(precise);match.clock_remainder=precise-whole
             match.clock_ms+=whole
@@ -657,7 +688,9 @@ class BattleService:
             self._open_barrier(match)
             now=time.monotonic()
         self._advance_clock(match,now)
-        if match.phase=='battle' and match.active() and not match.arena.pk['finished'] and not match.error:
+        if match.paused:
+            match.inputs.clear()   # Nothing moves while the only player has paused.
+        elif match.phase=='battle' and match.active() and not match.arena.pk['finished'] and not match.error:
             match.ticks+=1
             match.pending.extend(match.arena.tick());match.dirty=True
             try:

@@ -1,7 +1,7 @@
 """Local ranked play, durable settlement and bounded match history (M8.13).
 
 Native PvpSectionTemplate thresholds; the offline scoring/reset rules are V1:
-start1000, win+150, loss-15, draw0, floor1000. A season is14 days in UTC+7.
+start1000, win+25, loss-15, draw0, floor1000 (two wins per 50-point section). A season is14 days in UTC+7.
 Only authoritative completed arenas change ratings. M37 shared rooms settle
 each authenticated human from their own camp in one transaction. Remaining
 virtual slots retain their persistent per-owner profiles.
@@ -12,6 +12,7 @@ PRO V3 from Diamond upwards and the original AI below Diamond, based on the
 human owner's current-season rating when the room is created. The bots' lower
 displayed medal does not select the controller.
 """
+import hashlib
 import json
 import bot_cosmetics
 import bot_mind
@@ -27,12 +28,14 @@ import storage
 SEASON_SECONDS = 14 * 86400
 ANCHOR = int(datetime(2026, 10, 28, tzinfo=timezone(timedelta(hours=7))).timestamp())
 INITIAL_RATING = 1000
+POINTS = {'win': 25, 'loss': -15, 'draw': 0}   # sections are 50 points apart
 MAX_RATING = 32767  # Native PLAYER_BRIEF / TANK_SETTLE_INFO signed short.
 HISTORY_LIMIT = 20
 PRO_MIN_SECTION_TYPE = 5  # Native Kim Cương / Diamond medal, beginning at1600.
-BOT_PROFILE_VERSION = 1
-BOT_IDS = tuple(range(2, 11))
-RESERVE_ID = 11
+BOT_PROFILE_VERSION = 2
+BOT_IDS = tuple(range(2, 11))          # combat slots: 2..6 enemies, 7..10 allies
+POOL_IDS = tuple(range(2, 102))        # 100 ranked identities; each room seats 9 of them
+LEGACY_IDS = tuple(range(2, 12))       # the 10 identities of profile version 1
 SECTIONS = tuple((i + 1, 1000 + i * 50, 1 if i < 3 else 2 if i < 6 else
                   3 if i < 9 else 4 if i < 12 else 5 if i < 16 else 6,
                   name) for i, name in enumerate((
@@ -123,6 +126,8 @@ def _ensure_entry(db, season, ident, state, now):
 
 def brief(db, ident, now=None):
     current = maintain(db, now)
+    import bot_ladder
+    bot_ladder.catch_up(db, ident, current, time.time() if now is None else now)
     old, previous = _entry(db, current, ident), _entry(db, current - 1, ident)
     rating = int(old['rating']) if old else INITIAL_RATING
     return dict(elo=rating, elo_section=section(rating)['id'],
@@ -158,37 +163,44 @@ def _profile(bot, ident, side):
                 cosmetics_tank_id=int(bot['tank_id']), side=side)
 
 
-def _validate_profiles(value, owner):
+def _validate_profiles(value, owner, *, version=BOT_PROFILE_VERSION, idents=POOL_IDS):
+    """Identities, names and account ids only; sides and tanks are drawn per room."""
     from bot_setup import AI_TANKS
     if (not isinstance(value, dict) or type(value.get('version')) is not int
-            or value['version'] != BOT_PROFILE_VERSION or value.get('owner_id') != owner
+            or value['version'] != version or value.get('owner_id') != owner
             or not isinstance(value.get('bots'), list)):
         raise ValueError('Hồ sơ bot rank không hợp lệ; không tự tạo lại hoặc xóa tiến độ.')
     bots = value['bots']
-    if (len(bots) != 10 or not all(isinstance(bot, dict) for bot in bots)
+    if (len(bots) != len(idents) or not all(isinstance(bot, dict) for bot in bots)
             or not all(type(bot.get('rank_bot_id')) is int for bot in bots)
-            or {bot['rank_bot_id'] for bot in bots} != set((*BOT_IDS, RESERVE_ID))):
+            or {bot['rank_bot_id'] for bot in bots} != set(idents)):
         raise ValueError('Danh sách định danh bot rank không hợp lệ.')
     for bot in bots:
-        ident = bot['rank_bot_id']
-        side = 'enemies' if ident < 7 else 'allies' if ident < RESERVE_ID else 'reserve'
-        if (bot.get('side') != side or type(bot.get('tank_id')) is not int
-                or bot['tank_id'] not in AI_TANKS
+        if (type(bot.get('tank_id')) is not int or bot['tank_id'] not in AI_TANKS
                 or type(bot.get('tank_level')) is not int or not 1 <= bot['tank_level'] <= 6
                 or type(bot.get('acct_id')) is not int or not 0 < bot['acct_id'] <= 0xffffffff
                 or bot['acct_id'] == owner or not isinstance(bot.get('char_uuid'), str)
                 or not bot['char_uuid'] or not isinstance(bot.get('name'), str) or not bot['name']):
             raise ValueError('Thông tin nhân vật bot rank không hợp lệ.')
-    if len({b['acct_id'] for b in bots}) != 10 or len({b['char_uuid'] for b in bots}) != 10:
+    if len({b['acct_id'] for b in bots}) != len(bots) or len({b['char_uuid'] for b in bots}) != len(bots):
         raise ValueError('Định danh tài khoản bot rank bị trùng.')
-    for side in ('enemies', 'allies'):
-        team = [b['tank_id'] for b in bots if b['side'] == side]
-        if len(team) != len(set(team)):
-            raise ValueError('Hồ sơ bot rank có tank trùng trong cùng phe.')
-    reserve = next(b for b in bots if b['rank_bot_id'] == RESERVE_ID)
-    if reserve['tank_id'] in {b['tank_id'] for b in bots if b is not reserve}:
-        raise ValueError('Tank của bot dự bị phải khác các bot chính.')
     return bots
+
+
+def _grow_pool(db, owner, value, rng):
+    """Version 1 -> 2: keep the 10 saved identities (names, ratings) and add the rest."""
+    from bot_setup import AI_TANKS
+    have = {b['rank_bot_id'] for b in value['bots']}
+    level = value['bots'][0]['tank_level']
+    for ident in POOL_IDS:
+        if ident not in have:
+            bot = _new_bot(ident, 'pool', rng.choice(sorted(AI_TANKS)), level, rng)
+            value['bots'].append(_profile(bot, ident, 'pool'))
+    value['bots'].sort(key=lambda b: b['rank_bot_id'])
+    value['version'] = BOT_PROFILE_VERSION
+    _nicknames(db, owner, value)
+    _validate_profiles(value, owner)
+    return value
 
 
 def _nicknames(db, owner, value):
@@ -229,6 +241,11 @@ def _persistent_profiles(db, state, seed_bots, rng):
     saved = db.execute('SELECT value FROM settings WHERE name=?', (_profile_key(owner),)).fetchone()
     if saved:
         value = json.loads(saved[0])
+        if isinstance(value, dict) and value.get('version') == 1:
+            _validate_profiles(value, owner, version=1, idents=LEGACY_IDS)
+            _grow_pool(db, owner, value, rng)
+            db.execute('UPDATE settings SET value=? WHERE name=?', (_json(value), _profile_key(owner)))
+            return value['bots']
         _validate_profiles(value, owner)
         if _nicknames(db, owner, value):
             db.execute('UPDATE settings SET value=? WHERE name=?', (_json(value), _profile_key(owner)))
@@ -259,14 +276,8 @@ def _persistent_profiles(db, state, seed_bots, rng):
             tank = rng.choice([tank for tank in AI_TANKS if tank not in used])
             bot = _new_bot(ident, side, tank, bot['tank_level'], rng)
         profiles[ident] = _profile(bot, ident, side)
-    used = {b['tank_id'] for b in profiles.values()} | {state['tank_id']}
-    tank = rng.choice([tank for tank in AI_TANKS if tank not in used])
-    reserve = _new_bot(RESERVE_ID, 'reserve', tank, profiles[7]['tank_level'], rng)
-    profiles[RESERVE_ID] = _profile(reserve, RESERVE_ID, 'reserve')
-    value = dict(version=BOT_PROFILE_VERSION, owner_id=owner,
-                 bots=[profiles[ident] for ident in (*BOT_IDS, RESERVE_ID)])
-    _nicknames(db, owner, value)
-    _validate_profiles(value, owner)
+    value = dict(version=1, owner_id=owner, bots=[profiles[ident] for ident in BOT_IDS])
+    _grow_pool(db, owner, value, rng)
     db.execute('INSERT INTO settings(name,value) VALUES(?,?)', (_profile_key(owner), _json(value)))
     return value['bots']
 
@@ -279,10 +290,13 @@ def _rank_fields(db, season, owner, ident, initial):
 
 
 def stable_room_roster(state):
-    """Select fixed identities for this lobby, with no random tank replacement.
+    """Seat the saved ranked identities for this room.
 
-    Only the one allied account whose permanent tank matches the human rests;
-    the reserve takes that combat slot. Changing back restores the same account.
+    Names, ratings and rivalry stay with each identity. Every ranked room draws
+    again, from its own style_seed, which 9 of the 100 identities play, which
+    side each one is on and which tank it drives (no tank twice, never the
+    human's tank). The same room always yields the same draw, so a lobby
+    refresh or a tank change by the human does not reshuffle everyone.
     Current room Guild/crystal switches still build equipment per native rules.
     """
     import bot_loadouts
@@ -291,15 +305,22 @@ def stable_room_roster(state):
         return []  # Old saved selections migrate at their next new ranked room.
     profiles = {b['rank_bot_id']:b for b in _validate_profiles(value, state['char_id'])}
     old = {b['object_id']:b for b in state.get('bots', [])}
+    style_seed = int((state.get('room') or {}).get('style_seed', 0))
+    from bot_setup import AI_TANKS
+    draw = random.Random(int.from_bytes(hashlib.sha256(
+        f'rank-room:{int(state["char_id"])}:{style_seed}'.encode()).digest()[:8], 'big'))
+    seated = draw.sample(sorted(profiles), len(BOT_IDS))
+    tanks = [t for t in draw.sample(sorted(AI_TANKS), len(AI_TANKS)) if t != state['tank_id']]
     bots, changed = [], []
-    for slot in BOT_IDS:
-        side = profiles[slot]['side']
-        profile = profiles[RESERVE_ID] if (side == 'allies' and
-                                          profiles[slot]['tank_id'] == state['tank_id']) else profiles[slot]
+    for slot, ident, tank in zip(BOT_IDS, seated, tanks):
+        side = 'enemies' if slot < 7 else 'allies'
+        profile = dict(profiles[ident], tank_id=tank)
+        if profiles[ident]['tank_id'] != tank:
+            bot_cosmetics.roll(profile, random.Random(f'{ident}:{tank}:{style_seed}'), skin_only=True)
         bot = dict(profile, object_id=slot, side=side, ready=1, in_room=True,
-                   personality=bot_personality.ranked(state['char_id'], profile['rank_bot_id']),
+                   personality=bot_personality.ranked(state['char_id'], profile['rank_bot_id'], style_seed),
                    rivalry=(state.get('rank_rivalry') or {}).get(str(profile['rank_bot_id'])))
-        bot_loadouts.apply(bot, state['room'])
+        bot_loadouts.apply(bot, dict(state['room'], rank_owner_elo=state.get('elo', INITIAL_RATING)))
         bots.append(bot)
         if old.get(slot) != bot:
             changed.append(bot)
@@ -332,7 +353,8 @@ def prepare_room(state, db, *, now=None, rng=None):
     state['room'] = dict(room_id=1001, name='Đấu rank', map_id=19, mode=3, room_type=9,
                          state=0, camp=1, ready=1, max_num=10, min_num=2, ob_num=0)
     configure_room(state, db, setup=setup, rng=rng)
-    state['room'].update(ranked=True, room_type=9, rank_season_id=context['season_id'])
+    state['room'].update(ranked=True, room_type=9, rank_season_id=context['season_id'],
+                         style_seed=rng.getrandbits(32))
     state.update(context)
     rating = bot_rating(context['elo'])
     with storage.connection(write=True) as rank_db:
@@ -388,7 +410,7 @@ def _settle(db, state, arena, now, *, player=None):
     outcome = 'draw' if not winner else 'win' if winner == camp else 'loss'
     info = _ensure_entry(db, season, ident, state, now) if ranked and not expired else None
     before = int(info['rating']) if info else 0
-    after = max(INITIAL_RATING, min(MAX_RATING, before + {'win':150, 'loss':-15, 'draw':0}[outcome])) if info else 0
+    after = max(INITIAL_RATING, min(MAX_RATING, before + POINTS[outcome])) if info else 0
     rank_result = {}
     if info:
         db.execute('UPDATE rank_entries SET rating=?,played=played+1,wins=wins+?,losses=losses+?,'
@@ -407,7 +429,7 @@ def _settle(db, state, arena, now, *, player=None):
             bot_ident = _bot_id(bot)
             bot_before = int(entries[bot_ident]['rating'])
             bot_after = max(INITIAL_RATING, min(MAX_RATING,
-                bot_before + {'win':150, 'loss':-15, 'draw':0}[bot_outcome]))
+                bot_before + POINTS[bot_outcome]))
             db.execute('UPDATE rank_entries SET rating=?,played=played+1,wins=wins+?,losses=losses+?,draws=draws+?,updated_ms=? '
                        'WHERE season_id=? AND entry_key=?',
                        (bot_after, bot_outcome == 'win', bot_outcome == 'loss', bot_outcome == 'draw',
@@ -540,7 +562,7 @@ def register_selection(state, db, now=None):
     import bot_loadouts
     for bot in state['bots']:
         bot.update(fields[_bot_id(bot)])
-        bot_loadouts.apply(bot, state['room'])
+        bot_loadouts.apply(bot, dict(state['room'], rank_owner_elo=state.get('elo', INITIAL_RATING)))
     for bot in (state.get('rank_bot_roster') or {}).get('bots', []):
         bot.update(fields[bot['rank_bot_id']])
 
@@ -574,6 +596,8 @@ def rank_list(db, season, *, owner=None):
 def status(db, ident, now=None):
     now = time.time() if now is None else now
     current = maintain(db, now)
+    import bot_ladder
+    bot_ladder.catch_up(db, ident, current, now)
     row = _entry(db, current, ident)
     rating = int(row['rating']) if row else INITIAL_RATING
     season = db.execute('SELECT * FROM rank_seasons WHERE id=?', (current,)).fetchone()
@@ -585,7 +609,7 @@ def status(db, ident, now=None):
                 rank=own['char_rank'] if own else 0, challenger=bool(own and own['challenger']),
                 played=row['played'] if row else 0, wins=row['wins'] if row else 0,
                 losses=row['losses'] if row else 0, draws=row['draws'] if row else 0,
-                history=history, rules=dict(win=150, loss=-15, draw=0, initial=1000,
+                history=history, rules=dict(win=POINTS['win'], loss=POINTS['loss'], draw=POINTS['draw'], initial=1000,
                 days=14, keep_seasons=2, history_limit=20, bot_initial_tier_offset=-1,
                 bot_persistent=True, bot_rating_by_match_result=True))
 

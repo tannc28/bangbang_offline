@@ -2,7 +2,7 @@ import {M3Connection} from './m3.js';
 import {createCombatState, applyCombatPacket, beginPredictedStep,
   visualPosition} from './combat_state.js';
 import {encodeMoveForward, encodeUseSkill, encodeExitBattleEnd,
-  encodeAutoBullet, encodeCacheSkillDestPos, encodeBattleChat} from './combat_protocol.js';
+  encodeAutoBullet, encodeCacheSkillDestPos, encodeBattleChat, encodeBattlePause} from './combat_protocol.js';
 
 /** M4 extends the verified room lifecycle; combat state is a separate view. */
 export class M4Connection extends M3Connection {
@@ -107,7 +107,13 @@ export class M4Connection extends M3Connection {
   canControl() {
     return this.state.phase === 'ready' && this.state.play.phase === 'scene'
       && this.state.play.render?.supported && this.state.play.render.phase === 'ready'
-      && !!this.gate && !!this.combat?.objectsReady && !this.combat.result;
+      && !!this.gate && !!this.combat?.objectsReady && !this.combat.result && !this.combat.paused;
+  }
+
+  toggleBattlePause() {
+    if (!this.gate || !this.combat?.sceneId || this.combat.result) return false;
+    this.gate.send(encodeBattlePause(this.combat.sceneId, !this.combat.paused));
+    return true;
   }
 
   move(direction, geometry, now = performance.now()) {
