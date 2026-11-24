@@ -225,8 +225,7 @@ export class M8Garage {
   }
   external(tank) { return this.assets.tankExternal(tank); }
   name(tank) {
-    const skin=(this.catalog.skins||[]).find(row=>row.externalId===tank.externalId);
-    return nativeText(this.catalog.items?.[skin?.itemId]?.name||this.catalog.tanks?.[tank.tankId]?.name||this.assets.tankName(tank.tankId));
+    return nativeText(this.catalog.tanks?.[tank.tankId]?.name || this.assets.tankName(tank.tankId));
   }
   movie(key,className='') {
     let node=this.portraits.get(key);

@@ -646,7 +646,10 @@ export class RoboHud {
     const keytext=this.make('span','m7-skill-key m81-key-text',button);
     const complete = {node: this.make('span', 'm7-skill-fx', button), layers: []};
     const selected = {node: this.make('span', 'm7-skill-fx', button), layers: []};
-    return {index, button, icon, shade, mp, ban, lock, border, timer, charge, chargeRing, circle, keycap, keytext, complete, selected};
+    const execBadge = this.make('span', 'm7-skill-exec-badge', button);
+    execBadge.textContent = '🗡 TRẢM!';
+    execBadge.hidden = true;
+    return {index, button, icon, shade, mp, ban, lock, border, timer, charge, chargeRing, circle, keycap, keytext, complete, selected, execBadge};
   }
   previewSkill(index) {
     const row=this.skillRows?.[index],state=this.last?.state,self=state?.actors?.[String(state.selfObjectId)];
@@ -877,6 +880,17 @@ export class RoboHud {
     } else if (!ready) this.setAnimation(node.complete, null);
     const isSelected = ready && this.last?.selectedSlot === row.slot;
     this.setAnimation(node.selected, isSelected ? this.catalog.effects?.skill_selected : null, [0, -2], true);
+    let execReady = false;
+    if (ready && row.slot === 2) {
+      const state = this.last?.state, self = state?.actors?.[String(state.selfObjectId)];
+      if (Number(self?.tankId) === 10000056 && !self.dead) {
+        execReady = Object.values(state?.actors || {}).some(actor =>
+          actor && !actor.dead && !actor.removed && actor.hp > 0 && actor.camp !== self.camp
+          && Object.values(actor.buffs || {}).some(b => Number(b.templateId) === 990056));
+      }
+    }
+    node.button.classList.toggle('m7-skill-exec-ready', execReady);
+    if (node.execBadge) node.execBadge.hidden = !execReady;
     node.wasReady = ready; node.skillKey = skillKey;
   }
   updateBuffs(self, catalog, now) {
@@ -1180,7 +1194,7 @@ export class RoboHud {
     const character = killer && state.characters?.find(char => char.accountId === killer.accountId);
     this.paintPortrait(this.reliveAvatar, killer ? roboPortrait(catalog, this.catalog, killer, character) : null);
     const killerTank = killer && catalog?.tanks?.[String(killer.tankId)];
-    const killerName = killer && (this.catalog.skinNames?.[String(killer.externalId)] || killerTank?.base?.szName || '');
+    const killerName = killer && (killerTank?.name || killerTank?.base?.szName || this.catalog.skinNames?.[String(killer.externalId)] || '');
     text(this.killerMessage, killerName ? RELIVE_TEXT.killed.replace('@text1@', killerName) : '');
     const tip = killerTank?.base?.szKillerTips || '';
     text(this.killerTip, this.catalog.localizedText?.[tip] || tip);

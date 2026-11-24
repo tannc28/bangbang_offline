@@ -338,16 +338,19 @@ export class BattleInput {
     else if(action===1000){this.heldFire=true;this.fireKey=nativeKey;this.primaryCast(this.now());}
     else if(Object.hasOwn(INPUT_ACTION_SLOTS,action)){
       const slot = INPUT_ACTION_SLOTS[action], castNow = this.now();
-      const res = this.resolveCast(slot, castNow, current);
-      const previewable = res.ready && !event.shiftKey && this.inputOptions.quickcast.has(slot)
-        && ['point', 'selected'].includes(res.mode) && Number(res.skill?.iRange) > 0
-        && !(slot === 1 && this.portraitAccountId != null && this.portraitCopyAvailability(this.portraitAccountId, castNow).copy)
-        && this.window?.localStorage?.getItem('bb-cast-on-release') !== '0';
-      if (previewable) {
-        this.heldCast = {code, nativeKey, slot, skillId: res.entry.skillId, startedAt: castNow};
-      } else {
-        this.selectOrCast(slot, castNow, !!event.shiftKey);
+      let castOnRelease = false;
+      try { castOnRelease = this.window?.localStorage?.getItem('bb-cast-on-release') === '1'; } catch { /* ignore */ }
+      if (castOnRelease) {
+        const res = this.resolveCast(slot, castNow, current);
+        const previewable = res.ready && !event.shiftKey && this.inputOptions.quickcast.has(slot)
+          && ['point', 'selected'].includes(res.mode) && Number(res.skill?.iRange) > 0
+          && !(slot === 1 && this.portraitAccountId != null && this.portraitCopyAvailability(this.portraitAccountId, castNow).copy);
+        if (previewable) {
+          this.heldCast = {code, nativeKey, slot, skillId: res.entry.skillId, startedAt: castNow};
+          return;
+        }
       }
+      this.selectOrCast(slot, castNow, !!event.shiftKey);
     }
   }
 

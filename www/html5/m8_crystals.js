@@ -537,8 +537,7 @@ export class M8Crystals {
       this.recommendPortrait.style.zIndex='2';
       if(this.recommendPortrait.parentElement!==this.nativePanel.content)this.nativePanel.content.append(this.recommendPortrait);
     }else container.append(this.position(this.recommendPortrait,5,5,100,100));
-    const skin=this.assets.garage?.skins?.find(row=>row.externalId===tank.externalId);
-    const name=nativeText(this.assets.garage?.items?.[skin?.itemId]?.name||this.tankName(tank.tankId));
+    const name=nativeText(this.tankName(tank.tankId));
     const title=this.position(element('span',name,'cr-rmd-name'),108,31.5,140);title.title=name;container.append(title);
     const change=this.button('Đổi tank xem đề cử',()=>{this.pickerTankId=tank.tankId;this.auxDialog='recommend';this.render();},
       {testId:'cr-recommend-tank',disabled:!!this.pending});

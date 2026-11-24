@@ -15,7 +15,7 @@ export function selectionTankInfo(catalog,tank) {
   const ids={...base.skills};
   const overrides=catalog.skinAttributes?.[tank.externalId]?.skills;
   const skin=catalog.skins?.find(row=>row.externalId===tank.externalId&&row.tankId===tank.tankId);
-  const name=catalog.items?.[skin?.itemId]?.name||base.name||'';
+  const name=base.name||catalog.items?.[skin?.itemId]?.name||'';
   const role=catalog.localizedText?.[base.nativeRole]??base.nativeRole??'';
   // SkillData keys by ID, not tank level. Preserve source last-row-wins semantics.
   const byId=new Map();
