@@ -212,27 +212,138 @@ export class RoboWorld {
   }
 
   executeMarkerTexture(inRange) {
-    const key = `exec-marker:${inRange ? 'ready' : 'near'}`;
+    const key = `exec-marker-v2:${inRange ? 'ready' : 'near'}`;
     if (!this.textures.has(key)) {
-      const image = document.createElement('canvas'); image.width = 64; image.height = 34;
+      const image = document.createElement('canvas'); image.width = 148; image.height = 86;
       const c = image.getContext('2d');
-      const accent = inRange ? '#ffd166' : '#ff595e';
-      const core = inRange ? '#ff1e42' : '#d90429';
-      // Crisp top pill + downward MOBA execution blade-arrow
-      c.fillStyle = 'rgba(18, 4, 10, 0.90)';
-      c.strokeStyle = accent;
+      const cx = 74;
+      const borderCol = inRange ? '#ffe566' : '#ff9e80';
+      c.save();
+      c.shadowColor = inRange ? 'rgba(255, 23, 68, 0.95)' : 'rgba(220, 38, 38, 0.8)';
+      c.shadowBlur = inRange ? 12 : 8;
+
+      // Top royal crimson-gold banner
+      const bgGrad = c.createLinearGradient(0, 6, 0, 36);
+      if (inRange) {
+        bgGrad.addColorStop(0, '#ff1744');
+        bgGrad.addColorStop(0.55, '#b7092b');
+        bgGrad.addColorStop(1, '#590416');
+      } else {
+        bgGrad.addColorStop(0, 'rgba(153, 27, 27, 0.94)');
+        bgGrad.addColorStop(1, 'rgba(48, 8, 18, 0.94)');
+      }
+      c.fillStyle = bgGrad;
+      c.strokeStyle = borderCol;
+      c.lineWidth = inRange ? 2.6 : 2.0;
+      c.beginPath();
+      c.roundRect(10, 6, 128, 30, 8);
+      c.fill();
+      c.stroke();
+
+      // Dramatic downward crescent-halberd execution blade-arrow
+      const bladeGrad = c.createLinearGradient(0, 36, 0, 80);
+      bladeGrad.addColorStop(0, inRange ? '#ffe566' : '#ffb4a2');
+      bladeGrad.addColorStop(0.35, inRange ? '#ff1744' : '#e63946');
+      bladeGrad.addColorStop(1, '#7f0019');
+      c.fillStyle = bladeGrad;
+      c.strokeStyle = borderCol;
+      c.lineWidth = 2.2;
+      c.beginPath();
+      c.moveTo(cx - 24, 38);
+      c.lineTo(cx - 9, 44);
+      c.lineTo(cx - 14, 54);
+      c.lineTo(cx, 80);
+      c.lineTo(cx + 14, 54);
+      c.lineTo(cx + 9, 44);
+      c.lineTo(cx + 24, 38);
+      c.closePath();
+      c.fill();
+      c.stroke();
+      c.restore();
+
+      // Glowing white-gold center spine along the execution blade
+      c.strokeStyle = inRange ? '#fffbeb' : '#ffe4e6';
+      c.lineWidth = 2.2;
+      c.beginPath();
+      c.moveTo(cx, 40);
+      c.lineTo(cx, 73);
+      c.stroke();
+
+      // High-contrast large banner text
+      c.font = inRange ? '900 15.5px Tahoma, Arial, sans-serif' : 'bold 13.5px Tahoma, Arial, sans-serif';
+      c.textAlign = 'center';
+      c.textBaseline = 'middle';
+      c.lineJoin = 'round';
+      c.strokeStyle = '#240008';
+      c.lineWidth = 4;
+      const label = inRange ? '🗡 TRẢM NGAY!' : '⚔ ĐỦ 30% TRẢM';
+      c.strokeText(label, cx, 21.5);
+      c.fillStyle = inRange ? '#fff7bd' : '#ffe4e6';
+      c.fillText(label, cx, 21.5);
+
+      this.textures.set(key, image);
+    }
+    return this.textures.get(key);
+  }
+
+  executeRingTexture() {
+    const key = 'exec-lock-ring-v2';
+    if (!this.textures.has(key)) {
+      const image = document.createElement('canvas'); image.width = 126; image.height = 126;
+      const c = image.getContext('2d');
+      const cx = 63, cy = 63;
+      c.save();
+      c.shadowColor = 'rgba(255, 23, 68, 0.9)';
+      c.shadowBlur = 8;
+      // Outer dashed crimson-gold lock circle
+      c.beginPath();
+      c.arc(cx, cy, 48, 0, Math.PI * 2);
+      c.strokeStyle = 'rgba(255, 229, 102, 0.92)';
+      c.lineWidth = 2.6;
+      c.setLineDash([14, 8]);
+      c.stroke();
+      c.setLineDash([]);
+      c.beginPath();
+      c.arc(cx, cy, 43, 0, Math.PI * 2);
+      c.strokeStyle = 'rgba(255, 23, 68, 0.78)';
       c.lineWidth = 1.8;
-      c.beginPath();
-      c.roundRect(4, 2, 56, 17, 5);
-      c.fill(); c.stroke();
-      c.font = 'bold 10px Tahoma, Arial, sans-serif';
-      c.textAlign = 'center'; c.textBaseline = 'middle';
-      c.fillStyle = inRange ? '#fff3b0' : '#ffd6d6';
-      c.fillText(inRange ? '🗡 TRẢM!' : '⚔ 30%', 32, 10.5);
-      c.beginPath();
-      c.moveTo(23, 20); c.lineTo(41, 20); c.lineTo(32, 32); c.closePath();
-      c.fillStyle = core; c.fill();
-      c.strokeStyle = accent; c.lineWidth = 1.6; c.stroke();
+      c.stroke();
+      // 4 diagonal Pyke-X inward execution blades
+      for (let i = 0; i < 4; i += 1) {
+        c.save();
+        c.translate(cx, cy);
+        c.rotate(Math.PI / 4 + i * (Math.PI / 2));
+        c.beginPath();
+        c.moveTo(57, -6);
+        c.lineTo(35, 0);
+        c.lineTo(57, 6);
+        c.lineTo(52, 0);
+        c.closePath();
+        c.fillStyle = '#ff1744';
+        c.strokeStyle = '#ffe566';
+        c.lineWidth = 1.6;
+        c.fill();
+        c.stroke();
+        c.restore();
+      }
+      c.restore();
+      this.textures.set(key, image);
+    }
+    return this.textures.get(key);
+  }
+
+  executeBarGlowTexture(inRange) {
+    const key = `exec-bar-glow:${inRange ? 'ready' : 'near'}`;
+    if (!this.textures.has(key)) {
+      const image = document.createElement('canvas'); image.width = 80; image.height = 19;
+      const c = image.getContext('2d');
+      c.save();
+      c.shadowColor = inRange ? 'rgba(255, 23, 68, 0.95)' : 'rgba(255, 183, 3, 0.8)';
+      c.shadowBlur = 5;
+      c.strokeStyle = inRange ? '#ffe566' : '#ff6b6b';
+      c.lineWidth = inRange ? 2.2 : 1.6;
+      c.strokeRect(3, 3, 74, 13);
+      c.restore();
       this.textures.set(key, image);
     }
     return this.textures.get(key);
@@ -400,10 +511,23 @@ export class RoboWorld {
           && !selfActor.dead && actor.hp <= actor.maxHp * 0.30
           && !!cooldownView(state, selfActor.objectId, 2, now)?.ready;
         if (serverExec || approachExec) {
-          const bounce = Math.sin(now / 105) * 4;
+          const pulse = 0.5 + 0.5 * Math.sin(now / 85);
+          // 1. Glowing gold-crimson frame around the enemy's HP bar
+          const barGlow = this.executeBarGlowTexture(serverExec);
+          this.drawCanvas(barGlow, x - 4, y - 3, serverExec ? (0.85 + 0.15 * pulse) : 0.78);
+          // 2. Pyke-X / Target Lock crosshair ring right on the enemy tank body when in Space range
+          if (serverExec) {
+            const ring = this.executeRingTexture();
+            const ringScale = 0.94 + 0.12 * pulse;
+            this.drawCanvas(ring, position.x - ring.width / 2, position.y - ring.height / 2,
+              0.82 + 0.18 * pulse, ringScale);
+          }
+          // 3. Large bouncing crimson-gold overhead guillotine blade-arrow
+          const bounce = Math.sin(now / 95) * (serverExec ? 7.5 : 4.5);
           const marker = this.executeMarkerTexture(serverExec);
-          this.drawCanvas(marker, position.x - marker.width / 2, position.y - 74 + bounce,
-            serverExec ? 1 : 0.88);
+          const markerScale = serverExec ? (1.0 + 0.12 * pulse) : 0.90;
+          this.drawCanvas(marker, position.x - marker.width / 2, position.y - 114 + bounce,
+            serverExec ? 1 : 0.92, markerScale);
         }
       }
     }
