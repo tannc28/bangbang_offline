@@ -35,6 +35,11 @@ export function encodeBattleChat(sceneId, channel, text) {
   return frame(598, new Writer().u32(sceneId).u8(channel).string(text));
 }
 
+/** Tactical team signal ping (C599): kind 1 atk / 2 bak / 3 mst, world (x,y), optional targetId. */
+export function encodeBattleSignal(sceneId, kind, x, y, targetId = 0) {
+  return frame(599, new Writer().u32(sceneId).u8(kind).i16(Math.trunc(x)).i16(Math.trunc(y)).u32(targetId >>> 0));
+}
+
 /** Native settlement exit; server accepts only after its match has finished. */
 export function encodeExitBattleEnd() { return encodeFrame(613); }
 
@@ -85,7 +90,7 @@ function readKillInfo(r) {
 }
 
 const HANDLED = new Set([1553, 1556, 1558, 1559, 1560, 1561, 1562, 1565, 1566,
-  1572, 1578, 1579, 1581, 1583, 1585, 1589, 1590, 1595, 1596, 1597, 1603, 1605, 1708, 1710,1731,1732,1733,1734,1735,1736]);
+  1572, 1578, 1579, 1581, 1583, 1585, 1589, 1590, 1595, 1596, 1597, 1598, 1603, 1605, 1708, 1710,1731,1732,1733,1734,1735,1736]);
 
 /** Return null for schemas owned by M2/M3 or not yet verified from source.
  * Message order and trailing bytes are preserved for the session reducer/guard.
@@ -131,6 +136,11 @@ export function decodeCombatPacket(msgId, payload) {
       // Local bot chat: speaker, camp, channel (0 all, 1 team), name, text.
       result = { type: 'botChat', speakerId: r.u32(), camp: r.u8(), channel: r.u8(),
         name: r.string(), text: r.string() };
+      break;
+    case 1598:
+      // Tactical team signal ping: speaker, camp, kind (1 atk, 2 bak, 3 mst), x, y, targetId, name.
+      result = { type: 'battleSignal', speakerId: r.u32(), camp: r.u8(), kind: r.u8(),
+        x: r.i16(), y: r.i16(), targetId: r.u32(), name: r.string() };
       break;
     case 1565:
       result={type:'occupyState',flags:r.vector(20,p=>({index:p.i32(),camp:p.i32(),locked:p.i32(),progress:p.i32(),scoreTime:p.u32()}))};

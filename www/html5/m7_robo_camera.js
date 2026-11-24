@@ -14,21 +14,17 @@ const FREE_HEIGHT = 50;
 const int32 = value => Number(value) | 0;
 
 function followAxis(begin, position, viewSize, mapSize, freeSize) {
-  // Keep the original relative distance for both comparisons, as AS3 does.
-  // In particular, do not center the actor or clamp begin before this step.
-  const distance = int32(position - begin);
-  const upper = int32((viewSize + freeSize) / 2);
-  const lower = int32((viewSize - freeSize) / 2);
+  const distance = Number(position) - Number(begin);
+  const upper = (viewSize + freeSize) / 2;
+  const lower = (viewSize - freeSize) / 2;
   if (distance > upper) {
-    begin = int32(begin + distance - upper);
-    if (begin > mapSize - viewSize) begin = int32(mapSize - viewSize);
+    begin = begin + distance - upper;
+    if (begin > mapSize - viewSize) begin = mapSize - viewSize;
   }
   if (distance < lower) {
-    begin = int32(begin - (lower - distance));
+    begin = begin - (lower - distance);
     if (begin < 0) begin = 0;
   }
-  // MapDataModel.updateScrollParams floors the maximum origin at zero;
-  // setMapBeginPos then clips the result to the map's full bitmap bounds.
   return Math.max(0, Math.min(begin, Math.max(0, mapSize - viewSize)));
 }
 
@@ -39,17 +35,28 @@ export class RoboCamera {
     this.beginY = 0;
     this.followedX = 0;
     this.followedY = 0;
+    this.panOverride = null;
     this.resize(stageWidth, stageHeight, mapWidth, mapHeight, {centerSmallMap});
   }
 
-  // Call for a new scene, then follow the actual native self position. A
-  // respawn within the same scene retains camera history in the Flash client.
   reset() {
     this.beginX = 0;
     this.beginY = 0;
     this.followedX = 0;
     this.followedY = 0;
+    this.panOverride = null;
     return this.snapshot();
+  }
+
+  panTo(worldX, worldY, until = 0) {
+    this.panOverride = {x: Number(worldX) || 0, y: Number(worldY) || 0, until};
+    this.beginX = Math.max(0, Math.min(this.panOverride.x - this.viewWidth / 2, Math.max(0, this.mapWidth - this.viewWidth)));
+    this.beginY = Math.max(0, Math.min(this.panOverride.y - this.viewHeight / 2, Math.max(0, this.mapHeight - this.viewHeight)));
+    return this.snapshot();
+  }
+
+  clearPan() {
+    this.panOverride = null;
   }
 
   resize(stageWidth, stageHeight, mapWidth = this.mapWidth, mapHeight = this.mapHeight,
@@ -60,12 +67,6 @@ export class RoboCamera {
     this.viewHeight = Math.max(MIN_VIEW_HEIGHT, this.stageHeight);
     this.mapWidth = int32(mapWidth);
     this.mapHeight = int32(mapHeight);
-    // Keep small PvE scenes at their native scale instead of enlarging them
-    // to fill a large window. Center only axes whose entire map fits: a tall
-    // or wide scene must still scroll normally on its other axis. Restrict
-    // the logical view to the map on centered axes so the minimap and native
-    // visibility checks describe actual world area, not the empty margins.
-    // PvP keeps the original AS3 viewport/dead-zone path and integer casts.
     this.zoom = 1;
     this.stageOffsetX = 0;
     this.stageOffsetY = 0;
@@ -77,14 +78,16 @@ export class RoboCamera {
       this.viewHeight = this.mapHeight;
       this.stageOffsetY = (Number(stageHeight) - this.mapHeight) / 2;
     }
-    // Flash preserves scrollRect.x/y on resize and re-evaluates its last
-    // followed position after installing the new viewport and map bounds.
     return this.follow(this.followedX, this.followedY);
   }
 
-  follow(worldX, worldY) {
-    this.followedX = int32(worldX);
-    this.followedY = int32(worldY);
+  follow(worldX, worldY, now = 0) {
+    this.followedX = Number(worldX) || 0;
+    this.followedY = Number(worldY) || 0;
+    if (this.panOverride) {
+      if (!this.panOverride.until || now < this.panOverride.until) return this.snapshot();
+      this.panOverride = null;
+    }
     this.beginX = followAxis(this.beginX, this.followedX,
       this.viewWidth, this.mapWidth, FREE_WIDTH);
     this.beginY = followAxis(this.beginY, this.followedY,

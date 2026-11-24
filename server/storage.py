@@ -44,13 +44,18 @@ SCHEMA_VERSION = 1
 DEFERRED_TANKS = frozenset()
 
 
+_DEFAULT_RESOLVED = DEFAULT_DATABASE.resolve()
+
+
 @lru_cache(maxsize=16)
 def _resolved_database(path, base):
     return (Path(base) / path).resolve()
 
 
 def database_path():
-    path = os.environ.get('BB_DATABASE', str(DEFAULT_DATABASE))
+    path = os.environ.get('BB_DATABASE')
+    if path is None:
+        return _DEFAULT_RESOLVED
     # Buff/stat cache hits must not perform Windows filesystem IO. Keep env/CWD
     # in the key so private test databases and relative paths remain isolated.
     return _resolved_database(path, '' if os.path.isabs(path) else os.getcwd())

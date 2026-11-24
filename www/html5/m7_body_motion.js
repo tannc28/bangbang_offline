@@ -115,7 +115,7 @@ export class NativeBodyTurn {
     return normalize(Math.trunc(this.rotationAt(now)));
   }
 
-  angleAt(now) { return this.degreesAt(now) * Math.PI / 180; }
+  angleAt(now) { return normalize(this.rotationAt(now)) * Math.PI / 180; }
 
   snapshot(now) {
     return {direction: this.direction, degrees: this.degreesAt(now),

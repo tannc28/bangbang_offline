@@ -64,4 +64,12 @@
 .m86-postmatch .m8-portrait{position:absolute;pointer-events:none}
 /* The result dialog owns focus and blocks the map/HUD hit targets. */
 .m86-postmatch-active>#robo-settings,.m86-postmatch-active>#battle-paused{visibility:hidden}
+.m86-result-dmg-wrap{display:flex;flex-direction:column;justify-content:center;gap:2px;pointer-events:none}
+.m86-result-dmg-num{font:700 10px/1 Arial,sans-serif;color:#fed7aa;text-align:right;text-shadow:0 1px 2px #000}
+.m86-result-dmg-track{position:relative;width:100%;height:5px;border-radius:3px;background:rgba(4,16,28,.75);overflow:hidden;border:1px solid rgba(255,255,255,.15)}
+.m86-result-dmg-fill{display:block;height:100%;background:linear-gradient(90deg,#f97316,#facc15)}
+.m86-result-taken-num{font:700 9px/1 Arial,sans-serif;color:#bae6fd;text-align:right;opacity:.9;text-shadow:0 1px 2px #000}
+.m86-rematch-button{position:absolute;padding:0 10px!important;border:1.5px solid #fde047!important;border-radius:8px!important;background:linear-gradient(180deg,#0284c7,#0369a1)!important;color:#fff!important;font:700 13px Arial,sans-serif!important;box-shadow:0 3px 10px rgba(0,0,0,.55)!important;cursor:pointer;white-space:nowrap}
+.m86-rematch-button:hover:not(:disabled){filter:brightness(1.14);border-color:#fff!important}
+.m86-rematch-button:disabled{opacity:.55;cursor:wait}
 @media (prefers-reduced-motion:reduce){.m86-result-button{transition:none}}

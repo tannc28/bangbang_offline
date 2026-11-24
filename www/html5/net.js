@@ -302,7 +302,7 @@ export class LobbyConnection {
           chat.send(encodeChatHeartbeat());
         }
         catch (error) { this.recover(error); }
-      }, 15000);
+      }, 5000);
       this.pingSentAt = performance.now(); gate.send(encodeTick());
       chat.send(encodeChatHeartbeat());
       return true;

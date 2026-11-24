@@ -140,49 +140,62 @@ def observe(arena, actor, brain, now):
 
 
 def aim(arena, actor, sample, now):
-    """Bounded prediction from two old sightings, with persistent human error.
-
-    The kit dispatcher shares one cursor between instant and projectile
-    choices. Keep the prediction short rather than treating every skill as a
-    projectile of a known speed; do not read a current enemy position.
-    """
+    """Bounded prediction from two old sightings, with persistent human error."""
     pos = actor.position_at(now)
     distance = math.dist(pos, sample['pos'])
     age = max(0.0, min(.5, (now - sample['observed_at']) / 1000))
-    travel = min(.40, distance / 1100)
-    horizon = min(.55, age + travel) * arena.rng.uniform(.75, .95)
+    travel = min(.42, distance / 1150)
+    stability = max(.65, min(1.0, sample.get('elite_track_stability', .85)))
+    horizon = min(.58, age + travel) * (.78 + .20 * stability) * arena.rng.uniform(.92, 1.04)
     vx, vy = sample.get('velocity', (0, 0))
     speed = math.hypot(vx, vy)
     if speed > 400:
         vx, vy = vx * 400 / speed, vy * 400 / speed
-    # A control observation may expire before we react. Do not keep aiming at
-    # a frozen point after that duration, nor query the live buff to correct it.
     if sample.get('elite_control_ms', 0) > now - sample['observed_at'] + 120:
         horizon *= .15
+    raw_dest = (round(sample['pos'][0] + vx * horizon),
+                round(sample['pos'][1] + vy * horizon))
+    clipped = arena.geometry.walk_end(sample['pos'], arena.geometry.clamp_tank_position(raw_dest))
     error = arena.rng.gauss(0, 5 + distance * .014) * bot_personality.factor(actor, 'aim')
-    angle = math.atan2(sample['pos'][1] - pos[1], sample['pos'][0] - pos[0])
-    dest = (sample['pos'][0] + vx * horizon - math.sin(angle) * error,
-            sample['pos'][1] + vy * horizon + math.cos(angle) * error)
+    angle = math.atan2(clipped[1] - pos[1], clipped[0] - pos[0])
+    dest = (clipped[0] - math.sin(angle) * error,
+            clipped[1] + math.cos(angle) * error)
     return arena.geometry.clamp_tank_position(dest)
 
 
 def basic_target_open(sample, now, actor=None):
-    """Do not knowingly feed a still-observed projectile reflect/guard.
-
-    This is only a basic-fire preference. Native cast/hit rules retain final
-    authority and the regular kit may still choose a useful non-projectile
-    action. Expired observations do not extend the remembered protection.
-    """
+    """Do not knowingly feed a still-observed projectile reflect/guard."""
     age = now - sample.get('observed_at', now)
     if not MIN_REACTION_MS <= age <= MAX_CONTACT_AGE_MS:
         return False
     if actor is not None:
         profile = _basic_profile(actor, now)
         if profile is None or not profile[0]:
-            # Unknown, melee and beam basics may bypass projectile defenses.
-            # Do not silently suppress those native attacks using this hint.
             return True
     return sample.get('elite_projectile_guard_ms', 0) <= age
+
+
+_AUTO_BASIC_CACHE: dict[int, tuple[int, float, float] | None] = {}
+
+
+def _auto_basic_profile(actor):
+    tank_id = actor.info.get('tank_id')
+    if not isinstance(tank_id, int):
+        return None
+    if tank_id in _AUTO_BASIC_CACHE:
+        return _AUTO_BASIC_CACHE[tank_id]
+    result = None
+    try:
+        if int(actor.stats.get('nFireRange', 420)) > 210:
+            from combat_data import table_row
+            bullet = int(table_row('TankBaseTemplate_table.xml', nTankId=tank_id)['nBullet'])
+            row = table_row('SkillTemplate_table.xml', nId=bullet)
+            if int(row.get('iLifeTime', 0)) > 0 and int(row.get('iFlyRange', 0)) >= 220:
+                result = (bullet, 1.0, 0.0)
+    except (KeyError, ValueError, TypeError):
+        result = None
+    _AUTO_BASIC_CACHE[tank_id] = result
+    return result
 
 
 def _basic_profile(actor, now):
@@ -195,11 +208,10 @@ def _basic_profile(actor, now):
     if module == 'spider_actions':
         return (303131, 1.0, .1) if actor.has_buff(303113, now) else (303100, 1.0, 0.0)
     if module == 'kurumi_actions':
-        # The alternative ammo is an instantaneous beam, not a slow bullet.
         return (370100, 1.5, 0.0) if actor._basic(now) == 370100 else (0, 1.0, 0.0)
     if module == 'sniper_actions' and not actor.special:
         return (376151 if actor.has_buff(376142, now) else 376100, 1.0, 0.0)
-    return None
+    return _auto_basic_profile(actor)
 
 
 def _intercept_time(delta, velocity, speed):
@@ -220,15 +232,7 @@ def _intercept_time(delta, velocity, speed):
 
 
 def basic_aim(arena, actor, sample, now):
-    """Slot-specific lead from old sightings and our verified own weapon.
-
-    General skills still use aim(): instant areas, dashes and homing casts do
-    not share one bullet travel time. Unverified transformed/charged/melee
-    basics deliberately retain that fallback too. The computed displacement
-    is discounted for changes of direction during native walk/cast/evasion;
-    this does not halve the sample age or the minimum reaction-time gate.
-    This never inspects the live target, its route, cooldowns or next input.
-    """
+    """Slot-specific lead from old sightings and our verified own weapon."""
     profile = _basic_profile(actor, now)
     if profile is None:
         own_module = type(actor).__module__.rsplit('.', 1)[-1]
@@ -264,14 +268,10 @@ def basic_aim(arena, actor, sample, now):
     horizon = min(1.0, age + windup + travel)
     controlled = sample.get('elite_control_ms', 0)/1000
     if controlled:
-        # A just-stopped target's measured velocity includes its pre-CC walk.
-        # We know only the sampled remaining duration, not future control.
         horizon = max(0.0, horizon-controlled)*.5
-    # Old velocity frequently changes during a native walk/cast/evade period.
-    # Discount the forecast displacement, not observation age or readiness.
-    # The uncertainty weight uses no live input or future enemy trajectory.
-    horizon *= .5 * arena.rng.uniform(.92, 1.02)
-    point = observed[0]+vx*horizon, observed[1]+vy*horizon
+    horizon *= (.52 + .38 * stability) * arena.rng.uniform(.93, 1.03)
+    raw_point = (round(observed[0]+vx*horizon), round(observed[1]+vy*horizon))
+    point = arena.geometry.walk_end(observed, arena.geometry.clamp_tank_position(raw_point))
     distance = math.dist(start, observed)
     error = arena.rng.gauss(0, 4+distance*.008)
     angle = math.atan2(point[1]-start[1], point[0]-start[0])

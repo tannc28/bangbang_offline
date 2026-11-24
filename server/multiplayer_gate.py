@@ -26,7 +26,7 @@ from multiplayer_rooms import HUB, REQUEST, REPLY, RoomError, decode_request, en
 from multiplayer_battle import service
 
 log = logging.getLogger(__name__)
-INPUT_MESSAGES = frozenset((501, 503, 510, 514, 598))
+INPUT_MESSAGES = frozenset((501, 503, 510, 514, 598, 599))
 ROOM_MESSAGES = frozenset((200, 203, 204, 207, 210, 215, 304, 350, 509, 512, 552,
                            600, 601, 602, 603, 605, 607, 610, 611, 613, 614))
 
@@ -276,7 +276,7 @@ class MultiplayerGate:
         self.conn.sendall(self.wire.make_start_game(scene_id=self.state['battle']['scene_id'],
             map_id=room['map_id'], room_type=room['room_type'], char_data=cbs, back_data=[], enter_type=0))
         self.started_room = room['room_id']
-        self.conn.settimeout(.02)
+        self.conn.settimeout(.005)
 
     def _create(self, payload=None):
         self._refresh_profile()

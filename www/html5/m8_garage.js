@@ -11,6 +11,17 @@ import { inventoryCount } from './m8_meta_state.js';
 import {M88TankLevelEffect,acknowledgedTankAdvance,prepareTankLevelEffect} from './m88_tank_level_fx.js';
 import {renderHaloDialog} from './m812_halos.js';
 import {TANK_SKIN_CLOSE_LAYOUT as SKIN_CLOSE} from './m81330_room_layout.js';
+import {encodeCrystalAssign} from './m8_crystal_protocol.js';
+
+function loadFavoriteTanks() {
+  try {
+    const raw = JSON.parse(globalThis.localStorage?.getItem?.('bb-fav-tanks') || '[]');
+    return new Set(Array.isArray(raw) ? raw.map(Number).filter(Number.isInteger) : []);
+  } catch { return new Set(); }
+}
+function saveFavoriteTanks(set) {
+  try { globalThis.localStorage?.setItem?.('bb-fav-tanks', JSON.stringify([...set])); } catch { /* Ignore */ }
+}
 
 const GROUP = { 1: 'attack', 2: 'panzer', 3: 'assist', 4: 'panzer', 5: 'attack', 6: 'attack' };
 const GROUPS = [['all', 'Tất cả'], ['attack', 'Tấn công'], ['panzer', 'Phòng thủ'], ['assist', 'Hỗ trợ']];
@@ -136,6 +147,7 @@ export class M8Garage {
     this.onClose=onClose||(()=>{});
     this.onLevelUp=onLevelUp;
     this.selectedUuid = null; this.group = 'all'; this.page = 0;
+    this.searchQuery = ''; this.typeFilter = 'all'; this.favorites = loadFavoriteTanks();
     this.pending = false; this.status = ''; this.dialog = null; this.portraits = new Map(); this.disposed = false;
     this.tooltipCleanups = [];
     this.epoch=0;this.connectionGeneration=client.generation;this.levelEffect=null;
@@ -153,7 +165,8 @@ export class M8Garage {
     if(snapshot?.phase!=='ready'||!['lobby','room'].includes(snapshot?.play?.phase))this.releaseLevelEffect();
     const meta = snapshot?.meta;
     if (!meta) return;
-    const signature = `${this.epoch}|${meta.revision}|${snapshot.phase}|${snapshot.play?.phase}|${snapshot.play?.busy || ''}|${snapshot.play?.error || ''}`;
+    const boardsKey = Object.keys(snapshot?.crystals?.boards || {}).length;
+    const signature = `${this.epoch}|${meta.revision}|${boardsKey}|${snapshot.phase}|${snapshot.play?.phase}|${snapshot.play?.busy || ''}|${snapshot.play?.error || ''}`;
     if (this.signature === signature) return;
     this.signature = signature;
     if (!meta.tanks.some((tank) => tank.uuid === this.selectedUuid)) {
@@ -309,27 +322,87 @@ export class M8Garage {
     else if(!skinPanel&&!focusNode&&focusId==='garage-dialog-close')
       focusNode=controls.find(node=>node.dataset.testid==='garage-skins-open');
     focusNode?.focus({preventScroll:true});
+    if (focusId === 'garage-search-input' && focusNode && typeof focusNode.setSelectionRange === 'function') {
+      const len = focusNode.value.length;
+      focusNode.setSelectionRange(len, len);
+    }
+  }
+
+  conciseTankName(tankOrId) {
+    const raw = typeof tankOrId === 'object' ? this.name(tankOrId) : nativeText(this.catalog.tanks?.[tankOrId]?.name || '');
+    const paren = raw.match(/\(([^)]+)\)/);
+    if (raw.length > 13 && paren && paren[1].length <= 13) return paren[1].trim();
+    return raw.replace(/\s*\([^)]*\)\s*/g, '').trim() || raw;
   }
 
   renderList(stage) {
     GROUPS.forEach(([key, label], index) => {
-      const chosen = this.group === key;
+      const chosen = this.group === key && this.typeFilter !== 'fav';
       const button = this.nativeButton(`garage.${key}${chosen ? 'Active' : ''}`, label,
-        () => { this.group = key; this.page = 0; this.render(); });
+        () => { this.group = key; if (this.typeFilter === 'fav') this.typeFilter = 'all'; this.page = 0; this.render(); });
       button.setAttribute('aria-pressed', String(chosen));
-      Object.assign(button.style, { width: '72px', height: '35px' });
+      Object.assign(button.style, { width: '60px', height: '35px' });
       const labelAsset = this.ui(`garage.${key}${chosen ? 'Active' : ''}`);
       if (labelAsset && button.firstElementChild) positioned(button.firstElementChild,
-        (72 - labelAsset.width) / 2, (35 - labelAsset.height) / 2, labelAsset.width, labelAsset.height);
+        (60 - labelAsset.width) / 2, (35 - labelAsset.height) / 2, labelAsset.width, labelAsset.height);
       const background = this.ui(chosen ? 'garage.categoryActiveBackground' : 'garage.categoryBackground');
-      if (background) button.style.background = `url("${background.url}") center/72px 35px no-repeat`;
-      stage.append(positioned(button, 18 + index * 70, 42, 72, 35));
+      if (background) button.style.background = `url("${background.url}") center/60px 35px no-repeat`;
+      stage.append(positioned(button, 16 + index * 60, 42, 60, 35));
     });
+
+    const favChosen = this.typeFilter === 'fav';
+    const favTab = actionButton('', () => {
+      this.typeFilter = favChosen ? 'all' : 'fav';
+      this.page = 0;
+      this.render();
+    }, { testId: 'garage-type-fav', title: 'Tank đã ghim yêu thích', className: 'm8-native-button' });
+    favTab.setAttribute('aria-label', 'Tank yêu thích');
+    favTab.setAttribute('aria-pressed', String(favChosen));
+    const favBg = this.ui(favChosen ? 'garage.categoryActiveBackground' : 'garage.categoryBackground');
+    Object.assign(favTab.style, {
+      padding: '0', border: '0', borderRadius: '0', boxShadow: 'none', minWidth: '0', minHeight: '0',
+      background: favBg ? `url("${favBg.url}") center/42px 35px no-repeat` : 'transparent',
+    });
+    favTab.append(positioned(this.image(favChosen ? 'tank.star1' : 'tank.star0', ''), 10, 5, 22, 21));
+    stage.append(positioned(favTab, 256, 42, 42, 35));
+
+    const inputSkin = this.assets.get('zh_CN/gui_summer/controls/public/label152x27.png') || this.assets.get('crystal.nameBackground');
+    const search = element('input', null, 'm8-garage-search');
+    search.type = 'text';
+    search.placeholder = 'Tìm tank…';
+    search.value = this.searchQuery || '';
+    search.dataset.testid = 'garage-search-input';
+    search.setAttribute('aria-label', 'Tìm kiếm tank theo tên');
+    Object.assign(search.style, {
+      boxSizing: 'border-box', padding: '1px 7px 0 8px', border: '0', borderRadius: '0', outline: 'none',
+      background: inputSkin ? `url("${inputSkin.url}") center/100% 100% no-repeat` : '#0c5280',
+      color: '#e8f8ff', font: 'bold 12px Tahoma,sans-serif', boxShadow: 'none',
+    });
+    search.addEventListener('input', () => {
+      this.searchQuery = search.value;
+      this.page = 0;
+      this.render();
+    });
+    stage.append(positioned(search, 300, 46, 106, 27));
+
+    const normQuery = (this.searchQuery || '').trim().toLowerCase();
     const tanks = this.snapshot.meta.tanks.filter((tank) => {
       const base = this.catalog.tanks?.[tank.tankId];
-      return this.group === 'all' || GROUP[base?.classification] === this.group;
-    }).sort((a, b) => (this.catalog.tanks?.[a.tankId]?.sortValue ?? 0) - (this.catalog.tanks?.[b.tankId]?.sortValue ?? 0)
-      || a.tankId - b.tankId || a.uuid.localeCompare(b.uuid));
+      if (this.group !== 'all' && GROUP[base?.classification] !== this.group) return false;
+      if (this.typeFilter === 'phys' && base?.type !== 1) return false;
+      if (this.typeFilter === 'energy' && base?.type === 1) return false;
+      if (this.typeFilter === 'fav' && !this.favorites.has(tank.tankId)) return false;
+      if (normQuery) {
+        const tankLabel = `${this.name(tank)} ${base?.name || ''}`.toLowerCase();
+        if (!tankLabel.includes(normQuery)) return false;
+      }
+      return true;
+    }).sort((a, b) => {
+      const favDiff = Number(this.favorites.has(b.tankId)) - Number(this.favorites.has(a.tankId));
+      if (favDiff) return favDiff;
+      return (this.catalog.tanks?.[a.tankId]?.sortValue ?? 0) - (this.catalog.tanks?.[b.tankId]?.sortValue ?? 0)
+        || a.tankId - b.tankId || a.uuid.localeCompare(b.uuid);
+    });
     const cells = (this.assets.ui.layouts?.garage?.descriptors || []).filter((d) => /^frmTankCell\d+$/.test(d.id || ''));
     const pageSize = cells.length || 13;
     const pages = Math.max(1, Math.ceil(tanks.length / pageSize));
@@ -351,10 +424,23 @@ export class M8Garage {
       const avatar=this.portrait(tank,100,'m8-garage-cell-portrait');
       avatar.style.clipPath='polygon(47px 3px,90.30127px 28px,90.30127px 78px,47px 103px,3.69873px 78px,3.69873px 28px)';
       button.append(positioned(avatar,4,5,100,100));
+      const cellName = positioned(element('span', this.conciseTankName(tank), 'm8-garage-cell-name'), 9, 69, 86, 16);
+      Object.assign(cellName.style, {
+        fontSize: '10.5px', fontWeight: '700', fontFamily: 'Tahoma,sans-serif', lineHeight: '15px',
+        textAlign: 'center', color: '#ffffff', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis',
+        background: 'linear-gradient(90deg,rgba(5,36,68,.15),rgba(5,36,68,.86) 16%,rgba(5,36,68,.86) 84%,rgba(5,36,68,.15))',
+        textShadow: '0 0 3px #042444,0 1px 2px #042444', pointerEvents: 'none',
+      });
+      button.append(cellName);
       button.append(positioned(this.image('m85.tank.img_cell_grid2'),31,86,41,23));
       const level=textBlock(String(tank.level),32,87,40,{fontSize:'14px',textAlign:'center',color:'#fdf83a',fontWeight:'700',
         fontFamily:'Tahoma,sans-serif',height:'24px',lineHeight:'20px',textShadow:'0 0 2px #0f578d,0 0 2px #0f578d,0 0 2px #0f578d'});
       level.classList.add('m85-tank-cell-level');button.append(level);
+      if (this.favorites.has(tank.tankId)) {
+        const starMark = positioned(this.image('tank.star1', ''), 72, 9, 17, 16);
+        starMark.style.pointerEvents = 'none';
+        button.append(starMark);
+      }
       if(tank.selected)onBattlePosition=position;
       stage.append(positioned(button, position.x, position.y, 104, 117));
       if(selected)selectedPosition=position;
@@ -372,8 +458,22 @@ export class M8Garage {
   renderTank(stage, tank) {
     const base = this.catalog.tanks[tank.tankId] || {};
     const progress = tankProgression(this.catalog, tank, this.snapshot.meta);
+    const isFav = this.favorites.has(tank.tankId);
+    const favBtn = actionButton('', () => {
+      if (this.favorites.has(tank.tankId)) this.favorites.delete(tank.tankId);
+      else this.favorites.add(tank.tankId);
+      saveFavoriteTanks(this.favorites);
+      this.render();
+    }, { testId: 'garage-fav-toggle', title: isFav ? 'Bỏ ghim tank yêu thích' : 'Ghim tank yêu thích lên đầu danh sách', className: 'm8-native-button' });
+    favBtn.setAttribute('aria-label', isFav ? 'Bỏ ghim yêu thích' : 'Ghim yêu thích');
+    favBtn.setAttribute('aria-pressed', String(isFav));
+    Object.assign(favBtn.style, {
+      padding: '0', border: '0', background: 'transparent', boxShadow: 'none', minWidth: '0', minHeight: '0', cursor: 'pointer', zIndex: '4',
+    });
+    favBtn.append(positioned(this.image(isFav ? 'tank.star1' : 'tank.star0', ''), 0, 0, 26, 25));
     stage.append(positioned(this.image('garage.tankNameBackground'), 410, 55),
-      textBlock(this.name(tank), 372, 58, 234, { fontSize: '16px', fontWeight: '700', textAlign: 'center' }),
+      textBlock(this.name(tank), 392, 58, 182, { fontSize: '15px', fontWeight: '700', textAlign: 'center', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis', textShadow: '0 1px 2px #063259' }),
+      positioned(favBtn, 574, 57, 26, 25),
       positioned(this.image('garage.tankStage'), 382, 240, 236, 127),
       positioned(this.portrait(tank, 200, 'm8-garage-portrait'), 400, 153, 200, 200),
       positioned(this.image(base.type===1?'garage.typePhysics':'garage.typeEnergy'),375,98,50,50));
@@ -405,8 +505,41 @@ export class M8Garage {
       stage.append(frame);
     });
     stage.append(positioned(this.image('garage.experienceStage'), 354, 447));
-    if(tank.containerType===0)stage.append(textBlock(this.assets.presentation.texts.achievedLevel.replace('@num1@',String(tank.level)),370,510,260,
-      {fontSize:'14px',fontWeight:'700',textAlign:'center'}));
+    if (tank.containerType === 0) {
+      const boards = Object.values(this.snapshot?.crystals?.boards || {});
+      if (boards.length > 0 && typeof this.client.metaAction === 'function') {
+        const schemeWrap = positioned(element('div', null, 'm8-garage-crystal-quick'), 380, 484, 240, 22);
+        Object.assign(schemeWrap.style, { display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', zIndex: '4' });
+        const label = element('span', 'Bảng ngọc:', null);
+        Object.assign(label.style, { fontSize: '12px', fontWeight: '700', fontFamily: 'Tahoma,sans-serif', color: '#d8f3ff', textShadow: '0 1px 2px #052e52' });
+        const select = element('select', null, null);
+        select.dataset.testid = 'garage-crystal-select';
+        select.disabled = !this.canMutate();
+        Object.assign(select.style, {
+          maxWidth: '148px', height: '21px', padding: '0 4px', borderRadius: '3px',
+          border: '1px solid #1b79b4', background: '#108ec6', color: '#fff', font: 'bold 12px Tahoma,sans-serif',
+        });
+        for (const b of boards) {
+          const opt = element('option', nativeText(b.name) || `Bảng ${b.boardId}`);
+          opt.value = String(b.boardId);
+          if (Number(tank.crystalSchemeId || 1) === Number(b.boardId)) opt.selected = true;
+          select.append(opt);
+        }
+        select.addEventListener('change', () => {
+          const boardId = Number(select.value);
+          this.perform(
+            () => this.client.metaAction('Đang đổi bảng ngọc', encodeCrystalAssign(boardId, tank.uuid),
+              p => p.type === 'tankInstanceUpdated' && p.op === 19 && p.tank.uuid === tank.uuid,
+              'Đổi nhanh bảng tinh thể từ Gara'),
+            `Đã gán Bảng ngọc #${boardId} cho ${this.name(tank)}.`
+          );
+        });
+        schemeWrap.append(label, select);
+        stage.append(schemeWrap);
+      }
+      stage.append(textBlock(this.assets.presentation.texts.achievedLevel.replace('@num1@',String(tank.level)),370,510,260,
+        {fontSize:'14px',fontWeight:'700',textAlign:'center'}));
+    }
     stage.append(positioned(this.nativeButton('garage.upgradeLevel', 'Xem nâng cấp tank',
       () => { this.dialog = 'upgrade'; this.render(); }, { disabled: !['advance', 'strengthen'].includes(progress.kind), testId: 'garage-upgrade-open' }), 434, 529));
 
@@ -562,7 +695,8 @@ export class M8Garage {
     // TankUpWindow enables this entry until the last level. Check the current
     // acknowledged inventory on click; shortage is visible, never an item grant.
     const disabled = !this.canMutate();
-    placeImage('upgrade.buttonBackground', 250, 465);
+    const pairX = progress.kind === 'strengthen' ? 176 : 250;
+    placeImage('upgrade.buttonBackground', pairX, 465);
     const submit = this.nativeButton(disabled ? 'public.gray120' : 'public.green120', label,
       () => {
         const current=this.snapshot?.meta?.tanks?.find(row=>row.uuid===tank.uuid);
@@ -576,7 +710,43 @@ export class M8Garage {
       },
       { disabled, testId: 'garage-upgrade-confirm' });
     submit.append(positioned(this.image(disabled ? 'upgrade.upIconDisabled' : 'upgrade.upIcon'), 27, 6, 66, 23));
-    dialog.append(positioned(submit, 254, 469, 120, 35));
+    dialog.append(positioned(submit, pairX + 4, 469, 120, 35));
+    if (progress.kind === 'strengthen') {
+      placeImage('upgrade.buttonBackground', 326, 465);
+      const maxDisabled = disabled || !progress.affordable;
+      const blueSkin = this.assets.get('zh_CN/gui_summer/controls/public/button_window_blue.png') || this.ui('public.blueButton');
+      const graySkin = this.ui('public.gray120');
+      const activeSkin = maxDisabled ? graySkin : blueSkin;
+      const maxBtn = actionButton('Cường hóa tối đa', () => {
+        this.perform(async () => {
+          let steps = 0, lastRes = null;
+          for (let guard = 0; guard < 12; guard += 1) {
+            const cur = this.snapshot?.meta?.tanks?.find(row => row.uuid === tank.uuid);
+            const st = cur && tankProgression(this.catalog, cur, this.snapshot.meta);
+            if (!st || st.kind !== 'strengthen' || !st.affordable) break;
+            this.status = `Đang cường hóa liên tiếp (+${cur.strengthenLevel + 1})…`;
+            lastRes = await this.client.strengthenTank(tank.uuid);
+            if (!lastRes) break;
+            steps += 1;
+          }
+          if (!steps) {
+            const cur = this.snapshot?.meta?.tanks?.find(row => row.uuid === tank.uuid);
+            const st = cur && tankProgression(this.catalog, cur, this.snapshot.meta);
+            if (st && !st.affordable) throw new Error(`Chưa đủ nguyên liệu. ${materialShortageText(st.costs, this.catalog)}`);
+            return null;
+          }
+          return lastRes;
+        }, 'Đã cường hóa tối đa bậc hiện tại!');
+      }, { disabled: maxDisabled, testId: 'garage-strengthen-max', title: 'Tự động cường hóa tối đa bậc hiện tại theo nguyên liệu đang có' });
+      Object.assign(maxBtn.style, {
+        padding: '0 4px', border: '0', borderRadius: '0', boxShadow: 'none', minWidth: '0', minHeight: '0',
+        font: 'bold 12px Tahoma,sans-serif', color: maxDisabled ? '#d1d5db' : '#ffffff',
+        textShadow: '0 1px 2px #052e52', whiteSpace: 'nowrap',
+        background: activeSkin ? `url("${activeSkin.url}") center/120px 35px no-repeat` : '#108ec6',
+        cursor: maxDisabled ? 'default' : 'pointer',
+      });
+      dialog.append(positioned(maxBtn, 330, 469, 120, 35));
+    }
   }
 
   renderSkinDialog(stage, tank) {

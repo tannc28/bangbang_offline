@@ -25,8 +25,10 @@ TICK_SECONDS = .02
 LOADING_TIMEOUT = 20.0
 DISCONNECT_GRACE = 120.0
 QUEUE_BYTES = 4 * 1024 * 1024
-# Per-tick inputs: native movement/skill commands, plus C598 local battle chat.
-INPUT_LENGTHS = {501: (9, 128), 503: (13, 128), 510: (12, 128), 514: (8, 128), 598: (8, 327)}
+# Per-tick inputs: native movement/skill commands, C598 chat, and C599 tactical signal.
+INPUT_LENGTHS = {501: (9, 128), 503: (13, 128), 510: (12, 128), 514: (8, 128), 598: (8, 327), 599: (13, 13)}
+PERSIST_INTERVAL_SECONDS = 1.8
+URGENT_PERSIST_MIDS = frozenset((1566, 1708, 1710, 1731, 1733))
 DDL = ('CREATE TABLE IF NOT EXISTS multiplayer_matches ('
        'room_id INTEGER PRIMARY KEY,match_uuid TEXT UNIQUE NOT NULL,phase TEXT NOT NULL,'
        'state TEXT NOT NULL,arena TEXT,updated_ms INTEGER NOT NULL)')
@@ -65,7 +67,7 @@ def prepare_navigation(config,human_states,bots):
     """
     if not bots:return None
     from bot_setup import BOT_MAPS
-    map_id=config.get('map_id',(next(iter(human_states.values())).get('room') or {}).get('map_id'))
+    map_id=config['map_id'] if 'map_id' in config else (next(iter(human_states.values())).get('room') or {}).get('map_id')
     if map_id not in BOT_MAPS:return None
     key=(str(storage.database_path()),int(map_id))
     with _NAVIGATION_GUARD:
@@ -112,6 +114,17 @@ def _battle_chat(match, profile, payload):
     return bot_chat.on_human_chat(match.arena, actor, text, team, match.arena.clock())
 
 
+def _battle_signal(match, profile, payload):
+    """Broadcast a player's tactical ping to teammates and steer allied bots."""
+    import bot_chat
+    decoded = bot_chat.decode_battle_signal(payload, match.arena.scene_id)
+    actor = match.arena.actors.get(match.objects.get(profile))
+    if decoded is None or actor is None:
+        return []
+    kind, x, y, target_id = decoded
+    return bot_chat.on_human_signal(match.arena, actor, kind, (x, y), target_id, match.arena.clock())
+
+
 @dataclass
 class Mailbox:
     # Only immutable native payloads cross the worker/socket boundary. Both
@@ -142,6 +155,7 @@ class Match:
     pending: list = field(default_factory=list)
     created: float = field(default_factory=time.monotonic)
     last_real: float = field(default_factory=time.monotonic)
+    last_persisted_at: float = 0.0
     finished_at: float = 0.0
     ticks: int = 0
     error: str = ''
@@ -667,6 +681,9 @@ class BattleService:
                     if mid==598:
                         match.pending.extend(_battle_chat(match,profile,payload))
                         continue
+                    if mid==599:
+                        match.pending.extend(_battle_signal(match,profile,payload))
+                        continue
                     match.arena._shared_input_dispatch=True
                     match.pending.extend(match.arena.handle_for(match.objects[profile],mid,payload))
             finally:
@@ -718,14 +735,16 @@ class BattleService:
         except BaseException:
             db.rollback()
             raise
+        persisted_mono = time.monotonic()
         for match,phase,settled,merged,world_json in results:
+            match.last_persisted_at = persisted_mono
             match.world_json.update(world_json)
             if settled is not None:
                 for ident,state in settled.items():
                     match.states[ident].clear();match.states[ident].update(state)
                 match.state['battle'].update(completed_recorded=True,rank_result=merged)
             match.phase=phase;match.dirty=False
-            if phase=='finished' and not match.finished_at:match.finished_at=time.monotonic()
+            if phase=='finished' and not match.finished_at:match.finished_at=persisted_mono
             self._publish_status(match)
 
     def _commit_and_publish(self,match,packets):

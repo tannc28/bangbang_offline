@@ -2,8 +2,8 @@ import {element,actionButton,assetImage,selectInput,setText} from './m8_ui_helpe
 import {isManagedWaitingRoom} from './m81337_rooms_protocol.js';
 import {ROOM_SIDEBAR_PLAYER_LAYOUT as SIDEBAR,roomOrnamentRect} from './m81330_room_layout.js';
 
-export const BOT_AI_OPTIONS=Object.freeze([{value:'legacy',label:'Bot gốc'},{value:'elite_v1',label:'ProV3'}]);
-export const botAIName=value=>value==='elite_v1'?'ProV3':'Bot gốc';
+export const BOT_AI_OPTIONS=Object.freeze([{value:'legacy',label:'Bot gốc'},{value:'elite_v1',label:'ProV4 · Siêu né & Phối hợp'}]);
+export const botAIName=value=>value==='elite_v1'?'ProV4':'Bot gốc';
 export function sharedWaitingRoom(state){return isManagedWaitingRoom(state?.multiplayer,state?.play)?state.multiplayer.room:null;}
 export function roomCanStart(room){return !!room&&[1,2].every(camp=>room.seats.some(row=>row.camp===camp&&row.kind!=='empty'))
   &&room.seats.filter(row=>row.kind==='human').every(row=>row.ready&&row.connected);}

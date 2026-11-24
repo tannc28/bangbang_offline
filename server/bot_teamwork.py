@@ -27,19 +27,24 @@ MAPS = PK_MAPS | FLAG_MAPS | BASE_MAPS | DEATH_MAPS | {70}
 
 # Roles are decision hints, not stat modifiers.  A tank's native kit still
 # chooses its real range, movement, recasts, resources and support abilities.
-_SUPPORT = frozenset((10000002, 10000029, 10000031, 10000037, 10000054,
-                     10000061, 10000065, 10000073, 10000080, 10000085,
-                     10000107, 10000113))
-_FRONTLINE = frozenset((10000003, 10000034, 10000036, 10000039, 10000040,
-                       10000043, 10000046, 10000051, 10000056, 10000066,
-                       10000067, 10000075, 10000082, 10000094, 10000097,
-                       10000103, 10000109))
-_ARTILLERY = frozenset((10000001, 10000033, 10000041, 10000050, 10000052,
-                       10000058, 10000060, 10000063, 10000069, 10000084,
-                       10000088, 10000089, 10000101, 10000106, 10000112))
+_SUPPORT = frozenset((10000002, 10000029, 10000031, 10000037, 10000045,
+                     10000054, 10000061, 10000065, 10000073, 10000080,
+                     10000085, 10000107, 10000113))
+_FRONTLINE = frozenset((10000003, 10000032, 10000034, 10000036, 10000038,
+                       10000039, 10000040, 10000043, 10000046, 10000051,
+                       10000053, 10000056, 10000062, 10000066, 10000067,
+                       10000072, 10000075, 10000082, 10000091, 10000094,
+                       10000097, 10000102, 10000103, 10000109))
+_ARTILLERY = frozenset((10000001, 10000019, 10000033, 10000041, 10000042,
+                       10000049, 10000050, 10000052, 10000058, 10000059,
+                       10000060, 10000063, 10000069, 10000074, 10000079,
+                       10000083, 10000084, 10000086, 10000088, 10000089,
+                       10000095, 10000098, 10000101, 10000105, 10000106,
+                       10000110, 10000111, 10000112))
 _SKIRMISHER = frozenset((10000008, 10000030, 10000035, 10000044, 10000047,
-                        10000048, 10000055, 10000070, 10000076, 10000077,
-                        10000078, 10000081, 10000087, 10000093, 10000096,
+                        10000048, 10000055, 10000057, 10000064, 10000070,
+                        10000071, 10000076, 10000077, 10000078, 10000081,
+                        10000087, 10000090, 10000092, 10000093, 10000096,
                         10000099, 10000100, 10000104, 10000108, 10000114,
                         10000115))
 
@@ -1115,6 +1120,32 @@ def orders(arena, camp, now):
     else:
         result = _pk_plan(arena, camp, members, bots, reports, previous, now)
     _focus(result, reports, members, previous, now)
+    import bot_mind
+    sig = bot_mind.active_signal(arena, camp, now)
+    if sig is not None:
+        reserved = []
+        for m in bots:
+            entry = result.get(m['id'])
+            if not entry:
+                continue
+            if sig['kind'] == 2:
+                spawn = arena.geometry.spawn(camp, m['actor'].info.get('spawn_index', 0), respawn=True)
+                entry.update(task='retreat', stance='retreat', goal=spawn)
+            elif sig['kind'] in (1, 3):
+                center = sig['pos']
+                if sig['kind'] == 3:
+                    sender = arena.actors.get(sig.get('sender'))
+                    if sender is not None and sender.alive and sender.camp == camp:
+                        center = sender.position_at(now)
+                goal = _goal(arena, m, center, reserved, center=center, radius=192)
+                if goal is not None:
+                    reserved.append(goal)
+                    entry.update(goal=goal, stance='engage')
+                if sig['kind'] == 1 and sig.get('target'):
+                    hit = next((r for r in reports if r['id'] == sig['target']), None)
+                    if hit is not None:
+                        entry.update(focus=hit['id'], focus_generation=hit['generation'],
+                                     focus_observed_at=hit['observed_at'])
     lease = previous.get('elite_order_until', 0)
     teams[camp] = dict(version=VERSION, signature=signature, contacts=reports,
                        orders=result, advance=previous.get('advance', 0),

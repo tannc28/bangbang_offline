@@ -369,7 +369,14 @@ def react_rival_greet(arena, bot, player, rival, now):
 
 
 CHAT_INPUT = 598
+SIGNAL_INPUT = 599
+SIGNAL_MSG = 1598
 MAX_CHAT_BYTES = 320
+SIGNAL_REPLIES = {
+    1: ('Rõ, dồn sát thương mục tiêu!', 'Đã khóa mục tiêu, lên!', 'Tập trung bắn mục tiêu đó!'),
+    2: ('Rõ, đang lùi về bọc lót!', 'Giữ khoảng cách, rút lui nhẹ!', 'Đang rút về hỗ trợ bạn!'),
+    3: ('Rõ, đang tập hợp quanh bạn!', 'Đang gom đội hình lại!', 'Tới ngay, đánh cùng nhau!'),
+}
 
 
 def decode_battle_chat(payload, scene_id):
@@ -385,14 +392,75 @@ def decode_battle_chat(payload, scene_id):
         return None
 
 
+def decode_battle_signal(payload, scene_id):
+    """(kind, x, y, target_id) from a C599 body (scene u32, kind u8, x i16, y i16, target u32), or None."""
+    if len(payload) != 13:
+        return None
+    scene, kind, x, y, target_id = struct.unpack('<IBhhI', payload)
+    if scene != scene_id or kind not in (1, 2, 3):
+        return None
+    return kind, int(x), int(y), int(target_id)
+
+
+def _camp_only(arena, camp, packet):
+    if arena.state.get('multiplayer_players'):
+        from battle_participants import camp_viewers
+        return camp_viewers(arena, camp, packet)
+    return packet
+
+
+def on_human_signal(arena, speaker, kind, pos, target_id, now):
+    """Record a player's tactical ping, notify same-camp clients (S1598) and queue bot ack."""
+    if not isinstance(getattr(arena, 'pk', None), dict) or arena.pk.get('finished'):
+        return []
+    signals = arena.pk.setdefault('signal_cooldowns', {})
+    skey = str(speaker.id)
+    if 0 <= now - signals.get(skey, -2000) < 900:
+        return []
+    signals[skey] = now
+    clamped = arena.geometry.clamp_tank_position(pos)
+    target = arena.actors.get(target_id) if target_id else None
+    if target is None or not target.alive or target.camp == speaker.camp:
+        target_id = 0
+    else:
+        clamped = tuple(round(v) for v in target.position_at(now))
+    import bot_mind
+    bot_mind.record_human_signal(arena, speaker, kind, clamped, target_id, now)
+    raw_name = _name(speaker).encode('utf-8')
+    pkt = (SIGNAL_MSG, struct.pack('<IBBhhI', speaker.id, speaker.camp, kind,
+                                   int(clamped[0]), int(clamped[1]), int(target_id))
+           + struct.pack('<H', len(raw_name)) + raw_name)
+    out = [_camp_only(arena, speaker.camp, pkt)]
+    if enabled(arena):
+        allies = [a for a in _bots(arena) if a.camp == speaker.camp and a.alive]
+        if allies:
+            ally = _rng.choice(allies)
+            reply = _rng.choice(SIGNAL_REPLIES.get(kind, SIGNAL_REPLIES[3]))
+            chat = _state(arena)
+            chat['queue'] = [item for item in chat['queue'] if item['id'] != ally.id]
+            chat['queue'].append(dict(id=ally.id, camp=ally.camp, channel=TEAM,
+                                      name=_name(ally), text=reply,
+                                      due=now + _rng.randint(350, 850), priority=True))
+            chat['said'][str(ally.id)] = now
+    return out
+
+
 def on_human_chat(arena, speaker, text, team, now):
     """Echo a player's line to the battle and queue one or two bot replies."""
     text = ' '.join(str(text).split())[:MAX_HUMAN_TEXT]
-    if not text or not enabled(arena):
+    if not text:
+        return []
+    lowered = text.lower()
+    if lowered in ('/tk', '/tt', '/recap', 'tường thuật', 'tuong thuat'):
+        import match_story
+        summary = match_story.live_summary(arena, speaker)
+        pkt = _packet(dict(id=speaker.id, camp=speaker.camp, channel=TEAM,
+                           name='Tường thuật', text=summary[:140], due=now))
+        return [_camp_only(arena, speaker.camp, pkt)]
+    if not enabled(arena):
         return []
     echo = _packet(dict(id=speaker.id, camp=speaker.camp, channel=TEAM if team else ALL,
                         name=_name(speaker), text=text, due=now))
-    lowered = text.lower()
     pool = next((answers for keys, answers in REPLIES if any(k in lowered for k in keys)), DEFAULT_REPLIES)
     listeners = [a for a in _bots(arena) if not team or a.camp == speaker.camp]
     _rng.shuffle(listeners)

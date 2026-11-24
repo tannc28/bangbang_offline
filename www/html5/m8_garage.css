@@ -95,3 +95,6 @@
 .m85-skin-scroll-range:focus-visible { outline:2px solid #fff;outline-offset:2px; }
 
 .m812-halo-status{margin:0;line-height:18px;font-size:12px;pointer-events:none;}
+.m8-garage .m8-garage-search::placeholder{color:#bfe8ff;opacity:.92;font-weight:700;}
+.m8-garage .m8-garage-search:focus-visible{filter:brightness(1.12);}
+

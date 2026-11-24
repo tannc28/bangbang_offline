@@ -202,11 +202,10 @@ def _grid_path(nav, start, goal, threats=(), blockers=()):
             best = p
         if p == end:
             break
-        edges = (nav.neighbors(p) if nav.geometry.id in (14, 19, 70)
-                 else nav._neighbors(p))
+        edges = nav.neighbors(p)
         # These values depend on p and each ally, never the candidate edge q.
         # Computing once retains the same strict float comparisons and order.
-        blocker_limits = tuple((b, min(64, math.dist(p, b))) for b in blockers)
+        blocker_limits = tuple((b, min(64, math.dist(p, b))) for b in blockers) if blockers else ()
         for q, step_cost in edges:
             if (bounds is not None
                     and ((bounds[0] < q[0] < bounds[2] and bounds[1] < q[1] < bounds[3])
@@ -225,7 +224,6 @@ def _grid_path(nav, start, goal, threats=(), blockers=()):
     while p != source:
         route.append(p)
         p = parent[p]
-    if nav.geometry.id == 19:
-        route = [(p[0], p[1]) for p in route]
+    route = [(p[0], p[1]) for p in route]
     route.append(source)
     return list(reversed(route))

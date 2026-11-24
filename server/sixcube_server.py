@@ -581,8 +581,11 @@ def _client_handler(conn: socket.socket, addr) -> None:
     boss_notice_at = 0
     boss_notice_state = None
 
+    last_battle_save = 0.0
+    URGENT_SAVE_MIDS = frozenset((1561, 1566, 1708, 1710, 1731, 1733, 1951, 1952))
+
     def checkpoint():
-        nonlocal saved_arena
+        nonlocal saved_arena, last_battle_save
         if not owns_world:
             return
         if session_state.get('multiplayer_room_id'):
@@ -605,6 +608,16 @@ def _client_handler(conn: socket.socket, addr) -> None:
                 before_write=lambda db:pve_progress.complete(db,session_state,arena)) or [])
         else:
             ranked_matches.checkpoint(session_state,arena,saved_arena,world_db)
+        last_battle_save = time.monotonic()
+
+    def battle_checkpoint(packets=(), *, force=False):
+        battle = session_state.get('battle')
+        arena = battle.get('actions') if battle else None
+        if (force or not battle or not battle.get('entered') or not arena
+                or (arena.pk and arena.pk.get('finished'))
+                or any(mid in URGENT_SAVE_MIDS for mid, _ in packets)
+                or time.monotonic() - last_battle_save >= 1.8):
+            checkpoint()
 
     def send_actions(packets):
         if pending_pve_sync:
@@ -655,8 +668,13 @@ def _client_handler(conn: socket.socket, addr) -> None:
         battle = session_state["battle"]
         if battle and battle.get("entered") and battle.get("actions"):
             packets = battle["actions"].tick()
-            checkpoint()
-            send_actions(packets)
+            finished = bool(battle["actions"].pk and battle["actions"].pk.get("finished"))
+            if finished or any(mid == 1708 for mid, _ in packets):
+                checkpoint()
+                send_actions(packets)
+            else:
+                send_actions(packets)
+                battle_checkpoint(packets)
 
     def deliver_boss_rewards():
         # Reuse the GATE owner connection, commit bag + receipt together, and
@@ -1711,9 +1729,14 @@ def _client_handler(conn: socket.socket, addr) -> None:
                         battle = session_state["battle"]
                         if battle and battle.get("entered") and battle.get("actions"):
                             packets = battle["actions"].handle(mid,payload)
-                            checkpoint()
-                            send_actions(packets)
-                            continue  # Already committed before the combat reply.
+                            finished = bool(battle["actions"].pk and battle["actions"].pk.get("finished"))
+                            if finished or any(m == 1708 for m, _ in packets):
+                                checkpoint()
+                                send_actions(packets)
+                            else:
+                                send_actions(packets)
+                                battle_checkpoint(packets)
+                            continue
 
                     elif mid == 598:
                         # Local battle chat (solo arenas; hub rooms go through multiplayer_battle).
@@ -1726,8 +1749,24 @@ def _client_handler(conn: socket.socket, addr) -> None:
                         if decoded is None:
                             continue
                         packets = bot_chat.on_human_chat(actions, actions.player, decoded[0], decoded[1], actions.clock())
-                        checkpoint()
                         send_actions(packets)
+                        battle_checkpoint(packets)
+                        continue
+
+                    elif mid == 599:
+                        # Tactical team signal ping (solo arenas; hub rooms go through multiplayer_battle).
+                        battle = session_state["battle"]
+                        actions = battle.get("actions") if battle else None
+                        if not actions or not battle.get("entered"):
+                            continue
+                        import bot_chat
+                        decoded = bot_chat.decode_battle_signal(payload, battle["scene_id"])
+                        if decoded is None:
+                            continue
+                        kind, sx, sy, target_id = decoded
+                        packets = bot_chat.on_human_signal(actions, actions.player, kind, (sx, sy), target_id, actions.clock())
+                        send_actions(packets)
+                        battle_checkpoint(packets)
                         continue
 
                     elif mid in (509, 512, 613):
@@ -1825,7 +1864,7 @@ def _client_handler(conn: socket.socket, addr) -> None:
                         # Chat heartbeat ping - just keep alive
                         pass
 
-                checkpoint()
+                battle_checkpoint()
 
     except Exception as exc:
         _record_error(addr,role,exc)

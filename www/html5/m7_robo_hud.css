@@ -191,3 +191,95 @@
 .m811-round-banner{position:absolute;top:23%;left:50%;transform:translateX(-50%);width:min(460px,70%);text-align:center;pointer-events:none;z-index:9}
 .m7-robo-hud .m811-round-banner img{display:block;max-width:100%;width:auto;height:auto;max-height:110px;margin:auto;object-fit:contain}
 .m811-round-caption{font:bold 20px Tahoma,Arial,sans-serif;color:#fff1a8;text-shadow:0 2px 3px #001c31;margin-top:10px}
+
+/* Upgraded HUD: Roster Momentum/Status Badges, Shield Bars, Target Inspector, Live Commentary & Tab Scoreboard */
+.m7-roster-item[data-dead="true"] .m7-roster-avatar { filter:grayscale(1) brightness(.55); }
+.m7-roster-onfire { box-shadow:0 0 10px 1px rgba(255,140,36,.85), inset 0 0 6px rgba(255,204,77,.65); border-radius:4px; }
+.m7-roster-nemesis { outline:1.5px solid rgba(255,72,72,.9); outline-offset:-1px; border-radius:4px; }
+.m7-roster-shield { position:absolute; left:3px; bottom:9px; height:3px; background:linear-gradient(90deg,#ffffff,#7dd3fc);
+  box-shadow:0 0 3px rgba(125,211,252,.9); pointer-events:none; }
+.m7-roster-dead-timer { position:absolute; left:3px; top:14px; width:56px; text-align:center;
+  font:bold 12px Tahoma,Arial,sans-serif; color:#ffdede; background:rgba(8,12,20,.74);
+  border-radius:3px; padding:1px 0; text-shadow:0 1px 2px #000; pointer-events:none; z-index:4; }
+.m7-roster-badges { position:absolute; left:2px; top:1px; max-width:44px; padding:1px 3px;
+  font:bold 10px/1.1 Tahoma,Arial,sans-serif; color:#ffe885; background:rgba(12,18,28,.82);
+  border:1px solid rgba(255,196,77,.55); border-radius:4px; white-space:nowrap; pointer-events:none; z-index:4;
+  text-shadow:0 1px 2px #000; }
+.m7-vital-shield { position:absolute; left:0; top:0; height:4px; background:linear-gradient(90deg,#ffffff,#7dd3fc);
+  box-shadow:0 0 4px rgba(125,211,252,.95); pointer-events:none; z-index:2; }
+.m7-vital-label { z-index:3; }
+.m7-robo-hud .m7-signal:not(:disabled):hover { filter:var(--m7-highlight-button) drop-shadow(0 0 4px rgba(255,230,128,.7)); }
+
+.m7-live-bar { position:absolute; left:4px; top:98px; display:flex; align-items:center; gap:6px; max-width:460px; z-index:6; }
+.m7-robo-hud .m7-live-recap-btn { padding:2px 8px; border-radius:10px; background:rgba(10,20,34,.82);
+  border:1px solid rgba(125,211,252,.5); color:#bae6fd; font:bold 11px Tahoma,Arial,sans-serif;
+  box-shadow:0 2px 6px rgba(0,0,0,.45); }
+.m7-robo-hud .m7-live-recap-btn:hover { background:rgba(18,36,60,.95); color:#fff; border-color:#7dd3fc; }
+.m7-live-ticker { padding:2px 9px; border-radius:10px; background:rgba(9,16,28,.84);
+  border:1px solid rgba(255,214,102,.45); color:#fef08a; font:bold 11px Tahoma,Arial,sans-serif;
+  white-space:nowrap; overflow:hidden; text-overflow:ellipsis; max-width:330px; pointer-events:none;
+  text-shadow:0 1px 2px #000; }
+.m7-live-ticker[data-tone="ally"] { border-color:rgba(74,222,128,.55); color:#bbf7d0; }
+.m7-live-ticker[data-tone="enemy"] { border-color:rgba(251,113,133,.55); color:#fecdd3; }
+
+.m7-target-inspector { position:absolute; left:50%; top:80px; transform:translateX(-50%); min-width:230px; max-width:320px;
+  padding:5px 10px 6px; border-radius:7px; background:rgba(8,15,27,.88); border:1px solid rgba(255,112,112,.6);
+  box-shadow:0 4px 12px rgba(0,0,0,.5); pointer-events:none; z-index:6; text-align:center; }
+.m7-target-inspector[data-ally="true"] { border-color:rgba(56,189,248,.65); }
+.m7-target-inspector[data-execute="true"] { border-color:#ffd166; box-shadow:0 0 14px rgba(255,46,76,.65), 0 4px 12px rgba(0,0,0,.55); }
+.m7-target-insp-name { display:block; font:bold 12px Tahoma,Arial,sans-serif; color:#ffd6d6; text-shadow:0 1px 2px #000; }
+.m7-target-inspector[data-ally="true"] .m7-target-insp-name { color:#bae6fd; }
+.m7-target-insp-tags { display:block; margin-top:1px; font:bold 10px Tahoma,Arial,sans-serif; color:#fde047; }
+.m7-target-inspector[data-execute="true"] .m7-target-insp-tags { color:#fff3b0; text-shadow:0 0 6px rgba(255,46,76,.85); }
+.m7-target-insp-track { position:relative; margin-top:4px; width:100%; height:13px; border-radius:4px;
+  background:#09111d; border:1px solid rgba(255,255,255,.2); overflow:hidden; }
+.m7-target-insp-hp { position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,#ef4444,#f97316); }
+.m7-target-inspector[data-ally="true"] .m7-target-insp-hp { background:linear-gradient(90deg,#0284c7,#38bdf8); }
+.m7-target-insp-shield { position:absolute; left:0; top:0; height:4px; background:linear-gradient(90deg,#fff,#7dd3fc); }
+.m7-target-insp-val { position:relative; z-index:2; display:block; font:bold 10px/13px Arial,sans-serif;
+  color:#fff; text-shadow:0 1px 2px #000; }
+
+.m7-death-recap { position:absolute; left:50%; top:calc(100% + 4px); transform:translateX(-50%); width:560px; max-width:92vw;
+  padding:6px 12px; border-radius:7px; background:rgba(8,14,25,.92); border:1px solid rgba(251,146,60,.55);
+  box-shadow:0 4px 14px rgba(0,0,0,.6); text-align:center; pointer-events:none; z-index:8; }
+.m7-death-dmg-line { font:bold 12px Tahoma,Arial,sans-serif; color:#fed7aa; text-shadow:0 1px 2px #000; }
+.m7-death-story-line { margin-top:3px; font:11px Tahoma,Arial,sans-serif; color:#bae6fd; white-space:nowrap;
+  overflow:hidden; text-overflow:ellipsis; }
+
+.m7-robo-hud .m7-chat-ask-recap { padding:4px 7px; background:#1d3557; border:1px solid #58dfff; color:#e0f2fe; font-weight:bold; }
+.m7-robo-hud .m7-chat-ask-recap:hover { background:#274c77; }
+
+.m7-scoreboard { position:absolute; left:50%; top:50%; transform:translate(-50%,-50%); width:min(860px,92%);
+  padding:12px 14px; border-radius:10px; background:rgba(7,14,26,.94); border:1px solid rgba(125,211,252,.55);
+  box-shadow:0 12px 34px rgba(0,0,0,.78); pointer-events:none; z-index:20; box-sizing:border-box; }
+.m7-scoreboard.m7-sb-pinned { pointer-events:auto; }
+.m7-sb-head { display:flex; align-items:center; justify-content:space-between; padding-bottom:8px;
+  border-bottom:1px solid rgba(148,163,184,.28); margin-bottom:8px; }
+.m7-sb-title { font:bold 14px Tahoma,Arial,sans-serif; color:#fde047; letter-spacing:.4px; }
+.m7-robo-hud .m7-sb-close { padding:2px 9px; border-radius:5px; background:rgba(239,68,68,.24);
+  border:1px solid rgba(248,113,113,.6); color:#fecaca; font:bold 11px Tahoma,Arial,sans-serif; }
+.m7-sb-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+.m7-sb-team { background:rgba(15,23,42,.75); border:1px solid rgba(148,163,184,.22); border-radius:7px; padding:6px 8px; }
+.m7-sb-team-ally { border-color:rgba(56,189,248,.4); }
+.m7-sb-team-enemy { border-color:rgba(248,113,113,.4); }
+.m7-sb-team-head { font:bold 12px Tahoma,Arial,sans-serif; color:#e2e8f0; margin-bottom:4px; }
+.m7-sb-team-ally .m7-sb-team-head { color:#7dd3fc; }
+.m7-sb-team-enemy .m7-sb-team-head { color:#fca5a5; }
+.m7-sb-row { display:grid; grid-template-columns:1.8fr .85fr 1fr .85fr .95fr; gap:5px; align-items:center;
+  padding:3px 4px; border-radius:4px; font:11px Tahoma,Arial,sans-serif; color:#e2e8f0; }
+.m7-sb-colhead { font-weight:bold; color:#94a3b8; border-bottom:1px solid rgba(148,163,184,.2); margin-bottom:2px; }
+.m7-sb-self { background:rgba(34,197,94,.18); color:#dcfce7; font-weight:bold; }
+.m7-sb-dead { opacity:.68; }
+.m7-sb-who { white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+.m7-sb-dmg { position:relative; display:block; height:15px; line-height:15px; padding:0 4px;
+  background:rgba(2,6,23,.65); border-radius:3px; overflow:hidden; text-align:right; }
+.m7-sb-dmg-bar { position:absolute; left:0; top:0; bottom:0; background:rgba(251,146,60,.42); }
+.m7-sb-dmg b { position:relative; z-index:1; font-weight:bold; color:#fed7aa; }
+.m7-sb-taken { text-align:right; color:#cbd5e1; }
+.m7-sb-state { text-align:right; font-size:10px; color:#bae6fd; white-space:nowrap; }
+.m7-sb-recap { margin-top:9px; padding:7px 10px; border-radius:7px; background:rgba(15,23,42,.82);
+  border:1px solid rgba(250,204,21,.32); }
+.m7-sb-recap-title { font:bold 11px Tahoma,Arial,sans-serif; color:#fde047; margin-bottom:3px; }
+.m7-sb-recap-item { font:11px/1.45 Tahoma,Arial,sans-serif; color:#f1f5f9; }
+.m7-sb-hint { margin-top:6px; text-align:center; font:11px Tahoma,Arial,sans-serif; color:#94a3b8; }
+

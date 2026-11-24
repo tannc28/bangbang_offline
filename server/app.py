@@ -39,6 +39,39 @@ log = get_logger('http')
 STORE = Store()
 
 
+import gzip
+import threading
+from collections import OrderedDict
+
+_GZIP_LOCK = threading.Lock()
+_GZIP_CACHE: OrderedDict[tuple[str, int, int], bytes] = OrderedDict()
+_GZIP_CACHE_BYTES = 0
+_GZIP_MAX_BYTES = 64 * 1024 * 1024
+_GZIP_SUFFIXES = frozenset(('.json', '.js', '.css', '.html', '.svg', '.xml'))
+
+
+def _cached_gzip(key: tuple[str, int, int], raw: bytes) -> bytes:
+    global _GZIP_CACHE_BYTES
+    with _GZIP_LOCK:
+        hit = _GZIP_CACHE.get(key)
+        if hit is not None:
+            _GZIP_CACHE.move_to_end(key)
+            return hit
+    compressed = gzip.compress(raw, compresslevel=5)
+    if len(compressed) <= _GZIP_MAX_BYTES // 2:
+        with _GZIP_LOCK:
+            existing = _GZIP_CACHE.get(key)
+            if existing is not None:
+                _GZIP_CACHE.move_to_end(key)
+                return existing
+            while _GZIP_CACHE and (_GZIP_CACHE_BYTES + len(compressed) > _GZIP_MAX_BYTES or len(_GZIP_CACHE) >= 96):
+                _, evicted = _GZIP_CACHE.popitem(last=False)
+                _GZIP_CACHE_BYTES = max(0, _GZIP_CACHE_BYTES - len(evicted))
+            _GZIP_CACHE[key] = compressed
+            _GZIP_CACHE_BYTES += len(compressed)
+    return compressed
+
+
 class Handler(SimpleHTTPRequestHandler):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, directory=str(WWW), **kwargs)
@@ -206,6 +239,34 @@ class Handler(SimpleHTTPRequestHandler):
                 self.end_headers()
                 self.wfile.write(empty_xml)
                 return
+
+        if (file_path.is_file() and file_path.suffix.lower() in _GZIP_SUFFIXES
+                and "Range" not in self.headers
+                and WWW in file_path.resolve().parents):
+            try:
+                st = file_path.stat()
+                etag = f'W/"{st.st_mtime_ns:x}-{st.st_size:x}"'
+                if self.headers.get("If-None-Match") == etag:
+                    self.send_response(304)
+                    self.send_header("ETag", etag)
+                    self.send_header("Content-Length", "0")
+                    self.end_headers()
+                    return
+                accept_gz = "gzip" in (self.headers.get("Accept-Encoding") or "").lower()
+                if accept_gz and st.st_size >= 1024:
+                    raw = file_path.read_bytes()
+                    gz = _cached_gzip((str(file_path), st.st_mtime_ns, st.st_size), raw)
+                    self.send_response(200)
+                    self.send_header("Content-Type", self.guess_type(str(file_path)))
+                    self.send_header("Content-Encoding", "gzip")
+                    self.send_header("Vary", "Accept-Encoding")
+                    self.send_header("ETag", etag)
+                    self.send_header("Content-Length", str(len(gz)))
+                    self.end_headers()
+                    self.wfile.write(gz)
+                    return
+            except OSError:
+                pass
 
         return super().do_GET()
 

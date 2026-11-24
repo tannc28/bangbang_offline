@@ -45,9 +45,10 @@ M8_MESSAGES = frozenset((60000, 60002, 60004, 60006, 60008, 350, 556, 557, 68, 6
 ALLOWED_MESSAGES = {
     "AUTH": frozenset((51, 52)),
     "GATE": frozenset((52, 54, 56, 61, 72, 165, 215, 501, 503, 509, 510, 512, 514, 552,
-                       598, 600, 601, 602, 605, 607, 610, 611, 613, 614)) | M8_MESSAGES,
+                       598, 599, 600, 601, 602, 605, 607, 610, 611, 613, 614)) | M8_MESSAGES,
     "CHAT": frozenset((54, 60)),
 }
+SESSION_LEASE_TTL = 2.0
 
 
 class WebSocketError(ValueError):
@@ -77,6 +78,14 @@ def _pack_ws(payload, opcode=2):
     return header + payload
 
 
+def _unmask_ws(raw: bytes, key: bytes) -> bytes:
+    n = len(raw)
+    if not n:
+        return b""
+    repeated = (key * ((n + 3) // 4))[:n]
+    return (int.from_bytes(raw, "big") ^ int.from_bytes(repeated, "big")).to_bytes(n, "big")
+
+
 def _read_ws(stream):
     """Read one masked RFC 6455 frame, leaving message reassembly to the relay."""
     first, second = _read_exact(stream, 2)
@@ -99,10 +108,8 @@ def _read_ws(stream):
     if opcode in (8, 9, 10) and (not final or n > 125):
         raise WebSocketError("Invalid WebSocket control frame")
     key = _read_exact(stream, 4)
-    payload = bytearray(_read_exact(stream, n))
-    for i in range(n):
-        payload[i] ^= key[i % 4]
-    return final, opcode, bytes(payload)
+    payload = _unmask_ws(_read_exact(stream, n), key)
+    return final, opcode, payload
 
 
 def _validate_close(payload):
@@ -154,16 +161,27 @@ class SessionLease:
         self.username = session["username"]
         self.cookie = session["cookie"]
         self.database = getattr(store, "path", None)
+        self._verified_until = 0.0
 
     def _row(self, sql, args):
         import storage
         with storage.connection(self.database) as db:
             return db.execute(sql, args).fetchone()
 
-    def active(self):
-        row = self._row("SELECT username FROM sessions WHERE cookie=? AND exp>=? LIMIT 1",
-                        (self.cookie, time.time()))
-        return row is not None and secrets.compare_digest(row[0], self.username)
+    def active(self, *, force=False):
+        now_mono = time.monotonic()
+        if not force and now_mono < self._verified_until:
+            return True
+        now_wall = time.time()
+        row = self._row("SELECT username, exp FROM sessions WHERE cookie=? AND exp>=? LIMIT 1",
+                        (self.cookie, now_wall))
+        ok = row is not None and secrets.compare_digest(row[0], self.username)
+        if ok:
+            remaining = max(0.0, float(row[1]) - now_wall)
+            self._verified_until = now_mono + min(SESSION_LEASE_TTL, remaining)
+        else:
+            self._verified_until = 0.0
+        return ok
 
     def token_owner(self, token):
         row = self._row("SELECT username FROM sessions WHERE token=? AND exp>=? LIMIT 1",
@@ -299,6 +317,8 @@ class NativeGuard:
                     self._validate_m4(mid, body)
                 elif mid == 598:
                     self._validate_battle_chat(body)
+                elif mid == 599:
+                    self._validate_battle_signal(body)
                 else:
                     self._validate_m3(mid, body)
 
@@ -335,6 +355,14 @@ class NativeGuard:
         if not scene or channel not in (0, 1) or not 0 < size <= MAX_CHAT_BYTES or len(body) != 7 + size:
             raise ValueError("C598 shape")
         body[7:].decode("utf-8")
+
+    def _validate_battle_signal(self, body):
+        """C599 tactical ping: scene u32, kind u8 (1 atk, 2 bak, 3 mst), x i16, y i16, target u32."""
+        if len(body) != 13:
+            raise ValueError("C599 length")
+        scene, kind, _, _, _ = struct.unpack("<IBhhI", body)
+        if not scene or kind not in (1, 2, 3):
+            raise ValueError("C599 shape")
 
     def _validate_m3(self, mid, body):
         """Validate wire shape/identity; the native server owns all game rules.
@@ -654,6 +682,10 @@ def handle_websocket(handler, *, session, store):
     finally:
         handler.protocol_version = previous
     handler.close_connection = True
+    try:
+        handler.connection.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+    except OSError:
+        pass
     handler.connection.settimeout(CLIENT_IDLE_TIMEOUT)
     write_lock = threading.Lock()
     closed = threading.Event()

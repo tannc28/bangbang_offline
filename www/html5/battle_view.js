@@ -1,7 +1,7 @@
 import {SpriteSurface, rendererPreference, saveRendererPreference} from './sprite_surface.js';
 import {createBattleGeometry} from './battle_geometry.js';
 import {BattleInput} from './battle_input.js';
-import {visualPosition, visualProjectilePosition, projectileDestination,
+import {visualPosition, visualXY, visualCannonAngle, visualProjectilePosition, projectileDestination,
   takeCombatEffects, nativeControlFlags, cooldownView, serverTimeAt} from './combat_state.js';
 import {BattleEffects, bulletExhibit, resourceSequence, timelineSample, angle,
   NORMAL_TICK_MS, exhibitLifecycle} from './battle_effects.js';
@@ -104,7 +104,9 @@ export class BattleView {
       });
     this.sceneItems = new SceneItemRenderer(store, resource => resourceSequence(store, resource));
     this.frameTimes = []; this.drawTimes = []; this.frames = 0; this.lastFrameAt = null;
-    this.lastHudAt = 0; this.resultSeen = null; this.error = null; this.animationStart = 0;
+    this.lastHudAt = 0; this.lastCleanupAt = 0; this.lastScoreboardOpen = false;
+    this.overlayDirty = false; this.overlayWasDirty = true;
+    this.resultSeen = null; this.error = null; this.animationStart = 0;
     this.positions = new Map(); this.buffFirstSeen = new Map(); this.bodyTimelines = new Map(); this.metrics = {};
     this.nativeBodies = new Map(); this.skillNames = null;
     this.companionClocks=new Map();
@@ -117,7 +119,9 @@ export class BattleView {
     });
     this.input = new BattleInput({canvas: this.canvas, client,
       worldPoint: (x, y) => this.worldPoint(x, y), getGeometry: () => this.geometry,
-      onMessage: text => this.message(text)});
+      onMessage: text => this.message(text),
+      onSignal: (kind, pos, targetId) => this.sendTacticalSignal(kind, pos, targetId),
+      onMinimapClick: (localX, localY, event, now) => this.handleMinimapClick(localX, localY, event, now)});
     this.postmatch = new M86Postmatch({host: $('battle-stage'), client,
       releaseInput: () => this.input.releaseAll(),
       playSound: (resource, position, options) => this.playSound(resource, position, options)});
@@ -128,7 +132,11 @@ export class BattleView {
     this.roboHud = new RoboHud({host: $('robo-hud-host'),
       resolveFrameAsset: asset => this.store.resolveRoboFrameAsset(asset),
       onCast: slot => this.input.castFromButton(slot),
-      onChat: ({text}) => client.sendBattleChat?.(text),
+      onChat: ({text, channel}) => client.sendBattleChat?.(text, channel === 64 || channel === 1),
+      onSignal: kind => this.input.triggerSignal(kind, performance.now()),
+      onPingSkill: row => this.pingSkillStatus(row),
+      onSound: () => $('robo-sound').click(),
+      onFullscreen: () => run(() => this.toggleFullscreen()),
       onSkillHover: slot => this.input.hoverSkill(slot),
       castAvailability: (slot, now) => this.input.castAvailability(slot, now),
       onPortraitHover: accountId => this.input.hoverPortrait(accountId),
@@ -150,7 +158,8 @@ export class BattleView {
           && this.spectator.next(this.client.combat, performance.now())) this.input.releaseAll();
     };
     $('spectate-next').onclick = nextSpectator;
-    this.canvas.addEventListener('click', () => {
+    this.canvas.addEventListener('click', event => {
+      if (this.isMinimapClientPoint(event)) return;
       const self = this.client.combat?.actors?.[String(this.client.combat?.selfObjectId)];
       if (self?.dead) nextSpectator();
     });
@@ -213,6 +222,55 @@ export class BattleView {
   }
 
   message(text) { $('battle-input-message').textContent = text; this.messageAt = performance.now(); }
+
+  isMinimapClientPoint(event) {
+    if (!this.roboActive || !this.height || !event || !Number.isFinite(event.clientX) || !Number.isFinite(event.clientY)) return false;
+    const rect = this.canvas.getBoundingClientRect?.();
+    if (!rect) return false;
+    const lx = event.clientX - rect.left, ly = event.clientY - rect.top;
+    return lx >= 0 && lx <= 200 && ly >= this.height - 211 && ly <= this.height - 11;
+  }
+
+  sendTacticalSignal(kind, pos, targetId = 0) {
+    const state = this.client.combat;
+    if (!state || state.result) return false;
+    const self = state.actors?.[String(state.selfObjectId)];
+    const followed = state.actors?.[String(this.spectator.snapshot().followObjectId)] || self;
+    const fallback = followed ? visualXY(followed, performance.now()) : {x: 0, y: 0};
+    const x = Math.round(pos?.x ?? fallback.x), y = Math.round(pos?.y ?? fallback.y);
+    return this.client.sendBattleSignal?.(kind, x, y, targetId) || false;
+  }
+
+  pingSkillStatus(row) {
+    if (!row || !this.client.combat || this.client.combat.result) return false;
+    const now = performance.now();
+    if (this.lastSkillPingAt && now - this.lastSkillPingAt < 1500) return false;
+    this.lastSkillPingAt = now;
+    const title = `[${row.key} · ${row.name}]`;
+    let status = '⚡ Sẵn sàng!';
+    if (row.passive) status = '✨ Nội tại kích hoạt';
+    else if (row.availability?.reason === 'mp') status = '💧 Không đủ năng lượng';
+    else if (row.availability?.reason === 'control') status = '❄️ Đang bị khóa';
+    else if (row.cooldownText) status = `⏳ Còn ${row.cooldownText}s hồi chiêu`;
+    else if (!row.availability?.ready) status = '⏳ Chưa sẵn sàng';
+    return this.client.sendBattleChat?.(`${title} — ${status}`, true) || false;
+  }
+
+  handleMinimapClick(localX, localY, event, now) {
+    if (!this.roboActive || !this.geometry || !(this.height > 0)) return false;
+    const top = this.height - 211, size = 200;
+    if (localX < 0 || localX > size || localY < top || localY > top + size) return false;
+    const wx = clamp((localX / size) * this.geometry.width, 0, this.geometry.width);
+    const wy = clamp(((localY - top) / size) * this.geometry.height, 0, this.geometry.height);
+    if (event.altKey) {
+      const kind = event.button === 2 ? 'bak' : 'atk';
+      this.input.triggerSignal(kind, now, {x: wx, y: wy});
+      return true;
+    }
+    const self = this.client.combat?.actors?.[String(this.client.combat?.selfObjectId)];
+    this.roboCamera.panTo(wx, wy, now + (self?.dead ? 3200 : 1800));
+    return true;
+  }
 
   update(state) {
     const render = state.play.render, inScene = ['loading', 'scene'].includes(state.play.phase);
@@ -350,9 +408,10 @@ export class BattleView {
       }
       const spectator = this.spectator.update(state, now);
       const followed = state.actors[String(spectator.followObjectId)] || self;
-      const position = visualPosition(followed, now), zoom = this.camera.zoom;
+      const position = visualXY(followed, now), zoom = this.camera.zoom;
       if (this.roboActive) {
-        const native = this.roboCamera.follow(position.x, position.y);
+        if (!self.dead && this.input.direction() !== 8) this.roboCamera.clearPan();
+        const native = this.roboCamera.follow(position.x, position.y, now);
         this.camera.x = native.centerX; this.camera.y = native.centerY; this.camera.zoom = native.zoom;
       } else {
         this.camera.x = clamp(position.x, Math.min(this.width / zoom / 2, this.geometry.width / 2),
@@ -370,11 +429,17 @@ export class BattleView {
       this.shakeOffset = this.shake.sample(now);
       this.store.beginFrame?.(); this.linkDiagnostics = [];
       this.audio.sample();
-      const liveBuffKeys = new Set([...Object.values(state.actors), ...Object.values(state.objects)]
-        .flatMap(actor => nativeHaloBuffVector(actor, state, this.prepared)
-          .map(buff => `${actor.objectId}:${actor.lifeEpoch}:${buff.templateId}`)));
-      for (const key of this.buffFirstSeen.keys()) if (!liveBuffKeys.has(key)) this.buffFirstSeen.delete(key);
-      this.surface.clear(); this.context.clearRect(0, 0, this.width, this.height);
+      const runCleanup = now - this.lastCleanupAt >= 500;
+      if (runCleanup) {
+        this.lastCleanupAt = now;
+        const liveBuffKeys = new Set([...Object.values(state.actors), ...Object.values(state.objects)]
+          .flatMap(actor => nativeHaloBuffVector(actor, state, this.prepared)
+            .map(buff => `${actor.objectId}:${actor.lifeEpoch}:${buff.templateId}`)));
+        for (const key of this.buffFirstSeen.keys()) if (!liveBuffKeys.has(key)) this.buffFirstSeen.delete(key);
+      }
+      this.surface.clear();
+      if (this.overlayWasDirty) this.context.clearRect(0, 0, this.width, this.height);
+      this.overlayDirty = false;
       this.drawMap();
       this.effects.draw('map-base', now, this.drawSequence);
       drawNativeFlags(this,state,now);
@@ -404,16 +469,20 @@ export class BattleView {
         && !(object.maxHp > 0 && object.hp <= 0)
         && this.mapNpcTemplate(object));
       this.mapNpcDiagnostics.clear();
-      const underSky = npcs.filter(object => [52, 53].includes(Number(this.mapNpcTemplate(object).raw.iType)));
-      const active = [...actors, ...npcs.filter(object => !underSky.includes(object))]
-        .sort((a, b) => this.sortWeight(a) - this.sortWeight(b)
-          || visualPosition(a, now).y - visualPosition(b, now).y
-          || visualPosition(a, now).x - visualPosition(b, now).x || a.objectId - b.objectId);
+      const underSky = new Set(npcs.filter(object => [52, 53].includes(Number(this.mapNpcTemplate(object).raw.iType))));
+      const active = [...actors, ...npcs.filter(object => !underSky.has(object))];
+      const xyMap = new Map();
+      for (const object of active) xyMap.set(object, visualXY(object, now));
+      active.sort((a, b) => {
+        const pa = xyMap.get(a), pb = xyMap.get(b);
+        return this.sortWeight(a) - this.sortWeight(b)
+          || pa.y - pb.y || pa.x - pb.x || a.objectId - b.objectId;
+      });
       for (const object of active) {
         if ((object.objectId >>> 26) === 3 && this.mapNpcTemplate(object)) this.drawNpc(object, now);
         else this.drawActor(object, state, now);
       }
-      for (const object of underSky.sort((a, b) => a.y - b.y || a.x - b.x)) this.drawNpc(object, now);
+      for (const object of [...underSky].sort((a, b) => a.y - b.y || a.x - b.x)) this.drawNpc(object, now);
       if (this.prepared.map.sky) this.drawMapImage(this.prepared.map.sky);
       this.drawProjectiles(state, now, 'above-actors');
       this.effects.draw('above-actors', now, this.drawSequence);
@@ -430,29 +499,33 @@ export class BattleView {
       for (const key of this.linkFrames.keys()) if (!liveLinkKeys.has(key)) this.linkFrames.delete(key);
       const liveActorIds = new Set(actors.map(actor => actor.objectId));
       for (const id of this.positions.keys()) if (!liveActorIds.has(id)) this.positions.delete(id);
-      for (const key of this.bodyTimelines.keys()) {
-        const [id, epoch, change] = String(key).split(':').map(Number);
-        const actor = state.actors[String(id)] || state.objects[String(id)];
-        if (!liveActorIds.has(id) || actor?.lifeEpoch !== epoch
-            || (actorAppearance(this.prepared.catalog, actor, state).transition?.sequence ?? 0) !== change) this.bodyTimelines.delete(key);
-      }
-      for (const records of [this.nativeBodies, this.nativeStatuses, this.nativeSpeedTrails, this.nativeCannons,this.companionClocks]) for (const key of records.keys()) {
-        const [id, epoch] = String(key).split(':').map(Number);
-        const actor = state.actors[String(id)] || state.objects[String(id)];
-        // Native updateVisible hides the actor without releasing its body.
-        // Keep stopped frames/tweens through temporary invisibility or fog.
-        if (!actor || actor.removed || actor.dead || actor.lifeEpoch !== epoch) records.delete(key);
+      if (runCleanup) {
+        for (const key of this.bodyTimelines.keys()) {
+          const [id, epoch, change] = String(key).split(':').map(Number);
+          const actor = state.actors[String(id)] || state.objects[String(id)];
+          if (!liveActorIds.has(id) || actor?.lifeEpoch !== epoch
+              || (actorAppearance(this.prepared.catalog, actor, state).transition?.sequence ?? 0) !== change) this.bodyTimelines.delete(key);
+        }
+        for (const records of [this.nativeBodies, this.nativeStatuses, this.nativeSpeedTrails, this.nativeCannons,this.companionClocks]) for (const key of records.keys()) {
+          const [id, epoch] = String(key).split(':').map(Number);
+          const actor = state.actors[String(id)] || state.objects[String(id)];
+          if (!actor || actor.removed || actor.dead || actor.lifeEpoch !== epoch) records.delete(key);
+        }
       }
       this.syncEngineSounds(actors, state, now);
       this.drawOverlays(actors, state, now);
+      this.surface.flush?.();
       this.pveBossHud.draw(this, state);
       drawWorldBossHud(this,state,now);
+      if (!this.roboActive || isPveMap(state.mapId) || isWorldBossScene(state)) this.overlayDirty = true;
+      this.overlayWasDirty = this.overlayDirty;
       if (this.roboActive) this.store.beginRoboHudFrame();
       try {
         if (this.roboActive) this.roboHud.updateAnnouncement(this.effects.announcer.active,
           this.prepared.catalog, this.prepared.killBannerCatalog, now);
-        if (now - this.lastHudAt >= 80 || state.result !== this.resultSeen) {
-          this.lastHudAt = now; this.drawHud(state, self, now);
+        const sbOpen = !!this.input.scoreboardOpen;
+        if (now - this.lastHudAt >= 80 || state.result !== this.resultSeen || sbOpen !== this.lastScoreboardOpen) {
+          this.lastHudAt = now; this.lastScoreboardOpen = sbOpen; this.drawHud(state, self, now);
         }
         if (this.roboActive) this.roboHud.animate?.(now);
       } finally {
@@ -503,45 +576,44 @@ export class BattleView {
     }
   }
 
-  drawFrame(asset, frame, x, y, rotation = 0, alpha = 1, placement = null, additive = false) {
+  drawFrame(asset, frame, x, y, rotation = 0, alpha = 1, placement = null, additive = false, extraOffsetX = 0, extraOffsetY = 0) {
     const image = this.store.image(asset);
     if (!image) { this.store.requestImage?.(asset); return false; }
     if (!frame || !frame.w || !frame.h) return false;
     const zoom = this.camera.zoom;
+    const drawWidth=frame.drawWidth??frame.w,drawHeight=frame.drawHeight??frame.h;
+    if(!Number.isFinite(drawWidth)||!Number.isFinite(drawHeight)||drawWidth<=0||drawHeight<=0)return false;
+    const offsetX = (frame.offsetX ?? 0) + extraOffsetX + drawWidth / 2;
+    const offsetY = (frame.offsetY ?? 0) + extraOffsetY + drawHeight / 2;
     const cos = Math.cos(rotation), sin = Math.sin(rotation);
-    const matrix = [cos, sin, -sin, cos];
+    let matrix = null, m0 = cos, m1 = sin, m2 = -sin, m3 = cos, sxBound = 1, syBound = 1;
     // A body/shadow's native placement is outside its independent rotation.
     // The SWF converter retains this placement rather than flattening it.
     if (placement) {
       if (placement.preserveMatrix) {
         const {a = 1, b = 0, c = 0, d = 1} = placement;
-        matrix[0] = cos * a - sin * b; matrix[1] = sin * a + cos * b;
-        matrix[2] = cos * c - sin * d; matrix[3] = sin * c + cos * d;
+        m0 = cos * a - sin * b; m1 = sin * a + cos * b;
+        m2 = cos * c - sin * d; m3 = sin * c + cos * d;
       } else {
         const scaleX = Math.hypot(placement.a ?? 1, placement.b ?? 0);
         const determinant = (placement.a ?? 1) * (placement.d ?? 1) - (placement.b ?? 0) * (placement.c ?? 0);
         const scaleY = Math.hypot(placement.c ?? 0, placement.d ?? 1) * (determinant < 0 ? -1 : 1);
-        matrix[0] *= scaleX; matrix[1] *= scaleX; matrix[2] *= scaleY; matrix[3] *= scaleY;
+        m0 *= scaleX; m1 *= scaleX; m2 *= scaleY; m3 *= scaleY;
       }
+      matrix = [m0, m1, m2, m3];
+      sxBound = Math.hypot(m0, m1); syBound = Math.hypot(m2, m3);
       x += placement.x || 0; y += placement.y || 0;
     }
-    // Exact source pixels can carry a native scaled destination rectangle.
-    // Keep the fractional bitmap crop unchanged; scaling belongs to the draw,
-    // not to a pre-rasterized replacement image. Old frames use w/h unchanged.
-    const drawWidth=frame.drawWidth??frame.w,drawHeight=frame.drawHeight??frame.h;
-    if(!Number.isFinite(drawWidth)||!Number.isFinite(drawHeight)||drawWidth<=0||drawHeight<=0)return false;
-    const offsetX = (frame.offsetX ?? 0) + drawWidth / 2;
-    const offsetY = (frame.offsetY ?? 0) + drawHeight / 2;
-    const pos = this.screenPoint(x + matrix[0] * offsetX + matrix[2] * offsetY,
-      y + matrix[1] * offsetX + matrix[3] * offsetY);
+    const wx = x + m0 * offsetX + m2 * offsetY, wy = y + m1 * offsetX + m3 * offsetY;
+    const posX = (wx - this.camera.x) * zoom + this.width / 2 + this.shakeOffset.x;
+    const posY = (wy - this.camera.y) * zoom + this.height / 2 + this.shakeOffset.y;
     // Cull by a conservative rotated bound, keeping large execute movies.
     const transform = this.surface.transform || {scale: 1, x: 0, y: 0};
-    const radius = (Math.abs(drawWidth) * Math.hypot(matrix[0],matrix[1])
-      + Math.abs(drawHeight) * Math.hypot(matrix[2],matrix[3])) * zoom * transform.scale;
-    const drawX = pos.x * transform.scale + transform.x, drawY = pos.y * transform.scale + transform.y;
+    const radius = (Math.abs(drawWidth) * sxBound + Math.abs(drawHeight) * syBound) * zoom * transform.scale;
+    const drawX = posX * transform.scale + transform.x, drawY = posY * transform.scale + transform.y;
     if (drawX < -radius || drawY < -radius || drawX > this.width + radius || drawY > this.height + radius) return false;
     this.surface.draw(image, {sx: frame.sx, sy: frame.sy, sw: frame.w, sh: frame.h,
-      x: pos.x, y: pos.y, width: drawWidth * zoom, height: drawHeight * zoom, matrix, alpha, additive,
+      x: posX, y: posY, width: drawWidth * zoom, height: drawHeight * zoom, rotation, matrix, alpha, additive,
       // Native SWF bitmap fills 0x42/0x43 explicitly disable interpolation.
       // Older descriptors have no fill tag and retain their established path.
       ...([0x42,0x43].includes(frame.sourceFillType)?{bitmapSmoothing:false}:{})});
@@ -549,7 +621,7 @@ export class BattleView {
   }
 
   drawSequence(sequence, index, x, y, rotation = 0, alpha = 1, {autoCenter = false,scaleX=1,scaleY=1} = {}) {
-    let frame = sequence.frames[index];
+    const frame = sequence.frames[index];
     if (!frame) return false;
     if(frame.nativeLayers){
       // One separately audited static display list: bitmap-only, at most
@@ -601,9 +673,6 @@ export class BattleView {
         if (width > 1) offsetX = Math.floor(-width / 2);
         if (height > 1) offsetY = Math.floor(-height / 2);
       }
-      // The one source-pinned affine movie keeps auto-centering in the parent
-      // stage, not in the bitmap's local coordinates. Old movies are unchanged.
-      if(!affine)frame = {...frame, offsetX: frame.offsetX + offsetX, offsetY: frame.offsetY + offsetY};
     }
     const asset = frame.asset || (frame.assetIndex != null ? sequence.assets?.[frame.assetIndex] : null) || sequence.asset;
     if (sequence.derived?.mode !== 'distance-frames') {
@@ -612,6 +681,7 @@ export class BattleView {
         || (ahead.assetIndex != null ? sequence.assets?.[ahead.assetIndex] : null) || sequence.asset);
     }
     let placement=scaleX===1&&scaleY===1?null:{a:scaleX,d:scaleY,preserveMatrix:true};
+    let extraX = affine ? 0 : offsetX, extraY = affine ? 0 : offsetY;
     if(affine){
       // T(world) R(follow) S(consumer) T(autoCenter) M(source). drawFrame's
       // legacy body placement translation is world-space, so transform this
@@ -621,7 +691,7 @@ export class BattleView {
       placement={a:scaleX*affine.a,b:scaleY*affine.b,c:scaleX*affine.c,d:scaleY*affine.d,
         x:cos*tx-sin*ty,y:sin*tx+cos*ty,preserveMatrix:true};
     }
-    return this.drawFrame(asset, frame, x, y, rotation, alpha,placement,nativeSequenceAdditive(sequence));
+    return this.drawFrame(asset, frame, x, y, rotation, alpha, placement, nativeSequenceAdditive(sequence), extraX, extraY);
   }
 
   recordResourceDraw(key, sequence, index, now, drawn, identity) {
@@ -798,7 +868,8 @@ export class BattleView {
       facing = nativeBody.angle; bodyTurn = nativeBody.turn;
     }
     const alpha = flags.invisible || this.geometry.turfAt(position.x, position.y) !== 0 ? .6 : 1;
-    let cannon = radians(inheritedFacing ? actor.ownerCannonAngleAtSnapshot || 0 : actor.cannonAngle || 0);
+    let cannon = radians(inheritedFacing ? actor.ownerCannonAngleAtSnapshot || 0
+      : actor.objectId === state.selfObjectId ? (actor.cannonAngle || 0) : visualCannonAngle(actor, now));
     const input = this.input.snapshot();
     if (actor.objectId === state.selfObjectId && input.aim && !flags.cannonLocked) {
       cannon = input.channelActive && input.cannonAngle != null ? radians(input.cannonAngle)
@@ -1155,6 +1226,7 @@ export class BattleView {
         ([30,40].includes(Number(state.mapId))?150:Number(this.prepared.map.raw.iTime)) - (Number(clock) / 1000 - state.startedAt)) : null;
       this.roboHud.update({state, catalog: this.prepared.catalog, hudCatalog: this.prepared.roboHudCatalog,
         now, selectedSlot:input.selectedSlot, keyBindings:this.input.inputOptions?.mapping, connected: this.client.state.phase === 'ready', spectator: this.spectator.snapshot(),
+        scoreboardOpen: !!input.scoreboardOpen, hoveredActorId: input.hoveredActorId || input.targetId || 0,
         killFeed: this.effects.feed, pingMs: this.client.state.latencyMs,
         chatMessages: (state.chat || []).filter(row => now - row.receivedAt < 12000)
           .map(row => ({name: `${row.team ? '[Đội] ' : row.ally ? '' : '[Địch] '}${row.name}`, text: row.text})),

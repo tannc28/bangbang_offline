@@ -63,7 +63,8 @@ def _matching_row(filename: str, database: str, keys: tuple) -> dict:
 
 
 def table_row(filename: str, **keys: int) -> dict[str, str]:
-    return _matching_row(filename,str(database_path()),tuple(sorted(keys.items()))).copy()
+    key_tuple = tuple(keys.items()) if len(keys) == 1 else tuple(sorted(keys.items()))
+    return _matching_row(filename, str(database_path()), key_tuple).copy()
 
 
 def active_buff_effect_types(templates):

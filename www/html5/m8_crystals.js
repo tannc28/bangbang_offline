@@ -47,7 +47,7 @@ const STYLE = `
 .cr-native .cr-page-boards [data-testid=cr-tab-boards]{position:absolute;left:10px;top:37px}.cr-native .cr-page-boards [data-testid=cr-tab-exchange]{position:absolute;left:16px;top:502px}.cr-native .cr-page-boards [data-testid=cr-tab-sell]{position:absolute;left:98px;top:502px}.cr-native .cr-page-boards [data-testid=cr-tab-craft]{position:absolute;left:180px;top:502px}
 .cr-native .cr-page-boards .cr-board-toolbar{position:absolute;inset:0;margin:0;display:block;pointer-events:none}.cr-native .cr-page-boards .cr-board-toolbar>*{position:absolute;pointer-events:auto;margin:0}.cr-native .cr-page-boards .cr-control-0{left:270px;top:72px;width:410px}.cr-native .cr-page-boards .cr-control-1{left:697px;top:78px}.cr-native .cr-page-boards .cr-control-2{left:10px;top:78px;width:180px}.cr-native .cr-control-2>span{position:absolute;clip-path:inset(50%);width:1px;height:1px;overflow:hidden}.cr-native .cr-control-2 input{width:180px;height:30px}.cr-native .cr-page-boards .cr-control-3{left:198px;top:90px;max-width:62px}
 .cr-native .cr-page-boards .cr-workspace{display:block}.cr-native .cr-page-boards .cr-board-wrap{position:static}.cr-native .cr-page-boards .cr-board{position:absolute;left:259px;top:130px;width:526px;height:360px}.cr-native .cr-page-boards .cr-board-wrap>p{display:none}
-.cr-native .cr-page-boards .cr-actions{position:absolute;left:800px;top:78px;width:134px;display:flex;flex-direction:column;align-items:center;gap:16px;margin:0}.cr-native .cr-page-boards .cr-actions p{position:absolute;left:-260px;top:422px;width:240px;max-width:240px;max-height:32px;overflow:auto;margin:0;line-height:16px;color:#153e5a}.cr-native .cr-page-boards>.cr-heading{max-width:250px;color:#153e5a}.cr-native .cr-page-boards>.cr-heading .cr-summary{color:#153e5a;font-weight:bold}
+.cr-native .cr-page-boards .cr-actions{position:absolute;left:800px;top:78px;width:134px;display:flex;flex-direction:column;align-items:center;gap:16px;margin:0}.cr-native .cr-page-boards .cr-actions p{position:absolute;left:-372px;top:426px;width:165px;max-width:165px;max-height:32px;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;margin:0;line-height:16px;color:#153e5a}.cr-native .cr-page-boards>.cr-heading{max-width:250px;color:#153e5a}.cr-native .cr-page-boards>.cr-heading .cr-summary{color:#153e5a;font-weight:bold}
 .cr-native .cr-page-boards .cr-inventory{position:absolute;left:10px;top:110px;width:250px;height:382px}.cr-native .cr-page-boards .cr-inventory>label{display:block;margin:0 0 5px}.cr-native .cr-page-boards .cr-library{display:block;position:absolute;top:37px;width:250px;height:350px;max-height:350px}.cr-native .cr-page-boards .cr-card{width:250px;height:50px;padding:0;border:0;border-radius:0;box-sizing:border-box;position:relative;display:block;background:transparent}.cr-native .cr-page-boards .cr-icon{position:absolute;left:3px;top:3px;width:44px;height:44px}.cr-native .cr-page-boards .cr-card-copy{position:absolute;left:48px;top:50%;transform:translateY(-50%);width:107px;font-size:12px;font-weight:bold;white-space:pre-line}.cr-native .cr-page-boards .cr-count{position:absolute;left:114px;top:50%;transform:translateY(-50%);font-size:12px;white-space:nowrap}
 .cr-native .cr-page-boards .cr-assign{position:absolute;left:270px;top:535px;width:665px;height:40px;margin:0;gap:6px;align-items:center;flex-wrap:nowrap}.cr-native .cr-page-boards .cr-assign label{display:flex;gap:5px;align-items:center;white-space:nowrap}.cr-native .cr-page-boards .cr-assign select{max-width:180px}.cr-native .cr-page-boards .cr-assign p{max-width:200px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cr-native .cr-status{position:absolute;left:270px;top:112px;width:500px;margin:0;z-index:2;pointer-events:none}
 .cr-native .cr-page:not(.cr-page-boards):not(.cr-native-dialog)>:not(.cr-tabs):not(.cr-toolbar):not(.cr-status){position:relative;top:85px;margin:0 25px;max-height:425px;overflow:auto}.cr-native .cr-page:not(.cr-page-boards):not(.cr-native-dialog) .cr-status{top:535px}.cr-native .cr-page:not(.cr-page-boards):not(.cr-native-dialog)>.cr-toolbar:not(:first-child){position:relative;top:85px;margin:0 25px 10px}
@@ -62,6 +62,12 @@ const STYLE = `
 .cr-native .cr-page-boards .cr-board-toolbar>.cr-native-rename{left:217px;top:78px}
 .cr-native .cr-scheme-name{font-size:12px;color:#fdfdfd;font-weight:bold;overflow:hidden;white-space:nowrap;text-overflow:ellipsis}.cr-scheme-label{text-align:right;font-size:16px;font-weight:bold;color:#bddde6;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.cr-scheme-list{overflow:hidden}
 .cr-native .cr-native-check{appearance:none;border:0;border-radius:0;padding:0;margin:0;background-color:transparent;background-size:100% 100%;cursor:pointer}.cr-native .cr-native-check:disabled{opacity:.5;cursor:default}.cr-native .cr-native-check:focus-visible,.cr-native .cr-native-button:focus-visible{outline:2px solid #ffe88a;outline-offset:1px}
+.cr-quick-bar{display:flex;gap:8px;align-items:center;margin:.4rem 0}
+.cr-native .cr-page-boards .cr-quick-bar{position:absolute;left:596px;top:502px;margin:0;z-index:3}
+.cr-quick-bar button{height:28px;padding:0 10px;border:1px solid #1b79b4;border-radius:4px;background:#108ec6;color:#fff;font:700 11.5px Tahoma,sans-serif;white-space:nowrap;cursor:pointer}
+.cr-native .cr-quick-bar button.cr-native-quick-btn{width:118px;height:28px;padding:0 6px;border:0;border-radius:0;background-color:transparent;background-size:100% 100%;box-shadow:none;color:#fff;font:700 11.5px Tahoma,sans-serif;white-space:nowrap;text-shadow:0 1px 2px #063259}
+.cr-native .cr-quick-bar button.cr-btn-clear.cr-native-quick-btn{width:90px}
+.cr-quick-bar button:disabled{opacity:.5;cursor:default}
 `;
 
 /** Mounted outside the battle renderer. All mutations use the authenticated
@@ -295,6 +301,69 @@ export class M8Crystals {
     this.notice=validateCrystalBoard(items,this.meta,this.catalog).valid?'':
       'Chưa đủ tinh thể sở hữu để lưu bảng. Có thể chế tạo hoặc đổi từ mảnh.';
     this.render();
+  }
+
+  async autoFillBoard() {
+    if (!this.mutable || !this.draft) return;
+    const counts = {...crystalOwnedCounts(this.meta)};
+    const recTank = crystalRecommendationTank(this.meta, this.recommendTankId);
+    const preferredAttrKeys = new Set();
+    if (recTank && this.presentation) {
+      for (const lv of [5, 4, 3, 2, 1]) {
+        for (const r of crystalRecommendationRows(this.presentation, recTank.tankId, lv, [], counts) || []) {
+          const def = this.catalog.items[r.itemId];
+          for (const attr of def?.attributes || []) preferredAttrKeys.add(`${def.type}:${attr.type}`);
+        }
+      }
+    }
+    const candidatesByType = {2: [], 3: [], 4: []};
+    for (const item of Object.values(this.catalog.items)) {
+      if (!counts[item.itemId] || !candidatesByType[item.type]) continue;
+      const matchesRec = (item.attributes || []).some(a => preferredAttrKeys.has(`${item.type}:${a.type}`)) ? 1 : 0;
+      candidatesByType[item.type].push({item, matchesRec});
+    }
+    for (const t of [2, 3, 4]) {
+      candidatesByType[t].sort((a, b) => b.matchesRec - a.matchesRec || b.item.level - a.item.level || a.item.itemId - b.item.itemId);
+    }
+    const items = Array(30).fill(0);
+    let filled = 0;
+    for (const slot of this.catalog.slots) {
+      const pool = candidatesByType[slot.type] || [];
+      const pick = pool.find(entry => (counts[entry.item.itemId] || 0) > 0);
+      if (pick) {
+        items[slot.position - 1] = pick.item.itemId;
+        counts[pick.item.itemId] -= 1;
+        filled += 1;
+      }
+    }
+    const validation = validateCrystalBoard(items, this.meta, this.catalog);
+    if (!validation.valid) { this.notice = validation.errors[0]; this.render(); return; }
+    this.drafts[this.boardId] = {...this.draft, items};
+    this.selectedSlot = null;
+    if (crystalDraftChanged(this.drafts[this.boardId])) {
+      await this.saveBoard();
+      this.notice = `Đã lắp nhanh & lưu ${filled}/30 viên tinh thể tối ưu${recTank ? ` (theo đề cử ${this.tankName(recTank.tankId)})` : ''}!`;
+      this.render();
+    } else {
+      this.notice = filled ? 'Bảng hiện tại đã tối ưu theo số tinh thể đang có.' : 'Túi tinh thể đang trống — hãy chế tạo hoặc đổi từ mảnh.';
+      this.render();
+    }
+  }
+
+  async clearBoard() {
+    if (!this.mutable || !this.draft) return;
+    if (!this.draft.items.some(Boolean)) { this.notice = 'Bảng tinh thể đang trống.'; this.render(); return; }
+    const items = Array(30).fill(0);
+    this.drafts[this.boardId] = {...this.draft, items};
+    this.selectedSlot = null;
+    if (crystalDraftChanged(this.drafts[this.boardId])) {
+      await this.saveBoard();
+      this.notice = 'Đã tháo toàn bộ tinh thể và lưu bảng.';
+      this.render();
+    } else {
+      this.notice = 'Đã xóa nháp về bảng trống.';
+      this.render();
+    }
   }
 
   clickSlot(position) {
@@ -590,7 +659,22 @@ export class M8Crystals {
     if (this.draft.conflict) actions.append(note('Bảng đã thay đổi ở phiên khác. Tải lại trước khi sửa tiếp.'));
     else if (!validation.valid) actions.append(note(validation.errors[0]));
     else actions.append(note(crystalDraftChanged(this.draft) ? 'Có thay đổi chưa lưu.' : 'Bảng đã đồng bộ.'));
-    boardWrap.append(actions); workspace.append(boardWrap);
+    const quickBar = element('div', null, 'cr-quick-bar');
+    quickBar.append(
+      this.button('✨ Lắp nhanh 30', () => this.autoFillBoard(), {
+        disabled: !this.mutable || this.draft.conflict,
+        className: 'cr-btn-autofill',
+        testId: 'cr-autofill-30',
+        title: 'Tự động lắp & lưu đủ 30 viên tinh thể cấp cao nhất phù hợp vai trò tank',
+      }),
+      this.button('🗑️ Tháo hết', () => this.clearBoard(), {
+        disabled: !this.mutable || this.draft.conflict || !this.draft.items.some(Boolean),
+        className: 'cr-btn-clear',
+        testId: 'cr-clear-all',
+        title: 'Tháo toàn bộ 30 viên tinh thể khỏi bảng hiện tại và lưu ngay',
+      })
+    );
+    boardWrap.append(actions, quickBar); workspace.append(boardWrap);
     const inventory = element('div',null,'cr-inventory'), filter = selectInput(Object.entries(TYPE_NAMES).map(([value, label]) =>
       ({value, label})), this.itemType, 'Lọc màu tinh thể');
     filter.dataset.crFocus = 'item-type'; filter.addEventListener('change', () => { this.itemType = Number(filter.value); this.render(); });
@@ -657,10 +741,14 @@ export class M8Crystals {
     this.skin(recommend,this.recommendation?'btn_rmd_crystal_selected_t':'btn_rmd_crystal_t');section.append(recommend);
     const name=toolbar.querySelector('[data-cr-focus="name"]'),nameBackground=this.assets.get('crystal.nameBackground');
     if(name&&nameBackground)name.style.backgroundImage=`url("${nameBackground.url}")`;
-    const assign=this.button('Gán bảng',()=>{this.auxDialog='assign';this.render();},
+        const assign=this.button('Gán bảng',()=>{this.auxDialog='assign';this.render();},
       {testId:'cr-assign-open',className:'cr-assign-open',disabled:!this.mutable,title:'Chọn tank dùng bảng tinh thể'});
     const skin=this.assets.get('zh_CN/gui_summer/controls/public/button_3_blue.png');
     if(skin)assign.style.backgroundImage=`url("${skin.url}")`;
+    const autoBtn=section.querySelector('[data-testid="cr-autofill-30"]'),clearBtn=section.querySelector('[data-testid="cr-clear-all"]');
+    if(autoBtn&&skin){autoBtn.style.backgroundImage=`url("${skin.url}")`;autoBtn.classList.add('cr-native-quick-btn');}
+    const clearSkin=this.assets.get('zh_CN/gui_summer/controls/public/button_4_bk.png')||skin;
+    if(clearBtn&&clearSkin){clearBtn.style.backgroundImage=`url("${clearSkin.url}")`;clearBtn.classList.add('cr-native-quick-btn');}
     section.append(assign);
   }
   renderNativeSchemeSelector(toolbar) {

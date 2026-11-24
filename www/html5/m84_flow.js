@@ -253,6 +253,16 @@ function createRoomCard(ui,person,slot,camp,selfCamp,seat=null){
     if(ui.state.flow.creatorAccountId===ui.state.accountId&&!own){const host=button(ui,'button_host','Chuyển chủ phòng',null,121,67);host.setAttribute('aria-disabled','true');root.append(host);}
   }
   if(seat?.kind==='bot')root.append(label(botAIName(managed.bot_ai_camps[String(camp)]),9,137,83,18,'m81337-room-bot-label'));
+  const tankTitle=ui.assets.tankName?.(person.tankId)||'';
+  if(tankTitle){
+    const tankLabel=label(tankTitle,18,120,122,16,'m84-room-tank-name');
+    tankLabel.title=tankTitle;
+    Object.assign(tankLabel.style,{fontSize:'10.5px',fontWeight:'700',fontFamily:'Tahoma,sans-serif',lineHeight:'15px',
+      textAlign:'center',color:'#fff4a3',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',
+      background:'linear-gradient(90deg,rgba(4,28,54,.1),rgba(4,28,54,.84) 18%,rgba(4,28,54,.84) 82%,rgba(4,28,54,.1))',
+      textShadow:'0 0 3px #03203d,0 1px 2px #03203d',pointerEvents:'none'});
+    root.append(tankLabel);
+  }
   const ping=label('',95,137,58,18,'m84-room-ping');root.append(ping);
   return {root,person,portrait,ready,owner,ping,own,master,mutations};
 }

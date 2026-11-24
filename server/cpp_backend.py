@@ -283,10 +283,21 @@ class RectangleIndex:
     def contact(self, start, end, padding=0):
         if _status['active'] != 'cpp':
             return NotImplemented
-        args = (*start, *end, padding)
-        if len(args) != 5 or not _supported(args) or padding < 0:
+        try:
+            x0, y0 = start
+            x1, y1 = end
+            if len(start) != 2 or len(end) != 2:
+                return NotImplemented
+        except TypeError:
             return NotImplemented
-        result = self._contact(self._handle, *args)
+        if not (type(x0) in (int, float) and type(y0) in (int, float)
+                and type(x1) in (int, float) and type(y1) in (int, float)
+                and type(padding) in (int, float) and padding >= 0
+                and -1e8 <= x0 <= 1e8 and -1e8 <= y0 <= 1e8
+                and -1e8 <= x1 <= 1e8 and -1e8 <= y1 <= 1e8
+                and padding <= 1e8):
+            return NotImplemented
+        result = self._contact(self._handle, x0, y0, x1, y1, padding)
         if math.isnan(result):
             _runtime_failure(_native_error(self._library, 'map contact'))
             return NotImplemented

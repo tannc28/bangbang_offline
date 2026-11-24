@@ -65,15 +65,14 @@ export function createRoboFloat(event, now, {duplicate = false, random = Math.ra
  */
 export function sampleRoboFloat(record, now) {
   const age = Math.max(0, now - record.startedAt);
-  const frame = Math.min(24, Math.floor(age / ROBO_FLOAT_FRAME_MS + 1e-9));
-  const movingFrames = Math.min(16, frame);
-  // Source tick: y -= speed; speed -= 0.5; alpha = speed. The Flash alpha
-  // property clips to [0,1]. Speed starts at 8, reaching zero on tick 16.
+  const exactFrame = Math.min(24, age / ROBO_FLOAT_FRAME_MS);
+  const frame = Math.min(24, Math.floor(exactFrame + 1e-9));
+  const movingFrames = Math.min(16, exactFrame);
   const rise = 8 * movingFrames - 0.25 * movingFrames * (movingFrames - 1);
-  const alpha = frame === 0 ? 1 : Math.min(1, Math.max(0, 8 - 0.5 * movingFrames));
-  const expired = frame >= 24;
+  const alpha = exactFrame <= 0 ? 1 : Math.min(1, Math.max(0, 8 - 0.5 * movingFrames));
+  const expired = exactFrame >= 24;
   return {
-    x: record.position.x + record.driftX * frame,
+    x: record.position.x + record.driftX * exactFrame,
     y: record.position.y - rise,
     alpha, frame, expired, visible: !expired && alpha > 0,
     width: record.width, height: record.height, glyphs: record.glyphs,

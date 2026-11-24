@@ -15,10 +15,46 @@ MIN_AGE = 180
 MAX_AGE = 1000
 SENSOR_RADIUS = 600
 OBJECT = struct.Struct('<IIhhiBiIiH')
-# chudu_actions.chu_warning materializes388311; chu_space damages centers
-# within120px. The additional24px below is a conservative tactical margin,
-# not a change to native collision, hurt radius, speed or warning lifetime.
-PUBLIC_WARNINGS = {388311: 120}
+# Verified enemy-visible SceneItems (non-empty szCoverEnemySwf in SceneItem_Templet)
+# mapped to their native nCampRadius / authored blast radius. Concealed traps stay excluded.
+PUBLIC_WARNINGS = {
+    388311: 120,  # Chu Du Space warning
+    358305: 120, 358301: 96, 358303: 96, 358601: 196, 358602: 196, 358901: 300,  # Gia Cat Luong
+    303301: 300, 303402: 72,   # Spider-Man
+    306301: 264, 306311: 264,  # Teddy Bear
+    308521: 168,               # Hulk
+    311301: 240,               # Ho Lo
+    312411: 192,               # Ghost Rider
+    313302: 192,               # Thor
+    315303: 144, 315304: 144, 315403: 144,  # Legolas
+    318304: 144,               # Naruto
+    324301: 168,               # Transformer
+    326309: 168, 326313: 168,  # Son Tinh
+    327201: 96,                # Pumpkin
+    328311: 120,               # Superman landing warning
+    334306: 288,               # Phuong Hoang Lua
+    335301: 264, 335304: 264,  # Minion
+    340201: 108,               # Tien Ca
+    349311: 192,               # Lu Bo
+    353301: 192,               # Thuy Tinh
+    354401: 72,                # Doraemon
+    356314: 216,               # Na Tra
+    357301: 144, 357304: 144, 357305: 144,  # Doctor Strange
+    362201: 144,               # Gilgamesh
+    363204: 144,               # Iron Man
+    368321: 196,               # Sasuke
+    372201: 108, 372403: 168,  # Magneto
+    373201: 144, 373202: 144,  # Tu Ma Yi
+    374402: 120,               # Hoa Moc Lan
+    376401: 96,                # Sniper
+    379401: 196, 379402: 196,  # Falcon
+    380221: 192,               # Hoa Than
+    381301: 216, 381302: 216, 381401: 144, 381403: 144,  # Elsa
+    382201: 144, 382301: 196, 382401: 144, 382402: 144,  # Hikari
+    384213: 144,               # Thach Than
+    8190411: 192, 8190412: 192,  # Optimus Prime
+}
+BULLET_CLEARANCE = 76
 DIRECTIONS = ((-1,-1), (0,-1), (1,-1), (1,0),
               (1,1), (0,1), (-1,1), (-1,0))
 
@@ -45,23 +81,42 @@ def _parse(ident, body):
         return None
 
 
-def observe(arena, actor, brain, now):
-    """Called only at the ordinary end-of-notice observation point.
+def _observe_skillshots(arena, actor, pos, now):
+    """Sample already-launched public enemy skillshot rays within sight."""
+    rays = []
+    for _, _, callback, args in getattr(arena, 'pending', ()):
+        if getattr(callback, '__name__', '') != '_event' or len(args) < 2 or args[0] != 'flight':
+            continue
+        caster = getattr(callback, '__self__', None)
+        flight = args[1][0] if args[1] and isinstance(args[1][0], dict) else None
+        if (caster is None or flight is None or caster.camp == actor.camp
+                or flight.get('kind') != 'bullet' or flight.get('basic')
+                or flight.get('target') is not None):
+            continue
+        if flight.get('finish', 0) <= now or now < flight.get('begin', now):
+            continue
+        bpos = flight.get('pos') or flight.get('start')
+        end = flight.get('end')
+        if not bpos or not end or math.dist(pos, bpos) > SENSOR_RADIUS:
+            continue
+        if not flight.get('through_walls') and arena.geometry.wall_contact(pos, bpos) is not None:
+            continue
+        rays.append(dict(id=flight['id'], kind='ray', start=tuple(bpos), end=tuple(end),
+                         camp=caster.camp, generation=actor.generation,
+                         observed_at=flight.get('begin', now)))
+        if len(rays) >= 8:
+            break
+    return rays
 
-    A repeated stationary body reuses the ENTIRE first sample, not its old
-    timestamp with a fresh position. First sight is not spawn time and MAX_AGE
-    is only a bounded memory duration; neither predicts time left to explode.
-    A removal does not immediately erase a previous sample. The planner never
-    peeks at the current object map to obtain perfect removal timing.
-    """
+
+def observe(arena, actor, brain, now):
+    """Called only at the ordinary end-of-notice observation point."""
     objects = getattr(arena, 'objects', {})
     old = brain.get('elite_hazards', ())
-    if not objects and not old:
-        return
     if not _enabled(arena, actor, brain):
         return
     previous = {sample['id']: sample for sample in old
-                if sample.get('generation') == actor.generation}
+                if sample.get('generation') == actor.generation and sample.get('kind') != 'ray'}
     rows = []
     found = set()
     pos = actor.position_at(now)
@@ -71,9 +126,6 @@ def observe(arena, actor, brain, now):
                 or math.dist(pos, sample['pos']) > SENSOR_RADIUS
                 or arena.geometry.wall_contact(pos, sample['pos']) is not None):
             continue
-        # Client SceneItemRenderer uses cover/camp and viewport, not caster
-        # stealth or wall LOS. Local600px+LOS are deliberately stricter policy
-        # limits, not a claim that they reproduce the native viewport.
         prior = previous.get(ident)
         if prior is not None and prior.get('body') == body:
             sample = prior
@@ -84,6 +136,7 @@ def observe(arena, actor, brain, now):
     for ident, sample in previous.items():
         if ident not in found and 0 <= now-sample.get('observed_at', now) <= MAX_AGE:
             rows.append(sample)
+    rows.extend(_observe_skillshots(arena, actor, pos, now))
     if rows:
         brain['elite_hazards'] = rows
     else:
@@ -91,11 +144,17 @@ def observe(arena, actor, brain, now):
 
 
 def mature(brain, actor, now):
-    return [sample for sample in brain.get('elite_hazards', ())
-            if (sample.get('generation') == actor.generation
-                and sample.get('template') in PUBLIC_WARNINGS
-                and sample.get('camp') in (1, 2) and sample['camp'] != actor.camp
-                and MIN_AGE <= now-sample.get('observed_at', now) <= MAX_AGE)]
+    out = []
+    for sample in brain.get('elite_hazards', ()):
+        if sample.get('generation') != actor.generation or sample.get('camp') == actor.camp:
+            continue
+        age = now - sample.get('observed_at', now)
+        if sample.get('kind') == 'ray':
+            if MIN_AGE <= age <= 850:
+                out.append(sample)
+        elif sample.get('template') in PUBLIC_WARNINGS and sample.get('camp') in (1, 2) and MIN_AGE <= age <= MAX_AGE:
+            out.append(sample)
+    return out
 
 
 def _segment_distance(start, end, point):
@@ -107,13 +166,23 @@ def _segment_distance(start, end, point):
 
 
 def _risk(point, hazards):
-    return sum(max(0.0, PUBLIC_WARNINGS[h['template']]+24-math.dist(point,h['pos']))
-               for h in hazards)
+    total = 0.0
+    for h in hazards:
+        if h.get('kind') == 'ray':
+            total += max(0.0, BULLET_CLEARANCE - _segment_distance(h['start'], h['end'], point)) * 1.4
+        else:
+            total += max(0.0, PUBLIC_WARNINGS[h['template']]+24-math.dist(point,h['pos']))
+    return total
 
 
 def _crosses(start, end, hazards):
-    return any(_segment_distance(start, end, h['pos']) < PUBLIC_WARNINGS[h['template']]+24
-               for h in hazards)
+    for h in hazards:
+        if h.get('kind') == 'ray':
+            if _segment_distance(h['start'], h['end'], end) < BULLET_CLEARANCE:
+                return True
+        elif _segment_distance(start, end, h['pos']) < PUBLIC_WARNINGS[h['template']]+24:
+            return True
+    return False
 
 
 def evade(arena, actor, brain, now):

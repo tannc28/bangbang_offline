@@ -179,12 +179,66 @@ def _pace_kill(arena, killer, victim, now):
 
 # ---------------------------------------------------------------- readable mistakes
 
-def steer(arena, actor, brain, target, retreat, recovering, now):
-    """Turn a grudge or a streak into a visible, punishable mistake.
+def record_human_signal(arena, speaker, kind, pos, target_id, now):
+    """Store a same-camp tactical ping (1=atk, 2=bak, 3=mst) for allied bots."""
+    pk = getattr(arena, 'pk', None)
+    if not isinstance(pk, dict) or speaker is None:
+        return
+    signals = pk.setdefault('human_signals', {})
+    duration = 8000 if kind in (1, 3) else 7000
+    signals[str(speaker.camp)] = dict(sender=speaker.id, kind=int(kind),
+                                      pos=(int(pos[0]), int(pos[1])),
+                                      target=int(target_id or 0),
+                                      human_signal_until=now + duration)
+    teams = pk.get('elite_teams')
+    if isinstance(teams, dict) and speaker.camp in teams:
+        teams[speaker.camp]['elite_plan_at'] = 0
 
-    Returns the retreat flag to use. The goal is set before the kit executor
-    runs, so tank-specific steering and dodging still apply on top.
-    """
+
+def active_signal(arena, camp, now):
+    pk = getattr(arena, 'pk', None)
+    if not isinstance(pk, dict):
+        return None
+    sig = (pk.get('human_signals') or {}).get(str(camp))
+    if not isinstance(sig, dict):
+        return None
+    until = sig.get('human_signal_until', 0)
+    if until <= now or until - now > 15000:
+        return None
+    return sig
+
+
+def signal_goal(arena, actor, now):
+    """Formation point around an active human ping when out of combat or rallying."""
+    sig = active_signal(arena, actor.camp, now)
+    if sig is None:
+        return None
+    kind = sig['kind']
+    if kind == 2:
+        return arena.geometry.spawn(actor.camp, actor.info.get('spawn_index', 0), respawn=True)
+    cx, cy = sig['pos']
+    sender = arena.actors.get(sig.get('sender'))
+    if kind == 3 and sender is not None and sender.alive and sender.camp == actor.camp:
+        cx, cy = sender.position_at(now)
+    angle = (actor.id * 1.57) % (2 * math.pi)
+    ring = 84 if kind == 3 else 108
+    return arena.geometry.clamp_tank_position((round(cx + math.cos(angle) * ring),
+                                               round(cy + math.sin(angle) * ring)))
+
+
+def steer(arena, actor, brain, target, retreat, recovering, now):
+    """Apply allied human tactical pings first, then readable grudge/streak mistakes."""
+    if not recovering and _is_bot(actor) and not (arena.pk or {}).get('finished'):
+        sig = active_signal(arena, actor.camp, now)
+        if sig is not None:
+            if sig['kind'] == 2:
+                brain['goal'] = signal_goal(arena, actor, now)
+                return True
+            if sig['kind'] == 3:
+                goal = signal_goal(arena, actor, now)
+                if goal is not None and math.dist(actor.position_at(now), goal) > 160:
+                    brain['goal'] = goal
+                    return False
     if (target is None or recovering or not active(arena) or not _is_bot(actor)
             or arena.pk.get('finished') or target.get('objective', target.get('robo'))):
         return retreat
@@ -231,10 +285,30 @@ def _refresh_mood(arena, now):
 
 def target_bias(arena, actor, target_id, now):
     """Points to subtract from a target's score (lower score = preferred)."""
-    if arena is None or not active(arena) or not _is_bot(actor):
+    if arena is None or not _is_bot(actor):
         return 0
-    mind = _mind(arena)
     bias = 0
+    sig = active_signal(arena, actor.camp, now)
+    if sig is not None and sig['kind'] == 1:
+        if sig.get('target') and sig['target'] == target_id:
+            bias += 420
+        else:
+            enemy = arena.actors.get(target_id)
+            if enemy is not None and enemy.alive and math.dist(enemy.position_at(now), sig['pos']) <= 240:
+                bias += 260
+    # Peel for allied humans when an enemy diver closes in on them.
+    from battle_participants import human
+    enemy = arena.actors.get(target_id)
+    if enemy is not None and enemy.alive and not enemy.info.get('npc_template'):
+        epos = enemy.position_at(now)
+        for ally in arena.actors.values():
+            if ally.camp == actor.camp and ally.alive and human(ally):
+                if math.dist(epos, ally.position_at(now)) <= 260 and ally.hp * 100 <= ally.max_hp * 85:
+                    bias += 220
+                    break
+    if not active(arena):
+        return bias
+    mind = _mind(arena)
     grudge = mind['grudge'].get(str(actor.id))
     if grudge and grudge.get('target') == target_id:
         bias += GRUDGE_BIAS * grudge.get('level', 1)

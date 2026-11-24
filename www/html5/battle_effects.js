@@ -366,42 +366,50 @@ export class BattleEffects {
   }
 
   draw(layer, now, drawSequence) {
-    const normalTick = this.normalClock.sample(now);
-    this.effects = this.effects.filter(effect => {
-      if (effect.layer !== layer) return true;
-      let sample, hideAtCompletion = false;
-      if(effect.nativeFile){
-        if(effect.startNormalTick==null){effect.startNormalTick=normalTick;effect.playbackStartedAt=now;}
-        effect.normalTicks=normalTick-effect.startNormalTick;
-        sample={index:nativeFileFrame(effect.sequence,effect.normalTicks),complete:false};
-      } else if (effect.nativeTimeline) {
-        if (effect.startNormalTick == null) {
-          effect.startNormalTick = normalTick; effect.playbackStartedAt = now;
+    const list = this.effects;
+    if (list.length) {
+      const normalTick = this.normalClock.sample(now);
+      let write = 0;
+      for (let i = 0; i < list.length; i++) {
+        const effect = list[i];
+        if (effect.layer !== layer) { list[write++] = effect; continue; }
+        let sample, hideAtCompletion = false;
+        if (effect.nativeFile) {
+          if (effect.startNormalTick == null) { effect.startNormalTick = normalTick; effect.playbackStartedAt = now; }
+          effect.normalTicks = normalTick - effect.startNormalTick;
+          sample = {index: nativeFileFrame(effect.sequence, effect.normalTicks), complete: false};
+        } else if (effect.nativeTimeline) {
+          if (effect.startNormalTick == null) {
+            effect.startNormalTick = normalTick; effect.playbackStartedAt = now;
+          }
+          effect.normalTicks = normalTick - effect.startNormalTick;
+          sample = nativeEffectSample(effect.sequence.frames.length, effect.normalTicks, effect.loop);
+          hideAtCompletion = true;
+        } else if (['scene-item-remove', 'npc-birth'].includes(effect.kind)) {
+          sample = sceneItemFrame(effect.sequence.frames.length, now - effect.startedAt,
+            effect.sequence.frameMs, 1); hideAtCompletion = true;
+        } else {
+          sample = timelineSample(effect.sequence.frames.length, now - effect.startedAt,
+            effect.sequence.frameMs, effect.loop);
         }
-        effect.normalTicks = normalTick - effect.startNormalTick;
-        sample = nativeEffectSample(effect.sequence.frames.length, effect.normalTicks, effect.loop);
-        hideAtCompletion = true;
-      } else if (['scene-item-remove', 'npc-birth'].includes(effect.kind)) {
-        sample = sceneItemFrame(effect.sequence.frames.length, now - effect.startedAt,
-          effect.sequence.frameMs, 1); hideAtCompletion = true;
-      } else {
-        sample = timelineSample(effect.sequence.frames.length, now - effect.startedAt,
-          effect.sequence.frameMs, effect.loop);
+        if (hideAtCompletion && sample.complete) { this.finish(effect, now); continue; }
+        const flight = effect.flight, fraction = flight ? Math.min(1, Math.max(0, (now - effect.startedAt) / flight.durationMs)) : 0;
+        const x = flight ? flight.from.x + (flight.to.x - flight.from.x) * fraction : effect.x;
+        const y = flight ? flight.from.y + (flight.to.y - flight.from.y) * fraction : effect.y;
+        const drawn = drawSequence(effect.sequence, sample.index, x, y,
+          effect.rotation, 1, {autoCenter: effect.autoCenter});
+        if (drawn) {
+          effect.firstDrawAt ??= now; effect.framesDrawn += 1; effect.lastFrame = sample.index;
+        }
+        if (sample.complete) { this.finish(effect, now); continue; }
+        list[write++] = effect;
       }
-      if (hideAtCompletion && sample.complete) { this.finish(effect, now); return false; }
-      const flight = effect.flight, fraction = flight ? Math.min(1, Math.max(0, (now - effect.startedAt) / flight.durationMs)) : 0;
-      const x = flight ? flight.from.x + (flight.to.x - flight.from.x) * fraction : effect.x;
-      const y = flight ? flight.from.y + (flight.to.y - flight.from.y) * fraction : effect.y;
-      const drawn = drawSequence(effect.sequence, sample.index, x, y,
-        effect.rotation, 1, {autoCenter: effect.autoCenter});
-      if (drawn) {
-        effect.firstDrawAt ??= now; effect.framesDrawn += 1; effect.lastFrame = sample.index;
-      }
-      if (sample.complete) { this.finish(effect, now); return false; }
-      return true;
-    });
-    this.floats = this.floats.filter(value => now - value.startedAt < 900);
-    this.feed = this.feed.filter(value => now - value.receivedAt < 6500);
+      list.length = write;
+    }
+    if (layer === 'above-actors') {
+      while (this.floats.length && now - this.floats[0].startedAt >= 900) this.floats.shift();
+      while (this.feed.length && now - this.feed[0].receivedAt >= 6500) this.feed.shift();
+    }
   }
 
   snapshot() {

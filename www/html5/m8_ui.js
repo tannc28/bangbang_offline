@@ -382,7 +382,7 @@ export class M8UI {
     this.createConfirm=actionButton('Tạo phòng',()=>this.run(async()=>{
       const generation=this.client.generation,accountId=this.state.accountId,token=this.screenToken;
       const saved=await this.client.saveBotSetup({mode:this.pkMapSelect.value,allies:Array(Number(this.allies.value)).fill(Number(this.botLevel.value)),
-        enemies:Array(Number(this.enemies.value)).fill(Number(this.botLevel.value)),quanvu_execute_hint:!!this.state.play.setup?.quanvu_execute_hint,
+        enemies:Array(Number(this.enemies.value)).fill(Number(this.botLevel.value)),quanvu_execute_hint:this.state.play.setup?.quanvu_execute_hint??true,
         bot_guild:this.botGuild.value==='1',bot_crystals:this.botCrystals.value==='1',bot_military:this.botMilitary.value==='1',bot_ai:training?'legacy':this.botAI.value,
         bot_ai_allies:training?'legacy':this.botAI.value,bot_ai_enemies:training?'legacy':this.botAIEnemies.value});
       if(saved===null||generation!==this.client.generation||accountId!==this.state.accountId||token!==this.screenToken||this.createShade!==shade||this.state.phase!=='ready'||this.state.play.phase!=='lobby')return;
@@ -468,6 +468,16 @@ export class M8UI {
           const head=this.assets.selectionHeadForTank(c,{animate:true});
           if(head){head.classList.add('m81-selection-head');card.append(place(head,0,0));}
           else {card.dataset.headFallback='native-swf-or-missing';card.append(place(this.assets.portraitForTank(c,{size:98}),40,0,98,98));}
+          const pickedName=c.tankId?this.assets.tankName(c.tankId):'';
+          if(pickedName){
+            const tSpan=place(element('span',pickedName,'m8-selection-tank-caption'),4,56,170,16);
+            tSpan.title=pickedName;
+            Object.assign(tSpan.style,{fontSize:'10.5px',fontWeight:'700',fontFamily:'Tahoma,sans-serif',lineHeight:'15px',
+              textAlign:'center',color:'#ffe875',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',
+              background:'linear-gradient(90deg,rgba(4,24,48,.12),rgba(4,24,48,.82) 20%,rgba(4,24,48,.82) 80%,rgba(4,24,48,.12))',
+              textShadow:'0 0 3px #031d38,0 1px 2px #031d38',pointerEvents:'none'});
+            card.append(tSpan);
+          }
           card.append(place(element('strong',c.name),2,74,174,22));
           if(s.flow.lockedAccountIds.includes(c.accountId)){const cover=this.art('selection.gridCover',0,0);card.append(cover,place(element('span','✓ Đã chốt','m81-selection-locked'),12,33,154,25));}
           return card;
@@ -488,17 +498,25 @@ export class M8UI {
     for(const cleanup of this.selectionTileCleanups||[])cleanup();this.selectionTileCleanups=[];
     this.selectionWindow.replaceChildren(...this.selectionItems.slice(start,end).map((tank,offset)=>{
       const index=start+offset,selected=tank.tankId===selectedId;
+      const fullTankName=this.assets.tankName(tank.tankId);
+      const shortName=fullTankName.length>13&&/\(([^)]+)\)/.test(fullTankName)?fullTankName.match(/\(([^)]+)\)/)[1].trim():fullTankName.replace(/\s*\([^)]*\)\s*/g,'').trim()||fullTankName;
       const button=actionButton('',()=>this.run(()=>this.client.selectTank(tank.tankId)),
-        {disabled,className:'m8-select-tank'+(selected?' selected':''),title:this.assets.tankName(tank.tankId),testId:'m8-select-'+tank.tankId});
+        {disabled,className:'m8-select-tank'+(selected?' selected':''),title:fullTankName,testId:'m8-select-'+tank.tankId});
       button.dataset.tankId=String(tank.tankId);button.setAttribute('aria-pressed',String(selected));
       place(button,index%5*102,Math.floor(index/5)*102,96,96);
       button.style.backgroundImage=`url("${this.assets.ui.assets[selected?'selection.tileSelected':'selection.tileUnselected'].url}")`;
       const level=Math.max(1,Math.min(11,Math.trunc(Number(tank.level)||1)));
-      button.setAttribute('aria-label',`${this.assets.tankName(tank.tankId)} · Lv.${level}`);
+      button.setAttribute('aria-label',`${fullTankName} · Lv.${level}`);
       button.append(this.assets.portraitForTank(tank,{size:96}));
       // TileTankRenderer: TkLvSimImg, horizontalCenter=0, y=2, above AvatarView.
       const levelArt=this.assets.get(`chrome.tankLevel${level}`);
       if(levelArt)button.append(place(assetImage(levelArt,`Lv.${level}`,'m8135-selection-level'),(96-levelArt.width)/2,2,levelArt.width,levelArt.height));
+      const tileName=place(element('span',shortName,'m8-select-tank-name'),3,76,90,17);
+      Object.assign(tileName.style,{fontSize:'10.5px',fontWeight:'700',fontFamily:'Tahoma,sans-serif',lineHeight:'16px',
+        textAlign:'center',color:selected?'#fff394':'#ffffff',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',
+        background:'linear-gradient(180deg,rgba(4,24,48,.35),rgba(4,24,48,.92))',borderRadius:'0 0 4px 4px',
+        textShadow:'0 0 3px #031d38,0 1px 2px #031d38',pointerEvents:'none'});
+      button.append(tileName);
       this.selectionTileCleanups.push(this.selectionInfo.bind(button,{...tank,externalId:this.assets.tankExternal(tank)}));return button;
     }));
   }

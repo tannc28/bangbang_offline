@@ -165,6 +165,59 @@ def tank_action_classes():
                10000054:NoelActions,10000057:DraculaActions,10000080:DoraemonActions,10000091:CaoCaoActions,10000115:DaredevilActions,10000055:KakashiActions}
 
 
+_EMPTY_OWNER_BUFFS = {}
+
+
+class IndexedBuffMap(dict):
+    """Preserves exact (owner, template) -> (ident, end) dict semantics with O(1) owner view."""
+    def __init__(self, initial=()):
+        super().__init__()
+        self.by_owner = {}
+        self.owner_ver = {}
+        if initial:
+            items = initial.items() if isinstance(initial, dict) else initial
+            for key, val in items:
+                self[key] = val
+
+    def __setitem__(self, key, val):
+        super().__setitem__(key, val)
+        owner, template = key
+        bucket = self.by_owner.get(owner)
+        if bucket is None:
+            bucket = {}
+            self.by_owner[owner] = bucket
+        bucket[template] = val
+        self.owner_ver[owner] = self.owner_ver.get(owner, 0) + 1
+
+    def __delitem__(self, key):
+        super().__delitem__(key)
+        owner, template = key
+        bucket = self.by_owner.get(owner)
+        if bucket is not None:
+            bucket.pop(template, None)
+        self.owner_ver[owner] = self.owner_ver.get(owner, 0) + 1
+
+    def pop(self, key, *default):
+        existed = key in self
+        val = super().pop(key, *default)
+        if existed:
+            owner, template = key
+            bucket = self.by_owner.get(owner)
+            if bucket is not None:
+                bucket.pop(template, None)
+            self.owner_ver[owner] = self.owner_ver.get(owner, 0) + 1
+        return val
+
+    def clear(self):
+        super().clear()
+        self.by_owner.clear()
+        for owner in list(self.owner_ver):
+            self.owner_ver[owner] += 1
+
+    def for_owner(self, owner):
+        return self.by_owner.get(owner, _EMPTY_OWNER_BUFFS)
+
+
 class BattleArena:
     def __init__(self, state, clock=None, rng=None, *, bot_attacks=False, serial_start=0):
         self.bot_attacks = bot_attacks
@@ -179,7 +232,7 @@ class BattleArena:
         self.bot_attacks = bot_attacks and not self.tank_test
         self.serial, self.event_serial = serial_start, 0
         self.pending = []
-        self.active_buffs = {}
+        self.active_buffs = IndexedBuffMap()
         self.objects = {}  # Live ObjInfo payloads for reconnect snapshots.
         self.pk = None
         self.bot_brains = {}
@@ -299,7 +352,10 @@ class BattleArena:
             ready=self.pk.get('intro_until',self.clock())
             self.queue(ready if self.geometry.id in (1,4,9,10,12,14,17,21,30,40,34,35,36,37,50,70,169,170) else ready+50,self._map_tick)
             for actor in self.actors.values():self.queue(ready,actor.on_spawn)
-            if self.bot_attacks:self.queue(ready+200,self._pk_tick)
+            if self.bot_attacks:
+                from multiplayer_battle import prepare_navigation, install_navigation
+                install_navigation(self, prepare_navigation({'map_id': self.geometry.id}, {}, True))
+                self.queue(ready+200,self._pk_tick)
             return
         bot = state['bot']
         self.bot = classes[bot['tank_id']](self, 2, bot, 3-camp, spawns[3-camp])
@@ -321,8 +377,17 @@ class BattleArena:
         heapq.heappush(self.pending, (due, self.event_serial, callback, args))
 
     def water_rects(self,now):
-        actors=list(self.actors.values())
-        for actor in list(actors):
+        cache = getattr(self, '_water_sources_cache', None)
+        if cache is None or cache[0] != len(self.actors):
+            sources = tuple(a for a in self.actors.values()
+                            if a.info.get('tank_id') in (10000079, 10000055) or hasattr(a, 'water_wall') or hasattr(a, 'borrowed_views'))
+            self._water_sources_cache = (len(self.actors), sources)
+        else:
+            sources = cache[1]
+        if not sources:
+            return ()
+        actors = list(sources)
+        for actor in sources:
             if hasattr(actor,'borrowed_views'):actors.extend(actor.borrowed_views(current=False))
         return tuple((x-36,y-36,x+36,y+36) for actor in actors
                      if (wall:=getattr(actor,'water_wall',None)) and wall['end']>now
@@ -374,10 +439,20 @@ class BattleArena:
 
     def _aquaman_absorbs(self,owner,flight,now):
         if not flight or flight.get('kind')!='bullet':return False
+        cache = getattr(self, '_aquaman_sources_cache', None)
+        if cache is None or cache[0] != len(self.actors):
+            aq = tuple(a for a in self.actors.values() if a.info.get('tank_id')==10000110)
+            kk = tuple(a for a in self.actors.values() if hasattr(a,'borrowed_views'))
+            cache = (len(self.actors), aq, kk)
+            self._aquaman_sources_cache = cache
+        _, aq_actors, kk_actors = cache
+        if not aq_actors and not kk_actors:
+            return False
         previous=flight['previous'];source=self.actors[owner]
-        absorbers=[a for a in self.actors.values() if a.info['tank_id']==10000110 and a.alive and a.camp!=source.camp and a.dash]
-        absorbers.extend(v for a in self.actors.values() if a.alive and a.camp!=source.camp and hasattr(a,'borrowed_views')
-                         for v in a.borrowed_views() if v._session['tank']==10000110 and v.dash)
+        absorbers=[a for a in aq_actors if a.alive and a.camp!=source.camp and a.dash]
+        if kk_actors:
+            absorbers.extend(v for a in kk_actors if a.alive and a.camp!=source.camp
+                             for v in a.borrowed_views() if v._session['tank']==10000110 and v.dash)
         if not absorbers:return False
         target=self.actors.get(flight.get('target'))
         if target:
@@ -696,15 +771,21 @@ class TankActions:
         # into area hits while hidden (Stone God's approved burrow rule).
         return not self.is_untargetable()
 
+    def _own_buff_items(self):
+        ab = self.active_buffs
+        if hasattr(ab, 'for_owner'):
+            return ab.for_owner(self.id).items()
+        return ((t, val) for (owner, t), val in ab.items() if owner == self.id)
+
     def attr_bonus(self, attributes, now):
         from crystal_combat import bonus
         value = bonus(self, attributes)
-        for (owner,template),(_,end) in self.active_buffs.items():
+        for template,(_,end) in self._own_buff_items():
             if self.arena.geometry.id == 40002 and 483 <= template <= 489:
                 continue  # World Boss energy is a flat attack bonus plus 5%.
             if 500101 <= template <= 508109 or 510801 <= template <= 510839:
                 continue  # Frozen Guild passives are already in base stats.
-            if owner!=self.id or end<=now or template in (416412,416413,416415,416416,388112,336106,344207,358923,305110,305111,305112,305314,381203,381204,391103,391104,391105,330122):
+            if end<=now or template in (416412,416413,416415,416416,388112,336106,344207,358923,305110,305111,305112,305314,381203,381204,391103,391104,391105,330122):
                 continue  # Borrowed values are in stat_loans, these buffs show stacks.
             row = table_row('BuffTemplate_table.xml',nBuffId=template)
             attribute = 10 if template==358607 else int(row.get('nTypeParam',0))
@@ -755,8 +836,8 @@ class TankActions:
 
     def cleanse(self, now):
         packets = []
-        for (owner,template) in list(self.active_buffs):
-            if owner==self.id and (table_row('BuffTemplate_table.xml',nBuffId=template).get('iAspect')=='-1'
+        for template,_ in list(self._own_buff_items()):
+            if (table_row('BuffTemplate_table.xml',nBuffId=template).get('iAspect')=='-1'
                     or template in (344207,344211,368305,368405) and self.buff_sources.get(template)!=self.id):
                 packets.extend(self.remove_buff(template,now))
         # Naruto's approved hit counter survives CC immunity, independently
@@ -799,14 +880,13 @@ class TankActions:
 
     def strip_defenses(self, now):
         packets = []
-        for (owner,template) in list(self.active_buffs):
-            if owner==self.id and self.defense_buff(template):
+        for template,_ in list(self._own_buff_items()):
+            if self.defense_buff(template):
                 packets.extend(self.remove_buff(template,now))
         return packets
 
     def buff_types(self, now):
-        active = [t for (owner,t),(_,end) in self.active_buffs.items()
-                  if owner==self.id and end>now]
+        active = [t for t,(_,end) in self._own_buff_items() if end>now]
         return active_buff_effect_types(active)
 
     def _speed(self, now):
@@ -816,8 +896,8 @@ class TankActions:
         from crystal_combat import bonus
         bonuses, slows = [float(bonus(self, (11,)))], []
         flat = 0
-        for (owner, template), (_, end) in self.active_buffs.items():
-            if owner != self.id or end <= now:
+        for template, (_, end) in self._own_buff_items():
+            if end <= now:
                 continue
             if 500101 <= template <= 508109 or 510801 <= template <= 510839:
                 continue
@@ -886,8 +966,10 @@ class TankActions:
             return True
         # SkillTool.getBanSlots: silence excludes common attack; masks E/Space/R.
         mask = {0:1, 1:2, 2:4, 10:8, 4:16}.get(slot,0)
-        for (owner,template),(_,end) in self.active_buffs.items():
-            if owner!=self.id or end<=now or not mask:
+        if not mask:
+            return False
+        for template,(_,end) in self._own_buff_items():
+            if end<=now:
                 continue
             row = table_row('BuffTemplate_table.xml',nBuffId=template)
             effect = int(row['nEffectType'])

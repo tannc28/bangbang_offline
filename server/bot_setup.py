@@ -52,7 +52,7 @@ TEST_DESERT_POSITIONS=((1380,636),(1560,636),(1380,816),(1560,816),(1470,996))
 
 
 def default_setup():
-    return dict(mode='pk_robo',allies=[5]*4,enemies=[5]*5,quanvu_execute_hint=False,bot_guild=False,bot_crystals=False,bot_military=False,bot_ai='legacy',bot_ai_allies='legacy',bot_ai_enemies='legacy')
+    return dict(mode='pk_robo',allies=[5]*4,enemies=[5]*5,quanvu_execute_hint=True,bot_guild=False,bot_crystals=False,bot_military=False,bot_ai='legacy',bot_ai_allies='legacy',bot_ai_enemies='legacy')
 
 
 def validate_setup(value):
@@ -65,7 +65,7 @@ def validate_setup(value):
                 or any(type(level) is not int or not 1<=level<=6 for level in levels)):
             raise ValueError('Mỗi bot cần cấp tank từ 1 đến 6; tối đa 5 xe mỗi phe.')
         out[key] = list(levels)
-    hint=value.get('quanvu_execute_hint',False)
+    hint=value.get('quanvu_execute_hint',True)
     if type(hint) is not bool:
         raise ValueError('Gợi ý trảm Quan Vũ cần chọn bật hoặc tắt.')
     out['quanvu_execute_hint']=hint
@@ -77,8 +77,17 @@ def validate_setup(value):
         value_flag=value.get(flag,False)
         if type(value_flag) is not bool:raise ValueError('Trang bị bot cần chọn bật hoặc tắt.')
         out[flag]=value_flag
+    for side in ('allies', 'enemies'):
+        picks = value.get(side + '_tanks')
+        if picks is not None:
+            if (not isinstance(picks, list) or len(picks) > len(out[side])
+                    or any(type(t) is not int or (t != 0 and t not in AI_TANKS) for t in picks)):
+                raise ValueError('Tank bot tùy chọn không hợp lệ.')
+            if any(t != 0 for t in picks):
+                out[side + '_tanks'] = list(picks)
     if out['mode']=='test_desert':
         out.update(allies=[],enemies=[6]*5)
+        out.pop('allies_tanks', None); out.pop('enemies_tanks', None)
     return out
 
 
@@ -99,15 +108,58 @@ def save_setup(value):
     return value
 
 
+def _balanced_sample(pool, count, rng, existing_tanks=()):
+    """Draft a balanced team (frontline + ranged + skirmisher/support) instead of 5 squishies."""
+    if count <= 0:
+        return []
+    if count <= 2:
+        return rng.sample(pool, count)
+    from bot_teamwork import _FRONTLINE, _ARTILLERY, _SKIRMISHER, _SUPPORT
+    chosen = []
+    available = list(pool)
+    def has_role(group):
+        return any(t in group for t in existing_tanks) or any(t in group for t in chosen)
+    for role_set in (_FRONTLINE, _ARTILLERY, _SKIRMISHER | _SUPPORT):
+        if len(chosen) >= count:
+            break
+        if not has_role(role_set):
+            candidates = [t for t in available if t in role_set]
+            if candidates:
+                pick = rng.choice(candidates)
+                chosen.append(pick)
+                available.remove(pick)
+    if len(chosen) < count:
+        chosen.extend(rng.sample(available, count - len(chosen)))
+    rng.shuffle(chosen)
+    return chosen
+
+
 def make_roster(setup, rng=None, player_tank=None):
-    """Roll once per room. Levels don't enter tank choice or AI policy."""
+    """Roll once per room with role-balanced drafting and optional custom tank picks."""
     rng = rng or random.SystemRandom()
     roster = []
     for side in ('enemies','allies'):
         pool=[t for t in AI_TANKS if side!='allies' or t!=player_tank]
         fixed=setup.get('mode')=='test_desert'
         levels=([6]*5 if side=='enemies' else []) if fixed else setup[side]
-        tanks=TEST_DESERT_TANKS if fixed else rng.sample(pool,len(levels))
+        if fixed:
+            tanks = list(TEST_DESERT_TANKS)
+        else:
+            custom = list(setup.get(side + '_tanks') or [])
+            used = {player_tank} if (side == 'allies' and player_tank) else set()
+            explicit = []
+            for idx in range(len(levels)):
+                wanted = custom[idx] if idx < len(custom) else 0
+                if wanted in AI_TANKS and wanted not in used:
+                    explicit.append(wanted)
+                    used.add(wanted)
+                else:
+                    explicit.append(0)
+            missing = sum(1 for t in explicit if t == 0)
+            rem_pool = [t for t in pool if t not in used]
+            drafted = _balanced_sample(rem_pool, missing, rng, existing_tanks=used | {t for t in explicit if t})
+            it = iter(drafted)
+            tanks = [t if t != 0 else next(it) for t in explicit]
         for tank,level in zip(tanks,levels):
             ident = len(roster)+2
             roster.append(dict(object_id=ident,acct_id=88888886+ident,

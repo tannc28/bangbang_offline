@@ -160,6 +160,16 @@ export class M86LoadingView {
         const badge=this.assets.get(model.guildKey);if(badge)guild.append(assetImage(badge));
         guild.append(guildName);card.append(guild);
       }
+      const tankTitle=c.tankId?this.assets.tankName?.(c.tankId)||'':'';
+      if(tankTitle){
+        const tankTag=at(element('span',tankTitle,'m86-loading-tank-name'),52,124,131,17);
+        tankTag.title=tankTitle;
+        Object.assign(tankTag.style,{fontSize:'11px',fontWeight:'700',fontFamily:'Tahoma,sans-serif',lineHeight:'16px',
+          textAlign:'center',color:'#ffe875',whiteSpace:'nowrap',overflow:'hidden',textOverflow:'ellipsis',
+          background:'linear-gradient(90deg,rgba(4,28,54,.12),rgba(4,28,54,.85) 18%,rgba(4,28,54,.85) 82%,rgba(4,28,54,.12))',
+          textShadow:'0 0 3px #031e3a,0 1px 2px #031e3a',pointerEvents:'none',zIndex:'2'});
+        card.append(tankTag);
+      }
       const name=at(element('span',c.name,'m86-loading-name'),78,143,145,22);name.title=c.name||'';
       const colors=loadingNameColors(c.vipLevel);
       if(colors){name.classList.add('m86-loading-vip-name');name.style.backgroundImage=`linear-gradient(#${colors[0].toString(16).padStart(6,'0')},#${colors[1].toString(16).padStart(6,'0')})`;name.style.paddingRight='20px';}
@@ -168,7 +178,7 @@ export class M86LoadingView {
       const honor=this.centered(model.honor?.key,35.5,66);if(honor){honor.title=model.honor.name||'';card.append(honor);}
       const rank=this.centered(model.military?.key,52.5,37,.4);if(rank){rank.title=model.military.name||'';card.append(rank);}
       if(model.skill?.icon){const skill=at(assetImage(model.skill.icon),195,80,30,30);skill.title=nativeText(model.skill.name);card.append(skill);}
-      const ping=c.accountId===state.accountId?at(element('span',null,'m86-loading-ping'),158,127,51,22):null;
+      const ping=c.accountId===state.accountId?at(element('span',null,'m86-loading-ping'),183,165,48,20):null;
       if(ping)card.append(ping);
       this.bars.set(c.accountId,{progress,label,ping});this.roster.append(card);
     }

@@ -168,3 +168,28 @@ def packet(arena):
         raw = line.encode('utf-8')
         body += struct.pack('<H', len(raw)) + raw
     return [(STORY_MSG, body)]
+
+
+def live_summary(arena, speaker=None):
+    """One compact mid-match commentary string from public battle facts."""
+    pk = getattr(arena, 'pk', None)
+    if not isinstance(pk, dict):
+        return 'Trận đấu đang diễn ra.'
+    scores = pk.get('scores') or {}
+    camp = getattr(speaker, 'camp', 1) if speaker is not None else 1
+    mine, theirs = scores.get(camp, 0), scores.get(3 - camp, 0)
+    parts = [f'Tỷ số {mine}:{theirs}']
+    streaks = pk.get('streaks') or {}
+    hot = [(n, arena.actors.get(ident)) for ident, n in streaks.items() if n >= 3]
+    hot = [(n, a) for n, a in hot if a is not None and not a.info.get('npc_template')]
+    if hot:
+        n, actor = max(hot, key=lambda item: item[0])
+        side = 'phe ta' if actor.camp == camp else 'địch'
+        parts.append(f'🔥 {_name(actor)} ({side}) chuỗi {n} mạng')
+    stats = pk.get('stats') or {}
+    if stats:
+        top_id = max(stats, key=lambda i: (stats[i][6], stats[i][1], -i), default=None)
+        top_actor = arena.actors.get(top_id) if top_id is not None else None
+        if top_actor is not None and stats[top_id][6] > 0:
+            parts.append(f'Top ST: {_name(top_actor)} ({stats[top_id][6]})')
+    return ' · '.join(parts)

@@ -258,7 +258,7 @@ byId('preset-3v3').onclick = () => run(() => client.saveBotSetup({mode: 'pk_robo
   bot_ai: client.state.play.setup?.bot_ai || 'legacy',
   bot_ai_allies: client.state.play.setup?.bot_ai_allies || client.state.play.setup?.bot_ai || 'legacy',
   bot_ai_enemies: client.state.play.setup?.bot_ai_enemies || client.state.play.setup?.bot_ai || 'legacy',
-  quanvu_execute_hint: client.state.play.setup?.quanvu_execute_hint || false}));
+  quanvu_execute_hint: client.state.play.setup?.quanvu_execute_hint ?? true}));
 byId('hall-rooms').onclick = event => {
   const button = event.target.closest('[data-join-room]');
   if (button && !button.disabled) run(() => client.joinRoom(Number(button.dataset.joinRoom)));
@@ -273,7 +273,7 @@ byId('bot-form').onsubmit = event => {
     bot_military: byId('bot-military').value === '1',
     bot_ai: byId('bot-ai').value,
     bot_ai_allies: byId('bot-ai').value,bot_ai_enemies:byId('bot-ai-enemies').value,
-    quanvu_execute_hint: client.state.play.setup?.quanvu_execute_hint || false}));
+    quanvu_execute_hint: client.state.play.setup?.quanvu_execute_hint ?? true}));
 };
 byId('room-ready').onclick = () => {
   const self = client.state.play.room?.characters.find(char => char.accountId === client.state.accountId);

@@ -50,29 +50,34 @@ export function basicFireDestination(position, aim, skill) {
  */
 export class BattleInput {
   constructor({canvas, client, worldPoint, getGeometry, getTarget = null,
-    onMessage = () => {}, now = () => performance.now()}) {
+    onMessage = () => {}, onSignal = null, onMinimapClick = null, now = () => performance.now()}) {
     if (!canvas?.addEventListener || !client || typeof worldPoint !== 'function'
         || typeof getGeometry !== 'function') throw new TypeError('Battle input requires a canvas, client and geometry');
     this.canvas = canvas; this.client = client; this.worldPoint = worldPoint;
     this.getGeometry = getGeometry; this.getTarget = getTarget;
-    this.onMessage = onMessage; this.now = now;
+    this.onMessage = onMessage; this.onSignal = onSignal; this.onMinimapClick = onMinimapClick; this.now = now;
     this.document = canvas.ownerDocument ?? globalThis.document;
     this.window = this.document?.defaultView ?? globalThis.window;
     this.active = false; this.aim = null; this.pointerClient = null; this.lastMapAim = null;
-    this.targetId = 0; this.heldFire = false; this.autoFire = false; this.autoKey = null;
+    this.targetId = 0; this.hoveredActorId = 0; this.heldFire = false; this.autoFire = false; this.autoKey = null;
     this.keys = new Set(); this.listeners = []; this.destroyed = false;
     this.context = null; this.lastBasicRequestAt = null; this.lastAction = null;
     this.channel = null; this.selectedSlot=0; this.selectedEntry=null; this.fireKey=null; this.inputOptions=null;
     this.lastReason = null; this.pointerId = null;
     this.portraitAccountId = null;
-    this.hoveredSkill = null; this.rangeFeedback = null;
+    this.hoveredSkill = null; this.rangeFeedback = null; this.heldCast = null; this.bufferedCast = null;
+    this.scoreboardOpen = false;
+    try { this.showAttackRange = this.window?.localStorage?.getItem('bb-attack-range') === '1'; }
+    catch { this.showAttackRange = false; }
     if (typeof canvas.tabIndex === 'number' && canvas.tabIndex < 0) canvas.tabIndex = 0;
     this.listen(canvas, 'pointerdown', event => {if(event.pointerType!=='mouse')this.pointerDown(event);});
     // Mouse edges must include secondary buttons while another remains held.
     // Pointer events report only the first/last transition for mouse chords.
     this.listen(canvas,'mousedown',event=>this.pointerDown(event));
     this.listen(canvas, 'pointermove', event => this.pointerMove(event));
-    this.listen(canvas,'contextmenu',event=>{if(this.active&&(this.inputOptions?.byKey.get(1001)===1001||Object.hasOwn(INPUT_ACTION_SLOTS,this.inputOptions?.byKey.get(1001))))event.preventDefault?.();});
+    this.listen(canvas,'contextmenu',event=>{
+      if(event.altKey||this.heldCast||(this.active&&(this.inputOptions?.byKey.get(1001)===1001||Object.hasOwn(INPUT_ACTION_SLOTS,this.inputOptions?.byKey.get(1001)))))event.preventDefault?.();
+    });
     this.listen(canvas, 'blur', () => this.releaseAll('focus'));
     this.listen(canvas, 'lostpointercapture', () => {
       if (this.heldFire) this.releaseAll('pointer');
@@ -133,11 +138,11 @@ export class BattleInput {
     const geometry = this.getGeometry();
     if (!geometry || !(geometry.width > 0) || !(geometry.height > 0)
         || typeof geometry.visibleToSelf !== 'function') {
-      this.hoveredSkill = null; this.rangeFeedback = null; return null;
+      this.hoveredSkill = null; this.rangeFeedback = null; this.heldCast = null; return null;
     }
     // Presentation follows the accepted slot, including copies and recasts.
     // It cannot survive another skill, actor life, session or expired warning.
-    for (const name of ['hoveredSkill', 'rangeFeedback']) {
+    for (const name of ['hoveredSkill', 'rangeFeedback', 'heldCast']) {
       const preview = this[name];
       const entry = preview && state.skills?.[String(self.objectId)]?.[String(preview.slot)];
       if (preview && (!entry || entry.skillId !== preview.skillId
@@ -162,17 +167,18 @@ export class BattleInput {
   releaseAll(reason = 'released') {
     this.keys.clear(); this.heldFire = false; this.pointerId = null; this.fireKey=null;
     this.selectedSlot=0;this.selectedEntry=null;
-    this.targetId = 0; this.active = false; this.lastReason = reason;
+    this.targetId = 0; this.hoveredActorId = 0; this.active = false; this.lastReason = reason;
     this.portraitAccountId = null;
-    this.hoveredSkill = null; this.rangeFeedback = null;
+    this.hoveredSkill = null; this.rangeFeedback = null; this.heldCast = null; this.bufferedCast = null;
     this.autoKey=null;
+    if(['session','destroyed','escape','hidden'].includes(reason))this.scoreboardOpen=false;
     if(['session','destroyed','escape','settings'].includes(reason))this.autoFire=false;
     if (this.channel) this.channel.suspended = true;
   }
 
   pointerMove(event) {
     const now = this.now(), current = this.current(now);
-    if (!current) { this.aim = null; return; }
+    if (!current) { this.aim = null; this.hoveredActorId = 0; return; }
     this.pointerClient = Number.isFinite(event.clientX) && Number.isFinite(event.clientY)
       ? {x: event.clientX, y: event.clientY} : null;
     this.projectAim(current);
@@ -187,16 +193,57 @@ export class BattleInput {
     const rect = this.canvas.getBoundingClientRect?.();
     if (this.portraitAccountId != null || !pointer || (rect && (pointer.x < rect.left || pointer.y < rect.top
           || pointer.x > rect.right || pointer.y > rect.bottom))) {
-      this.aim = null; this.targetId = 0; return;
+      this.aim = null; this.targetId = 0; this.hoveredActorId = 0; return;
     }
     const aim = this.worldPoint(pointer.x, pointer.y);
     this.aim = validPoint(aim, current.geometry) ? {x: aim.x, y: aim.y} : null;
     if (this.aim) this.lastMapAim = {...this.aim};
   }
 
+  triggerSignal(kind, now = this.now(), explicitPos = null) {
+    if (!this.onSignal || !this.client.combat || this.client.combat.result) return false;
+    const state = this.client.combat, self = state.actors?.[String(state.selfObjectId)];
+    const pos = explicitPos || this.aim || this.lastMapAim || (self ? visualPosition(self, now) : null);
+    let targetId = 0;
+    if (kind === 'atk' && pos && self) {
+      const geometry = this.getGeometry();
+      let best = null, bestDist = 72 ** 2;
+      for (const actor of Object.values(state.actors || {})) {
+        if (!actor || actor.dead || actor.removed || actor.hp <= 0 || actor.camp === self.camp) continue;
+        if (geometry?.visibleToSelf && !geometry.visibleToSelf(actor, state, now)) continue;
+        const ap = visualPosition(actor, now);
+        const d2 = (ap.x - pos.x) ** 2 + (ap.y - pos.y) ** 2;
+        if (d2 < bestDist) { best = actor; bestDist = d2; }
+      }
+      if (best) targetId = best.objectId;
+    }
+    this.onSignal(kind, pos, targetId);
+    return true;
+  }
+
   pointerDown(event) {
-    if (![0,2].includes(event.button) || event.ctrlKey || event.metaKey || event.altKey) return;
+    if (![0,2].includes(event.button) || event.ctrlKey || event.metaKey) return;
     const now = this.now();
+    const rect = this.canvas.getBoundingClientRect?.();
+    if (rect && Number.isFinite(event.clientX) && Number.isFinite(event.clientY)) {
+      const localX = event.clientX - rect.left, localY = event.clientY - rect.top;
+      if (this.onMinimapClick?.(localX, localY, event, now) === true) {
+        event.preventDefault?.(); return;
+      }
+    }
+    if (event.altKey) {
+      event.preventDefault?.();
+      this.pointerMove(event);
+      const kind = event.button === 2 ? 'bak' : (this.hoveredActorId ? 'atk' : 'mst');
+      this.triggerSignal(kind, now);
+      return;
+    }
+    if (event.button === 2 && (this.heldCast || this.bufferedCast)) {
+      event.preventDefault?.();
+      this.heldCast = null; this.bufferedCast = null;
+      this.onMessage('Đã hủy ngắm chiêu.');
+      return;
+    }
     if (!this.activate(now)) return;
     this.pointerMove(event);
     const key=nativeEventKey(event),action=this.inputOptions.byKey.get(key);
@@ -225,7 +272,14 @@ export class BattleInput {
 
   selectOrCast(slot,now,selfCast=false,buttonAim=null) {
     const current=this.current(now),result=this.resolveCast(slot,now,current);
-    if(!result.ready)return this.reject(result.reason,result.message,false);
+    if(!result.ready){
+      // MOBA input buffer: queue casts pressed within the final 165ms of cooldown.
+      if(slot!==0&&result.reason==='cooldown'&&result.cooldown?.remainingMs>0&&result.cooldown.remainingMs<=165){
+        this.bufferedCast={slot,selfCast,buttonAim:buttonAim?{...buttonAim}:null,expiresAt:now+195};
+        return false;
+      }
+      return this.reject(result.reason,result.message,false);
+    }
     if(selfCast&&result.mode==='selected'&&canCastOnSelf(result.skill)
         || !['point','selected'].includes(result.mode))return this.sendCast(slot,now,false,buttonAim,selfCast);
     if(this.inputOptions.quickcast.has(slot)) {
@@ -242,9 +296,35 @@ export class BattleInput {
 
   keyDown(event) {
     const code = keyCode(event);
-    if (code === 'Escape') { this.hoveredSkill = null; this.rangeFeedback = null; }
+    if (code === 'Tab' && !editable(event.target) && this.client.combat) {
+      event.preventDefault?.();
+      this.scoreboardOpen = true;
+      return;
+    }
+    if (code === 'Escape') {
+      this.hoveredSkill = null; this.rangeFeedback = null; this.bufferedCast = null;
+      if (this.scoreboardOpen) { event.preventDefault?.(); this.scoreboardOpen = false; return; }
+      if (this.heldCast) { event.preventDefault?.(); this.heldCast = null; this.onMessage('Đã hủy ngắm chiêu.'); return; }
+    }
     if (code === 'Escape' && this.active) {
       event.preventDefault?.(); this.releaseAll('escape'); return;
+    }
+    if (!editable(event.target) && !event.ctrlKey && !event.metaKey && !event.altKey
+        && !event.repeat && this.client.combat && !this.client.combat.result) {
+      const boundAction = this.inputOptions?.byKey.get(nativeEventKey(event));
+      const signalKind = ({KeyZ: 'atk', KeyX: 'bak', KeyC: 'mst'})[code];
+      if (signalKind && boundAction == null) {
+        event.preventDefault?.();
+        this.triggerSignal(signalKind, this.now());
+        return;
+      }
+      if (code === 'KeyV' && boundAction == null) {
+        event.preventDefault?.();
+        this.showAttackRange = !this.showAttackRange;
+        try { this.window?.localStorage?.setItem('bb-attack-range', this.showAttackRange ? '1' : '0'); } catch { /* ignore */ }
+        this.onMessage(this.showAttackRange ? 'Đã hiện vòng tầm bắn thường [V].' : 'Đã ẩn vòng tầm bắn thường [V].');
+        return;
+      }
     }
     const current = this.current(this.now());
     if (!this.active || !current || editable(event.target)
@@ -256,13 +336,34 @@ export class BattleInput {
     this.keys.add(code);
     if(action===1001)this.autoKey=nativeKey;
     else if(action===1000){this.heldFire=true;this.fireKey=nativeKey;this.primaryCast(this.now());}
-    else if(Object.hasOwn(INPUT_ACTION_SLOTS,action))this.selectOrCast(INPUT_ACTION_SLOTS[action],this.now(),!!event.shiftKey);
+    else if(Object.hasOwn(INPUT_ACTION_SLOTS,action)){
+      const slot = INPUT_ACTION_SLOTS[action], castNow = this.now();
+      const res = this.resolveCast(slot, castNow, current);
+      const previewable = res.ready && !event.shiftKey && this.inputOptions.quickcast.has(slot)
+        && ['point', 'selected'].includes(res.mode) && Number(res.skill?.iRange) > 0
+        && !(slot === 1 && this.portraitAccountId != null && this.portraitCopyAvailability(this.portraitAccountId, castNow).copy)
+        && this.window?.localStorage?.getItem('bb-cast-on-release') !== '0';
+      if (previewable) {
+        this.heldCast = {code, nativeKey, slot, skillId: res.entry.skillId, startedAt: castNow};
+      } else {
+        this.selectOrCast(slot, castNow, !!event.shiftKey);
+      }
+    }
   }
 
   keyUp(event) {
     const code = keyCode(event);
+    if (code === 'Tab' && this.scoreboardOpen) {
+      event.preventDefault?.();
+      this.scoreboardOpen = false;
+    }
     this.finishAutoToggle(event);
     if(nativeEventKey(event)===this.fireKey){this.heldFire=false;this.fireKey=null;}
+    if (this.heldCast && (code === this.heldCast.code || nativeEventKey(event) === this.heldCast.nativeKey)) {
+      const {slot} = this.heldCast;
+      this.heldCast = null;
+      if (this.active && this.current(this.now())) this.selectOrCast(slot, this.now(), false);
+    }
     if (this.keys.delete(code) && this.active) event.preventDefault?.();
   }
 
@@ -350,6 +451,19 @@ export class BattleInput {
       && Number(current.geometry.skillCatalog?.[String(value.skillId)]?.iSType) === 3);
     const skill = entry && current.geometry.skillCatalog[String(entry.skillId)];
     this.targetId = skill ? this.pickTarget(skill, current, now)?.objectId ?? 0 : 0;
+    let hovered = 0;
+    if (this.aim) {
+      let bestDist = 56 ** 2;
+      for (const actor of this.orderedEntities(current.state, 'actors')) {
+        if (!actor || actor.dead || actor.removed || actor.hp <= 0 || actor.objectId === current.self.objectId) continue;
+        if (!current.geometry.visibleToSelf(actor, current.state, now)) continue;
+        const pos = visualPosition(actor, now);
+        const d2 = (pos.x - this.aim.x) ** 2 + (pos.y - this.aim.y) ** 2;
+        const weighted = actor.camp === current.self.camp ? d2 * 1.35 : d2;
+        if (d2 < 56 ** 2 && weighted < bestDist) { hovered = actor.objectId; bestDist = weighted; }
+      }
+    }
+    this.hoveredActorId = hovered;
   }
 
   reject(reason, message, quiet) {
@@ -454,7 +568,7 @@ export class BattleInput {
 
   hoverPortrait(accountId) {
     this.portraitAccountId = Number.isInteger(accountId) ? accountId : null;
-    if (this.portraitAccountId != null) { this.aim = null; this.targetId = 0; }
+    if (this.portraitAccountId != null) { this.aim = null; this.targetId = 0; this.hoveredActorId = 0; }
   }
 
   sendPortraitCopy(accountId, now = this.now()) {
@@ -622,6 +736,15 @@ export class BattleInput {
     this.projectAim(current);
     this.refreshTarget(current, now);
     this.updateChannel(current, now, true);
+    if (this.bufferedCast) {
+      if (now > this.bufferedCast.expiresAt) {
+        this.bufferedCast = null;
+      } else if (this.resolveCast(this.bufferedCast.slot, now, current).ready) {
+        const queued = this.bufferedCast;
+        this.bufferedCast = null;
+        this.selectOrCast(queued.slot, now, queued.selfCast, queued.buttonAim);
+      }
+    }
     const direction = this.direction();
     if (direction !== 8) this.client.move(direction, current.geometry, now);
     if (this.heldFire) this.primaryCast(now);
@@ -631,8 +754,11 @@ export class BattleInput {
   snapshot() {
     return Object.freeze({active: this.active, selectedSlot:this.selectedSlot,
       aim: this.aim ? Object.freeze({...this.aim}) : null, targetId: this.targetId,
+      hoveredActorId: this.hoveredActorId, scoreboardOpen: this.scoreboardOpen,
+      showAttackRange: !!this.showAttackRange,
       lastMapAim: this.lastMapAim ? Object.freeze({...this.lastMapAim}) : null,
       hoveredSkill: this.hoveredSkill ? Object.freeze({...this.hoveredSkill}) : null,
+      heldCast: this.heldCast ? Object.freeze({...this.heldCast}) : null,
       rangeFeedback: this.rangeFeedback ? Object.freeze({...this.rangeFeedback}) : null,
       keys: Object.freeze([...this.keys]), direction: this.direction(), heldFire: this.heldFire, autoFire:this.autoFire,
       channelActive: !!this.channel,

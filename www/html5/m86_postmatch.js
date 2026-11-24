@@ -123,7 +123,9 @@ export function postmatchModel(combat, state = {}, assets = null) {
     return {...actor,accountId,tank,name:nativeText(player.name||brief.name||own.name||`Người chơi ${accountId}`),
       level:id(player.level??brief.level??own.level), avatarId:id(player.avatarId??brief.avatarId??own.avatarId),
       tankName:nativeText(assets?.tankName?.(tank.tankId)||`Tank ${tank.tankId}`),
-      kills:stat(actor,1),deaths:stat(actor,0),assists:stat(actor,3),elo:finite(actor.newElo),
+      kills:stat(actor,1),deaths:stat(actor,0),assists:stat(actor,3),
+      heroDamage:stat(actor,6),structDamage:stat(actor,7),damageTaken:stat(actor,13),
+      elo:finite(actor.newElo),
       eloDelta:finite(actor.newElo)-finite(actor.oldElo)};
   });
   const self = players.find(row => row.accountId === selfAccountId);
@@ -554,7 +556,14 @@ export class M86Postmatch {
     if(id(model.result.winCamp))stage.append(this.art('results.winStamp',254,id(model.result.winCamp)===model.selfCamp?45:317,34,34));
     this.renderReward();this.renderFeatured();this.renderStory();
     stage.append(this.nativeButton({key:'results.exitSkin',label:'Về sảnh',x:585,y:563,width:70,height:47,testId:'postmatch-exit'}),
-      this.nativeButton({key:'results.backSkin',word:'results.backWord',label:'Về sảnh',x:715,y:562,width:116,height:47,testId:'postmatch-return-lobby'}));
+      this.nativeButton({key:'results.backSkin',word:'results.backWord',label:'Về sảnh',x:705,y:562,width:116,height:47,testId:'postmatch-return-lobby'}));
+    const rematchBtn = at(element('button', '🔄 Tái đấu ngay', 'm86-rematch-button'), 834, 566, 126, 39);
+    rematchBtn.type = 'button';
+    rematchBtn.dataset.returnLobby = 'true';
+    rematchBtn.dataset.testid = 'postmatch-rematch';
+    rematchBtn.title = 'Đóng bảng kết quả và tạo nhanh phòng đấu mới';
+    rematchBtn.addEventListener('click', () => this.rematchNow());
+    stage.append(rematchBtn);
     const minutes=Math.floor(finite(model.result.battleTime)/60),seconds=Math.floor(finite(model.result.battleTime)%60);
     stage.append(text(`${model.outcomeText} · ${minutes}:${String(seconds).padStart(2,'0')}`,25,588,477,18,'m86-result-summary'));
   }
@@ -578,6 +587,8 @@ export class M86Postmatch {
     const list=at(element('div',null,'m86-result-team'),x,y,490,225);list.setAttribute('role','table');
     list.setAttribute('aria-label',own?'Đội của bạn':'Đội đối thủ');
     const rowHeight=Math.min(45,225/Math.max(1,players.length));
+    const allPlayers=[...(this.flow.model.teams?.own||[]),...(this.flow.model.teams?.enemy||[])];
+    const maxHeroDmg=Math.max(1,...allPlayers.map(p=>finite(p.heroDamage)));
     for(const [index,player] of players.entries()) {
       // Normal 5v5 has 45px rows. If the server supplies an uneven team, fit all
       // authoritative rows into the same area instead of clipping any player.
@@ -588,12 +599,23 @@ export class M86Postmatch {
       const level=player.level&&this.ui?.assets?.get?.(`chrome.charLevel${player.level}`);
       if(level)row.append(this.art(level,43,12,32,16));
       else if(player.level)row.append(text(player.level,43,12,29,22,'m86-result-level'));
-      const name=text(player.name,79,5,204,20,'m86-result-player-name');name.title=player.name;row.append(name);
+      const name=text(player.name,79,4,132,19,'m86-result-player-name');
+      name.title=`${player.name} · ST Tướng: ${finite(player.heroDamage).toLocaleString('vi-VN')} · Chịu đòn: ${finite(player.damageTaken).toLocaleString('vi-VN')}`;
+      row.append(name);
+      const dmgWrap=at(element('div',null,'m86-result-dmg-wrap'),212,6,104,33);
+      const dmgTrack=element('div',null,'m86-result-dmg-track');
+      const dmgFill=element('span',null,'m86-result-dmg-fill');
+      dmgFill.style.width=`${Math.round(finite(player.heroDamage)*100/maxHeroDmg)}%`;
+      dmgTrack.append(dmgFill);
+      const dmgText=element('div',`⚔️${finite(player.heroDamage).toLocaleString('vi-VN')}`,'m86-result-dmg-num');
+      const takenText=element('div',`🛡️${finite(player.damageTaken).toLocaleString('vi-VN')}`,'m86-result-taken-num');
+      dmgWrap.append(dmgText,dmgTrack,takenText);
+      row.append(dmgWrap);
       const awards=settlementAwards(this.flow.model.result,player.accountId);
-      awards.forEach((award,i)=>row.append(this.art(`medal.${award.kind}`,79+i*20,26,18,18,award.label)));
+      awards.forEach((award,i)=>row.append(this.art(`medal.${award.kind}`,79+i*20,25,18,18,award.label)));
       const tankX=79+awards.length*20;
-      row.append(text(player.tankName,tankX,27,283-tankX,16,'m86-result-tank-name'),
-        text(`${player.kills} / ${player.deaths} / ${player.assists}`,293,12,116,22,'m86-result-kda'),
+      row.append(text(player.tankName,tankX,26,Math.max(40,210-tankX),16,'m86-result-tank-name'),
+        text(`${player.kills} / ${player.deaths} / ${player.assists}`,319,12,92,22,'m86-result-kda'),
         text(player.elo,412,5,72,24,'m86-result-elo'),this.art('results.cutline',0,44,490,1));
       if(player.eloDelta)row.append(text(`${player.eloDelta>0?'+':''}${player.eloDelta}`,412,28,72,16,`m86-result-elo-delta ${player.eloDelta<0?'negative':''}`));
       if(player.escaped){row.classList.add('is-escaped');row.title='Đã rời trận';}
@@ -692,6 +714,16 @@ export class M86Postmatch {
       });
     }else host.append(text('Không có danh hiệu trong trận này',230,88,215,54,'m86-feature-empty'));
     this.stage.append(host);
+  }
+  async rematchNow() {
+    this.releaseInput();const generation=this.client.generation;
+    return this.flow.returnToLobby(async()=>{
+      await this.client.closeResult();
+      if(generation===this.client.generation&&this.client.state.phase==='ready'&&this.client.state.play.phase==='lobby'){
+        if(typeof this.client.createRoom==='function')await this.client.createRoom();
+        else await this.client.refreshHall();
+      }
+    });
   }
   async returnToLobby() {
     this.releaseInput();const generation=this.client.generation,pve=!!this.flow.model?.soloPve;

@@ -38,7 +38,7 @@ TIMES.update(('air_drop_due_at','quest_due_at'))
 TIMES.update(('energy_ready_at','electric_ready_at','portal_ready_at'))
 TIMES.update(('time_combat_until','e_gap_until'))
 TIMES.update(('energy_end_at','wb_cycle_at','wb_cast_until','wb_weak_until','wb_life_end_at'))
-TIMES.update(('elite_plan_at','elite_order_until','elite_target_until','elite_retreat_until'))
+TIMES.update(('elite_plan_at','elite_order_until','elite_target_until','elite_retreat_until','human_signal_until'))
 
 # Most callback deadlines live in named cast dictionaries and are handled by
 # TIMES. These legacy positional arguments also contain an absolute clock;
@@ -141,12 +141,12 @@ def dump_arena(arena, now=None):
     return encode(dict(version=VERSION,at=arena.clock() if now is None else now,
                        serial=arena.serial,event_serial=arena.event_serial,
                        actors=actors,
-                       buffs=arena.active_buffs,objects=arena.objects,events=events,
+                       buffs=dict(arena.active_buffs),objects=arena.objects,events=events,
                        pk=arena.pk,bot_brains=arena.bot_brains,bot_attacks=arena.bot_attacks,rng=arena.rng.getstate()))
 
 
 def restore_arena(state, text, clock=None):
-    from battle_runtime import BattleArena
+    from battle_runtime import BattleArena, IndexedBuffMap
     data = decode(text)
     if data['version']!=VERSION:
         raise ValueError('Unsupported battle checkpoint version; checkpoint kept unchanged')
@@ -245,7 +245,7 @@ def restore_arena(state, text, clock=None):
         state['bot'] = arena.bot.info
         if 3 in arena.actors:
             state['ally_bot'] = arena.actors[3].info
-    arena.active_buffs = {k:(ident,shift(end)) for k,(ident,end) in data['buffs'].items()}
+    arena.active_buffs = IndexedBuffMap({k:(ident,shift(end)) for k,(ident,end) in data['buffs'].items()})
     arena.objects = data['objects']
     arena.serial,arena.event_serial = data['serial'],data['event_serial']
     arena.rng.setstate(data['rng'])

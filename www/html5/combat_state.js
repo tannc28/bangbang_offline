@@ -20,10 +20,40 @@ const BODY_COMMAND_HISTORY_LIMIT = 64;
 const BUFF_PRESENTATION_HISTORY_LIMIT = 128;
 const PACKET_TYPES = new Set(['tick', 'sceneEntered', 'sceneSelf', 'sceneOthers', 'sceneAdd',
   'sceneStop', 'sceneUpdate', 'tankRelive', 'sceneObjectAdd', 'buffAdd', 'buffRemove',
-  'tankAttr', 'sceneStats', 'killInfo', 'botChat', 'matchStory', 'skillCooldown', 'skillChanged', 'buffTime',
+  'tankAttr', 'sceneStats', 'killInfo', 'botChat', 'battleSignal', 'matchStory', 'skillCooldown', 'skillChanged', 'buffTime',
   'skillStopped', 'campScore', 'battleEnd', 'bulletOrbit', 'objectThrow', 'skillDest',
   'battleExp', 'battleLevel', 'autoBulletRequest', 'hpChange', 'portalStates', 'systemError','occupyState','occupyAddScore',
   'roundScore','roundStart','roundResult','roundAlive']);
+
+function actorDisplayName(state, actorOrId) {
+  const actor = typeof actorOrId === 'object' ? actorOrId : entity(state, actorOrId);
+  if (!actor) return 'Chiến xa';
+  const char = state.characters?.find(c => c.accountId === actor.accountId);
+  return actor.name || char?.name || 'Chiến xa';
+}
+
+function pushLiveRecap(state, kind, text, tone, now) {
+  if (!text) return;
+  state.liveRecap ??= [];
+  const last = state.liveRecap.at(-1);
+  if (last && last.text === text && now - last.receivedAt < 2500) return;
+  state.liveRecap.push({id: (state.recapSeq = (state.recapSeq || 0) + 1), kind, text, tone, receivedAt: now});
+  if (state.liveRecap.length > 10) state.liveRecap.splice(0, state.liveRecap.length - 10);
+}
+
+function checkScoreLeadRecap(state, now) {
+  const c1 = Number(state.scores?.camp1) || 0, c2 = Number(state.scores?.camp2) || 0;
+  if (c1 + c2 < 3 || c1 === c2) return;
+  const lead = c1 > c2 ? 1 : 2;
+  if (state.lastLeadCamp && state.lastLeadCamp !== lead) {
+    const mine = state.actors[key(state.selfObjectId)]?.camp;
+    const allyLead = mine != null && lead === mine;
+    pushLiveRecap(state, 'lead',
+      `📈 Lật thế cờ! Phe ${allyLead ? 'Đồng minh' : 'Đối phương'} vươn lên dẫn ${c1}–${c2}!`,
+      allyLead ? 'ally' : 'enemy', now);
+  }
+  state.lastLeadCamp = lead;
+}
 
 function requireTime(now) {
   if (!Number.isFinite(now)) throw new TypeError('A finite monotonic time is required');
@@ -51,6 +81,7 @@ export function createCombatState(scene, accountId, now) {
     actors: {}, objects: {}, actorOrder: [], objectOrder: [],
     objectsReady: false, accountObjects: {}, projectiles: {}, effects: [],
     portals: {}, flags:{}, mapNotice: null, deathRound:null, chat: [], story: [],
+    signals: [], streaks: {}, nemesis: {}, lastKillerId: null, damageLog: [], liveRecap: [], recapSeq: 0, lastLeadCamp: 0,
     effectSequence: 0, skills: {}, respawns: {}, stats: {}, scores: {camp1: null, camp2: null},
     result: null, finishedAt: null, startedAt: scene.startedAt ?? null,
     selfSpeed: null, selfFireRate: null, fireReadyAt: null, selfSnapshotReceived: false,
@@ -184,6 +215,7 @@ function replaceActor(state, raw, now, isSelf = false) {
   // TankModel.setSelfTankInfo emits SELF_TANK_RELIVE for a subsequent self
   // snapshot in the same model. A first entry/reconnect creates a fresh model.
   if (isSelf) {
+    if (raw.hp > 0) state.damageLog = [];
     if (state.selfSnapshotReceived) pushEffect(state, 'selfRelive', now,
       {objectId: raw.objectId, accountId: raw.accountId, position: point(raw.x, raw.y)});
     state.selfSnapshotReceived = true;
@@ -377,6 +409,46 @@ function interpolate(motion, now) {
     y: motion.from.y + (motion.to.y - motion.from.y) * fraction};
 }
 
+/** Lightweight zero-command-history XY sampler for sorting, culling, camera and minimap. */
+export function visualXY(actor, now) {
+  if (!actor) return null;
+  const first = actor.motion;
+  if (!first || now < first.startedAt) return actor.position ?? point(actor.x, actor.y);
+  if (now < first.endsAt) return interpolate(first, now);
+  const queue = actor.moveQueue;
+  if (queue?.length) {
+    for (let i = 0; i < queue.length; i += 1) {
+      const m = queue[i];
+      if (now < m.startedAt) break;
+      if (now < m.endsAt) return interpolate(m, now);
+      if (i === queue.length - 1) return m.to;
+    }
+  }
+  return first.to;
+}
+
+function shortestDegDelta(from, to) {
+  return ((((to - from) % 360) + 540) % 360) - 180;
+}
+
+export function visualCannonAngle(actor, now) {
+  const base = Number(actor?.cannonAngle) || 0;
+  const interp = actor?.cannonInterp;
+  if (!interp || !(interp.durationMs > 0) || now >= interp.startedAt + interp.durationMs) return base;
+  const t = Math.max(0, Math.min(1, (now - interp.startedAt) / interp.durationMs));
+  return interp.from + shortestDegDelta(interp.from, interp.to) * t;
+}
+
+function setActorCannonAngle(actor, nextAngle, now, smooth = false) {
+  if (smooth) {
+    const current = visualCannonAngle(actor, now);
+    actor.cannonInterp = {from: current, to: nextAngle, startedAt: now, durationMs: 68};
+  } else {
+    actor.cannonInterp = null;
+  }
+  actor.cannonAngle = nextAngle;
+}
+
 /** Samples presentation only. It never changes authoritative positions or HP. */
 export function visualPosition(actor, now) {
   requireTime(now);
@@ -407,6 +479,7 @@ function settleMotion(actor, now) {
   if (actor.motion && now >= actor.motion.endsAt)
     retainBodyCommands(actor, visualPosition(actor, now));
   while (actor.motion && now >= actor.motion.endsAt) {
+    actor.lastStepEndedAt = actor.motion.endsAt;
     actor.position = clone(actor.motion.to);
     actor.bodyDirection = actor.motion.bodyDirection ?? actor.motion.direction;
     if (actor.motion.turnsBody !== false) actor.bodyFacingCommand = bodyCommand(actor.motion);
@@ -419,7 +492,7 @@ function cancelMotion(actor, pos) {
   actor.position = point(pos.x, pos.y);
   if (Number.isInteger(pos.bodyDirection)) actor.bodyDirection = pos.bodyDirection;
   if (pos.bodyFacingCommand) actor.bodyFacingCommand = clone(pos.bodyFacingCommand);
-  actor.motion = null; actor.moveQueue = []; actor.predictedPosition = null;
+  actor.motion = null; actor.moveQueue = []; actor.predictedPosition = null; actor.lastStepEndedAt = null;
 }
 
 /** Native angle convention: zero points north, then clockwise. */
@@ -472,8 +545,9 @@ function handleMove(state, move, now) {
   } else {
     actor.moveQueue.push(annotateBodyMotion(actor,
       makeMotion(from, to, move.speed, now, move.moveType, move.direction), true, state.presentationOrder));
-    // CTank.addToMoveList accelerates queued steps when packets accumulate.
-    const speed = move.speed * actor.moveQueue.length;
+    // Smooth jitter-buffer catch-up instead of harsh 2x-3x speed jumps on 1-packet bursts.
+    const boost = actor.moveQueue.length <= 1 ? 1.06 : Math.min(2.2, 1 + (actor.moveQueue.length - 1) * 0.28);
+    const speed = move.speed * boost;
     let start = actor.motion.endsAt;
     actor.moveQueue = actor.moveQueue.map(item => {
       const queued = makeMotion(item.from, item.to, speed, start, item.moveType, item.direction);
@@ -506,6 +580,7 @@ function setHp(state, objectId, hp, now, modelEvent = true) {
     const position = visualPosition(actor, now);
     cancelMotion(actor, position); actor.dead = true; actor.deathAt = now; actor.buffs = {};
     actor.cannonAimHistory = [];
+    if (state.actors[key(objectId)]) state.streaks[key(objectId)] = 0;
     pushEffect(state, 'death', now, {objectId, accountId: actor.accountId ?? null,
       position, lifeEpoch: actor.lifeEpoch,
       // ActiveObjectLayer captures CTank.getBodyComponentId at death. Keep
@@ -533,8 +608,9 @@ function handleFire(state, fire, now) {
       buffPresentation: clone(legacyBuffPresentation(caster.buffPresentation))} : null};
   state.projectiles[key(fire.bulletId)] = bullet;
   if (caster) {
-    caster.cannonAngle = Math.atan2(fire.destY - fire.startY,
+    const nextAngle = Math.atan2(fire.destY - fire.startY,
       fire.destX - fire.startX) * 180 / Math.PI + 90;
+    setActorCannonAngle(caster, nextAngle, now, caster.objectId !== state.selfObjectId);
     // TankCannon.fire() may restart a stopped SWF root. Preserve every native
     // fire callback and its packet order for presentation through a slow RAF.
     caster.cannonFireSequence = (caster.cannonFireSequence ?? 0) + 1;
@@ -848,7 +924,8 @@ export function applyCombatPacket(state, packet, now) {
     case 'skillDest': {
       const actor = knownEntity(state, packet.objectId);
       if (actor) { const pos = visualPosition(actor, now);
-        actor.cannonAngle = Math.atan2(packet.y - pos.y, packet.x - pos.x) * 180 / Math.PI + 90;
+        const nextAngle = Math.atan2(packet.y - pos.y, packet.x - pos.x) * 180 / Math.PI + 90;
+        setActorCannonAngle(actor, nextAngle, now, actor.objectId !== state.selfObjectId);
         const event = recordCannonAim(actor, actor.cannonAngle, now);
         actor.lastServerAim = {x: packet.x, y: packet.y, receivedAt: now, sourceSequence: state.sourceSequence,
           angle: actor.cannonAngle, aimSequence: event.sequence}; }
@@ -877,6 +954,12 @@ export function applyCombatPacket(state, packet, now) {
         if (caster && self && state.actors[key(change.objectId)] && target.camp === self.camp) {
           caster.lastHurtRevealAt = now;
         }
+        if (self && change.objectId === state.selfObjectId && Number(change.delta) < 0 && change.casterId !== state.selfObjectId) {
+          state.damageLog = (state.damageLog || []).filter(item => now - item.receivedAt < 8500);
+          state.damageLog.push({casterId: change.casterId, casterName: actorDisplayName(state, caster),
+            tankId: caster?.tankId ?? null, delta: Math.abs(Number(change.delta)), fury: !!change.fury, receivedAt: now});
+          if (state.damageLog.length > 24) state.damageLog.splice(0, state.damageLog.length - 24);
+        }
         pushEffect(state, 'hpChange', now, {packet: change,
           position: target ? visualPosition(target, now) : null});
       }
@@ -889,6 +972,7 @@ export function applyCombatPacket(state, packet, now) {
       for (const actor of packet.actors) state.stats[key(actor.accountId)] = clone(actor); break;
     case 'matchStory':
       state.story = packet.lines.slice(0, 8);
+      if (packet.lines?.[0]) pushLiveRecap(state, 'story', `🎙️ ${packet.lines[0]}`, 'neutral', now);
       break;
     case 'botChat': {
       const mine = state.actors[key(state.selfObjectId)]?.camp;
@@ -897,12 +981,67 @@ export function applyCombatPacket(state, packet, now) {
         team: packet.channel === 1, ally: mine != null && packet.camp === mine, receivedAt: now}].slice(-8);
       break;
     }
-    case 'killInfo': pushEffect(state, 'killInfo', now, {packet: packetData(packet),
-      killerState: objectSoundState(entity(state, packet.killerId)),
-      victimState: objectSoundState(entity(state, packet.victimId)),
-      announcerState: {selfCamp: state.actors[key(state.selfObjectId)]?.camp,
-        killer: announcerObjectState(state, entity(state, packet.killerId)),
-        victim: announcerObjectState(state, entity(state, packet.victimId))}}); break;
+    case 'battleSignal': {
+      const mine = state.actors[key(state.selfObjectId)]?.camp;
+      if (mine != null && packet.camp !== mine) break;
+      const kindMap = {1: 'atk', 2: 'bak', 3: 'mst'};
+      const signal = {id: ++state.effectSequence, speakerId: packet.speakerId, camp: packet.camp,
+        kind: kindMap[packet.kind] || 'mst', code: packet.kind, x: packet.x, y: packet.y,
+        targetId: packet.targetId || 0, name: packet.name || actorDisplayName(state, packet.speakerId), receivedAt: now};
+      state.signals = [...(state.signals || []).filter(item => now - item.receivedAt < 4500), signal].slice(-6);
+      const label = {atk: '⚔️ Tấn công', bak: '🛡️ Rút lui', mst: '📍 Tập hợp'}[signal.kind];
+      const targetActor = signal.targetId ? entity(state, signal.targetId) : null;
+      pushLiveRecap(state, 'signal',
+        `${label}: ${signal.name}${targetActor ? ` nhắm vào ${actorDisplayName(state, targetActor)}` : ''}`,
+        'ally', now);
+      break;
+    }
+    case 'killInfo': {
+      const killer = entity(state, packet.killerId), victim = entity(state, packet.victimId);
+      const mine = state.actors[key(state.selfObjectId)]?.camp;
+      const killerIsTank = !!state.actors[key(packet.killerId)];
+      const victimIsTank = !!state.actors[key(packet.victimId)];
+      const prevVictimStreak = Number(state.streaks?.[key(packet.victimId)]) || Number(packet.victimStreak) || 0;
+      if (killerIsTank && packet.killerId !== packet.victimId) {
+        const nextStreak = Math.max(1, Number(packet.killerStreak) || ((state.streaks[key(packet.killerId)] || 0) + 1));
+        state.streaks[key(packet.killerId)] = nextStreak;
+      }
+      if (victimIsTank) state.streaks[key(packet.victimId)] = 0;
+      const wasRevenge = packet.killerId === state.selfObjectId && packet.victimId === state.lastKillerId;
+      if (wasRevenge) state.lastKillerId = null;
+      if (packet.victimId === state.selfObjectId && killerIsTank && packet.killerId !== state.selfObjectId) {
+        state.lastKillerId = packet.killerId;
+        state.nemesis[key(packet.killerId)] = (state.nemesis[key(packet.killerId)] || 0) + 1;
+      }
+      if (victimIsTank) {
+        const kName = actorDisplayName(state, killer), vName = actorDisplayName(state, victim);
+        const allyKill = mine != null && killer?.camp === mine;
+        const tone = allyKill ? 'ally' : 'enemy';
+        const multiNames = {2: 'Double Kill', 3: 'Triple Kill', 4: 'Quadra Kill', 5: 'Penta Kill'};
+        const streak = Number(state.streaks[key(packet.killerId)]) || 0;
+        if (packet.firstBlood) {
+          pushLiveRecap(state, 'firstBlood', `🩸 Chiến công đầu! ${kName} hạ gục ${vName}!`, tone, now);
+        } else if (wasRevenge) {
+          pushLiveRecap(state, 'revenge', `🎯 Phục thù thành công! Bạn đã đòi nợ ${vName}!`, 'ally', now);
+        } else if (prevVictimStreak >= 3) {
+          pushLiveRecap(state, 'shutdown', `💰 Chấm dứt! ${kName} ngắt chuỗi ${prevVictimStreak} mạng của ${vName}!`, tone, now);
+        } else if (packet.multiCount >= 2) {
+          const mLabel = multiNames[Math.min(5, packet.multiCount)] || `${packet.multiCount}x Liên sát`;
+          pushLiveRecap(state, 'multi', `⚡ ${mLabel}! ${kName} càn quét giao tranh!`, tone, now);
+        } else if (streak >= 3) {
+          pushLiveRecap(state, 'streak', `🔥 ${kName} đang BỐC CHÁY với chuỗi ${streak} mạng!`, tone, now);
+        } else {
+          pushLiveRecap(state, 'kill', `⚔️ ${kName} hạ gục ${vName}`, tone, now);
+        }
+      }
+      pushEffect(state, 'killInfo', now, {packet: packetData(packet),
+        killerState: objectSoundState(killer),
+        victimState: objectSoundState(victim),
+        announcerState: {selfCamp: mine,
+          killer: announcerObjectState(state, killer),
+          victim: announcerObjectState(state, victim)}});
+      break;
+    }
     case 'roundScore':
       if(![30,40].includes(Number(state.mapId)))break;
       state.scores={camp1:packet.camp1,camp2:packet.camp2};
@@ -929,13 +1068,27 @@ export function applyCombatPacket(state, packet, now) {
       state.deathRound||={number:null,begin:null,phase:'playing'};
       state.deathRound.alive={camp1:packet.camp1,camp2:packet.camp2};
       break;
-    case 'campScore': state.scores = {camp1: packet.camp1, camp2: packet.camp2}; break;
-    case 'occupyState':
+    case 'campScore':
+      state.scores = {camp1: packet.camp1, camp2: packet.camp2};
+      checkScoreLeadRecap(state, now);
+      break;
+    case 'occupyState': {
+      const mine = state.actors[key(state.selfObjectId)]?.camp;
+      for (const flag of packet.flags) {
+        const prev = state.flags[key(flag.index)];
+        if (prev && prev.camp !== flag.camp && (flag.camp === 1 || flag.camp === 2)) {
+          const ally = mine != null && flag.camp === mine;
+          pushLiveRecap(state, 'flag', `🚩 Phe ${ally ? 'Đồng minh' : 'Đối phương'} chiếm cứ điểm #${Number(flag.index) + 1}!`,
+            ally ? 'ally' : 'enemy', now);
+        }
+      }
       state.flags=Object.fromEntries(packet.flags.map(flag=>[key(flag.index),{...flag,receivedAt:now,
         changedAt:state.flags[key(flag.index)]?.camp===flag.camp?state.flags[key(flag.index)].changedAt:now}]));
       break;
+    }
     case 'occupyAddScore':
       state.scores['camp'+packet.camp]=(state.scores['camp'+packet.camp]||0)+packet.score;
+      checkScoreLeadRecap(state, now);
       break;
     case 'portalStates':
       for (const portal of packet.portals) {
@@ -1010,6 +1163,9 @@ export function beginPredictedStep(state, direction, now, geometry) {
   if (controls.chaos) direction = (direction + 4) % 8;
   settleMotion(actor, now);
   if (actor.motion) return null;
+  const stepStart = actor.lastStepEndedAt != null && now >= actor.lastStepEndedAt && now - actor.lastStepEndedAt <= 24
+    ? actor.lastStepEndedAt : now;
+  actor.lastStepEndedAt = null;
   const start = visualPosition(actor, now);
   const canWalk = (x, y) => geometry.canWalk(x, y, actor, state) === true;
   if (!canWalk(start.x, start.y)) {
@@ -1040,9 +1196,9 @@ export function beginPredictedStep(state, direction, now, geometry) {
   const [ax, ay] = MOVE_DIRECTIONS[actual];
   const to = point(start.x + ax * 24, start.y + ay * 24);
   actor.bodyDirection = actual;
-  actor.predictedPosition = {...to, startedAt: now};
+  actor.predictedPosition = {...to, startedAt: stepStart};
   state.presentationOrder = (state.presentationOrder ?? 0) + 1;
-  actor.motion = annotateBodyMotion(actor, makeMotion(start, to, state.selfSpeed, now, 0, actual, true), true, state.presentationOrder);
+  actor.motion = annotateBodyMotion(actor, makeMotion(start, to, state.selfSpeed, stepStart, 0, actual, true), true, state.presentationOrder);
   state.diagnostics.predictionSteps += 1;
   return {sceneId: state.sceneId, startX: Math.trunc(start.x), startY: Math.trunc(start.y),
     direction: actual, endX: to.x, endY: to.y, durationMs: actor.motion.durationMs};

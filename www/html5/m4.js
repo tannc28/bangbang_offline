@@ -2,7 +2,7 @@ import {M3Connection} from './m3.js';
 import {createCombatState, applyCombatPacket, beginPredictedStep,
   visualPosition} from './combat_state.js';
 import {encodeMoveForward, encodeUseSkill, encodeExitBattleEnd,
-  encodeAutoBullet, encodeCacheSkillDestPos, encodeBattleChat} from './combat_protocol.js';
+  encodeAutoBullet, encodeCacheSkillDestPos, encodeBattleChat, encodeBattleSignal} from './combat_protocol.js';
 
 /** M4 extends the verified room lifecycle; combat state is a separate view. */
 export class M4Connection extends M3Connection {
@@ -11,7 +11,7 @@ export class M4Connection extends M3Connection {
     this.prepareSceneAssets = prepareScene;
     this.combat = null; this.sceneAssets = null; this.preparation = null;
     this.lastClock = null;
-    this.inputStats = {sentMove: 0, sentSkill: 0, sentAutoBullet: 0, sentChannelAim: 0};
+    this.inputStats = {sentMove: 0, sentSkill: 0, sentAutoBullet: 0, sentChannelAim: 0, sentSignal: 0};
     this.getAim = () => null;
     this.prepareDynamicAssets = () => {};
   }
@@ -35,13 +35,19 @@ export class M4Connection extends M3Connection {
 
   async connect(credentials = null, automatic = false) {
     this.combat = null; this.sceneAssets = null; this.preparation = null; this.lastClock = null;
-    this.inputStats = {sentMove: 0, sentSkill: 0, sentAutoBullet: 0, sentChannelAim: 0};
+    this.inputStats = {sentMove: 0, sentSkill: 0, sentAutoBullet: 0, sentChannelAim: 0, sentSignal: 0};
     return super.connect(credentials, automatic);
   }
 
   receivePlay(packet, generation) {
     const now = performance.now();
-    if (packet.type === 'tick') this.lastClock = {packet, receivedAt: now};
+    if (packet.type === 'tick') {
+      const halfRtt = Number.isFinite(this.state.latencyMs) ? Math.round(Math.max(0, Math.min(250, this.state.latencyMs / 2))) : 0;
+      const adjusted = halfRtt && packet.serverTimeMs != null
+        ? {...packet, serverTimeMs: (BigInt(packet.serverTimeMs) + BigInt(halfRtt)).toString()} : packet;
+      this.lastClock = {packet: adjusted, receivedAt: now};
+      packet = adjusted;
+    }
     const previousScene = this.state.play.scene;
     super.receivePlay(packet, generation);
     const scene = this.state.play.scene;
@@ -55,15 +61,11 @@ export class M4Connection extends M3Connection {
       if (this.lastClock) applyCombatPacket(this.combat, this.lastClock.packet, this.lastClock.receivedAt);
     }
     applyCombatPacket(this.combat, packet, now);
-    // A copied skill or dynamic summon can introduce a new source dependency.
-    // Loading its art never blocks or changes the authoritative packet reducer.
     this.prepareDynamicAssets(packet, this.combat);
     if (packet.type === 'battleEnd' && packet.sceneId === scene.sceneId) {
       this.state.play.message = 'Server đã kết thúc trận. Xem kết quả rồi trở về sảnh.';
     }
     if (packet.type === 'autoBulletRequest') {
-      // Native automatic-fire requests use C510; normal mouse fire uses C503.
-      // Only reply with the current player's presentation and actual pointer.
       const aim = this.getAim(), self = this.combat.actors[this.combat.selfObjectId];
       if (this.canControl() && aim && self && !self.dead) {
         const from = visualPosition(self, now);
@@ -92,8 +94,6 @@ export class M4Connection extends M3Connection {
         this.update();
         return await super.enterScene();
       } catch (error) {
-        // A stale asset failure must not reach M3's current-session action
-        // catch and replace a newer scene/lobby message in the same generation.
         if (generation !== this.generation || scene !== this.state.play.scene) return null;
         this.state.play.render = {phase: 'error', supported: false, message: error.message};
         this.update();
@@ -124,7 +124,6 @@ export class M4Connection extends M3Connection {
     const self = this.combat.actors[this.combat.selfObjectId];
     if (!self || self.dead || ![0, 1, 2, 4, 10].includes(slot)) return false;
     if (slot === 4 && !this.combat.skills?.[String(self.objectId)]?.['4']) return false;
-    // The server accepts/rejects cost, target, range, collision and cooldown.
     this.gate.send(encodeUseSkill(this.combat.sceneId, targetId, slot, Math.trunc(x), Math.trunc(y)));
     this.inputStats.sentSkill += 1;
     return true;
@@ -134,6 +133,18 @@ export class M4Connection extends M3Connection {
     const value = String(text ?? '').trim().slice(0, 80);
     if (!value || !this.gate || !this.combat?.sceneId || this.combat.result) return false;
     this.gate.send(encodeBattleChat(this.combat.sceneId, team ? 1 : 0, value));
+    return true;
+  }
+
+  sendBattleSignal(kind, x, y, targetId = 0) {
+    const code = typeof kind === 'number' ? kind : ({atk: 1, bak: 2, mst: 3})[kind];
+    if (![1, 2, 3].includes(code) || !this.gate || !this.combat?.sceneId || this.combat.result) return false;
+    const self = this.combat.actors[this.combat.selfObjectId];
+    const fallback = self ? visualPosition(self, performance.now()) : {x: 0, y: 0};
+    const px = Number.isFinite(x) ? x : fallback.x;
+    const py = Number.isFinite(y) ? y : fallback.y;
+    this.gate.send(encodeBattleSignal(this.combat.sceneId, code, px, py, Number(targetId) || 0));
+    this.inputStats.sentSignal += 1;
     return true;
   }
 

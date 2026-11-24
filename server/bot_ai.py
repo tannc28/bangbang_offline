@@ -72,29 +72,20 @@ class Navigation:
         queue=deque([source]);seen={source}
         while queue:
             p=queue.popleft()
-            if self.geometry.id in (14,19,70):
-                # Same edge order as the original flood fill; unchanged edges
-                # survive local obstacle invalidation and can be reused here.
-                for q,_ in self.neighbors(p):
-                    if q not in seen:seen.add(q);queue.append(q)
-            else:
-                for dx,dy in DIRECTIONS[:8]:
-                    q=p[0]+dx*24,p[1]+dy*24
-                    if q not in seen and self.clear(p,q):seen.add(q);queue.append(q)
+            for q,_ in self.neighbors(p):
+                if q not in seen:seen.add(q);queue.append(q)
         component=frozenset(seen)
         for p in component:self.components[p]=component
         return component
 
     def _clear(self,a,b):
-        if (self.geometry.id in (14,19,70) and max(abs(y-x) for x,y in zip(a,b))<=24
-                and all(v==round(v) for v in (*a,*b))):
-            # Native walking checks the destination cell for a single step.
-            # Reuse endpoint checks instead of repeating the same terrain/NPC
-            # queries for every incoming edge on the Maya/Robo/escort routes.
+        if max(abs(y-x) for x,y in zip(a,b))<=24 and all(v==round(v) for v in (*a,*b)):
             for p in (a,b):
                 if p not in self.walk_cells:self.walk_cells[p]=self.geometry.can_walk_to(p)
                 if not self.walk_cells[p]:return False
-            return True
+            if self.geometry.id in (14,19,70) or a==b:
+                return True
+            return self.geometry.can_walk_step(a,b)
         return self.geometry.can_walk_to(a) and self.geometry.walk_end(a,b)==b
 
     def nearest(self,pos):
@@ -142,22 +133,30 @@ class Navigation:
         best=source
         # An ally's exclusion disc is local. Nodes far outside all those discs
         # cannot approach it below 64px; avoid repeated distance work there.
+        original_bounds=self.geometry.id in (14,19,70)
         bounds=((min(p[0] for p in blockers)-64,min(p[1] for p in blockers)-64,
                  max(p[0] for p in blockers)+64,max(p[1] for p in blockers)+64)
-                if blockers and self.geometry.id in (14,19,70) else None)
+                if blockers else None)
+        if bounds is not None and not original_bounds:
+            bounds=(math.nextafter(bounds[0],-math.inf),math.nextafter(bounds[1],-math.inf),
+                    math.nextafter(bounds[2],math.inf),math.nextafter(bounds[3],math.inf))
         for _ in range(4500):
             if not queue:break
             _,g,p=heapq.heappop(queue)
             if g!=cost[p]:continue
             if math.dist(p,end)<math.dist(best,end):best=p
             if p==end:break
-            edges=(self.neighbors(p) if self.geometry.id in (14,19,70) else self._neighbors(p))
+            edges=self.neighbors(p)
+            blocker_limits=tuple((b,min(64,math.dist(p,b))) for b in blockers) if blockers else ()
             for q,step_cost in edges:
                 # Allow already-close allies to separate, but never plan a
                 # new step into their spacing. Dynamic bodies are not cached
                 # as map terrain and never include hidden enemy positions.
-                if (blockers and (bounds is None or bounds[0]<q[0]<bounds[2] and bounds[1]<q[1]<bounds[3])
-                        and any(math.dist(q,b)<min(64,math.dist(p,b)) for b in blockers)):continue
+                if (bounds is not None
+                        and ((bounds[0]<q[0]<bounds[2] and bounds[1]<q[1]<bounds[3])
+                             if original_bounds else
+                             (bounds[0]<=q[0]<=bounds[2] and bounds[1]<=q[1]<=bounds[3]))
+                        and any(math.dist(q,b)<limit for b,limit in blocker_limits)):continue
                 danger=sum(max(0,1-math.dist(q,p)/360) for p in threats) if threats else 0
                 ng=g+step_cost+danger*48
                 if ng<cost.get(q,float('inf')):
@@ -165,11 +164,9 @@ class Navigation:
                     heapq.heappush(queue,(ng+estimate(q),ng,q))
         route=[];p=best
         while p!=source:route.append(p);p=parent[p]
-        if self.geometry.id==19:
-            # The old Robo search produced fresh coordinate tuples per route.
-            # Cached edges must not introduce cross-bot aliases into the graph
-            # checkpoint. Keep the existing nearest/source identity below.
-            route=[(p[0],p[1]) for p in route]
+        # Cached edges must not introduce cross-bot coordinate tuple aliases
+        # into the graph checkpoint. Keep the existing nearest/source identity.
+        route=[(p[0],p[1]) for p in route]
         route.append(source)
         return list(reversed(route))
 
@@ -746,8 +743,11 @@ def decide(arena,actor,brain,seen,now):
     if not recovering:
         brain.pop('repair_box',None);brain.pop('repair_goal',None);brain.pop('repair_threats',None)
     if not nearby:
+        import bot_mind
         brain['target']=None
-        if not recovering:brain['goal']=objective[1] if objective else advance_goal(arena,actor,brain,now)
+        if not recovering:
+            ping_goal = bot_mind.signal_goal(arena, actor, now)
+            brain['goal'] = ping_goal if ping_goal is not None else (objective[1] if objective else advance_goal(arena,actor,brain,now))
         return support(arena,actor,allies,seen if actor.info['tank_id']==10000112 else nearby,now,brain,recovering)
     focus=[b.get('target') for i,b in arena.bot_brains.items() if i!=actor.id and arena.actors[i].camp==actor.camp]
     candidates=tanks or nearby
@@ -1093,12 +1093,14 @@ def tick(arena,now):
     import pace_metrics
     pace_metrics.tick(arena,now)
     packets=bot_chat.tick(arena,now)
+    replanned = 0
     for actor in list(arena.actors.values()):
         if human(actor) or not actor.alive or (actor.info.get('npc_template') and not (actor.info.get('robo') or actor.info.get('base_robot') or actor.info.get('mascot') or actor.info.get('map_spider'))):continue
-        brain=arena.bot_brains.setdefault(actor.id,dict(generation=actor.generation,notice_at=now+bot_personality.reaction_delay(actor,arena.rng.randint(180,350)),observations=[],path=[]))
+        brain=arena.bot_brains.setdefault(actor.id,dict(generation=actor.generation,notice_at=now+bot_personality.reaction_delay(actor,arena.rng.randint(180,350))+(actor.id%5)*40,observations=[],path=[]))
         if brain['generation']!=actor.generation:
-            brain.clear();brain.update(generation=actor.generation,notice_at=now+250,observations=[],path=[])
-        if now>=brain['notice_at']:
+            brain.clear();brain.update(generation=actor.generation,notice_at=now+220+(actor.id%5)*35,observations=[],path=[])
+        if now>=brain['notice_at'] and replanned < 3:
+            replanned += 1
             # Act on the preceding observation, then sample for the next reaction.
             seen=brain['observations']
             elite=policy_for(arena,actor)==ELITE

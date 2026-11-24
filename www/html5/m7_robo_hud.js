@@ -70,19 +70,44 @@ export function roboHudRows(state, catalog, hudCatalog, now) {
   const characters = new Map((state.characters || []).map(row => [row.accountId, row]));
   const ordered = state.actorOrder?.length ? state.actorOrder : Object.keys(state.actors);
   const counts = new Map();
-  return ordered.map(id => state.actors[String(id)]).filter(actor => actor && !actor.removed
+  const rows = ordered.map(id => state.actors[String(id)]).filter(actor => actor && !actor.removed
     && (actor.camp === 1 || actor.camp === 2) && Number.isInteger(actor.accountId)).map(actor => {
     const character = characters.get(actor.accountId), position = counts.get(actor.camp) || 0;
     counts.set(actor.camp, position + 1);
     const ally = actor.camp === self.camp;
+    const dead = !!actor.dead || actor.hp <= 0;
+    const statRow = state.stats?.[String(actor.accountId)]?.stats || [];
+    const deaths = Number(statRow[0]) || 0;
+    const kills = Number(statRow[1] ?? statRow[2]) || 0;
+    const assists = Number(statRow[3]) || 0;
+    const heroDamage = Number(statRow[6]) || 0;
+    const structDamage = Number(statRow[7]) || 0;
+    const damageTaken = Number(statRow[13]) || 0;
+    const streak = dead ? 0 : (Number(state.streaks?.[String(actor.objectId)]) || 0);
+    const nemesisKills = Number(state.nemesis?.[String(actor.objectId)]) || 0;
+    const isRevenge = !ally && state.lastKillerId === actor.objectId;
+    const isNemesis = !ally && (isRevenge || nemesisKills >= 2);
+    const respawn = dead ? state.respawns?.[String(actor.accountId)] : null;
+    const respawnSec = dead && finite(respawn?.expiresAt)
+      ? Math.max(0, Math.ceil((respawn.expiresAt - now) / 1000)) : null;
+    const mvpScore = kills * 3 + assists * 1.2 - deaths * 0.8 + heroDamage / 2200;
+    const tankName = catalog?.tanks?.[String(actor.tankId ?? character?.tankId)]?.name || 'Tank';
     return {objectId: actor.objectId, accountId: actor.accountId, camp: actor.camp, position,
-      name: nativeName(actor, character), self: actor.objectId === self.objectId, ally,
-      hp: actor.hp, maxHp: actor.maxHp, dead: !!actor.dead || actor.hp <= 0,
+      name: nativeName(actor, character), tankName, battleLevel: actor.battleLevel || actor.tankLevel || character?.tankLevel || 1,
+      self: actor.objectId === self.objectId, ally,
+      hp: actor.hp, maxHp: actor.maxHp, shield: Number(actor.shield) || 0, dead, respawnSec,
+      kills, deaths, assists, heroDamage, structDamage, damageTaken, streak, isRevenge, isNemesis, nemesisKills, mvpScore, isMvp: false,
       portrait: roboPortrait(catalog, hudCatalog, actor, character),
       skinFrameType: actor.skinFrameType ?? character?.skinFrameType ?? 0,
       vipLevel: character?.vipLevel ?? character?.player?.vipLevel ?? 0,
       space: ally ? cooldownView(state, actor.objectId, SLOT.Space, now) : null};
   });
+  let bestRow = null;
+  for (const r of rows) {
+    if ((r.kills > 0 || r.heroDamage >= 1200) && (!bestRow || r.mvpScore > bestRow.mvpScore)) bestRow = r;
+  }
+  if (bestRow) bestRow.isMvp = true;
+  return rows;
 }
 
 /** The same chat line as the bubble over the tank, beside the speaker's roster portrait. */
@@ -245,11 +270,11 @@ function element(document, tag, className, parent = null) {
 export class RoboHud {
   constructor({host, onCast, onSkillHover = null, castAvailability, onExit, onSettings, onSound, onFullscreen,
     onSelectAccount, onPortraitHover = null, portraitCopyAvailability = null,
-    onChat, onSignal, onInteraction = null, resolveFrameAsset = () => true} = {}) {
+    onChat, onSignal, onPingSkill = null, onInteraction = null, resolveFrameAsset = () => true} = {}) {
     if (!host?.ownerDocument) throw new TypeError('RoboHud needs an overlay host');
     this.document = host.ownerDocument; this.host = host;
     Object.assign(this, {onCast, onSkillHover, castAvailability, onExit, onSettings, onSound, onFullscreen,
-      onSelectAccount, onPortraitHover, portraitCopyAvailability, onChat, onSignal, onInteraction, resolveFrameAsset});
+      onSelectAccount, onPortraitHover, portraitCopyAvailability, onChat, onSignal, onPingSkill, onInteraction, resolveFrameAsset});
     this.root = element(this.document, 'div', 'm7-robo-hud', host);
     this.root.setAttribute('aria-label', 'Giao diện trận đấu');
     this.addNativeHighlightFilters();
@@ -313,6 +338,18 @@ export class RoboHud {
     this.honorTip = this.make('span', 'm71-honor-tip', this.honor);
     this.honorCurrent = null; this.honorHistory = [];
     this.bottom = this.make('div', 'm7-bottom');
+    this.listen(this.bottom, 'pointerdown', event => {
+      if (!event.altKey || !this.onPingSkill || !this.skillRows?.length) return;
+      const rect = this.bottom.getBoundingClientRect?.();
+      if (!rect) return;
+      const lx = event.clientX - rect.left, ly = event.clientY - rect.top;
+      if (ly < 24 || ly > 86) return;
+      const hit = this.skillRows.find(r => r && !r.locked && lx >= r.x && lx <= r.x + 54);
+      if (hit) {
+        event.preventDefault?.(); event.stopPropagation?.();
+        this.onPingSkill(hit);
+      }
+    });
     this.info = this.make('div', 'm7-self-info', this.bottom);
     this.life = this.make('div', 'm7-self-life', this.info);
     this.hpWord = this.image('m7-hp-word', this.info);
@@ -321,11 +358,26 @@ export class RoboHud {
     this.skills = Array.from({length: 4}, (_, index) => this.createSkill(index));
     this.buffs = this.make('div', 'm7-buffs');
     this.signals = ['atk', 'bak', 'mst'].map((kind, index) => {
-      const labels = ['Tấn công', 'Rút lui', 'Tập hợp'];
+      const labels = ['Tấn công [Z]', 'Rút lui [X]', 'Tập hợp [C]'];
       const button = this.button(`m7-signal m7-signal-${kind}`, labels[index], this.root,
         () => this.onSignal?.(kind));
       return {kind, button, image: this.image('', button)};
     });
+    this.scoreboardPinned = false;
+    this.liveBar = this.make('div', 'm7-live-bar');
+    this.liveRecapBtn = this.button('m7-live-recap-btn', 'Xem bảng điểm & tường thuật nhanh (Tab)', this.liveBar, () => {
+      this.scoreboardPinned = !this.scoreboardPinned;
+      if (this.last) this.updateScoreboard(this.last.state, this.last.catalog, !!this.last.scoreboardOpen || this.scoreboardPinned);
+    });
+    text(this.liveRecapBtn, '🎙️ Diễn biến (Tab)');
+    this.liveTicker = this.make('span', 'm7-live-ticker', this.liveBar); this.liveTicker.hidden = true;
+    this.targetInspector = this.make('div', 'm7-target-inspector'); this.targetInspector.hidden = true;
+    this.targetInspName = this.make('span', 'm7-target-insp-name', this.targetInspector);
+    this.targetInspTags = this.make('span', 'm7-target-insp-tags', this.targetInspector);
+    this.targetInspTrack = this.make('div', 'm7-target-insp-track', this.targetInspector);
+    this.targetInspHp = this.make('div', 'm7-target-insp-hp', this.targetInspTrack);
+    this.targetInspShield = this.make('div', 'm7-target-insp-shield', this.targetInspTrack);
+    this.targetInspValue = this.make('span', 'm7-target-insp-val', this.targetInspTrack);
     this.relive = this.make('div', 'm7-relive'); this.relive.hidden = true;
     this.reliveBg = this.image('m7-relive-bg', this.relive);
     this.reliveAvatar = this.portraitNode('m7-relive-avatar', this.relive, .25);
@@ -333,7 +385,23 @@ export class RoboHud {
     this.killerTip = this.make('div', 'm7-killer-tip', this.relive);
     this.reliveText = this.make('div', 'm7-relive-text', this.relive);
     this.reliveVip = this.make('div', 'm7-relive-vip', this.relive); text(this.reliveVip, RELIVE_TEXT.vip);
+    this.deathRecapBox = this.make('div', 'm7-death-recap', this.relive); this.deathRecapBox.hidden = true;
+    this.deathDamageLine = this.make('div', 'm7-death-dmg-line', this.deathRecapBox);
+    this.deathStoryLine = this.make('div', 'm7-death-story-line', this.deathRecapBox);
     this.spectate = this.make('div', 'm7-spectate'); this.spectate.hidden = true;
+    this.scoreboard = this.make('div', 'm7-scoreboard'); this.scoreboard.hidden = true;
+    this.scoreboardHead = this.make('div', 'm7-sb-head', this.scoreboard);
+    this.scoreboardTitle = this.make('span', 'm7-sb-title', this.scoreboardHead);
+    this.scoreboardClose = this.button('m7-sb-close', 'Đóng bảng điểm', this.scoreboardHead, () => {
+      this.scoreboardPinned = false; this.scoreboard.hidden = true;
+    });
+    text(this.scoreboardClose, '✕ Đóng');
+    this.scoreboardGrid = this.make('div', 'm7-sb-grid', this.scoreboard);
+    this.scoreboardTeamA = this.make('div', 'm7-sb-team m7-sb-team-ally', this.scoreboardGrid);
+    this.scoreboardTeamB = this.make('div', 'm7-sb-team m7-sb-team-enemy', this.scoreboardGrid);
+    this.scoreboardRecap = this.make('div', 'm7-sb-recap', this.scoreboard);
+    this.scoreboardHint = this.make('div', 'm7-sb-hint', this.scoreboard);
+    text(this.scoreboardHint, 'Phím tắt: [Z] Tấn công · [X] Rút lui · [C] Tập hợp · [Alt+Click] Ping bản đồ · Giữ phím chiêu để xem tầm');
     this.status = this.make('div', 'm7-hud-status'); this.status.hidden = true;
     this.status.setAttribute('role', 'status');
     this.chatForm = this.make('form', 'm7-chat-input'); this.chatForm.hidden = true;
@@ -341,6 +409,11 @@ export class RoboHud {
     this.chatInput = this.make('input', '', this.chatForm); this.chatInput.type = 'text';
     this.chatInput.setAttribute('aria-label', 'Tin nhắn trong trận');
     this.chatSend = this.button('', 'Gửi tin', this.chatForm); this.chatSend.type = 'submit'; text(this.chatSend, 'Gửi');
+    this.chatAskRecap = this.button('m7-chat-ask-recap', 'Nhờ đồng đội tường thuật nhanh trận đấu (/tk)', this.chatForm, () => {
+      if (this.onChat && this.last?.connected) this.onChat({text: '/tk', channel: 64});
+      this.chatInput.value = ''; this.chatForm.hidden = true;
+    });
+    text(this.chatAskRecap, '📢 Tường thuật');
     this.listen(this.chatForm, 'submit', event => {
       event.preventDefault(); event.stopPropagation();
       const content = this.chatInput.value.trim();
@@ -349,13 +422,14 @@ export class RoboHud {
     });
     this.listen(this.document, 'keyup', event => {
       if (this.root.hidden || event.isComposing || event.ctrlKey || event.altKey || event.metaKey) return;
-      if (event.key === 'Escape') { this.clearSkillHover(); this.chatForm.hidden = true; this.settingsMenu.hidden = true; return; }
+      if (event.key === 'Escape') { this.clearSkillHover(); this.chatForm.hidden = true; this.settingsMenu.hidden = true; this.scoreboardPinned = false; this.scoreboard.hidden = true; return; }
       if (event.key !== 'Enter' || event.defaultPrevented
           || /^(INPUT|TEXTAREA|SELECT|BUTTON|A)$/.test(event.target?.tagName || '')) return;
       this.onInteraction?.(); this.chatForm.hidden = false;
       this.chatInput.disabled = !this.onChat || !this.last?.connected;
       this.chatSend.disabled = this.chatInput.disabled;
-      this.chatInput.placeholder = this.onChat ? 'Nhập tin nhắn…' : 'Chat trong trận chưa được kết nối';
+      this.chatAskRecap.disabled = this.chatInput.disabled;
+      this.chatInput.placeholder = this.onChat ? 'Nhập tin nhắn (hoặc gõ /tk để nghe tường thuật)…' : 'Chat trong trận chưa được kết nối';
       if (!this.chatInput.disabled) this.chatInput.focus();
     });
     if(this.document.defaultView?.addEventListener)
@@ -444,8 +518,10 @@ export class RoboHud {
   vital(kind, parent) {
     const bar = this.make('div', `m7-vital m7-vital-${kind}`, parent);
     const clip = this.make('div', 'm7-vital-clip', bar), fill = this.image('', clip);
+    const shield = kind === 'hp' ? this.make('div', 'm7-vital-shield', bar) : null;
+    if (shield) shield.hidden = true;
     const label = this.make('span', 'm7-vital-label', bar);
-    return {bar, clip, fill, label};
+    return {bar, clip, fill, shield, label};
   }
   portraitNode(className, parent, scale) {
     const node = this.make('div', `m7-avatar ${className}`, parent);
@@ -585,10 +661,13 @@ export class RoboHud {
     const bg = this.image('m7-roster-bg', button), avatar = this.portraitNode('m7-roster-avatar', button, .27);
     const skin = this.image('m7-roster-skin', button), name = this.make('span', 'm7-roster-name', button);
     const hp = this.make('div', 'm7-roster-hp', button), fill = this.image('', hp);
+    const shieldBar = this.make('span', 'm7-roster-shield', button); shieldBar.hidden = true;
+    const deadTimer = this.make('span', 'm7-roster-dead-timer', button); deadTimer.hidden = true;
+    const badges = this.make('span', 'm7-roster-badges', button); badges.hidden = true;
     const cdBg = this.image('m7-roster-cd-bg', button), cdReady = this.image('m7-roster-cd-ready', button);
     const cd = this.make('span', 'm7-roster-cd', button);
     const say = this.make('span', 'm7-roster-say', button); say.hidden = true;
-    return {button, bg, avatar, skin, name, hp, fill, cdBg, cdReady, cd, say};
+    return {button, bg, avatar, skin, name, hp, fill, shieldBar, deadTimer, badges, cdBg, cdReady, cd, say};
   }
   resize(width, height) {
     if (width > 0 && height > 0) { this.width = width; this.height = height;
@@ -659,15 +738,37 @@ export class RoboHud {
       const watch = spectator.canSwitch && (spectator.eligibleObjectIds || []).includes(row.objectId);
       node.button.disabled = !this.onSelectAccount || !connected || row.dead || !(watch || copy?.copy && !row.self);
       node.button.classList.toggle('m812-copy-ready', !!copy?.ready);
+      node.button.classList.toggle('m7-roster-onfire', row.streak >= 3);
+      node.button.classList.toggle('m7-roster-nemesis', row.isNemesis);
       node.button.dataset.copyReady = String(!!copy?.ready);
+      const statusSummary = [
+        `${row.tankName} · KDA ${row.kills}/${row.deaths}/${row.assists}`,
+        row.heroDamage > 0 ? `ST ${row.heroDamage.toLocaleString('vi-VN')}` : '',
+        row.streak >= 3 ? `🔥 Đang bốc cháy chuỗi ${row.streak}` : '',
+        row.isRevenge ? '🎯 Mối thù vừa hạ bạn' : row.isNemesis ? `🎯 Khắc tinh (${row.nemesisKills} lần hạ bạn)` : '',
+        row.isMvp ? '👑 MVP tạm thời' : '',
+      ].filter(Boolean).join(' · ');
       node.button.title = copy?.copy && !row.self
-        ? `${row.name} · ${copy.ready ? 'Sao chép E: dùng phím E khi trỏ avatar; nếu tắt dùng nhanh, chọn E rồi bấm avatar.' : copy.message || 'Chưa thể sao chép.'}` : row.name;
+        ? `${row.name} (${statusSummary}) · ${copy.ready ? 'Sao chép E: dùng phím E khi trỏ avatar; nếu tắt dùng nhanh, chọn E rồi bấm avatar.' : copy.message || 'Chưa thể sao chép.'}`
+        : `${row.name} · ${statusSummary}`;
       this.bindImage(node.bg, 'tankStateBg'); this.paintPortrait(node.avatar, row.portrait);
       const frame = hudCatalog.skinFrames?.[String(row.skinFrameType)];
       this.bindImage(node.skin, row.skinFrameType ? frame?.logical || frame?.url && frame : null);
       text(node.name, row.name); node.name.classList.toggle('m7-vip-name', row.vipLevel > 0);
       this.bindImage(node.fill, row.ally ? 'playerBlueHPBar' : 'playerRedHPBar', false);
       node.hp.style.width = `${56 * ratio(row.hp, row.maxHp)}px`;
+      node.shieldBar.hidden = !(row.shield > 0 && !row.dead);
+      if (!node.shieldBar.hidden) node.shieldBar.style.width = `${Math.max(4, 56 * ratio(row.shield, row.maxHp))}px`;
+      node.deadTimer.hidden = !row.dead;
+      if (row.dead) text(node.deadTimer, row.respawnSec > 0 ? `💀${row.respawnSec}s` : '💀');
+      const badgeParts = [];
+      if (row.isMvp) badgeParts.push('👑');
+      if (row.streak >= 3) badgeParts.push(`🔥${row.streak}`);
+      if (row.isNemesis) badgeParts.push('🎯');
+      else if (row.shield > 0 && !row.dead) badgeParts.push('🛡️');
+      const badgeText = badgeParts.join('');
+      node.badges.hidden = !badgeText;
+      if (badgeText) text(node.badges, badgeText);
       this.bindImage(node.cdBg, 'temateCDBg'); this.bindImage(node.cdReady, 'temateCDready');
       node.cdBg.hidden = !row.ally; node.cdReady.hidden = !row.ally || !row.space?.ready;
       text(node.cd, row.ally ? nativeRosterCooldownText(row.space?.remainingMs) : '');
@@ -684,11 +785,15 @@ export class RoboHud {
     this.updateBuffs(self, catalog, now);
     this.signals.forEach(({kind, button, image}) => {
       this.bindImage(image, `btn_signal_${kind}`); button.disabled = !this.onSignal || !connected;
-      button.title = `${{atk: 'Tấn công', bak: 'Rút lui', mst: 'Tập hợp'}[kind]}${this.onSignal ? '' : ' — tín hiệu chưa được kết nối'}`;
+      const tipMap = {atk: 'Tấn công [Z / Alt+Chuột trái]', bak: 'Rút lui [X / Alt+Chuột phải]', mst: 'Tập hợp [C]'};
+      button.title = `${tipMap[kind]}${this.onSignal ? '' : ' — tín hiệu chưa được kết nối'}`;
     });
+    this.updateTargetInspector(state, catalog, self, options.hoveredActorId, now);
+    this.updateLiveTicker(state, now);
     this.updateFeed(state, catalog, killFeed, now);
     this.updateRelive(state, catalog, self, killFeed, spectator, now);
     this.updateChat(chatMessages);
+    this.updateScoreboard(state, catalog, !!options.scoreboardOpen || this.scoreboardPinned);
     text(this.status, options.message || ''); this.status.hidden = !options.message;
   }
   updateVitals(self) {
@@ -696,8 +801,15 @@ export class RoboHud {
     this.bindImage(this.hpWord, 'word_hp'); this.bindImage(this.mpWord, 'word_mp');
     this.bindImage(this.hp.fill, 'play_bar_l'); this.bindImage(this.mp.fill, 'img_mp_bar_bg');
     this.hp.clip.style.width = `${100 * ratio(self.hp, self.maxHp)}px`;
+    if (this.hp.shield) {
+      const sh = Number(self.shield) || 0;
+      this.hp.shield.hidden = !(sh > 0);
+      if (sh > 0) this.hp.shield.style.width = `${Math.max(4, 100 * ratio(sh, self.maxHp))}px`;
+    }
     this.mp.clip.style.width = `${100 * ratio(self.mp, self.maxMp)}px`;
-    text(this.hp.label, `${self.hp}/${self.maxHp}`); text(this.mp.label, `${self.mp}/${self.maxMp}`);
+    const shieldVal = Number(self.shield) || 0;
+    text(this.hp.label, shieldVal > 0 ? `${self.hp}+${shieldVal}` : `${self.hp}/${self.maxHp}`);
+    text(this.mp.label, `${self.mp}/${self.maxMp}`);
     this.mp.bar.hidden = !hasMP; this.mpWord.hidden = !hasMP;
     const count = Number(self.lifeCount); const key = `${count}:${this.catalog?.schemaVersion}`;
     if (this.lifeKey !== key) {
@@ -903,10 +1015,137 @@ export class RoboHud {
     this.honorKillerFrame.hidden = this.honorVictimFrame.hidden = true;
     text(this.honorName, ''); text(this.honorTip, '');
   }
+  updateTargetInspector(state, catalog, self, hoveredActorId, now) {
+    const target = hoveredActorId ? state.actors?.[String(hoveredActorId)] : null;
+    if (!target || target.dead || target.removed || target.hp <= 0 || state.result) {
+      this.targetInspector.hidden = true;
+      return;
+    }
+    this.targetInspector.hidden = false;
+    const ally = target.camp === self.camp;
+    this.targetInspector.dataset.ally = String(ally);
+    const char = state.characters?.find(c => c.accountId === target.accountId);
+    const tName = catalog?.tanks?.[String(target.tankId ?? char?.tankId)]?.name || 'Tank';
+    const pName = nativeName(target, char);
+    text(this.targetInspName, `${pName ? `${pName} · ` : ''}${tName}`);
+    const tags = [];
+    let executeReady = false;
+    const selfTank = Number(self.tankId);
+    if (!ally && target.maxHp > 0) {
+      if (selfTank === 10000056) {
+        const execHp = Math.floor(target.maxHp * 0.30);
+        const serverHint = Object.values(target.buffs || {}).some(b => Number(b.templateId) === 990056);
+        if (serverHint || target.hp <= execHp) {
+          executeReady = true;
+          tags.push('🗡️ ĐỦ TRẢM SÁT!');
+        } else {
+          tags.push(`⚔️ Trảm còn ${Math.ceil(target.hp - execHp)} HP`);
+        }
+      } else if ([10000102, 10000070, 10000048, 10000082, 10000107].includes(selfTank)
+          && target.hp <= target.maxHp * 0.35) {
+        tags.push('💥 Ngưỡng kết liễu');
+      }
+    }
+    this.targetInspector.dataset.execute = String(executeReady);
+    const streak = Number(state.streaks?.[String(target.objectId)]) || 0;
+    if (streak >= 3) tags.push(`🔥 Chuỗi ${streak}`);
+    if (!ally && state.lastKillerId === target.objectId) tags.push('🎯 Mối thù');
+    for (const buff of Object.values(target.buffs || {})) {
+      const row = catalog?.buffs?.[String(buff.templateId)];
+      const eff = Number(row?.nEffectType);
+      if ([30, 36, 62].includes(eff) && !tags.includes('❄️ Khống chế')) tags.push('❄️ Khống chế');
+      if ([28, 29, 54, 71].includes(eff) && !tags.includes('🛡️ Giáp/Phản')) tags.push('🛡️ Giáp/Phản');
+    }
+    const tagStr = tags.slice(0, 3).join(' · ');
+    this.targetInspTags.hidden = !tagStr;
+    text(this.targetInspTags, tagStr);
+    const hpPct = ratio(target.hp, target.maxHp) * 100;
+    const pctInt = Math.max(1, Math.round(hpPct));
+    const shieldVal = Number(target.shield) || 0;
+    const shieldPct = ratio(shieldVal, target.maxHp) * 100;
+    this.targetInspHp.style.width = `${hpPct}%`;
+    this.targetInspShield.hidden = !(shieldVal > 0);
+    if (shieldVal > 0) this.targetInspShield.style.width = `${Math.max(3, shieldPct)}%`;
+    text(this.targetInspValue, shieldVal > 0
+      ? `${target.hp} (+${shieldVal}) / ${target.maxHp} · ${pctInt}%`
+      : `${target.hp} / ${target.maxHp} · ${pctInt}%`);
+  }
+  updateLiveTicker(state, now) {
+    const latest = (state.liveRecap || []).at(-1);
+    const fresh = latest && (now - latest.receivedAt < 7500);
+    this.liveTicker.hidden = !fresh;
+    if (fresh) {
+      this.liveTicker.dataset.tone = latest.tone || 'neutral';
+      text(this.liveTicker, latest.text);
+    }
+  }
+  updateScoreboard(state, catalog, visible) {
+    this.scoreboard.hidden = !visible;
+    this.scoreboard.classList.toggle('m7-sb-pinned', !!this.scoreboardPinned);
+    if (!visible) return;
+    const rows = this.rosterRows || [];
+    const maxDmg = Math.max(1, ...rows.map(r => r.heroDamage || 0));
+    const key = JSON.stringify([
+      this.scoreboardPinned,
+      state.scores?.camp1, state.scores?.camp2,
+      rows.map(r => [r.accountId, r.kills, r.deaths, r.assists, r.heroDamage, r.damageTaken, r.streak, r.dead, r.respawnSec, r.battleLevel, r.space?.ready]),
+      (state.liveRecap || []).slice(-4).map(item => item.id),
+      (state.story || []).slice(0, 2),
+    ]);
+    if (this.scoreboardKey === key) return;
+    this.scoreboardKey = key;
+    const self = state.actors?.[String(state.selfObjectId)];
+    const c1 = state.scores?.camp1 ?? 0, c2 = state.scores?.camp2 ?? 0;
+    text(this.scoreboardTitle, `📊 BẢNG ĐIỂM & TƯỜNG THUẬT TRỰC TIẾP · Tỷ số ${c1} – ${c2}`);
+    this.scoreboardClose.hidden = !this.scoreboardPinned;
+    const renderTeam = (host, teamRows, titleLabel, isAlly) => {
+      host.replaceChildren();
+      const header = this.make('div', 'm7-sb-team-head', host);
+      text(header, `${isAlly ? '🟦 PHE ĐỒNG MINH' : '🟥 PHE ĐỐI PHƯƠNG'} (${teamRows.reduce((s, r) => s + r.kills, 0)} mạng)`);
+      const colHead = this.make('div', 'm7-sb-row m7-sb-colhead', host);
+      for (const label of ['Chiến xa', 'K / D / A', 'ST Tướng', 'Chịu đòn', 'Trạng thái']) {
+        text(this.make('span', '', colHead), label);
+      }
+      for (const row of teamRows) {
+        const line = this.make('div', `m7-sb-row${row.self ? ' m7-sb-self' : ''}${row.dead ? ' m7-sb-dead' : ''}`, host);
+        const who = this.make('span', 'm7-sb-who', line);
+        const badges = [
+          row.isMvp ? '👑' : '',
+          row.streak >= 3 ? `🔥${row.streak}` : '',
+          row.isNemesis ? '🎯' : '',
+        ].filter(Boolean).join(' ');
+        text(who, `${row.name} (${row.tankName} Lv.${row.battleLevel})${badges ? ` ${badges}` : ''}`);
+        text(this.make('span', 'm7-sb-kda', line), `${row.kills}/${row.deaths}/${row.assists}`);
+        const dmgCell = this.make('span', 'm7-sb-dmg', line);
+        const dmgBar = this.make('i', 'm7-sb-dmg-bar', dmgCell);
+        dmgBar.style.width = `${Math.round((row.heroDamage / maxDmg) * 100)}%`;
+        text(this.make('b', '', dmgCell), row.heroDamage.toLocaleString('vi-VN'));
+        text(this.make('span', 'm7-sb-taken', line), row.damageTaken.toLocaleString('vi-VN'));
+        const stText = row.dead
+          ? (row.respawnSec > 0 ? `💀 ${row.respawnSec}s` : '💀 Chờ HS')
+          : row.ally ? (row.space?.ready ? '⚡ R sẵn sàng' : `⏳ ${nativeRosterCooldownText(row.space?.remainingMs) || 'Sống'}`) : '⚔️ Đang chiến';
+        text(this.make('span', 'm7-sb-state', line), stText);
+      }
+    };
+    const allies = rows.filter(r => r.camp === self?.camp);
+    const enemies = rows.filter(r => r.camp !== self?.camp);
+    renderTeam(this.scoreboardTeamA, allies, 'Đồng minh', true);
+    renderTeam(this.scoreboardTeamB, enemies, 'Đối phương', false);
+    this.scoreboardRecap.replaceChildren();
+    const recapHead = this.make('div', 'm7-sb-recap-title', this.scoreboardRecap);
+    text(recapHead, '🎙️ TƯỜNG THUẬT NHANH DIỄN BIẾN TRẬN ĐẤU');
+    const recapLines = (state.liveRecap || []).slice(-4).reverse().map(r => r.text);
+    const fallbackStory = (state.story || []).slice(0, 3).map(s => `🎙️ ${s}`);
+    const combined = recapLines.length ? recapLines : (fallbackStory.length ? fallbackStory : ['Trận đấu vừa bắt đầu — hãy mở giao tranh hoặc dùng Z/X/C điều phối đồng đội!']);
+    for (const item of combined.slice(0, 4)) {
+      const p = this.make('div', 'm7-sb-recap-item', this.scoreboardRecap);
+      text(p, item);
+    }
+  }
   updateRelive(state, catalog, self, feed, spectator, now) {
     const dead = (self.dead || self.hp <= 0) && !state.result;
     this.relive.hidden = !dead; this.spectate.hidden = !dead;
-    if (!dead) { this.deathPresentation = null; return; }
+    if (!dead) { this.deathPresentation = null; this.deathRecapBox.hidden = true; return; }
     const respawn = state.respawns?.[String(self.accountId)];
     const seconds = finite(respawn?.expiresAt) ? Math.max(0, Math.ceil((respawn.expiresAt - now) / 1000)) : null;
     // ReliveProxy hides its timer panel on timeout; only server packets revive the actor.
@@ -931,6 +1170,26 @@ export class RoboHud {
     text(this.killerTip, this.catalog.localizedText?.[tip] || tip);
     text(this.reliveText, seconds > 0 ? RELIVE_TEXT.countdown.replace('@num1@', seconds)
       + (self.lifeCount > 0 ? ` ${RELIVE_TEXT.lives.replace('@num1@', self.lifeCount)}` : '') : '');
+    const dmgEntries = state.damageLog || [];
+    const bySource = new Map();
+    let totalDmg = 0;
+    for (const hit of dmgEntries) {
+      const cur = bySource.get(hit.casterName) || {dmg: 0, fury: false};
+      cur.dmg += hit.delta;
+      cur.fury ||= hit.fury;
+      bySource.set(hit.casterName, cur);
+      totalDmg += hit.delta;
+    }
+    const topSources = [...bySource.entries()].sort((a, b) => b[1].dmg - a[1].dmg).slice(0, 3);
+    const dmgSummary = totalDmg > 0
+      ? `💥 Sát thương vừa nhận: ${topSources.map(([name, info]) => `${name} ${info.dmg.toLocaleString('vi-VN')} (${Math.round(info.dmg * 100 / totalDmg)}%)${info.fury ? '⚡' : ''}`).join(' · ')}`
+      : '';
+    const latestRecap = (state.liveRecap || []).slice(-2).reverse().map(r => r.text).join('  |  ');
+    this.deathRecapBox.hidden = !(dmgSummary || latestRecap);
+    this.deathDamageLine.hidden = !dmgSummary;
+    text(this.deathDamageLine, dmgSummary);
+    this.deathStoryLine.hidden = !latestRecap;
+    text(this.deathStoryLine, latestRecap ? `🎙️ Diễn biến: ${latestRecap}` : '');
     const followed = state.actors[String(spectator.followObjectId)];
     text(this.spectate, (isDeathMap(state.mapId)?'Chờ vòng tiếp theo':'')+
       (spectator.mode === 'spectating' && followed ? `${isDeathMap(state.mapId)?' · ':''}Đang theo dõi ${followed.name || ''}` : ''));
@@ -951,6 +1210,8 @@ export class RoboHud {
     this.deathTrophies.flat().forEach(image=>{image.hidden=true;});
     this.rosterRows = []; this.skillRows = []; this.feed.replaceChildren(); this.feedRows.clear(); this.buffs.replaceChildren();
     this.chatLog.replaceChildren(); this.chatForm.hidden = true; this.settingsMenu.hidden = true;
+    this.scoreboardPinned = false; this.scoreboard.hidden = true; this.scoreboardKey = null;
+    this.targetInspector.hidden = true; this.liveTicker.hidden = true; this.deathRecapBox.hidden = true;
     this.feedKey = this.buffKey = this.chatKey = this.lifeKey = this.buffVersion = null;
     this.buffNodes = []; this.buffSource = null; this.deathPresentation = null;
     this.animationTargets.forEach(target => this.setAnimation(target, null)); this.animationTargets.clear();
@@ -958,6 +1219,8 @@ export class RoboHud {
   }
   snapshot() {
     return {visible: !this.root.hidden, width: this.width, height: this.height,
+      scoreboardVisible: !this.scoreboard.hidden,
+      targetInspectorVisible: !this.targetInspector.hidden,
       killBanner: {visible: !this.honor.hidden, active: this.honorCurrent ? {...this.honorCurrent} : null,
         history: this.honorHistory.map(row => ({...row}))},
       roster: (this.rosterRows || []).map(({portrait, space, ...row}) => ({...row,
