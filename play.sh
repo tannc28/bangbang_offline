@@ -65,6 +65,8 @@ import socket, sys
 start = int(sys.argv[1])
 for port in range(start, start + 30):
     with socket.socket() as s:
+        # Same option the server uses, so a just-stopped server (TIME_WAIT) does not push us to the next port.
+        s.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         try:
             s.bind(('127.0.0.1', port))
         except OSError:

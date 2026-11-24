@@ -21,7 +21,9 @@ function loadRuntime() {
   if(runtimePromise)return runtimePromise;
   runtimePromise=new Promise((resolve,reject)=>{
     const previous=globalThis.RufflePlayer||{};
-    previous.config={...(previous.config||{}),polyfills:false,publicPath:RUFFLE_ROOT.href};
+    // Menu movies always end up on Ruffle's canvas renderer here; asking for it directly skips two
+    // failed WebGL/WebGPU context requests per player, which compete with the battle canvas's context.
+    previous.config={...(previous.config||{}),polyfills:false,publicPath:RUFFLE_ROOT.href,preferredRenderer:'canvas'};
     globalThis.RufflePlayer=previous;
     const script=document.createElement('script'),url=new URL('ruffle.js',RUFFLE_ROOT);
     url.searchParams.set('v',RUFFLE_SCRIPT_SHA256);script.src=url.href;

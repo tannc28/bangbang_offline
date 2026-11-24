@@ -256,7 +256,11 @@ class BattleService:
                                 self._publish_status(match)
                         if dirty:
                             try:
-                                self._persist_many(dirty)
+                                # A full checkpoint costs several ms; writing one every
+                                # 20 ms tick starved the tick loop. Mid-battle rooms save
+                                # every PERSIST_INTERVAL_SECONDS or on an urgent packet.
+                                due=[match for match in dirty if self._persist_due(match,now)]
+                                if due:self._persist_many(due)
                                 for match in dirty:self._publish_committed(match)
                             except Exception as exc:
                                 for match in dirty:
@@ -728,6 +732,15 @@ class BattleService:
         if len(match.left)==len(match.states) and (match.phase=='finished' or not match.active()):
             self.matches.pop(match.room_id,None)
         return match.dirty
+
+    def _persist_due(self,match,now):
+        """Whether this tick must checkpoint. Phase changes, the end of the
+        match and urgent packets (kills, settlement) always persist first."""
+        if match.phase!='battle' or match.arena.pk['finished'] or match.error:
+            return True
+        if any(mid in URGENT_PERSIST_MIDS for mid,_ in match.pending):
+            return True
+        return now-match.last_persisted_at>=PERSIST_INTERVAL_SECONDS
 
     def _persist(self,match):
         self._persist_many([match])

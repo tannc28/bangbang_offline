@@ -308,6 +308,9 @@ export class BattleView {
       this.lastFrameAt = null;
       this.effects.reset(); this.sceneItems.reset();
       this.surface.clear(); this.context.clearRect(0, 0, this.width || 1, this.height || 1);
+      // Leaving a match frees its GPU textures. Kept across matches they reached hundreds of MB on
+      // shared-memory GPUs, until the next map's background failed to upload and drew black.
+      this.surface.releaseTextures();
       $('battle-result').hidden = true; this.resultSeen = null; this.resultViewport = null; this.resultArrival = null;
       this.postmatch.reset();
       this.audio.stopAll(); this.shake.reset(); this.shakeOffset = {x: 0, y: 0};

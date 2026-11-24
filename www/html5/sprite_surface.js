@@ -429,6 +429,13 @@ export class SpriteSurface {
     this.textures.clear(); this.textureBytes = 0;
   }
 
+  /** Free every GPU texture; images stay cached in the store and upload again on their next draw. */
+  releaseTextures() {
+    if (!this.gl) return;
+    for (const texture of this.textures.values()) this.gl.deleteTexture(texture);
+    this.textures.clear(); this.textureBytes = 0; this.batchCount = 0; this.batchTexture = null;
+  }
+
   releaseTexture(image) {
     const texture = this.textures.get(image);
     if (!texture || !this.gl) return;
