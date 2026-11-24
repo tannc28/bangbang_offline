@@ -79,8 +79,7 @@ function valueBox(ui,value,x,y,{width=82,size=13,align='right',padding=8}={}){
   const text=element('span',String(value??''));Object.assign(text.style,{fontSize:`${size}px`,textAlign:align,left:`${padding}px`,right:`${padding}px`});host.append(text);return host;
 }
 function rankName(ui,tank){
-  const skin=ui.assets.garage?.skins?.find(row=>row.tankId===tank.tankId&&row.externalId===tank.externalId);
-  return nativeText(ui.assets.garage?.items?.[String(skin?.itemId)]?.name||ui.assets.tankName(tank.tankId));
+  return nativeText(ui.assets.tankName(tank.tankId));
 }
 function levelArt(ui,level,x,y){const asset=ui.assets.get?.(`chrome.tankLevel${Math.max(1,Math.min(11,Number(level)||1))}`);if(!asset)return null;const art=panelArt(ui,asset,x,y);art.classList.add('m8133-profile-tank-level');return art;}
 

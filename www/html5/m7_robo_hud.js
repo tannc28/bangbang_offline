@@ -1164,7 +1164,7 @@ export class RoboHud {
     const character = killer && state.characters?.find(char => char.accountId === killer.accountId);
     this.paintPortrait(this.reliveAvatar, killer ? roboPortrait(catalog, this.catalog, killer, character) : null);
     const killerTank = killer && catalog?.tanks?.[String(killer.tankId)];
-    const killerName = killer && (this.catalog.skinNames?.[String(killer.externalId)] || killerTank?.base?.szName || '');
+    const killerName = killer && (killerTank?.name || killerTank?.base?.szName || this.catalog.skinNames?.[String(killer.externalId)] || '');
     text(this.killerMessage, killerName ? RELIVE_TEXT.killed.replace('@text1@', killerName) : '');
     const tip = killerTank?.base?.szKillerTips || '';
     text(this.killerTip, this.catalog.localizedText?.[tip] || tip);
