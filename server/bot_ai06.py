@@ -101,9 +101,9 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
         if distance<=288:result.append((2,pos,ident))
         if distance<=420:result.append((1,aim_in_range(actor,dest,360,now),ident))
     elif tank==10000074:
-        if retreat and distance<360 or not retreat and 240<distance<600:
-            point=mobility(actor,brain,target,seen,dest,retreat,now,360,fixed=True)
-            if point is not None:result.append((1,point,ident))
+        from bot_kit_tactics import ranged_kite_point
+        point=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,360,desired=330,fixed=True)
+        if point is not None:result.append((1,point,ident))
         if distance<=480:result.append((10,dest,ident))
         if distance<=480:result.append((2,dest,ident))
     elif tank==10000107:
@@ -111,11 +111,12 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
         if distance<=600:result.append((10,aim_in_range(actor,dest,600,now),ident))
         if distance<=600:result.append((1,dest,ident))
     elif tank==10000086:
-        if retreat and distance<360 or not retreat and 240<distance<550:
-            point=mobility(actor,brain,target,seen,dest,retreat,now,336,blink=True)
-            if point is not None:result.append((2,point,ident))
-        if distance<=480:result.append((10,dest,ident))
+        from bot_kit_tactics import ranged_kite_point
+        point=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,336,desired=360,blink=True)
+        if point is not None:result.append((2,point,ident))
+        # Cast charm CC (E) first so R spirit orbs land cleanly on the charmed target!
         if distance<=600:result.append((1,dest,ident))
+        if distance<=480:result.append((10,dest,ident))
     elif tank==10000106:
         if actor.channel:return []
         if distance<300 and (retreat or distance<200):result.append((1,dest,ident))

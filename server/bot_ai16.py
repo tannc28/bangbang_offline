@@ -178,13 +178,14 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
             point=attach_direction(actor,brain,allies,seen,dest,ident,now)
             if point is not None:result.append((2,point,ident))
     elif tank==STRANGE:
+        from bot_kit_tactics import ranged_kite_point
         if target.get('strange_mark') and actor.has_buff(357406,now) and distance<=600 and not blocked:result.append((0,dest,ident))
         if not actor.shadow:
-            point=mobility(actor,brain,target,seen,dest,retreat,now,600,blink=True)
+            point=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,600,desired=340,blink=True)
             if point is not None:result.append((1,point,ident))
-        elif retreat:
+        elif retreat or distance<220 and ratio(actor)<.6:
             point=shadow_return(actor,brain,seen,now)
-            if point is not None:result.append((1,point,ident))
+            if point is not None:result.append((1,point,actor.id))
         if distance<=600:
             if not retreat:result.append((2,aim_in_range(actor,dest,600,now),ident))
             result.append((10,dest,ident))

@@ -87,9 +87,16 @@ def prepare(arena, actor, brain, seen, target, retreat, recovering, now):
              if float(friend.hp / friend.max_hp) >= .35
              and not friend.blocked('attack', now)
              and not arena.bot_brains.get(friend.id, {}).get('repair_goal')]
+    from bot_teamwork import role_for
+    role = role_for(actor)
+    tank = actor.info['tank_id']
+    insec_ready = (tank == 10000070 and float(actor.hp / actor.max_hp) >= .50
+                   and (actor.has_buff(344101, now) or actor.cooldowns.get(10, now + 9999) <= now)
+                   and actor.cooldowns.get(2, now + 9999) <= now + 1000)
+    support_reach = 720 if (role == 'skirmisher' and float(actor.hp / actor.max_hp) >= .55) or insec_ready else 480
     if any(math.dist(position, friend.position_at(now)) <= 420 for friend in ready):
         return retreat
-    if any(math.dist(target['pos'], friend.position_at(now)) <= 480 for friend in ready):
+    if any(math.dist(target['pos'], friend.position_at(now)) <= support_reach for friend in ready):
         return retreat
     # Do not turn a currently available low-risk finish into an endless
     # regroup. This is an old displayed HP fraction, not exact hidden damage.

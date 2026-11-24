@@ -383,8 +383,11 @@ def _target_score(actor, brain, sample, allies, order, now, guarded=()):
         nearby_friends = sum(math.dist(ally.position_at(now), sample['pos']) <= 420
                              for ally in allies)
         score -= min(3, nearby_friends) * 30
-        if order.get('role') == 'skirmisher' and sample.get('elite_range', 420) >= 450:
-            score -= 45
+        if order.get('role') == 'skirmisher' and sample.get('elite_range', 420) >= 440:
+            score -= 95
+        if actor.info['tank_id'] == 10000056 and sample['hp'] <= .30 and distance <= 460:
+            # Quan Vũ prioritizes <=30% HP targets for instant Space execute + cooldown reset!
+            score -= 260
     if order.get('goal') is not None and order.get('task') not in ('skirmish', 'regroup'):
         score += max(0, math.dist(order['goal'], sample['pos']) - 200) * .28
     return score, sample['id']
@@ -450,13 +453,7 @@ def _retreat_goal(arena, actor, allies, tanks, order, now):
 
 
 def _contagion_friends(actor, allies, order, now):
-    """Separate ordinary fighters from an allied visible spreading burn.
-
-    Native Amaterasu transfers from its displayed spread buffs within 144px.
-    Own and allied buffs/positions are communicated state, not an enemy
-    sensor. Keep holds, recovery and every native pending phase in charge;
-    this helper adds no timers or checkpoint state.
-    """
+    """Separate ordinary fighters from an allied visible spreading burn."""
     if (order.get('task') not in ('skirmish', 'clear_path')
             or actor.blocked('move', now)
             or any(getattr(actor, key, None) for key in (
@@ -475,8 +472,11 @@ def _contagion_friends(actor, allies, order, now):
 
 
 def _combat_goal(arena, actor, allies, tanks, target, order, desired, blocked, now):
-    """Small bounded geometric choice; all actual movement uses native walk."""
+    """Role-stratified, anti-deathball combat positioning with Insec & flank geometry."""
     from bot_engagement import spacing_range
+    from bot_kit_tactics import ally_pull_anchor, insec_goal
+
+    role = order.get('role', 'fighter')
     desired = spacing_range(arena, actor, target, order, desired, now)
     pos = actor.position_at(now)
     distance = math.dist(pos, target['pos'])
@@ -489,30 +489,71 @@ def _combat_goal(arena, actor, allies, tanks, target, order, desired, blocked, n
     leash = order.get('target_radius', 720)
     if (task not in ('skirmish', 'base_push', 'clear_path')
             and (math.dist(target['pos'], objective) > leash
-                 or math.dist(pos, objective) > 300 and distance > 300)):
+                 or math.dist(pos, objective) > 340 and distance > 320)):
         return objective
 
-    # No constant orbit when a stable firing position already works. Stationary
-    # kits still get their own adjust_goal afterwards, through native combat.
+    # Kit-aware Insec positioning: Deadpool / Lạc Long Quân step BEHIND the enemy
+    # so knockbacks launch the target straight into teammates / allied turret!
+    if not blocked and task in ('skirmish', 'clear_path', 'flag_cover', 'base_defend'):
+        insec = insec_goal(arena, actor, target, tanks, now)
+        if insec is not None and (task in ('skirmish', 'clear_path') or math.dist(insec, objective) <= leash):
+            return insec
+
     friends = [ally.position_at(now) for ally in allies if ally is not actor]
     contagious = _contagion_friends(actor, allies, order, now)
-    # The existing native body half-width (36px) gives one body margin beyond
-    # the authored 144px spread radius. Ordinary spacing stays unchanged.
-    crowded = (any(math.dist(pos, p) < 88 for p in friends)
+    min_ally_gap = 185 if role in ('artillery', 'support') else 156
+    crowded = (any(math.dist(pos, p) < min_ally_gap for p in friends)
                or any(math.dist(pos, p) < 180 for p in contagious))
-    threats_close = any(math.dist(pos, s['pos']) < min(260, desired - 70) for s in tanks)
-    if not blocked and abs(distance - desired) < 65 and not crowded and not threats_close:
+    kite_floor = min(285, desired - 55) if role in ('artillery', 'support') else min(240, desired - 75)
+    threats_close = any(math.dist(pos, s['pos']) < kite_floor for s in tanks)
+    if (not blocked and abs(distance - desired) < 58 and not crowded and not threats_close
+            and role != 'skirmisher'):
         return pos
 
-    # Candidate points around the observed target spread the team across firing
-    # lanes without running past its front line or consulting hidden opponents.
-    angle = math.atan2(pos[1] - target['pos'][1], pos[0] - target['pos'][0])
+    anchor, _ = ally_pull_anchor(actor, now)
+    team_angle = math.atan2(anchor[1] - target['pos'][1], anchor[0] - target['pos'][0])
+    self_angle = math.atan2(pos[1] - target['pos'][1], pos[0] - target['pos'][0])
     turn = 1 if actor.id % 2 else -1
-    radius = max(84, desired)
+    if role in ('artillery', 'support'):
+        from bot_execution import basic_range
+        radius = max(desired, min(int(basic_range(actor, now)) - 32, round(desired * 1.08)))
+        # Wide rear/diagonal crossfire fan on the safe allied side of the fight.
+        candidate_angles = (
+            self_angle,
+            team_angle + turn * .34, team_angle - turn * .34,
+            team_angle + turn * .72, team_angle - turn * .72,
+            team_angle + turn * 1.08, team_angle - turn * 1.08,
+            self_angle + turn * .48, self_angle - turn * .48,
+        )
+    elif role == 'skirmisher':
+        radius = max(92, desired)
+        # True flank / pincer angles (55° to 135° off the main team axis)!
+        candidate_angles = (
+            team_angle + turn * 1.15, team_angle + turn * 1.65,
+            team_angle - turn * 1.15, team_angle + turn * 2.15,
+            self_angle + turn * .62, self_angle - turn * .62,
+            self_angle,
+        )
+    elif role == 'frontline':
+        radius = max(92, desired)
+        # Vanguard arc screening between enemy and allied backline.
+        candidate_angles = (
+            team_angle, team_angle + turn * .44, team_angle - turn * .44,
+            team_angle + turn * .86, team_angle - turn * .86,
+            self_angle + turn * .35, self_angle - turn * .35,
+        )
+    else:
+        radius = max(92, desired)
+        candidate_angles = (
+            self_angle, self_angle + turn * .45, self_angle - turn * .45,
+            team_angle + turn * .78, team_angle - turn * .78,
+            self_angle + turn * .92, self_angle - turn * .92,
+        )
+
     points = []
-    for offset in (0, turn * .28, -turn * .28, turn * .56, -turn * .56):
-        p = arena.geometry.clamp_tank_position((target['pos'][0] + math.cos(angle + offset) * radius,
-                                                 target['pos'][1] + math.sin(angle + offset) * radius))
+    for ang in candidate_angles:
+        p = arena.geometry.clamp_tank_position((target['pos'][0] + math.cos(ang) * radius,
+                                                 target['pos'][1] + math.sin(ang) * radius))
         if not arena.geometry.can_walk_to(p):
             continue
         if (task not in ('skirmish', 'base_push', 'clear_path', 'regroup')
@@ -523,13 +564,6 @@ def _combat_goal(arena, actor, allies, tanks, target, order, desired, blocked, n
         return target['pos'] if blocked and task in ('skirmish', 'base_push', 'clear_path') else objective
 
     if blocked:
-        # A teammate can keep reporting an enemy behind our wall. If every
-        # sampled firing point is occluded, the closest point may be exactly
-        # where we stand: endlessly scoring it as cheap would never open LOS.
-        # Approach through the unchanged native path planner instead; bounded
-        # objective roles keep their own anchor rather than chase past a leash.
-        # Native walk stops within 20px and removes grid waypoints within
-        # 18px. A new LOS point in that dead zone would never be reached.
         clear = [point for point in points
                  if math.dist(pos, point) >= 48
                  and arena.geometry.wall_contact(point, target['pos']) is None]
@@ -538,11 +572,6 @@ def _combat_goal(arena, actor, allies, tanks, target, order, desired, blocked, n
         points = clear
 
     if any(math.dist(pos, friend) < 180 for friend in contagious):
-        # A small spacing improvement inside native walk's 20px stop radius
-        # cannot separate these bodies. A firing-ring point on the other side
-        # can instead move us closer to the burn. Require less exposure and
-        # the same 48px movement margin used above. The bounded96px probes
-        # reuse native evade's scale and native body/water collision checks.
         def exposure(point):
             return sum(max(0, 180 - math.dist(point, friend)) for friend in contagious)
         current_exposure = exposure(pos)
@@ -562,18 +591,29 @@ def _combat_goal(arena, actor, allies, tanks, target, order, desired, blocked, n
         if moving:
             points = moving
 
+    spacing_cap = 196 if role in ('artillery', 'support') else 164
+
     def score(point):
-        spacing = sum(max(0, 100 - math.dist(point, p)) * 4 for p in friends)
+        spacing = sum(max(0, spacing_cap - math.dist(point, p)) * 4.5 for p in friends)
         spacing += sum((max(0, 180 - math.dist(point, p))
                         - max(0, 100 - math.dist(point, p))) * 4 for p in contagious)
-        # Supports/backline avoid charging between several known enemies.
-        danger = sum(max(0, 240 - math.dist(point, sample['pos'])) for sample in tanks
+        danger = sum(max(0, 270 - math.dist(point, sample['pos'])) for sample in tanks
                      if sample['id'] != target['id'])
-        danger *= 1.5 if order.get('role') in ('support', 'artillery') else .7
-        line = 160 if arena.geometry.wall_contact(point, target['pos']) is not None else 0
+        if role in ('support', 'artillery'):
+            danger *= 1.85
+            danger += max(0, kite_floor - math.dist(point, target['pos'])) * 2.4
+        elif role == 'skirmisher':
+            danger *= .65
+            # Reward genuine flank separation from the main frontline axis!
+            ang_p = math.atan2(point[1] - target['pos'][1], point[0] - target['pos'][0])
+            flank_delta = abs((ang_p - team_angle + math.pi) % math.tau - math.pi)
+            spacing -= min(1.6, flank_delta) * 55
+        else:
+            danger *= .75
+        line = 170 if arena.geometry.wall_contact(point, target['pos']) is not None else 0
         leash_cost = (math.dist(point, objective) * .18
                       if task not in ('skirmish', 'base_push', 'clear_path') else 0)
-        return math.dist(pos, point) + spacing + danger + line + leash_cost
+        return math.dist(pos, point) * .78 + spacing + danger + line + leash_cost
     return min(points, key=score)
 
 

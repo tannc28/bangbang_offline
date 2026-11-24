@@ -133,12 +133,12 @@ def firing_position(arena,actor,target,now,*,reach=None):
     if not cells:return None
     friends=[a.position_at(now) for a in arena.actors.values() if a is not actor and a.alive
              and a.camp==actor.camp and not a.info.get('map_object')]
-    # Stay and fire once in range; moving every decision used to spoil sieges.
+    # Stay and fire once in range with healthy spacing; separate if stacked on an ally.
     if (math.dist(pos,target.position)<=reach-12 and
             arena.geometry.wall_contact(pos,target.position,12,exclude=(target.map_rect,),bullets=True) is None and
-            all(math.dist(pos,p)>=64 for p in friends)):
+            all(math.dist(pos,p)>=120 for p in friends)):
         return pos
-    return min(cells,key=lambda p:math.dist(pos,p)+sum(max(0,96-math.dist(p,q))*4 for q in friends))
+    return min(cells,key=lambda p:math.dist(pos,p)+sum(max(0,168-math.dist(p,q))*4 for q in friends))
 
 
 def goal(arena,actor,seen,now,brain=None):
@@ -156,10 +156,15 @@ def goal(arena,actor,seen,now,brain=None):
     structures=[a for a in arena.actors.values() if a.alive and a.camp!=actor.camp
                 and (a.info.get('base') or a.info.get('map_turret')) and not a.turret_locked()]
     enemy_home=homes[3-actor.camp]
-    # User-approved order: exposed base, its large tower, then blocking towers.
-    # A reachable firing cell proves the small towers can actually be bypassed.
+    from bot_teamwork import role_for
+    allies_alive=sum(a.alive and a.camp==actor.camp and not a.info.get('npc_template') for a in arena.actors.values())
+    unlocked_turrets=[a for a in structures if a.info.get('map_turret')]
+    split_wing=(allies_alive>=3 and len(unlocked_turrets)>=2
+                and (role_for(actor)=='skirmisher' or actor.id%3==0))
     structures.sort(key=lambda a:(0 if a.info.get('base') else 1 if a.id in enemy_home.unlocked_by else 2,
                                   math.dist(pos,a.position),a.id))
+    if split_wing and not structures[0].info.get('base') and len(structures)>=2:
+        structures=[structures[1],structures[0],*structures[2:]]
     for target in structures:
         dest=firing_position(arena,actor,target,now)
         if dest is not None:

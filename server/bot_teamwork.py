@@ -169,7 +169,8 @@ def _goal(arena, member, wanted, reserved, *, center=None, radius=None,
     source = nav.nearest(member['pos'])
     reachable = nav.reachable(source) if source is not None else ()
     base = tuple(round((v - 12) / 24) * 24 + 12 for v in wanted)
-    steps = 3
+    tight = strict_spacing or (radius is not None and radius <= 90)
+    steps = 3 if tight else 6
     if center is not None and radius is not None:
         base = tuple(round((v - 12) / 24) * 24 + 12 for v in center)
         steps = min(12, math.ceil(radius / 24) + 1)
@@ -177,9 +178,11 @@ def _goal(arena, member, wanted, reserved, *, center=None, radius=None,
              for dx in range(-steps, steps + 1) for dy in range(-steps, steps + 1)]
     if center is not None and radius is not None:
         cells = [p for p in cells if math.dist(p, center) <= radius]
+    min_gap = 64 if tight else 148
+    gap_weight = 8 if tight else 5
     def cost(point):
         return (math.dist(point, wanted)
-                + sum(max(0., 64 - math.dist(point, q)) * 8 for q in reserved), point)
+                + sum(max(0., min_gap - math.dist(point, q)) * gap_weight for q in reserved), point)
 
     def choose(candidates):
         first_legal = None
@@ -446,9 +449,10 @@ def _flag_plan(arena, camp, members, bots, reports, previous, now):
     def holder_key(member, flag):
         guarding = (finish is not None and flag['index'] == finish[0]['index']
                     and member['id'] == finish[1]['id'])
+        role_rank = {'frontline': 0, 'fighter': 1, 'skirmisher': 2, 'support': 3, 'artillery': 4}
         return (not guarding, math.dist(member['pos'], flag['position']) > 60,
                 member['id'] not in responding, member['hp'] < .4,
-                member['role'] not in ('frontline', 'fighter'),
+                role_rank.get(member['role'], 2),
                 math.dist(member['pos'], flag['position']), member['id'])
 
     # Repair travel is owned by the native individual controller. A healing
@@ -517,35 +521,46 @@ def _flag_plan(arena, camp, members, bots, reports, previous, now):
         close = [s for s in enemies if math.dist(s['pos'], center) <= 480]
         actual = _uncontrolled_on(members, center, 60)
         need = capture_need(flag)
-        candidates = sorted((m for m in squad if m['eligible'] and not m.get('recovering')),
-                            key=lambda m: holder_key(m, flag))[:need]
+        ready_pool = sorted((m for m in squad if m['eligible'] and not m.get('recovering')),
+                            key=lambda m: holder_key(m, flag))
+        # When frontline/fighter/skirmisher allies already maintain capture majority,
+        # keep fragile artillery carries outside the 60px melee AoE pit on perimeter crossfire!
+        non_artillery = [m for m in ready_pool if m['role'] != 'artillery']
+        effective_need = min(need, max(1, len(non_artillery))) if need > 1 and non_artillery else need
+        candidates = ready_pool[:effective_need]
         holders = []
-        slots = [(-48, 0), (48, 0), (0, -48), (0, 48)] if need + len(actual) > 1 else [(0, 0)]
+        slots = [(-48, 0), (48, 0), (0, -48), (0, 48)] if effective_need + len(actual) > 1 else [(0, 0)]
         for member in candidates:
             offset = min(slots, key=lambda d: (sum(max(0., 64-math.dist((center[0]+d[0], center[1]+d[1]), a['pos'])) for a in actual),
                                                math.dist(member['pos'], (center[0]+d[0], center[1]+d[1])), d))
             slots.remove(offset)
             wanted = center[0] + offset[0], center[1] + offset[1]
             if _order(arena, result, member, 'flag_hold', wanted, group, stance='hold',
-                      radius=300, center=center, hold_radius=60,
+                      radius=320, center=center, hold_radius=60,
                       avoid=[m['pos'] for m in actual], strict_spacing=True,
                       rationale='Maintain capture majority; human contribution counts only on point.'):
                 holders.append(member)
-        # Lease continuation inserts members before new allocations. Reserve
-        # covering lanes by stable identity, not by that incidental insertion
-        # order, or otherwise stationary/recovering bots swap left/right.
-        cover = sorted((m for m in squad if m not in holders), key=lambda m:m['id'])
+        cover = sorted((m for m in squad if m not in holders), key=lambda m: m['id'])
         approach = (min(close, key=lambda s: (math.dist(s['pos'], center), s['id']))['pos']
                     if close else arena.geometry.spawn(3-camp))
         facing = _unit(center, approach)
         for i, member in enumerate(cover):
-            forward = {'frontline': 150, 'fighter': 75, 'skirmisher': 100,
-                       'support': -100, 'artillery': -150}[member['role']]
-            wanted = _offset(center, facing, forward, (i-(len(cover)-1)/2)*96)
+            role = member['role']
+            wing = 1 if member['id'] % 2 else -1
+            if role == 'skirmisher':
+                forward = 145
+                lateral = wing * (215 + (i % 2) * 55)
+            elif role in ('artillery', 'support'):
+                forward = -210 if role == 'artillery' else -145
+                lateral = (i - (len(cover) - 1) / 2) * 175
+            else:
+                forward = 165 if role == 'frontline' else 95
+                lateral = (i - (len(cover) - 1) / 2) * 150
+            wanted = _offset(center, facing, forward, lateral)
             _order(arena, result, member, 'flag_cover', wanted, group,
-                   stance='defend' if flag['camp'] == camp else 'engage', radius=480,
+                   stance='defend' if flag['camp'] == camp else 'engage', radius=520,
                    center=center, avoid=[m['pos'] for m in actual],
-                   rationale='Screen the holder, focus nearby threats, rotate between flags.')
+                   rationale='Wide role-based perimeter crossfire and flank interception around flag.')
         for member in squad:
             if member['id'] not in result:
                 continue
@@ -616,8 +631,9 @@ def _base_plan(arena, camp, members, bots, reports, previous, now):
                     if threats else enemy_home.position)
         facing = _unit(home.position, approach)
         for i, member in enumerate(defenders):
-            forward = 250 if member['role'] == 'frontline' else 150
-            wanted = _offset(home.position, facing, forward, (i-(len(defenders)-1)/2)*96)
+            role = member['role']
+            forward = 270 if role == 'frontline' else 190 if role in ('fighter', 'skirmisher') else 110
+            wanted = _offset(home.position, facing, forward, (i - (len(defenders) - 1) / 2) * 162)
             _order(arena, result, member, 'base_defend', wanted, 'base:defend', stance='defend',
                    radius=720, center=home.position,
                    rationale='Respond to observed home threats or public home damage; acquire targets through normal sightings.')
@@ -627,20 +643,43 @@ def _base_plan(arena, camp, members, bots, reports, previous, now):
                                    math.dist(_centroid(available or bots), a.position), a.id))
     if not structures:
         structures = [enemy_home]
-    target = structures[0]
-    # Public tower availability is not permission to shoot a hidden mobile tank.
+
+    # Multi-lane split push: when enemy home is not yet exposed and >=2 unlocked
+    # towers exist, send a mobile wing (1-2 bots) to pressure the secondary lane
+    # instead of marching all 5 bots onto the exact same turret!
+    primary = structures[0]
+    secondary = None
     if available:
         leader = max(available, key=lambda m: (m['role'] == 'frontline', m['hp'], -m['id']))
-        for structure in structures:
-            if firing_position(arena, leader['actor'], structure, now) is not None:
-                target = structure
-                break
+        reachable_structs = [s for s in structures if firing_position(arena, leader['actor'], s, now) is not None]
+        if reachable_structs:
+            primary = reachable_structs[0]
+            if not primary.info.get('base') and len(reachable_structs) >= 2 and len(available) >= 3:
+                secondary = reachable_structs[1]
+        elif not primary.info.get('base') and len(structures) >= 2 and len(available) >= 4:
+            secondary = structures[1]
+
+    wing_ids = set()
+    if secondary is not None:
+        wing_count = 2 if len(available) >= 5 else 1
+        wing_candidates = sorted(
+            available,
+            key=lambda m: (
+                0 if m['role'] == 'skirmisher' else 1 if m['role'] == 'fighter' else 2 if m['role'] == 'artillery' else 3,
+                math.dist(m['pos'], secondary.position),
+                m['id'],
+            ),
+        )[:wing_count]
+        wing_ids = {m['id'] for m in wing_candidates}
+
     for member in available:
-        point = firing_position(arena, member['actor'], target, now)
+        assigned = secondary if (secondary is not None and member['id'] in wing_ids) else primary
+        group_name = 'base:split' if assigned is secondary else 'base:push'
+        point = firing_position(arena, member['actor'], assigned, now)
         task = 'base_push' if point is not None else 'clear_path'
-        _order(arena, result, member, task, point or target.position, 'base:push',
-               radius=600, center=target.position, siege_target=target.id,
-               rationale='Push exposed home, then unlocking tower; preserve native siege/firing rules.')
+        _order(arena, result, member, task, point or assigned.position, group_name,
+               radius=620, center=assigned.position, siege_target=assigned.id,
+               rationale='Multi-lane pressure on unlocked towers; converge when enemy base is exposed.')
     return result
 
 
@@ -921,42 +960,67 @@ def _pk_plan(arena, camp, members, bots, reports, previous, now):
     core = _formation_core(available)
     team_center = _centroid(core)
     near = [s for s in enemies if math.dist(s['pos'], team_center) < 1100]
+    stage = previous.get('advance', 0)
     if near:
-        target = min(near, key=lambda s: (math.dist(s['pos'], team_center)+s['hp']*300, s['id']))
+        target = min(near, key=lambda s: (math.dist(s['pos'], team_center) + s['hp'] * 300, s['id']))
         facing = _unit(team_center, target['pos'])
-        # Meet at combat range together, not on the enemy's exact body.
-        center = _offset(target['pos'], facing, -280)
+        center = _offset(target['pos'], facing, -290)
     else:
-        start, end = arena.geometry.spawn(camp), arena.geometry.spawn(3-camp)
-        stage = previous.get('advance', 0)
-        fraction = (.50, .70, .86)[min(2, stage)]
-        center = (start[0]+(end[0]-start[0])*fraction, start[1]+(end[1]-start[1])*fraction)
-        if math.dist(team_center, center) < 180:
-            previous['advance'] = min(2, stage+1)
+        start, end = arena.geometry.spawn(camp), arena.geometry.spawn(3 - camp)
+        fraction = (.42, .62, .80)[stage % 3]
         facing = _unit(start, end)
+        base_mid = (start[0] + (end[0] - start[0]) * fraction, start[1] + (end[1] - start[1]) * fraction)
+        lane_shift = (0, 210, -210)[(stage + camp) % 3]
+        center = _offset(base_mid, facing, 0, lane_shift)
+        if math.dist(team_center, center) < 210:
+            previous['advance'] = (stage + 1) % 5
+
     spread = max(math.dist(m['pos'], team_center) for m in available)
-    separated = len(available) > 1 and spread > 540 and not any(s['hp'] < .25 for s in near)
+    separated = len(available) > 1 and spread > 640 and not any(s['hp'] < .25 for s in near)
     if separated and not near:
-        # A returning bot rejoins a nearby living squad; an idle human is not
-        # its leader and cannot indefinitely pin all bots at the spawn.
         anchor = min(available, key=lambda m: (sum(math.dist(m['pos'], n['pos']) for n in available),
                                                m['role'] != 'frontline', m['id']))
         center = _offset(anchor['pos'], facing, 72)
-    ordered = sorted(available, key=lambda m: (m['role'] != 'frontline', m['role'] == 'support', m['id']))
-    for i, member in enumerate(ordered):
-        forward = {'frontline': 100, 'fighter': 20, 'skirmisher': 55,
-                   'support': -100, 'artillery': -120}[member['role']]
-        point = _offset(center, facing, forward, (i-(len(ordered)-1)/2)*90)
-        # The ready core keeps fighting while a respawn/recovery straggler
-        # rejoins it. Do not order the whole frontline to turn back toward
-        # one far-away teammate, or order a bot already engaged to disengage
-        # solely because someone else has just respawned.
-        regroup = (separated and math.dist(member['pos'], team_center) > 420
+
+    # Split out 1-2 skirmishers/flankers onto side corridors & pincer wings when >=3 bots are active!
+    mind_plan = ((arena.pk.get('bot_mind') or {}).get('plans') or {}).get(str(camp))
+    max_wing = 0
+    if len(available) >= 3:
+        max_wing = 2 if (len(available) >= 4 and mind_plan == 'split') or len(available) >= 5 else 1
+    wing_pool = [m for m in available if m['role'] == 'skirmisher' and m['hp'] >= .45]
+    if len(wing_pool) < max_wing and mind_plan == 'split':
+        wing_pool += [m for m in available if m['role'] == 'fighter' and m['hp'] >= .5]
+    wingers = sorted(wing_pool, key=lambda m: m['id'])[:max_wing]
+    wing_ids = {m['id'] for m in wingers}
+    main_squad = sorted(
+        (m for m in available if m['id'] not in wing_ids),
+        key=lambda m: (m['role'] != 'frontline', m['role'] == 'support', m['id']),
+    )
+
+    for i, member in enumerate(main_squad):
+        forward = {'frontline': 135, 'fighter': 35, 'skirmisher': 70,
+                   'support': -140, 'artillery': -195}[member['role']]
+        lateral = (i - (len(main_squad) - 1) / 2) * 172
+        point = _offset(center, facing, forward, lateral)
+        regroup = (separated and math.dist(member['pos'], team_center) > 480
                    and not any(math.dist(member['pos'], s['pos']) < 360 for s in near))
         task = 'regroup' if regroup else 'clear_path' if not near and arena.geometry.id in (34, 35) else 'skirmish'
         _order(arena, result, member, task, point, 'pk:team',
-               stance='regroup' if regroup else 'engage' if near else 'rotate', radius=720,
-               rationale='Fight as a squad, reserve room for frontline/support, rejoin rather than feed alone.')
+               stance='regroup' if regroup else 'engage' if near else 'rotate', radius=760,
+               rationale='Wide MOBA vanguard/backline arc with multi-lane corridor sweeps.')
+
+    for idx, member in enumerate(wingers):
+        side = 1 if (member['id'] + idx) % 2 else -1
+        if near:
+            # Pincer flank around the side/rear of the observed engagement!
+            flank_point = _offset(target['pos'], facing, 45, side * 315)
+        else:
+            # Patrol wide left/right side corridors independently of mid!
+            flank_point = _offset(center, facing, 65, side * (360 + idx * 60))
+        task = 'clear_path' if not near and arena.geometry.id in (34, 35) else 'skirmish'
+        _order(arena, result, member, task, flank_point, f'pk:wing:{idx}',
+               stance='engage' if near else 'rotate', radius=820,
+               rationale='Flank/pincer wing patrolling side corridors to Collapse on enemy backline.')
     return result
 
 

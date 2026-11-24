@@ -140,20 +140,22 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
             point=mobility(actor,brain,target,seen,dest,retreat,now,480,fixed=True)
             if point is not None:result.append((1,point,ident))
     elif tank==10000111:
+        from bot_kit_tactics import push_is_favorable,ranged_kite_point
         if actor.ready or actor.dash:return []
         if distance<=570:result.append((10,dest,ident))
-        if distance<=660 and (cluster>=2 or target['hp']<.6 or distance<420):result.append((2,dest,ident))
-        if retreat and distance<380 or not retreat and 280<distance<500 and incoming(actor,brain,now):
-            point=mobility(actor,brain,target,seen,dest,retreat,now,300,fixed=True)
-            if point is not None:
-                end=actor.move_destination(pos,aimed(pos,point,300,fixed=True))
-                bodies=[a.position_at(now) for a in actor.arena.actors.values() if a.id!=actor.id
-                        and a.alive and a.camp==actor.camp and not a.info.get('npc_template')]
-                bodies += [s['pos'] for s in seen if not s.get('objective')]
-                hits=[h for p in bodies if (h:=circle_contact(pos,end,p,p)) is not None]
-                if hits:
-                    bounce=point_at(pos,end,min(hits))
-                    second=actor.move_destination(bounce,aimed(bounce,point,300,fixed=True))
-                    if not safe_endpoint(actor,brain,seen,second,now,retreat):return result
-                result.append((1,point,ident))
+        if distance<=660 and (cluster>=2 or target['hp']<.35 or distance<260
+                              or push_is_favorable(actor,target,seen,now,push_dist=240,lethal_hp=.32,retreat=retreat)):
+            result.append((2,dest,ident))
+        point=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,300,desired=350,fixed=True)
+        if point is not None:
+            end=actor.move_destination(pos,aimed(pos,point,300,fixed=True))
+            bodies=[a.position_at(now) for a in actor.arena.actors.values() if a.id!=actor.id
+                    and a.alive and a.camp==actor.camp and not a.info.get('npc_template')]
+            bodies += [s['pos'] for s in seen if not s.get('objective')]
+            hits=[h for p in bodies if (h:=circle_contact(pos,end,p,p)) is not None]
+            if hits:
+                bounce=point_at(pos,end,min(hits))
+                second=actor.move_destination(bounce,aimed(bounce,point,300,fixed=True))
+                if not safe_endpoint(actor,brain,seen,second,now,retreat):return result
+            result.append((1,point,ident))
     return result

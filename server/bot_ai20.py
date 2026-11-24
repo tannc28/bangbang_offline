@@ -63,6 +63,7 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
     tank=actor.info['tank_id'];pos=actor.position_at(now);distance=math.dist(pos,target['pos']);ident=target['id']
     result=[]
     if tank==LAC:
+        from bot_kit_tactics import push_is_favorable
         if actor.form:
             stacks=actor.buff_stacks.get(387313,0) if actor.has_buff(387313,now) else 0
             if not actor.form['used'] and distance<=600 and (stacks>=4 or actor.form['end']-now<1800 or target['hp']<.2):
@@ -70,7 +71,8 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
         elif distance<=480 and (not retreat or distance<=240):result.append((2,pos,actor.id))
         if distance<=192:result.append((10,target['pos'],ident))
         second=now<actor.e_second_until
-        if distance>180 or retreat or second:
+        if retreat or distance>195 or (second and (actor.e_second_until-now<900
+                or push_is_favorable(actor,target,seen,now,push_dist=180,lethal_hp=.32))):
             point=mobility(actor,brain,target,seen,dest,retreat,now,240 if second else 192)
             if point is not None:result.append((1,point,ident))
     elif tank==MAGNETO:

@@ -81,10 +81,12 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
             result.append((2,aim_in_range(actor,dest,960,now),ident))
     elif tank==10000053:
         if distance<=240:
-            # Space chooses the nearest visible enemy itself. Toss towards the
-            # visible cluster, or back to our position for the team to follow up.
-            closest=min(seen,key=lambda s:(math.dist(pos,s['pos']),s['id']))
-            point=closest['pos'] if near(closest['pos'],seen,120)>=2 else pos
+            from bot_kit_tactics import superman_toss_point
+            # Space grabs the nearest visible enemy within 240px: throw them 528px
+            # straight back into allied teammates / allied turret, or onto an enemy cluster!
+            tanks_seen=[s for s in seen if not s.get('barrier') and not s.get('structure')] or [target]
+            closest=min(tanks_seen,key=lambda s:(math.dist(pos,s['pos']),s['id']))
+            point=superman_toss_point(actor,closest,seen,now)
             result.append((2,point,closest['id']))
         if retreat or 200<distance<=560:
             point=mobility(actor,brain,target,seen,dest,retreat,now,480)
@@ -107,8 +109,11 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
             if not target.get('falcon_mark') and actor.mp>=30:result.append((2,dest,ident))
             if not blocked:result.append((0,dest,ident))
     elif tank==10000102:
+        from bot_kit_tactics import push_is_favorable
         if distance<=360:result.append((10,dest,ident))
-        if not retreat and distance<=540 and actor.mp>=60:
+        if (not retreat and distance<=520 and actor.mp>=60
+                and (near(target['pos'],seen,200)>=2
+                     or push_is_favorable(actor,target,seen,now,push_dist=360,lethal_hp=.38))):
             result.append((2,dest,ident))
         if retreat or 280<distance<=540:
             point=mobility(actor,brain,target,seen,dest,retreat,now,480,fixed=True)

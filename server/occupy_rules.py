@@ -132,33 +132,47 @@ def goal(arena,actor,seen,now):
     # human as the sole holder would make every bot wait for them to capture.
     # Keep healthy front-line tanks on the flag; somebody already holding it
     # gets priority so role changes don't repeatedly abandon capture progress.
+    from bot_teamwork import role_for
+    role_rank={'frontline':0,'fighter':1,'skirmisher':2,'support':3,'artillery':4}
     friends.sort(key=lambda a:(math.dist(a.position_at(now),center)>RADIUS,
                               float(a.hp/a.max_hp)<.4,
-                              a.info['tank_id'] not in (10000056,10000031),
+                              role_rank.get(role_for(a),2),
                               math.dist(a.position_at(now),center),a.id))
-    needed=min(4,max(1,on_flag+1))
+    needed=min(3,max(1,on_flag+1))
+    # Keep fragile ranged carries off a crowded melee pit when frontliners already hold majority.
+    non_carry=[a for a in friends if role_for(a) not in ('artillery','support') or human(a)]
+    if len(non_carry)>=max(1,on_flag+1):
+        needed=min(needed,len(non_carry))
     if orders is not None and flag['camp']==actor.camp and not enemies:needed=0
     holders=friends[:needed]
     if actor in holders:
         slot=holders.index(actor)
-        # Four 24-grid positions fit the circle with the bot's 64px spacing.
-        # Human teammates
-        # count as holders but are never steered by this function.
         offset=((-48,0),(48,0),(0,-48),(0,48))[slot] if needed>1 else (0,0)
         dest=(center[0]+offset[0],center[1]+offset[1])
-        # A generic waypoint permits 20px arrival tolerance. If that leaves
-        # this tank just outside the circle, take another real step inward.
         if math.dist(pos,center)>RADIUS and math.dist(pos,dest)<=24:dest=tuple(center)
         return 'flag_hold',dest
     if enemies:
-        # Watch the known enemy approach; never chase beyond the objective.
         nearest=min(enemies,key=lambda s:math.dist(s['pos'],center))['pos']
-        angle=math.atan2(nearest[1]-center[1],nearest[0]-center[0])
+        threat_angle=math.atan2(nearest[1]-center[1],nearest[0]-center[0])
     else:
-        start=arena.geometry.spawn(actor.camp)
-        angle=math.atan2(start[1]-center[1],start[0]-center[0])
+        enemy_spawn=arena.geometry.spawn(3-actor.camp)
+        threat_angle=math.atan2(enemy_spawn[1]-center[1],enemy_spawn[0]-center[0])
     covers=[a for a in friends if a not in holders]
     slot=covers.index(actor) if actor in covers else actor.id%4
-    angle+=(slot-(len(covers)-1)/2)*.65
-    distance=180 if actor.info['tank_id']==10000056 else 240
-    return 'flag_cover',(center[0]+math.cos(angle)*distance,center[1]+math.sin(angle)*distance)
+    spread=(slot-(len(covers)-1)/2)*.78
+    role=role_for(actor)
+    if role in ('artillery','support'):
+        # Hold perimeter crossfire BEHIND / diagonally behind the flag out of AoE clumping!
+        angle=threat_angle+math.pi+spread*.85
+        distance=min(340,max(210,int(actor.stats.get('nFireRange',450))-140))
+    elif role=='skirmisher':
+        # Flank intercept on wide side angles to pinch incoming enemies.
+        wing=1 if actor.id%2 else -1
+        angle=threat_angle+wing*1.15+spread*.35
+        distance=250
+    else:
+        angle=threat_angle+spread*.65
+        distance=185
+    cand=arena.geometry.clamp_tank_position((round(center[0]+math.cos(angle)*distance),
+                                             round(center[1]+math.sin(angle)*distance)))
+    return 'flag_cover',(cand if arena.geometry.can_walk_to(cand) else center)

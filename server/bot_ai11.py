@@ -125,9 +125,14 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
         if not actor.rage_until and distance<=basic_range(actor,now) and not blocked:result.append((1,dest,ident))
         if distance<=540:result.append((10,aim_in_range(actor,dest,480,now),ident))
     elif tank==10000042:
-        if not retreat and not actor.teleport and 144<distance<=432:
-            end=actor.blink_destination(pos,target['pos'])
-            if safe_endpoint(actor,brain,seen,end,now):result.append((1,dest,ident))
+        from bot_kit_tactics import ranged_kite_point
+        if not actor.teleport:
+            if not retreat and 144<distance<=432 and (target['hp']<.40 or near(target['pos'],seen,360)<=1 and ratio(actor)>.65):
+                end=actor.blink_destination(pos,target['pos'])
+                if safe_endpoint(actor,brain,seen,end,now):result.append((1,dest,ident))
+            else:
+                kite=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,432,desired=300,blink=True)
+                if kite is not None:result.append((1,kite,ident))
         if actor._form(now) is None and distance<=432:result.append((2,pos,actor.id))
     elif tank==10000064:
         if not retreat and recast(actor,2,now):

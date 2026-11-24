@@ -653,16 +653,29 @@ def seek_repair(arena,actor,brain,seen,now):
 
 def advance_goal(arena,actor,brain,now):
     # Public spawn/lane geometry, never an unseen opponent's current position.
+    from bot_teamwork import role_for
     start=arena.geometry.spawn(actor.camp,0)
     end=arena.geometry.spawn(3-actor.camp,0)
-    stage=brain.get('advance_stage',0)
-    fraction=(.5,.7)[stage]
+    stage=brain.get('advance_stage',actor.id%3)
+    fraction=(.38,.56,.74)[stage%3]
     x,y=point_at(start,end,fraction)
     dx,dy=end[0]-start[0],end[1]-start[1];length=max(1,math.hypot(dx,dy))
-    lane=(actor.id%3-1)*96
-    goal=arena.geometry.clamp_tank_position((x-dy/length*lane,y+dx/length*lane))
-    if math.dist(actor.position_at(now),goal)<120:
-        brain['advance_stage']=1-stage
+    role=role_for(actor)
+    sign=1 if actor.id%2 else -1
+    if role=='skirmisher':
+        # Skirmishers & assassins patrol wide side corridors to flank!
+        lane=sign*(380 if (actor.id//2)%2==0 else 260)
+    elif role in ('artillery','support'):
+        lane=((actor.id%3)-1)*210
+    else:
+        lane=(0,230,-230,360,-360)[actor.id%5]
+    raw=(x-dy/length*lane,y+dx/length*lane)
+    goal=arena.geometry.clamp_tank_position(raw)
+    if not hasattr(arena,'navigation'):arena.navigation=Navigation(arena.geometry)
+    snapped=arena.navigation.nearest(goal)
+    if snapped is not None:goal=snapped
+    if math.dist(actor.position_at(now),goal)<140:
+        brain['advance_stage']=(stage+1)%3
     return goal
 
 
@@ -822,14 +835,41 @@ def decide(arena,actor,brain,seen,now):
         # an unrelated enemy across the map. Close threats use combat spacing.
         brain['goal']=objective[1]
     elif distance>desired+50 or blocked:
-        brain['goal']=(target['pos'] if blocked
-                       else point_at(target['pos'],pos,desired/max(1,distance)))
+        from bot_kit_tactics import insec_goal
+        insec=None if blocked else insec_goal(arena,actor,target,nearby,now)
+        if insec is not None:
+            brain['goal']=insec
+        elif blocked:
+            brain['goal']=target['pos']
+        else:
+            from bot_teamwork import role_for
+            role=role_for(actor)
+            side=1 if actor.id%2 else -1
+            ang=math.atan2(pos[1]-target['pos'][1],pos[0]-target['pos'][0])
+            ang+=side*(.68 if role=='skirmisher' else .28)
+            cand=arena.geometry.clamp_tank_position((round(target['pos'][0]+math.cos(ang)*desired),
+                                                     round(target['pos'][1]+math.sin(ang)*desired)))
+            brain['goal']=cand if arena.geometry.can_walk_to(cand) else point_at(target['pos'],pos,desired/max(1,distance))
     elif distance<desired-70 and tank not in (10000056,10000003) and not (tank in bot_ai20.TANKS and desired<=200) and not (tank in bot_ai02.TANKS and desired<200) and not (tank in bot_ai03.TANKS and desired<240) and not (tank in bot_ai04.TANKS and desired<200) and not (tank in bot_ai05.TANKS and desired<=200) and not (tank in bot_ai07.TANKS and desired<=200) and not (tank in bot_ai08.TANKS and desired<=210) and not (tank in bot_ai10.TANKS and desired<=200) and not (tank in bot_ai11.TANKS and desired<=200) and not (tank in bot_ai12.TANKS and desired<=200) and not (tank in bot_ai13.TANKS and desired<=200) and not (tank in bot_ai15.TANKS and desired<=200) and not (tank in bot_ai16.TANKS and desired<=200) and not (tank in bot_ai17.TANKS and desired<=200):
-        brain['goal']=point_at(pos,target['pos'],-120/max(1,distance))
+        brain['goal']=point_at(pos,target['pos'],-150/max(1,distance))
     else:
-        # Small lateral movement keeps firing lanes open without pixel-perfect dodges.
-        side=1 if actor.id%2 else -1;dx,dy=target['pos'][0]-pos[0],target['pos'][1]-pos[1]
-        brain['goal']=(pos[0]-side*dy/max(1,distance)*72,pos[1]+side*dx/max(1,distance)*72)
+        from bot_kit_tactics import insec_goal
+        insec=insec_goal(arena,actor,target,nearby,now)
+        if insec is not None:
+            brain['goal']=insec
+        else:
+            # Spread out from nearby teammates (>=156px) and orbit wider by role.
+            friends_pos=[a.position_at(now) for a in allies if a.id!=actor.id]
+            close_ally=min(friends_pos,key=lambda p:math.dist(pos,p)) if friends_pos else None
+            if close_ally is not None and math.dist(pos,close_ally)<156:
+                adx,ady=pos[0]-close_ally[0],pos[1]-close_ally[1];alen=max(1,math.hypot(adx,ady))
+                cand=arena.geometry.clamp_tank_position((round(pos[0]+adx/alen*120),round(pos[1]+ady/alen*120)))
+                brain['goal']=cand if arena.geometry.can_walk_to(cand) else pos
+            else:
+                from bot_teamwork import role_for
+                side=1 if actor.id%2 else -1;dx,dy=target['pos'][0]-pos[0],target['pos'][1]-pos[1]
+                orbit=128 if role_for(actor)=='skirmisher' else 92
+                brain['goal']=(pos[0]-side*dy/max(1,distance)*orbit,pos[1]+side*dx/max(1,distance)*orbit)
     if arena.geometry.id in (30,40):
         from death_mode import constrain_goal
         constrain_goal(arena,actor,brain,tanks,now)
@@ -1027,28 +1067,56 @@ def _native_combat(arena,actor,brain,seen,nearby,allies,target,dest,retreat,bloc
             if packets:return packets
     choices=[]
     if tank==10000019:
-        if distance<270 or retreat:choices.append((10,target['id']))
-        if distance<560:choices.append((1,target['id']))
-        if distance<650 and (len(nearby)>1 or target['hp']<.65):choices.append((2,target['id']))
+        if distance<250 or retreat:choices.append((10,dest,target['id']))
+        if distance<560:choices.append((1,dest,target['id']))
+        if distance<650 and (len(nearby)>1 or target['hp']<.65 or actor.cooldowns.get(1,0)>now):
+            choices.append((2,dest,target['id']))
     elif tank==10000001:
-        if distance<600:choices.append((1,target['id']))
-        if distance<650:choices.append((10,target['id']))
-        if distance<550 and not retreat and len(allies)>=2:choices.append((2,target['id']))
+        if distance<600:choices.append((1,dest,target['id']))
+        if distance<650:choices.append((10,dest,target['id']))
+        # Channel Space laser only from safe distance (>=210px) without melee threats, or onto clusters.
+        close_melee=any(math.dist(pos,s['pos'])<185 for s in nearby if not s.get('barrier'))
+        if 210<=distance<560 and not retreat and not close_melee and (len(allies)>=2 or len(nearby)>=2 or target['hp']<.55):
+            choices.append((2,dest,target['id']))
     elif tank==10000056:
-        if distance<=288 and target['hp']<.30:choices.append((2,target['id']))
-        if distance<=216:choices.append((10,target['id']))
-        if (getattr(actor,'e_second_until',0)>now and distance<480) or (distance>200 and not retreat):choices.append((1,target['id']))
+        # Scan ALL visible nearby enemies within 288px for <=30% HP execute + full E/R reset!
+        exec_candidates=[s for s in nearby if not s.get('barrier') and not s.get('structure')
+                         and not s.get('objective') and math.dist(pos,s['pos'])<=288 and s['hp']<=.30]
+        if exec_candidates:
+            victim=min(exec_candidates,key=lambda s:(s['hp'],math.dist(pos,s['pos']),s['id']))
+            choices.append((2,victim['pos'],victim['id']))
+        elif retreat and ratio<.18 and distance<=196 and not any(
+                not s.get('barrier') and math.dist(pos,s['pos'])<=420 and s['hp']<=.48 for s in nearby):
+            # Emergency peel knockback only when near death (<18% HP) with no execute candidate near.
+            choices.append((2,target['pos'],target['id']))
+        if distance<=216:choices.append((10,dest,target['id']))
+        if getattr(actor,'e_second_until',0)>now:
+            e2_exec=[s for s in nearby if not s.get('barrier') and not s.get('structure')
+                     and math.dist(pos,s['pos'])<480 and s['hp']<=.34]
+            if e2_exec:
+                v2=min(e2_exec,key=lambda s:(s['hp'],s['id']))
+                choices.append((1,v2['pos'],v2['id']))
+            elif distance<480 and not retreat:
+                choices.append((1,dest,target['id']))
+        elif retreat and distance<320:
+            away=arena.geometry.clamp_tank_position(point_at(pos,target['pos'],-1))
+            if away!=pos:choices.append((1,away,target['id']))
+        elif distance>195 and not retreat:
+            choices.append((1,dest,target['id']))
     elif tank==10000031:
         weak=min(allies,key=lambda a:float(a.hp/a.max_hp))
-        if float(weak.hp/weak.max_hp)<.6:choices.append((10,weak.id))
-        if len(allies)>1 and (ratio<.65 or len(nearby)>=2):choices.append((2,actor.id))
-        if distance<560:choices.append((1,target['id']))
+        if float(weak.hp/weak.max_hp)<.72:choices.append((10,weak.position_at(now),weak.id))
+        if len(allies)>1 and (ratio<.72 or len(nearby)>=2):choices.append((2,pos,actor.id))
+        if distance<560:choices.append((1,dest,target['id']))
     elif tank==10000065:
-        if distance<600:choices.append((1,target['id']))
-        if distance<620:choices.append((10,target['id']))
-        if distance<750 and (len(nearby)>=2 or retreat):choices.append((2,target['id']))
-    for slot,ident in choices:
-        packets=perform(arena,actor,slot,dest,ident,now)
+        from bot_kit_tactics import push_is_favorable
+        if distance<600:choices.append((1,dest,target['id']))
+        if distance<620:choices.append((10,dest,target['id']))
+        if distance<750 and (len(nearby)>=2 or retreat or distance<260
+                             or push_is_favorable(actor,target,nearby,now,push_dist=240,lethal_hp=.28,retreat=retreat)):
+            choices.append((2,dest,target['id']))
+    for slot,point,ident in choices:
+        packets=perform(arena,actor,slot,point,ident,now)
         if packets:return packets
     if (distance<=basic_range and arena.geometry.wall_contact(pos,dest,exclude=exclude) is None
             and (tank not in bot_ai08.TANKS or bot_ai08.basic_allowed(actor,brain,target,now))):

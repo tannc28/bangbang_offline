@@ -97,9 +97,11 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
         if distance<=basic_range(actor,now) and not actor.has_buff(343201,now):
             result.append((1,pos,actor.id))
     elif tank==10000089:
-        if distance<=270 and (not retreat or ratio(actor)<.5):result.append((2,pos,actor.id))
-        if retreat and distance<300 or not retreat and 300<distance<600:
-            end=jump_point(actor,dest,target,seen,retreat,now)
-            if end is not None:result.append((10,end,ident))
+        from bot_kit_tactics import push_is_favorable,ranged_kite_point
+        if distance<=270 and (retreat or distance<210 or ratio(actor)<.55
+                              or push_is_favorable(actor,target,seen,now,push_dist=144,lethal_hp=.28)):
+            result.append((2,pos,actor.id))
+        end=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,408,desired=360)
+        if end is not None:result.append((10,end,ident))
         if distance<=600 and not blocked:result.append((1,aim_in_range(actor,dest,600,now),ident))
     return result

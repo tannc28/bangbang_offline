@@ -53,7 +53,9 @@ def support_choices(actor,allies,seen,now,brain=None,recovering=False):
         # safe recovery; critical danger can still justify its shield.
         if hp<.55 and (not close or close<=friends or hp<.22):return [(2,pos,actor.id)]
     elif tank==10000070:
-        if not actor.has_buff(344101,now) and hp<.45 and (shot or close):return [(10,pos,actor.id)]
+        # Activate R rescue window proactively when low under fire or diving >=2 foes at mid HP.
+        if not actor.has_buff(344101,now) and ((hp<.52 and (shot or close)) or (hp<.68 and close>=2 and near(pos,threats,220))):
+            return [(10,pos,actor.id)]
     elif tank==10000076:
         if not actor.has_buff(350301,now) and (hp<.65 or actor.blocked('attack',now) and (close or shot)):
             return [(2,pos,actor.id)]
@@ -66,13 +68,16 @@ def marked_choice(actor,brain,seen,now):
     if target is None:return None
     end=actor.blink_destination(pos,target['pos'])
     friends=sum(a.alive and a.camp==actor.camp and not a.info.get('npc_template')
-                and math.dist(end,a.position_at(now))<=480 for a in actor.arena.actors.values())
-    if not mobility_goal_ok(brain,pos,end) or near(end,seen,360)>friends+1:return None
+                and math.dist(end,a.position_at(now))<=520 for a in actor.arena.actors.values())
+    insec_ready=(not actor.skill_sealed(2,now) and actor.cooldowns.get(2,now+9999)<=now+1200)
+    if not mobility_goal_ok(brain,pos,end) or near(end,seen,360)>friends+(2 if insec_ready or actor.has_buff(344101,now) else 1):
+        return None
     if ratio(actor)<.35 and not actor.has_buff(344101,now):return None
     return (1,target['pos'],target['id'])
 
 
 def choices(actor,brain,target,seen,dest,retreat,blocked,now):
+    from bot_kit_tactics import best_push_victim,ranged_kite_point
     tank=actor.info['tank_id'];pos=actor.position_at(now);ident=target['id']
     distance=math.dist(pos,target['pos']);result=[]
     if tank==10000038:
@@ -83,15 +88,20 @@ def choices(actor,brain,target,seen,dest,retreat,blocked,now):
     elif tank==10000059:
         if actor.egg or actor.dash:return []
         if distance<=192:result.append((10,pos,actor.id))
-        if retreat and distance<500 or not retreat and 260<distance<600:
-            point=mobility(actor,brain,target,seen,dest,retreat,now,432,fixed=True)
-            if point is not None:result.append((1,point,ident))
+        point=ranged_kite_point(actor,brain,target,seen,dest,retreat,now,432,desired=350,fixed=True)
+        if point is not None:result.append((1,point,ident))
     elif tank==10000070:
         if actor.rebirth or actor.ready:return []
         if not retreat and recast(actor,1,now):
             follow=marked_choice(actor,brain,seen,now)
             if follow:result.append(follow)
-        if distance<=168:result.append((2,dest,ident))
+        # Deadpool Space (344301): ONLY push when positioned behind target (Insec into allies),
+        # slamming into a wall/second enemy, executing <=24% HP, or emergency peeling!
+        push_candidates=[target]+[s for s in seen if s.get('id')!=ident]
+        victim=best_push_victim(actor,push_candidates,seen,now,cast_range=168,
+                                push_dist=480,lethal_hp=.24,retreat=retreat)
+        if victim is not None:
+            result.append((2,victim['pos'],victim['id']))
         if not recast(actor,1,now) and distance<=600:result.append((1,dest,ident))
     elif tank==10000076:
         # HP is paid even on a miss. Do not spend it on an empty direction,
